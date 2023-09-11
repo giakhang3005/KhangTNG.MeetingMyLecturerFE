@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/meeting-lecturer-reactjs/static/css/main.073c9b0a.css",
+    "main.js": "/meeting-lecturer-reactjs/static/js/main.2d3a289b.js",
+    "static/js/787.3b516614.chunk.js": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js",
+    "static/media/logo.svg": "/meeting-lecturer-reactjs/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/meeting-lecturer-reactjs/index.html",
+    "main.073c9b0a.css.map": "/meeting-lecturer-reactjs/static/css/main.073c9b0a.css.map",
+    "main.2d3a289b.js.map": "/meeting-lecturer-reactjs/static/js/main.2d3a289b.js.map",
+    "787.3b516614.chunk.js.map": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.2d3a289b.js"
+  ]
+}
