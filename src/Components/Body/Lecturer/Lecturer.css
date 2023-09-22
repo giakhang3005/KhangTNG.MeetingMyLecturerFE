@@ -7,3 +7,7 @@
     min-height: 95vh;
     background: #FCE7CC;
 }
+.logOutBtn {
+    text-align: left;
+    width: 98%;
+}

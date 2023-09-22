@@ -1,7 +1,10 @@
+import {useContext} from 'react'
+import {Data} from '../Body'
 import {Menu, Button} from 'antd'
 import {DropboxOutlined, BellFilled, HomeFilled, LogoutOutlined} from '@ant-design/icons'
 
 export const LecturerMenu = () => {
+    const {setMenuOpt} = useContext(Data);
  const menuItems =[
     {label: 'Các slot đã tạo', icon: <DropboxOutlined />, key: 'createdSlot'},
     {label: 'Yêu cầu', icon: <BellFilled />, key: 'request'},
@@ -11,8 +14,11 @@ export const LecturerMenu = () => {
     <>
         <Menu 
           items={menuItems}
+          onClick={(selectedOpt) => {
+            setMenuOpt(selectedOpt.key);
+          }}
         />
-        <Button danger type="text" icon={<LogoutOutlined />} >Log out</Button>
+        <Button className='logOutBtn' danger type="text" icon={<LogoutOutlined />} >Log out</Button>
     </>
  )
 }
