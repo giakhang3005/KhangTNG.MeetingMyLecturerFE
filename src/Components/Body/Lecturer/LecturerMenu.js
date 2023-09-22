@@ -14,11 +14,12 @@ export const LecturerMenu = () => {
     <>
         <Menu 
           items={menuItems}
+          defaultSelectedKeys='createdSlot'
           onClick={(selectedOpt) => {
             setMenuOpt(selectedOpt.key);
           }}
         />
-        <Button className='logOutBtn' danger type="text" icon={<LogoutOutlined />} >Log out</Button>
+        <Button className='logOutBtn' danger type="text" icon={<LogoutOutlined /> } >Log out</Button>
     </>
  )
 }
