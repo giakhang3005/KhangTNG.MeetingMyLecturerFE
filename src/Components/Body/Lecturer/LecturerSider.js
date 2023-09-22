@@ -2,7 +2,8 @@ import "./Lecturer.css";
 import { useContext } from "react";
 import { Data } from "../Body";
 import { LecturerMenu } from "./LecturerMenu";
-import { Calendar, theme, ConfigProvider } from "antd";
+import { LecturerCreateSlotBtn } from "./LecturerCreateSlotBtn";
+import { Calendar} from "antd";
 
 export const LecturerSider = () => {
   //get function set selected date
@@ -14,13 +15,21 @@ export const LecturerSider = () => {
   };
 
   //function run when change date
-  const onDateChange =(newDate) => {
+  const onDateChange = (newDate) => {
     setSelectedDate(`${newDate.$D}/${newDate.$M + 1}/${newDate.$y}`);
-  }
+  };
 
   return (
     <div className="Sider">
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} onSelect={onDateChange} />
+      {/* Create Button */}
+      <LecturerCreateSlotBtn />
+      {/* Calender */}
+      <Calendar
+        fullscreen={false}
+        onPanelChange={onPanelChange}
+        onSelect={onDateChange}
+      />
+      {/* Menu */}
       <LecturerMenu />
     </div>
   );

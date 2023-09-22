@@ -10,4 +10,8 @@
 .logOutBtn {
     text-align: left;
     width: 98%;
+    margin: 0 0 8px 0;
+}
+.createSlotBtn {
+    margin-left: 4%;
 }
