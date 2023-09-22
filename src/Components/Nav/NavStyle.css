@@ -20,7 +20,7 @@
 }
 
 .Nav .User .Name {
-    margin-right: 10px;
+    margin-right: 7px;
 }
 @media screen and (max-width: 510px) {
     .Nav .User .Name {

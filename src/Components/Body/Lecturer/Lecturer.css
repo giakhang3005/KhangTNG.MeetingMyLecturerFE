@@ -1,0 +1,9 @@
+.Sider {
+    overflow: scroll;
+    padding: 10px 0 0 0;
+    background: white;
+}
+.LecturerContent {
+    min-height: 95vh;
+    background: #FCE7CC;
+}
