@@ -7,18 +7,11 @@ import {
   HomeFilled,
   LogoutOutlined,
 } from "@ant-design/icons";
+import { LogOutBtn } from "../../Handle/LogOutBtn";
 
 export const LecturerMenu = () => {
   //Get data from app.js
   const { setMenuOpt } = useContext(Data);
-
-  //Log out function
-  const handleLogout = () => {
-    message.error({
-        content: "Logged out",
-        icon: <LogoutOutlined />,
-    });
-  }
 
   //Item for menu
   const menuItems = [
@@ -38,15 +31,7 @@ export const LecturerMenu = () => {
       />
 
       {/* Logout Btn */}
-      <Button
-        className="logOutBtn"
-        danger
-        type="text"
-        icon={<LogoutOutlined />}
-        onClick={handleLogout}
-      >
-        Log out
-      </Button>
+      <LogOutBtn />
     </>
   );
 };
