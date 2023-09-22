@@ -22,6 +22,11 @@
 .Nav .User .Name {
     margin-right: 10px;
 }
+@media screen and (max-width: 510px) {
+    .Nav .User .Name {
+        display: none;
+    }
+}
 
 .Nav .User .Icon {
     font-size: 20px;
