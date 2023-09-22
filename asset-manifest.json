@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/meeting-lecturer-reactjs/static/css/main.a27b195e.css",
-    "main.js": "/meeting-lecturer-reactjs/static/js/main.222d864d.js",
+    "main.css": "/meeting-lecturer-reactjs/static/css/main.3888c05f.css",
+    "main.js": "/meeting-lecturer-reactjs/static/js/main.90b94477.js",
     "static/js/787.3b516614.chunk.js": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js",
-    "static/media/logo.svg": "/meeting-lecturer-reactjs/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/meeting-lecturer-reactjs/index.html",
-    "main.a27b195e.css.map": "/meeting-lecturer-reactjs/static/css/main.a27b195e.css.map",
-    "main.222d864d.js.map": "/meeting-lecturer-reactjs/static/js/main.222d864d.js.map",
+    "main.3888c05f.css.map": "/meeting-lecturer-reactjs/static/css/main.3888c05f.css.map",
+    "main.90b94477.js.map": "/meeting-lecturer-reactjs/static/js/main.90b94477.js.map",
     "787.3b516614.chunk.js.map": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a27b195e.css",
-    "static/js/main.222d864d.js"
+    "static/css/main.3888c05f.css",
+    "static/js/main.90b94477.js"
   ]
 }
