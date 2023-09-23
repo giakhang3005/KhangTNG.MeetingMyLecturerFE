@@ -11,6 +11,9 @@
     margin: 0;
     padding: 10px 0 10px 0;
 }
+.Nav .User {
+    margin-right: 4px;
+}
 
 .Nav .User {
     display: flex;
