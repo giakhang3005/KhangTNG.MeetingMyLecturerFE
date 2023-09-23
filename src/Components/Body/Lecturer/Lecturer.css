@@ -62,6 +62,11 @@
     min-width: 138px;
     text-align: center;
 }
+.ant-empty {
+    position: sticky;
+    left: 50%;
+    margin-top: 50px;
+}
 @media only screen and (max-width: 576px) {
     .LecturerShow {
         height: 100vh;
@@ -82,5 +87,8 @@
     }
     .createSlotBtn {
         margin-left: 1.7%;
+    }
+    .ant-empty {
+        transform: translate(-45%);
     }
 }
