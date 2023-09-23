@@ -9,6 +9,7 @@
     align-items: center;
     min-height: 93vh;
     background: #FCE7CC;
+    border-left: 1px solid rgb(212, 212, 212);
 }
 .LecturerShow {
     background: white;
@@ -47,5 +48,12 @@
     .LecturerShowBtn {
         visibility: visible;
         margin-right: 8px;
+    }
+    .Sider {
+        border-bottom: 1px solid rgb(212, 212, 212);
+        padding-bottom: 12px;
+    }
+    .LecturerContent {
+        border-left: none;
     }
 }
