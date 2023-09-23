@@ -1,9 +1,12 @@
 import { FloatButton, Button, message } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
+import { useContext} from "react";
+import { Data } from "../../Body";
 
 export const LecturerCreateSlotBtn = () => {
+  const {setMenuOpt} = useContext(Data)
     const onClickCreateBtn = () => {
-        message.success("LecturerCreateSlotBtn");
+      // setMenuOpt("createSlot");
     }
   return (
     <>

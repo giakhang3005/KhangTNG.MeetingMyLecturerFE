@@ -1,13 +1,12 @@
 import { useContext } from "react";
-import { Data } from "../Body";
-import { Menu, Button, message } from "antd";
+import { Data } from "../../Body";
+import { Menu} from "antd";
 import {
   DropboxOutlined,
   BellFilled,
   HomeFilled,
-  LogoutOutlined,
 } from "@ant-design/icons";
-import { LogOutBtn } from "../../Handle/LogOutBtn";
+import { LogOutBtn } from "../../../../ExtendedFunction/Users";
 
 export const LecturerMenu = () => {
   //Get data from app.js
@@ -19,7 +18,7 @@ export const LecturerMenu = () => {
     { label: "Yêu cầu", icon: <BellFilled />, key: "request" },
     { label: "Quản lý địa điểm", icon: <HomeFilled />, key: "location" },
   ];
-
+  //selectedKeys
   return (
     <>
       <Menu
