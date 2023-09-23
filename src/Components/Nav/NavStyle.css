@@ -30,6 +30,9 @@
     .Nav {
         border-bottom: none;
     }
+    .Nav .logo {
+        margin-left: 5px
+    }
 }
 
 .Nav .User .Icon {
