@@ -6,7 +6,7 @@ import { Data } from "../../Body";
 export const LecturerCreateSlotBtn = () => {
   const {setMenuOpt} = useContext(Data)
     const onClickCreateBtn = () => {
-      // setMenuOpt("createSlot");
+      message.success("LecturerCreateSlotBtn");
     }
   return (
     <>

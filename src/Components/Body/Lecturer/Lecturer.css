@@ -18,7 +18,6 @@
     border-radius: 20px;
     padding: 10px;
     margin: 8px;
-    display: flex;
     justify-content: center;
     overflow: scroll;
 }
@@ -37,6 +36,31 @@
 }
 .LecturerShowBtn {
     visibility: hidden;
+}
+
+.LecturerDays, .LecturerDates {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    width: 100%;
+}
+.LecturerDays {
+    font-size: 17px;
+    font-weight: 600;
+    padding: 10px 0 10px 0;
+}
+.LecturerSelectedDates {
+    color: #fd6c38;
+    font-weight: 500;
+}
+.LecturerDates {
+    font-size: 15px;
+}
+.LecturerDays li, .LecturerDates li {
+    width: calc(100% / 7);
+    min-width: 138px;
+    text-align: center;
 }
 @media only screen and (max-width: 576px) {
     .LecturerShow {
