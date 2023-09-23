@@ -9,12 +9,12 @@ export const LecturerContent = () => {
       <div className="LecturerShow">
         <ul>
           <li>Selected Opt: {menuOpt}</li>
-          <li>selected date: {selectedDate}</li>
+          {/* <li>selected date: {selectedDate}</li> */}
           <li>
             <h3>Selected week (base on selected date):</h3>
           </li>
           {selectedWeek.map((date, i) => {
-            return <li key={i}>{date}</li>;
+            return (selectedDate === date) ? <li style={{color: 'orange'}} key={i}>{date}</li> : <li key={i}>{date}</li>
           })}
         </ul>
       </div>
