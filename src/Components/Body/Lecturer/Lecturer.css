@@ -38,29 +38,30 @@
     visibility: hidden;
 }
 
-.LecturerDays, .LecturerDates {
+.lecturerCreatedSlots {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+.lecturerCreatedSlots ul {
     margin: 0;
     padding: 0;
     list-style: none;
-    display: flex;
-    width: 100%;
+    width: calc(100%/7);
+    min-width: 80px;
+    text-align: center;
 }
-.LecturerDays {
-    font-size: 17px;
+.lecturerCreatedSlots ul li:first-child {
+    font-size: 16px;
     font-weight: 600;
-    padding: 10px 0 10px 0;
+    margin: 3px 0 7px 0;
+}
+.lecturerCreatedSlots ul li:nth-child(2) {
+    font-size: 14px;
 }
 .LecturerSelectedDates {
-    color: #fd6c38;
+    color: #f18057;
     font-weight: 500;
-}
-.LecturerDates {
-    font-size: 15px;
-}
-.LecturerDays li, .LecturerDates li {
-    width: calc(100% / 7);
-    min-width: 138px;
-    text-align: center;
 }
 .ant-empty {
     position: sticky;

@@ -160,17 +160,18 @@ export function GetWeek(selectedDate) {
     //su mo tu we th fr sa
     minDay = 0, //sunday
     maxDay = 6, //saturday
+    weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     week = {};
 
   //function to add date from sunday to saturday to array base on all public variables
   const addDateToArray = () => {
     //add sunday date to the array
-    week = [tempDate];
+    week = [{day: weekDays[0], date: tempDate}];
     //add monday - saturday date to the array
     for (let j = 1; j <= maxDay; j++) {
       // console.log(tempDate)
       tempDate = getNextDate(tempDate);
-      week = [...week, tempDate];
+      week = [...week, {day: weekDays[j], date: tempDate}];
     }
   };
 

@@ -1,18 +1,16 @@
-import { LecturerCreatedSlotHead } from "./LecturerCreatedSlotHead";
+import { LecturerCreatedSlot } from "./LecturerCreatedSlot";
 import { useContext } from "react";
 import { Data } from "../../Body";
-import {Empty} from "antd"
+
 
 export const LecturerContent = () => {
   const { menuOpt } = useContext(Data);
   return (
     <div className="LecturerContent">
       <div className="LecturerShow">
-        {/* Header */}
-        {menuOpt === "createdSlot" ? <LecturerCreatedSlotHead /> : <></>}
+        {/* CreatedSlot */}
+        {menuOpt === "createdSlot" ? <LecturerCreatedSlot /> : <></>}
 
-        {/* Body */}
-        <Empty description="Không có slot"/>
       </div>
     </div>
   );
