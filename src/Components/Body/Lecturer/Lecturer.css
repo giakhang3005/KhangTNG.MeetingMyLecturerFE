@@ -48,7 +48,7 @@
     padding: 0;
     list-style: none;
     width: calc(100%/7);
-    min-width: 80px;
+    min-width: 120px;
     text-align: center;
 }
 .lecturerCreatedSlots ul li:first-child {
