@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/meeting-lecturer-reactjs/static/css/main.7ceb6dc7.css",
+    "main.css": "/meeting-lecturer-reactjs/static/css/main.60fcfda7.css",
     "main.js": "/meeting-lecturer-reactjs/static/js/main.eee3c792.js",
     "static/js/787.3b516614.chunk.js": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js",
     "index.html": "/meeting-lecturer-reactjs/index.html",
-    "main.7ceb6dc7.css.map": "/meeting-lecturer-reactjs/static/css/main.7ceb6dc7.css.map",
+    "main.60fcfda7.css.map": "/meeting-lecturer-reactjs/static/css/main.60fcfda7.css.map",
     "main.eee3c792.js.map": "/meeting-lecturer-reactjs/static/js/main.eee3c792.js.map",
     "787.3b516614.chunk.js.map": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7ceb6dc7.css",
+    "static/css/main.60fcfda7.css",
     "static/js/main.eee3c792.js"
   ]
 }
