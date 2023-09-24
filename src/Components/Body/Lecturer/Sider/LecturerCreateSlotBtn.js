@@ -17,7 +17,7 @@ export const LecturerCreateSlotBtn = () => {
         shape="round"
         onClick={onClickCreateBtn}
       >
-        Tạo slot
+        Create slot
       </Button>
     </>
   );

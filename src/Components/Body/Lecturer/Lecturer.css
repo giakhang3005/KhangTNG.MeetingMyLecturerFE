@@ -1,95 +1,110 @@
 .Sider {
-    overflow: scroll;
-    padding: 10px 0 0 0;
-    background: white;
+  overflow: scroll;
+  padding: 10px 0 0 0;
+  background: white;
 }
 .LecturerContent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 93vh;
-    background: #FCE7CC;
-    border-left: 1px solid rgb(212, 212, 212);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 93vh;
+  background: #fce7cc;
+  border-left: 1px solid rgb(212, 212, 212);
 }
 .LecturerShow {
-    background: white;
-    height: 90vh;
-    width: 99%;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 8px;
-    justify-content: center;
-    overflow: scroll;
+  background: white;
+  height: 90vh;
+  width: 99%;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 8px;
+  justify-content: center;
+  overflow: scroll;
 }
 .logOutBtn {
-    text-align: left;
-    width: 98%;
-    margin: 0 0 8px 0;
+  text-align: left;
+  width: 98%;
+  margin: 0 0 8px 0;
 }
 .createSlotBtn {
-    margin-left: 3%;
+  margin-left: 3%;
 }
 .DisplayBtn {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5px;
 }
 .LecturerShowBtn {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .lecturerCreatedSlots {
-    width: 100%;
-    height: auto;
-    display: flex;
+  width: 100%;
+  height: auto;
+  display: flex;
 }
 .lecturerCreatedSlots ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: calc(100%/7);
-    min-width: 120px;
-    text-align: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: calc(100% / 7);
+  min-width: 120px;
+  text-align: center;
 }
 .lecturerCreatedSlots ul li:first-child {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 3px 0 7px 0;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0 7px 0;
 }
 .lecturerCreatedSlots ul li:nth-child(2) {
-    font-size: 14px;
+  font-size: 14px;
 }
 .LecturerSelectedDates {
-    color: #f18057;
-    font-weight: 500;
+  color: #f18057;
+  font-weight: 500;
 }
 .ant-empty {
-    position: sticky;
-    left: 50%;
-    margin-top: 50px;
+  position: sticky;
+  left: 50%;
+  margin-top: 50px;
+}
+.addLocationBtn {
+    margin-top: 15px;
+    margin-left: 3.5px;
+}
+.tableOfLocations {
+    margin-top: 10px;
+    width: 100%
+}
+.locationDeleteBtn {
+    color: red;
+    margin-left: 20px;
 }
 @media only screen and (max-width: 576px) {
-    .LecturerShow {
-        height: 100vh;
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-    }
-    .LecturerShowBtn {
-        visibility: visible;
-        margin-right: 10px;
-    }
-    .Sider {
-        border-bottom: 1px solid rgb(212, 212, 212);
-        padding-bottom: 12px;
-    }
-    .LecturerContent {
-        border-left: none;
-    }
-    .createSlotBtn {
-        margin-left: 1.7%;
-    }
-    .ant-empty {
-        transform: translate(-45%);
-    }
+  .LecturerShow {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  .LecturerShowBtn {
+    visibility: visible;
+    margin-right: 10px;
+  }
+  .Sider {
+    border-bottom: 1px solid rgb(212, 212, 212);
+    padding-bottom: 12px;
+  }
+  .LecturerContent {
+    border-left: none;
+  }
+  .createSlotBtn {
+    margin-left: 1.7%;
+  }
+  .ant-empty {
+    transform: translate(-45%);
+  }
+  .locationDeleteBtn {
+    margin-left: 0;
+}
 }

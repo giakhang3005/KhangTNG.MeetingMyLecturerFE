@@ -13,23 +13,23 @@ export const LecturerCreatedSlot = () => {
         {selectedWeek.map((weekDate, i) => {
           return selectedDate === weekDate.date ? (
             // add class for selected date
-            <ul>
+            <ul key={i}>
               <li>{weekDate.day}</li>
-              <li className="LecturerSelectedDates" key={i}>
+              <li className="LecturerSelectedDates">
                 {weekDate.date}
               </li>
             </ul>
           ) : (
             // others
-            <ul>
+            <ul key={i}>
               <li>{weekDate.day}</li>
-              <li key={i}>{weekDate.date}</li>
+              <li>{weekDate.date}</li>
             </ul>
           );
         })}
       </div>
       {/* Not Slot display */}
-      <Empty description="Không có slot" />
+      <Empty description="No slot found" />
     </>
   );
 };

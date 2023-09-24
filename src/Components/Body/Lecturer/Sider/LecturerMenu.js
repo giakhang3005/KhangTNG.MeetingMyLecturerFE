@@ -14,9 +14,9 @@ export const LecturerMenu = () => {
 
   //Item for menu
   const menuItems = [
-    { label: "Các slot đã tạo", icon: <DropboxOutlined />, key: "createdSlot" },
-    { label: "Yêu cầu", icon: <BellFilled />, key: "request" },
-    { label: "Quản lý địa điểm", icon: <HomeFilled />, key: "location" },
+    { label: "Your slots", icon: <DropboxOutlined />, key: "createdSlot" },
+    { label: "Booking requests", icon: <BellFilled />, key: "request" },
+    { label: "Locations", icon: <HomeFilled />, key: "location" },
   ];
   //selectedKeys
   return (
