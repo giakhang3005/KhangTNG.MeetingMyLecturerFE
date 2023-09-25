@@ -1,5 +1,5 @@
 .Sider {
-  overflow: scroll;
+  overflow: hidden;
   padding: 0;
   margin: 25px 0 0 0;
   background: white;
@@ -25,7 +25,7 @@
 .logOutBtn {
   text-align: left;
   width: 98%;
-  margin: 0 0 8px 4px;
+  margin: 0 0 8px 11px;
 }
 .createSlotBtn {
   margin-left: 3%;
@@ -57,7 +57,7 @@
 .lecturerCreatedSlots ul li:first-child {
   font-size: 16px;
   font-weight: 600;
-  margin: 4px 0 7px 0;
+  margin: 4px 0 4px 0;
 }
 .lecturerCreatedSlots ul li:nth-child(2) {
   font-size: 14px;

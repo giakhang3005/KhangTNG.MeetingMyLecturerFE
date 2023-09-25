@@ -206,3 +206,13 @@ export const getPrevWeek = (currDate) => {
   
   return prevWeek;
 }
+
+export const parseDate = (date) => {
+    const currDate = date.split('/'),
+          parseDate = currDate[0],
+          parseMonth = currDate[1],
+          parseYear = currDate[2];
+    let d = new Date(parseYear, parseMonth, parseDate)
+    
+    return d;
+}
