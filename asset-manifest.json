@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/meeting-lecturer-reactjs/static/css/main.a5408a98.css",
-    "main.js": "/meeting-lecturer-reactjs/static/js/main.45364893.js",
-    "static/js/787.3b516614.chunk.js": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js",
-    "index.html": "/meeting-lecturer-reactjs/index.html",
-    "main.a5408a98.css.map": "/meeting-lecturer-reactjs/static/css/main.a5408a98.css.map",
-    "main.45364893.js.map": "/meeting-lecturer-reactjs/static/js/main.45364893.js.map",
-    "787.3b516614.chunk.js.map": "/meeting-lecturer-reactjs/static/js/787.3b516614.chunk.js.map"
+    "main.css": "/KhangTNG.MeetingMyLecturerFE/static/css/main.e867b89e.css",
+    "main.js": "/KhangTNG.MeetingMyLecturerFE/static/js/main.721e1942.js",
+    "static/js/787.2f0fd031.chunk.js": "/KhangTNG.MeetingMyLecturerFE/static/js/787.2f0fd031.chunk.js",
+    "index.html": "/KhangTNG.MeetingMyLecturerFE/index.html",
+    "main.e867b89e.css.map": "/KhangTNG.MeetingMyLecturerFE/static/css/main.e867b89e.css.map",
+    "main.721e1942.js.map": "/KhangTNG.MeetingMyLecturerFE/static/js/main.721e1942.js.map",
+    "787.2f0fd031.chunk.js.map": "/KhangTNG.MeetingMyLecturerFE/static/js/787.2f0fd031.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a5408a98.css",
-    "static/js/main.45364893.js"
+    "static/css/main.e867b89e.css",
+    "static/js/main.721e1942.js"
   ]
 }
