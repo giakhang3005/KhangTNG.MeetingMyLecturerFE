@@ -5,10 +5,10 @@ import { LecturerContent } from "./Content/LecturerContent";
 export const Lecturer = () => {
     return (
         <Row> 
-          <Col xs={24} sm={10} md={7} xl={5}>
+          <Col xs={24} sm={6} md={5} xl={4}>
             <LecturerSider />
           </Col>
-          <Col xs={24} sm={14} md={17} xl={19}>
+          <Col xs={24} sm={18} md={19} xl={20}>
             <LecturerContent />
           </Col>
         </Row>

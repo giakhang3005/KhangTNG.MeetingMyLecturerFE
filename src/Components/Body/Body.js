@@ -10,7 +10,7 @@ export const Body = () => {
   const client = new QueryClient();
   //get user select option
   //default MenuOpt
-  const [menuOpt, setMenuOpt] = useState("createdSlot");
+  const [menuOpt, setMenuOpt] = useState("lecturerDashboard");
   //default date = today
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));

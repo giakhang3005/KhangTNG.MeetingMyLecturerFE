@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, Typography, Table } from "antd";
+import { AddLocationBtn } from "./AddLocationBtn";
 import {
   PlusCircleFilled,
   EditOutlined,
@@ -7,7 +8,10 @@ import {
 } from "@ant-design/icons";
 
 export const ViewingLocation = (props) => {
+  //get function from LecturerLocation
   const setLocationSectionView = props.setLocationSectionView;
+  const setEditLocation = props.setEditLocation;
+
   const { Title, Text } = Typography;
 
   //fetching data
@@ -55,23 +59,24 @@ export const ViewingLocation = (props) => {
     },
   ];
 
+  //handle edit click
   const editLocation = (location) => {
-    console.log(location);
+    setEditLocation(location);
+    setLocationSectionView("edit");
   };
 
+  //handle delete click
   const deleteLocation = (location) => {
     console.log(location);
   };
   return (
     <div className="viewingLecturerLocations">
-      <Button
-        className="addLocationBtn"
-        onClick={() => setLocationSectionView("add")}
-        icon={<PlusCircleFilled />}
-      >
-        Add location
-      </Button>
+      <Title className="sectionTitle" level={3}>
+        MY LOCATIONS
+        <AddLocationBtn setLocationSectionView={setLocationSectionView} />
+      </Title>
 
+      {/* Table of locations */}
       <Table
         className="tableOfLocations"
         columns={columns}

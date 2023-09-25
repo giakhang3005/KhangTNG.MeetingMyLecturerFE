@@ -1,6 +1,7 @@
-import { LecturerCreatedSlot } from "./LecturerCreatedSlot";
-import { LecturerRequest } from "./LecturerRequest";
-import { LecturerLocation } from "./LecturerLocation";
+import { LecturerCreatedSlot } from "./MySlot/LecturerCreatedSlot";
+import { LecturerRequest } from "./Request/LecturerRequest";
+import {LecturerDashboard} from "./Home/LecturerDashboard";
+import { LecturerLocation } from "./Config/Location/LecturerLocation";
 import { useContext } from "react";
 import { Data } from "../../Body";
 
@@ -10,7 +11,9 @@ export const LecturerContent = () => {
     <div className="LecturerContent">
       <div className="LecturerShow">
         {/* CreatedSlot */}
-        {menuOpt === "createdSlot" ? (
+        {menuOpt === "lecturerDashboard" ? (
+          <LecturerDashboard />
+        ) : menuOpt === "createdSlot" ? (
           <LecturerCreatedSlot />
         ) : // request
         menuOpt === "request" ? (

@@ -1,6 +1,7 @@
 .Sider {
   overflow: scroll;
-  padding: 10px 0 0 0;
+  padding: 0;
+  margin: 25px 0 0 0;
   background: white;
 }
 .LecturerContent {
@@ -24,7 +25,7 @@
 .logOutBtn {
   text-align: left;
   width: 98%;
-  margin: 0 0 8px 0;
+  margin: 0 0 8px 4px;
 }
 .createSlotBtn {
   margin-left: 3%;
@@ -35,13 +36,15 @@
   padding-left: 5px;
 }
 .LecturerShowBtn {
-  visibility: hidden;
+  display: none
 }
 
 .lecturerCreatedSlots {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
+  overflow: scroll;
+  padding: 0 0 20px 0;
 }
 .lecturerCreatedSlots ul {
   margin: 0;
@@ -80,6 +83,46 @@
     color: red;
     margin-left: 20px;
 }
+.editLocationForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%
+}
+.editLocationForm Form {
+    width: 50%;
+}
+.sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    left: 5px;
+    margin: 15px 0 0 3.4%;
+    padding: 0 5px 12px 5px;
+    border-bottom: 1px solid rgb(227, 226, 226);
+    width: 93%
+}
+.sectionTitle Button {
+    margin: 0;
+}
+.createdSlotTabs {
+    width: 100%;
+}
+.createdSlotTabs .ant-tabs-nav {
+    width: 93.5%;
+    position: sticky;
+    left: 3.5%
+}
+.CalenderViewSupportBtn {
+    margin-left: 3.5%;
+}
+.CalenderViewSupportBtn Button {
+    margin: 5px 5px 7px 0;
+}
+.CalenderViewSupportBtn Button:last-child {
+    margin-left: 8px;
+}
 @media only screen and (max-width: 576px) {
   .LecturerShow {
     height: 100vh;
@@ -88,10 +131,11 @@
     border-radius: 0;
   }
   .LecturerShowBtn {
-    visibility: visible;
-    margin-right: 10px;
+    display: block;
+    margin-left: 10px;
   }
   .Sider {
+    margin: 0;
     border-bottom: 1px solid rgb(212, 212, 212);
     padding-bottom: 12px;
   }
@@ -100,9 +144,6 @@
   }
   .createSlotBtn {
     margin-left: 1.7%;
-  }
-  .ant-empty {
-    transform: translate(-45%);
   }
   .locationDeleteBtn {
     margin-left: 0;

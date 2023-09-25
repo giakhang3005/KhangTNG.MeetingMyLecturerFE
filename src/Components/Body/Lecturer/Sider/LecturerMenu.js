@@ -5,6 +5,8 @@ import {
   DropboxOutlined,
   BellFilled,
   HomeFilled,
+  SettingFilled,
+  CompassFilled
 } from "@ant-design/icons";
 import { LogOutBtn } from "../../../../ExtendedFunction/Users";
 
@@ -14,16 +16,18 @@ export const LecturerMenu = () => {
 
   //Item for menu
   const menuItems = [
-    { label: "Your slots", icon: <DropboxOutlined />, key: "createdSlot" },
+    { label: "Home", icon:  <HomeFilled />, key: "lecturerDashboard" },
+    { label: "My slots", icon: <DropboxOutlined />, key: "createdSlot" },
     { label: "Booking requests", icon: <BellFilled />, key: "request" },
-    { label: "Locations", icon: <HomeFilled />, key: "location" },
+    { label: "Configurations", icon: <SettingFilled />, key: null, children: [{label: "Locations", icon: <CompassFilled />, key: 'locations'},]}
+    // { label: "Configurations", icon: <ControlFilled />, null, [getItem('Locations', 'location')], "group" },
   ];
   //selectedKeys
   return (
     <>
       <Menu
         items={menuItems}
-        defaultSelectedKeys="createdSlot"
+        defaultSelectedKeys="lecturerDashboard"
         onClick={(selectedOpt) => {
           setMenuOpt(selectedOpt.key);
         }}

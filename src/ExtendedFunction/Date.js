@@ -190,3 +190,19 @@ export function GetWeek(selectedDate) {
 
   return week;
 }
+
+export const getNextWeek = (currDate) => {
+  const endWeekDate = GetWeek(currDate)[6]; //Saturday of that week
+  const startNextWeekDate = getNextDate(endWeekDate.date); //Sunday of next Week
+  const nextWeek = GetWeek(startNextWeekDate) //Get next week
+  
+  return nextWeek;
+}
+
+export const getPrevWeek = (currDate) => {
+  const startWeekDate = GetWeek(currDate)[0]; //Sunday of that week
+  const endLastWeekDate = getPrevDate(startWeekDate.date); //Saturday of prev Week
+  const prevWeek = GetWeek(endLastWeekDate) //Get prev week
+  
+  return prevWeek;
+}
