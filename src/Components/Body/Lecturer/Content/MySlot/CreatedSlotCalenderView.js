@@ -16,6 +16,10 @@ export const LectuerCalenderView = (props) => {
   //modal state
   const [open, setOpen] = useState(false);
 
+  //API
+  const [SlotList, setSlotList] = useState([]);
+  //! Fetching API slot from date to date of user here
+
   //receive function
   const selectedDate = props.selectedDate,
     setSelectedDate = props.setSelectedDate,

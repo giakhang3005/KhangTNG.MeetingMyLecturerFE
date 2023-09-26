@@ -12,7 +12,7 @@ import { LogOutBtn } from "../../../../ExtendedFunction/Users";
 
 export const LecturerMenu = () => {
   //Get data from app.js
-  const { setMenuOpt } = useContext(Data);
+  const { menuOpt, setMenuOpt } = useContext(Data);
 
   //Item for menu
   const menuItems = [
@@ -29,6 +29,7 @@ export const LecturerMenu = () => {
         mode="inline"
         items={menuItems}
         defaultSelectedKeys="lecturerDashboard"
+        selectedKeys={menuOpt}
         onClick={(selectedOpt) => {
           setMenuOpt(selectedOpt.key);
         }}

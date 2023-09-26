@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Button, Typography, Table } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import {
@@ -9,8 +10,9 @@ import {
 
 export const ViewingLocation = (props) => {
   //get function from LecturerLocation
-  const setLocationSectionView = props.setLocationSectionView;
-  const setEditLocation = props.setEditLocation;
+  const setLocationSectionView = props.setLocationSectionView,
+    setEditLocation = props.setEditLocation,
+    setFinalIdOfTheList = props.setFinalIdOfTheList;
 
   const { Title, Text } = Typography;
 
@@ -58,7 +60,6 @@ export const ViewingLocation = (props) => {
       },
     },
   ];
-
   //handle edit click
   const editLocation = (location) => {
     setEditLocation(location);
@@ -67,13 +68,18 @@ export const ViewingLocation = (props) => {
 
   //handle delete click
   const deleteLocation = (location) => {
-    console.log(location);
+    //! Place fetching DELETE API here
+
   };
   return (
     <div className="viewingLecturerLocations">
       <Title className="sectionTitle" level={3}>
         MY LOCATIONS
-        <AddLocationBtn setLocationSectionView={setLocationSectionView} />
+        <AddLocationBtn
+          setLocationSectionView={setLocationSectionView}
+          LocationsList={LocationsList}
+          setFinalIdOfTheList={setFinalIdOfTheList}
+        />
       </Title>
 
       {/* Table of locations */}

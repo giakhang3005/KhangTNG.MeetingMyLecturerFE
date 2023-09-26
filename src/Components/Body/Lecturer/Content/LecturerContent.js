@@ -1,5 +1,5 @@
 import { LecturerCreatedSlot } from "./MySlot/LecturerCreatedSlot";
-
+import {LecturerRequests} from "./Request/LecturerRequests"
 import {LecturerDashboard} from "./Home/LecturerDashboard";
 import { LecturerLocation } from "./Config/Location/LecturerLocation";
 import { useContext } from "react";
@@ -17,7 +17,7 @@ export const LecturerContent = () => {
           <LecturerCreatedSlot />
         ) : // request
         menuOpt === "request" ? (
-          <></>
+          <LecturerRequests/>
         ) : (
           <LecturerLocation />
         )}

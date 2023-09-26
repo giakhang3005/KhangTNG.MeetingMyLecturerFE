@@ -1,10 +1,11 @@
 {
-  "homepage": "https://giakhang3005.github.io/meeting-lecturer-reactjs",
-  "name": "meeting-lecturer-reactjs",
+  "homepage": "https://giakhang3005.github.io/KhangTNG.MeetingMyLecturerFE",
+  "name": "KhangTNG.MeetingMyLecturerFE",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@hookform/resolvers": "^3.3.1",
     "@tanstack/react-query": "^4.35.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -13,8 +14,10 @@
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
