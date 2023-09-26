@@ -70,6 +70,7 @@ export const ViewingLocation = (props) => {
   const deleteLocation = (location) => {
     //! Place fetching DELETE API here
 
+    refetch();
   };
   return (
     <div className="viewingLecturerLocations">
