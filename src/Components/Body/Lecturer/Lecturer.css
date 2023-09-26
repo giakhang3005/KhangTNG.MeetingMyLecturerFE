@@ -127,6 +127,19 @@
   width: 100%;
   overflow: scroll;
 }
+.slotDisplay {
+  margin: 11px 0 8px 0;
+  padding: 5px 0 5px 0;
+  border: 1px solid rgb(225, 225, 225);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+.slotDisplay:hover {
+  color: white;
+  background: #fd7d1a;
+}
+
 @media only screen and (max-width: 576px) {
   .LecturerShow {
     height: 100vh;

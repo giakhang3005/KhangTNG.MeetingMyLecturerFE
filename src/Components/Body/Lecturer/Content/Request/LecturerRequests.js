@@ -43,6 +43,16 @@ export const LecturerRequests = () => {
     },
     {
       key: "6",
+      title: "Subject",
+      dataIndex: "subject",
+    },
+    {
+      key: "7",
+      title: "Note",
+      dataIndex: "note",
+    },
+    {
+      key: "8",
       title: "",
       render: (booking) => {
         return (
@@ -87,6 +97,7 @@ export const LecturerRequests = () => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
+      subject: 'ACC101',
     },
   ];
 

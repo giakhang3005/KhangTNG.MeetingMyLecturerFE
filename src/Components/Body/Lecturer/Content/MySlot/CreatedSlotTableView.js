@@ -51,12 +51,17 @@ export const CreatedSlotTableView = () => {
       dataIndex: "student",
     },
     {
-      key: "7",
+        key: "7",
+        title: "Subject",
+        dataIndex: "subject",
+      },
+    {
+      key: "8",
       title: "Password",
       dataIndex: "password",
     },
     {
-      key: "8",
+      key: "9",
       title: "",
       render: (slot) => {
         return (
@@ -82,8 +87,8 @@ export const CreatedSlotTableView = () => {
 
   //test data 
   const slotList = [
-    {id: 1, date: '30/09/2023', startTime: '10:00', endTime: '11:00', location: 'FPT', student: 'Tran Cong Lam (K17 HCM)', password: null},
-    {id: 2, date: '30/09/2023', startTime: '14:00', endTime: '16:30', location: 'FPT', student: null, password: '12345'}
+    {id: 1, date: '30/09/2023', startTime: '10:00', endTime: '11:00', location: 'FPT', student: null, subject: 'SWP391',password: null},
+    {id: 2, date: '27/09/2023', startTime: '14:00', endTime: '16:30', location: 'FPT', student: 'Tran Cong Lam (K17 HCM)', subject: 'SWP391, SWT301', password: '12345'}
   ]
 
   return (
