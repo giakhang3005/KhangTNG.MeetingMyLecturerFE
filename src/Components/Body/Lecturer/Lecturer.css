@@ -139,6 +139,11 @@
   color: white;
   background: #fd7d1a;
 }
+.hoverSlotInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 @media only screen and (max-width: 576px) {
   .LecturerShow {

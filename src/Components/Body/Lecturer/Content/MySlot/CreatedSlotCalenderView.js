@@ -1,9 +1,11 @@
-import { Empty, Button, Modal, message } from "antd";
+import { Empty, Button, Modal, message, Popover } from "antd";
 import { useState } from "react";
 import {
   CaretLeftFilled,
   CaretRightFilled,
   CalendarFilled,
+  EditOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import {
   getNextWeek,
@@ -105,11 +107,12 @@ export const LectuerCalenderView = (props) => {
         <Button icon={<CalendarFilled />} onClick={handleOpenCalendar}></Button>
       </div>
 
+      {/*/ POPUP */}
       {/* Popup Calender */}
       <Modal
         title="Calender"
         open={open}
-        onOk={handleCalenderOk}
+        // onOk={handleCalenderOk}
         onCancel={() => setOpen(false)}
       >
         <LecturerCalender
@@ -118,43 +121,86 @@ export const LectuerCalenderView = (props) => {
         />
       </Modal>
 
+      {/* Display week & slot */}
       <div className="lecturerCreatedSlots">
         {/* Display dates & days */}
         {/* LecturerSelectedDates */}
         {selectedWeek.map((weekDate, i) => {
-          return selectedDate === weekDate.date ? (
-            // add class for selected date
+          return (
             <ul key={i}>
               <li>{weekDate.day}</li>
-              <li className="LecturerSelectedDates">{weekDate.date}</li>
-              {/* display created slot */}
-              {slotList.map((slot, key) => {
-                return (
-                  slot.date === weekDate.date && (
-                    <li className="slotDisplay" key={key}>
-                      {slot.startTime} - {slot.endTime}
-                    </li>
-                  )
-                );
-              })}
-            </ul>
-          ) : (
-            // others
-            <ul key={i}>
-              <li>{weekDate.day}</li>
-              <li>{weekDate.date}</li>
+              <li
+                className={
+                  selectedDate === weekDate.date && "LecturerSelectedDates"
+                }
+              >
+                {weekDate.date}
+              </li>
 
               {/* display created slot */}
               {slotList.map((slot, key) => {
                 return (
                   slot.date === weekDate.date && (
-                    <li
-                      onClick={() => console.log(slot)}
-                      className="slotDisplay"
-                      key={key}
+                    // PopOver -> Appear when user hover
+                    <Popover
+                      // Header of PopOver
+                      title={
+                        <>
+                          <div className="hoverSlotInfo">
+                            SLOT INFO
+                            <div>
+                              {/* Edit Button */}
+                              <EditOutlined
+                                onClick={() => console.log("edit ")}
+                              />
+                              {/* Delete Button */}
+                              <DeleteOutlined
+                                style={Object.assign(
+                                  { color: "red" },
+                                  { margin: "0 0 0 7px" }
+                                )}
+                                onClick={() => console.log("Delete")}
+                              />{" "}
+                            </div>
+                          </div>
+                        </>
+                      }
+                      // Body of PopOver
+                      content={
+                        <>
+                          <div>
+                            <b>ID:</b> {slot.id}
+                          </div>
+                          <div>
+                            <b>Date:</b> {slot.date}
+                          </div>
+                          <div>
+                            <b>Time:</b> {slot.startTime} - {slot.endTime}
+                          </div>
+                          <div>
+                            <b>Location:</b> {slot.location}
+                          </div>
+                          <div>
+                            <b>Student:</b> {slot.student}
+                          </div>
+                          <div>
+                            <b>Subject:</b> {slot.subject}
+                          </div>
+                          <div>
+                            <b>Password:</b> {slot.password}
+                          </div>
+                        </>
+                      }
                     >
-                      {slot.startTime} - {slot.endTime}
-                    </li>
+                      {/* Slot box appear in Week Calender */}
+                      <li
+                        onClick={() => console.log(true)}
+                        className="slotDisplay"
+                        key={key}
+                      >
+                        {slot.startTime} - {slot.endTime}
+                      </li>
+                    </Popover>
                   )
                 );
               })}
