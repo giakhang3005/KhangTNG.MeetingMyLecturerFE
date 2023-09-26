@@ -112,7 +112,7 @@ export const LectuerCalenderView = (props) => {
       <Modal
         title="Calender"
         open={open}
-        // onOk={handleCalenderOk}
+        onOk={handleCalenderOk}
         onCancel={() => setOpen(false)}
       >
         <LecturerCalender
@@ -194,7 +194,6 @@ export const LectuerCalenderView = (props) => {
                     >
                       {/* Slot box appear in Week Calender */}
                       <li
-                        onClick={() => console.log(true)}
                         className="slotDisplay"
                         key={key}
                       >
