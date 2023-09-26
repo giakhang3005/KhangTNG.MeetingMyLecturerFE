@@ -87,7 +87,7 @@ export const CreatedSlotTableView = () => {
   ]
 
   return (
-    <>
+    <div className="tableviewcontainer">
       <Table
         className="tableOfLocations"
         columns={columns}
@@ -95,6 +95,6 @@ export const CreatedSlotTableView = () => {
         // loading={isLoading}
         rowKey="id"
       ></Table>
-    </>
+    </div>
   );
 };
