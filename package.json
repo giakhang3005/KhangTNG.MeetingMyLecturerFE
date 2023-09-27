@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@antv/g2plot": "^2.4.31",
     "@hookform/resolvers": "^3.3.1",
     "@tanstack/react-query": "^4.35.3",
     "@testing-library/jest-dom": "^5.17.0",

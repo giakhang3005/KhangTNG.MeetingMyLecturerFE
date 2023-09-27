@@ -17,59 +17,46 @@ export const Body = () => {
   const [role, setRole] = useState("lecturer");
 
   return (
-    //pass value to all component inside
-    <QueryClientProvider client={client}>
-      <Data.Provider
-        value={{
-          menuOpt,
-          setMenuOpt,
-          selectedDate,
-          setSelectedDate,
-          selectedWeek,
-          setSelectedWeek,
-        }}
-      >
-        <ConfigProvider
-          theme={{
-            token: {
-              // Seed Token
-              colorPrimary: "#F15A25",
-            },
+      //pass value to all component inside
+      <QueryClientProvider client={client}>
+        <Data.Provider
+          value={{
+            menuOpt,
+            setMenuOpt,
+            selectedDate,
+            setSelectedDate,
+            selectedWeek,
+            setSelectedWeek,
           }}
         >
-          {/* show component base on user role */}
-          {
-            //if role === lecturer
-            role === "lecturer" ? (
-              //return
-              <Lecturer />
-            ) : // else if role === student
-            role === "student" ? (
-              <>Student</>
-            ) : // else if role === admin
-            role === "admin" ? (
-              <>Admin</>
-            ) : (
-              //others/no role
-              <>Login</>
-            )
-          }
-          {/* Version */}
-          <p
-            style={Object.assign(
-              { padding: 0 },
-              { margin: 0 },
-              { "font-size": "9px" },
-              { color: "grey" },
-              {position: "sticky"},
-              {bottom: "3px"},
-              {transform: 'translateX(3px)'}
-            )}
+          <ConfigProvider
+            theme={{
+              token: {
+                // Seed Token
+                colorPrimary: "#F15A25",
+              },
+            }}
           >
-            Version 1.0
-          </p>
-        </ConfigProvider>
-      </Data.Provider>
-    </QueryClientProvider>
+
+            {/* show component base on user role */}
+            {
+              //if role === lecturer
+              role === "lecturer" ? (
+                //return
+                <Lecturer />
+              ) : // else if role === student
+              role === "student" ? (
+                <>Student</>
+              ) : // else if role === admin
+              role === "admin" ? (
+                <>Admin</>
+              ) : (
+                //others/no role
+                <>Login</>
+              )
+            }
+          </ConfigProvider>
+        </Data.Provider>
+      </QueryClientProvider>
   );
 };

@@ -30,7 +30,6 @@ export const LecturerSider = () => {
         <>
           {/* Menu */}
           <LecturerMenu />
-
         </>
       )}
     </div>

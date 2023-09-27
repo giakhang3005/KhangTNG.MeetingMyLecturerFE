@@ -22,6 +22,7 @@ export const LecturerContent = () => {
           <LecturerLocation />
         )}
       </div>
+      
     </div>
   );
 };
