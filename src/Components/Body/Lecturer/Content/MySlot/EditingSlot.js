@@ -1,5 +1,15 @@
-import { Select, Form, Input, Button, Typography, message } from "antd";
+import {
+  Select,
+  Form,
+  Input,
+  Button,
+  Typography,
+  message,
+  TimePicker,
+} from "antd";
 import "../../Lecturer.css";
+import { parseDate } from "../../../../../ExtendedFunction/Date.js";
+import dayjs from "dayjs";
 
 export const EditingSlot = (props) => {
   const { Option } = Select;
@@ -8,12 +18,17 @@ export const EditingSlot = (props) => {
   const editingSlot = props.editingSlot,
     setCreatedSlotView = props.setCreatedSlotView;
 
+  //Time format
+  const timeFormat = "HH:mm";
+  const startTimeDayjs = new dayjs(editingSlot.startTime, timeFormat);
+  const endTimeDayjs = new dayjs(editingSlot.endTime, timeFormat);
+
   //set form values
   const formValues = {
     ["id"]: editingSlot.id,
     ["date"]: editingSlot.date,
-    ["startTime"]: editingSlot.startTime,
-    ["endTime"]: editingSlot.endTime,
+    ["startTime"]: startTimeDayjs,
+    ["endTime"]: endTimeDayjs,
     ["location"]: editingSlot.location, //Show many options
     ["subject"]: editingSlot.subject, //can select many options
     ["password"]: editingSlot.password,
@@ -27,39 +42,48 @@ export const EditingSlot = (props) => {
 
   //handle submit update
   const handleSubmit = (data) => {
+    //current date
+    const now = new dayjs(),
+      nowDate = now.date(),
+      nowMonth = now.month(),
+      nowYear = now.year(),
+      nowHour = now.hour(),
+      nowMinute = now.minute();
+
     //parse end time and start time
-    const startTime = data.startTime.split(":"),
-      endTime = data.endTime.split(":");
+    const startHour = data.startTime.hour(),
+      startMinute = data.startTime.minute(),
+      endHour = data.endTime.hour(),
+      endMinute = data.endTime.minute();
 
     //check if start time < end time
-    let errMsg = "";
-    if (startTime[0] >= endTime[0]) {
+    if (startHour >= endHour) {
       message.error("START TIME must be earlier than END TIME");
-      if (startTime[1] >= endTime[1]) {
+      if (startMinute >= endMinute) {
       }
     } else {
       //Successful
       message.success(
-        `Updated location ${data.date} ${data.startTime} - ${data.endTime}`
+        `Updated location ${data.date} ${startHour}:${
+          startMinute < 10 ? `0${startMinute}` : startMinute
+        } - ${endHour}:${endMinute < 10 ? `0${endMinute}` : endMinute}`
       );
       setCreatedSlotView("");
 
-      //! Place fetching UPDATE API here
+      //   //! Place fetching UPDATE API here
     }
-    console.log(data.subject);
   };
 
   //Handle Subject
-  //subject from API
+  //! subject from API
   const subjects = ["SWP391", "SWT301", "SWR302"];
 
-  //Handle location 
-  //location from API
+  //Handle location
+  //! location from API
   const locations = ["FPT", "NVH"];
 
   return (
     <>
-
       <Title className="sectionTitle" level={3}>
         EDITTING SLOT
       </Title>
@@ -71,31 +95,24 @@ export const EditingSlot = (props) => {
           </Form.Item>
           {/* Date */}
           <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-            <Input />
+            <Input disabled />
           </Form.Item>
           {/* Start time */}
           <Form.Item
             name="startTime"
             label="Start Time"
-            rules={[
-              { required: true },
-              { max: 5, message: "Time must be format XX:XX" },
-              { min: 5, message: "Time must be format XX:XX" },
-            ]}
+            rules={[{ required: true }]}
           >
-            <Input />
+            <TimePicker defaultValue={startTimeDayjs} />
           </Form.Item>
           {/* End time */}
           <Form.Item
             name="endTime"
             label="End Time"
-            rules={[
-              { required: true },
-              { max: 5, message: "Time must be format XX:XX" },
-              { min: 5, message: "Time must be format XX:XX" },
-            ]}
+            rules={[{ required: true }]}
           >
-            <Input />
+            {/* <Input /> */}
+            <TimePicker />
           </Form.Item>
           {/* Location */}
           <Form.Item
@@ -115,11 +132,8 @@ export const EditingSlot = (props) => {
             label="Subject"
             rules={[{ required: true }]}
           >
-            <Select
-              mode="multiple"
-              allowClear
-            >
-                {subjects.map((subject) => {
+            <Select mode="multiple" allowClear>
+              {subjects.map((subject) => {
                 return <Option key={subject}>{subject}</Option>;
               })}
             </Select>

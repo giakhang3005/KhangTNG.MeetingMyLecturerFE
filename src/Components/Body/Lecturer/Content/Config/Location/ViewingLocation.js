@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Button, Typography, Table } from "antd";
+import { Typography, Table } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import {
   PlusCircleFilled,
@@ -16,7 +15,7 @@ export const ViewingLocation = (props) => {
 
   const { Title, Text } = Typography;
 
-  //fetching data
+  //! fetching data -> LocationsList
   const {
     data: LocationsList, //assign name for the data
     isLoading,

@@ -1,4 +1,5 @@
 import { Button, Typography, Table } from "antd";
+import { useState } from "react";
 import {
   PlusCircleFilled,
   EditOutlined,
@@ -21,6 +22,10 @@ export const CreatedSlotTableView = (props) => {
   //   } = useQuery(["locations"], () => {
   //     return fetch("").then((res) => res.json()); //fetching and turn it into json
   //   });
+
+  //API
+  const [SlotList, setSlotList] = useState([]);
+  //! Fetching API slot from date to date of user here
 
   const columns = [
     {
