@@ -26,52 +26,31 @@ export const CreatingSlot = (props) => {
   //handle submit update
   const handleSubmit = (data) => {
     //current date
-    const now = new dayjs(),
-      nowDate = now.date(),
-      nowMonth = now.month(),
-      nowYear = now.year(),
-      nowHour = now.hour(),
-      nowMinute = now.minute();
-
+    const now = new dayjs();
     //parse end time and start time from user input
-    const startHour = data.startTime.hour(),
-      startMinute = data.startTime.minute(),
-      endHour = data.endTime.hour(),
-      endMinute = data.endTime.minute(),
-      date = data.date.date(),
-      month = data.date.month(),
-      year = data.date.year();
+    const startTime = data.startTime,
+      endTime = data.endTime;
 
-    //Successful function
-    const successfullyCreate = () => {
-      message.success(
-        `Updated location ${data.date} ${startHour}:${
-          startMinute < 10 ? `0${startMinute}` : startMinute
-        } - ${endHour}:${endMinute < 10 ? `0${endMinute}` : endMinute}`
-      );
-      //   setCreatedSlotView("");
-
+    if (startTime <= endTime && startTime >= now) {
+      //Success
       //! Place fetching UPDATE API here
-    };
 
-    //check if start time < end time
-    if (startHour >= endHour) {
-      message.error("START TIME must be earlier than END TIME");
-      if (startMinute >= endMinute) {
-      }
+      message.success(
+        `Created slot at ${data.date.$d.getDate()}/${
+          data.date.$d.getMonth() + 1
+        }/${
+          data.date.$y
+        } ${startTime.$d.getHours()}:${startTime.$d.getMinutes()} - ${endTime.$d.getHours()}:${endTime.$d.getMinutes()}`
+      );
+      //forward to view
+      setCreatedSlotView("");
     } else {
-      //block create slot in the past
-      //date must >= today
-      if (year >= nowYear && month >= nowMonth && date > nowDate) {
-        successfullyCreate();
-      } else {
-        //if create slot for today, must from the next hour
-        if (date === nowDate && startHour >= nowHour && startMinute >= nowMinute) {
-          successfullyCreate();
-        } else {
-          message.error(`Slot must be after ${nowDate}/${nowMonth + 1}/${nowYear} ${nowHour}:${nowMinute < 10 ? '0' + nowMinute : nowMinute}`);
-        }
-      }
+      // Error
+      message.error(
+        `START TIME must be EARLIER than END TIME and AFTER ${now.$d.getDate()}/${
+          now.$d.getMonth() + 1
+        }/${now.$y} ${now.$d.getHours()}:${now.$d.getMinutes()}`
+      );
     }
   };
 

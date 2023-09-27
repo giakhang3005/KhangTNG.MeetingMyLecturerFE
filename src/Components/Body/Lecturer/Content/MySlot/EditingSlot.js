@@ -43,34 +43,32 @@ export const EditingSlot = (props) => {
   //handle submit update
   const handleSubmit = (data) => {
     //current date
-    const now = new dayjs(),
-      nowDate = now.date(),
-      nowMonth = now.month(),
-      nowYear = now.year(),
-      nowHour = now.hour(),
-      nowMinute = now.minute();
+    const now = new dayjs();
 
     //parse end time and start time
-    const startHour = data.startTime.hour(),
-      startMinute = data.startTime.minute(),
-      endHour = data.endTime.hour(),
-      endMinute = data.endTime.minute();
+    const startTime = data.startTime,
+      endTime = data.endTime;
 
     //check if start time < end time
-    if (startHour >= endHour) {
-      message.error("START TIME must be earlier than END TIME");
-      if (startMinute >= endMinute) {
-      }
-    } else {
+    if (endTime > startTime) {
       //Successful
+      //! Place fetching UPDATE API here
+
       message.success(
-        `Updated location ${data.date} ${startHour}:${
-          startMinute < 10 ? `0${startMinute}` : startMinute
-        } - ${endHour}:${endMinute < 10 ? `0${endMinute}` : endMinute}`
+        `Updated slot ${data.date} ${startTime.$d.getHours()}:${
+          startTime.$d.getMinutes() < 10
+            ? "0" + startTime.$d.getMinutes()
+            : startTime.$d.getMinutes()
+        } - ${endTime.$d.getHours()}:${
+          endTime.$d.getMinutes() < 10
+            ? "0" + endTime.$d.getMinutes()
+            : endTime.$d.getMinutes()
+        }`
       );
       setCreatedSlotView("");
-
-      //   //! Place fetching UPDATE API here
+    } else {
+      // Error
+      message.error("START TIME must be earlier than END TIME");
     }
   };
 
@@ -103,7 +101,7 @@ export const EditingSlot = (props) => {
             label="Start Time"
             rules={[{ required: true }]}
           >
-            <TimePicker defaultValue={startTimeDayjs} />
+            <TimePicker />
           </Form.Item>
           {/* End time */}
           <Form.Item
@@ -111,7 +109,6 @@ export const EditingSlot = (props) => {
             label="End Time"
             rules={[{ required: true }]}
           >
-            {/* <Input /> */}
             <TimePicker />
           </Form.Item>
           {/* Location */}
