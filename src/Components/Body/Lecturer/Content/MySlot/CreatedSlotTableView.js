@@ -4,8 +4,14 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import {
+    LecturerEditSlotFunction,
+    LecturerDeleteSlotFunction,
+  } from "./CalenderSlotViewFunction";
 
-export const CreatedSlotTableView = () => {
+export const CreatedSlotTableView = (props) => {
+    const setCreatedSlotView = props.setCreatedSlotView,
+    setEditingSlot = props.setEditingSlot;
   //fetching data
   //   const {
   //     data: SlotList, //assign name for the data
@@ -53,7 +59,14 @@ export const CreatedSlotTableView = () => {
     {
         key: "7",
         title: "Subject",
-        dataIndex: "subject",
+        // dataIndex: 'subject',
+        render: (slot) => {
+            return (
+                <>
+                    {slot.subject.map((subject) => `${subject}, `)}
+                </>
+            )
+        }
       },
     {
       key: "8",
@@ -66,7 +79,7 @@ export const CreatedSlotTableView = () => {
       render: (slot) => {
         return (
           <>
-            <EditOutlined onClick={() => editSlot(slot)} />
+            <EditOutlined onClick={() => LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot)} />
             <DeleteOutlined
               className="locationDeleteBtn"
               onClick={() => deleteSlot(slot)}
@@ -87,9 +100,27 @@ export const CreatedSlotTableView = () => {
 
   //test data 
   const slotList = [
-    {id: 1, date: '30/09/2023', startTime: '10:00', endTime: '11:00', location: 'FPT', student: null, subject: 'SWP391',password: null},
-    {id: 2, date: '27/09/2023', startTime: '14:00', endTime: '16:30', location: 'FPT', student: 'Tran Cong Lam (K17 HCM)', subject: 'SWP391, SWT301', password: '12345'}
-  ]
+    {
+      id: 1,
+      date: "30/09/2023",
+      startTime: "10:00",
+      endTime: "11:00",
+      location: "FPT",
+      student: null,
+      subject: ["SWP391", "SWT301"],
+      password: null,
+    },
+    {
+      id: 2,
+      date: "27/09/2023",
+      startTime: "14:00",
+      endTime: "16:30",
+      location: "FPT",
+      student: "Tran Cong Lam (K17 HCM)",
+      subject: ["SWP391", "SWT301"],
+      password: "12345",
+    },
+  ];
 
   return (
     <div className="tableviewcontainer">

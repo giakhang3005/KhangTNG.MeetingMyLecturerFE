@@ -17,6 +17,7 @@ import {
   LecturerEditSlotFunction,
   LecturerDeleteSlotFunction,
 } from "./CalenderSlotViewFunction";
+import { array } from "yup";
 
 export const LectuerCalenderView = (props) => {
   //modal state
@@ -86,7 +87,7 @@ export const LectuerCalenderView = (props) => {
       endTime: "11:00",
       location: "FPT",
       student: null,
-      subject: "SWP391",
+      subject: ["SWP391", "SWT301"],
       password: null,
     },
     {
@@ -96,7 +97,7 @@ export const LectuerCalenderView = (props) => {
       endTime: "16:30",
       location: "FPT",
       student: "Tran Cong Lam (K17 HCM)",
-      subject: "SWP391, SWT301",
+      subject: ["SWP391", "SWT301"],
       password: "12345",
     },
   ];
@@ -164,7 +165,7 @@ export const LectuerCalenderView = (props) => {
                               <DeleteOutlined
                                 style={Object.assign(
                                   { color: "red" },
-                                  { margin: "0 0 0 7px" }
+                                  { margin: "0 0 0 14px" }
                                 )}
                                 onClick={() => LecturerDeleteSlotFunction(slot)}
                               />{" "}
@@ -191,7 +192,7 @@ export const LectuerCalenderView = (props) => {
                             <b>Student:</b> {slot.student}
                           </div>
                           <div>
-                            <b>Subject:</b> {slot.subject}
+                            <b>Subject:</b> {slot.subject.map((subject) => `${subject}, `)}
                           </div>
                           <div>
                             <b>Password:</b> {slot.password}

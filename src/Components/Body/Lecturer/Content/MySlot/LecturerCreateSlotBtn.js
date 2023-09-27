@@ -4,7 +4,8 @@ import { useContext} from "react";
 import { Data } from "../../../Body";
 import { LecturerCreateSlotFunction } from "./CalenderSlotViewFunction";
 
-export const LecturerCreateSlotBtn = () => {
+export const LecturerCreateSlotBtn = (props) => {
+  const setCreatedSlotView = props.setCreatedSlotView;
   const {setMenuOpt} = useContext(Data)
   return (
     <>
@@ -13,7 +14,7 @@ export const LecturerCreateSlotBtn = () => {
         className="createSlotBtn"
         icon={<PlusCircleFilled />}
         shape="round"
-        onClick={LecturerCreateSlotFunction}
+        onClick={() => LecturerCreateSlotFunction(setCreatedSlotView)}
       >
         Create slot
       </Button>

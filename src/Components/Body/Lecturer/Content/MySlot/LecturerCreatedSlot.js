@@ -5,6 +5,7 @@ import { LectuerCalenderView } from "./CreatedSlotCalenderView";
 import { CreatedSlotTableView } from "./CreatedSlotTableView";
 import "../../Lecturer.css";
 import { EditingSlot } from "./EditingSlot";
+import { CreatingSlot } from "./CreatingSlot";
 import { Typography, Tabs } from "antd";
 
 export const LecturerCreatedSlot = () => {
@@ -14,8 +15,8 @@ export const LecturerCreatedSlot = () => {
   const { Title, Text } = Typography;
 
   //Slot view
-  const [createdSlotView, setCreatedSlotView] = useState("");
-  
+  const [createdSlotView, setCreatedSlotView] = useState(" ");
+
   //slot is being edit
   const [editingSlot, setEditingSlot] = useState([]);
 
@@ -39,22 +40,33 @@ export const LecturerCreatedSlot = () => {
       label: "Table View",
       key: "tableView",
       children: (
-        <CreatedSlotTableView setCreatedSlotView={setCreatedSlotView} setEditingSlot={setEditingSlot}/>
+        <CreatedSlotTableView
+          setCreatedSlotView={setCreatedSlotView}
+          setEditingSlot={setEditingSlot}
+        />
       ),
     },
   ];
 
   return (
     <div>
-      {createdSlotView == "edit" ? (
-        <EditingSlot editingSlot={editingSlot} setCreatedSlotView={setCreatedSlotView} />
+      {/* <CreatingSlot setCreatedSlotView={setCreatedSlotView} /> */}
+      {/* Edit view */}
+      {createdSlotView === "create" ? (
+        <CreatingSlot setCreatedSlotView={setCreatedSlotView} />
+      ) : createdSlotView === "edit" ? (
+        <EditingSlot
+          editingSlot={editingSlot}
+          setCreatedSlotView={setCreatedSlotView}
+        />
       ) : (
+        // Default view
         <>
           {/* Title */}
           <Title className="sectionTitle" level={3}>
-            MY SLOTS <LecturerCreateSlotBtn />
+            MY SLOTS{" "}
+            <LecturerCreateSlotBtn setCreatedSlotView={setCreatedSlotView} />
           </Title>
-
           {/* Tabs */}
           <div className="createdSlotTabs">
             <Tabs defaultActiveKey="1" items={tabsObj} />

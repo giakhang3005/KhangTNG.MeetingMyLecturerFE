@@ -14,8 +14,8 @@ export const LecturerEditSlotFunction = (
   }
 };
 
-export const LecturerCreateSlotFunction = () => {
-  console.log("create");
+export const LecturerCreateSlotFunction = (setCreatedSlotView) => {
+    setCreatedSlotView("create");
 };
 
 export const LecturerDeleteSlotFunction = (slot) => {

@@ -1,27 +1,16 @@
 import { Select, Form, Input, Button, Typography, message } from "antd";
 import "../../Lecturer.css";
 
-export const EditingSlot = (props) => {
+export const CreatingSlot = (props) => {
   const { Option } = Select;
   const { Title } = Typography;
 
-  const editingSlot = props.editingSlot,
-    setCreatedSlotView = props.setCreatedSlotView;
+  const setCreatedSlotView = props.setCreatedSlotView;
 
-  //set form values
-  const formValues = {
-    ["id"]: editingSlot.id,
-    ["date"]: editingSlot.date,
-    ["startTime"]: editingSlot.startTime,
-    ["endTime"]: editingSlot.endTime,
-    ["location"]: editingSlot.location, //Show many options
-    ["subject"]: editingSlot.subject, //can select many options
-    ["password"]: editingSlot.password,
-  };
 
   //handle cancel
   const handleCancel = () => {
-    message.error("Canceled update slot");
+    message.error("Canceled create slot");
     setCreatedSlotView("");
   };
 
@@ -50,21 +39,21 @@ export const EditingSlot = (props) => {
   };
 
   //Handle Subject
-  //subject from API
+  //! subject from API
   const subjects = ["SWP391", "SWT301", "SWR302"];
 
   //Handle location 
-  //location from API
+  //! location from API
   const locations = ["FPT", "NVH"];
 
   return (
     <>
 
       <Title className="sectionTitle" level={3}>
-        EDITTING SLOT
+        CREATING SLOT
       </Title>
       <div className="editLocationForm">
-        <Form initialValues={formValues} onFinish={handleSubmit}>
+        <Form onFinish={handleSubmit}>
           {/* ID */}
           <Form.Item name="id" label="ID" rules={[{ required: true }]}>
             <Input disabled />
@@ -117,7 +106,7 @@ export const EditingSlot = (props) => {
           >
             <Select
               mode="multiple"
-              allowClear
+              allowClear={true}
             >
                 {subjects.map((subject) => {
                 return <Option key={subject}>{subject}</Option>;
