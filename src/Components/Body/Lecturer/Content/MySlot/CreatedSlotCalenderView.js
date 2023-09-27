@@ -13,6 +13,10 @@ import {
   GetWeek,
 } from "../../../../../ExtendedFunction/Date.js";
 import { LecturerCalender } from "./LecturerCalender";
+import {
+  LecturerEditSlotFunction,
+  LecturerDeleteSlotFunction,
+} from "./CalenderSlotViewFunction";
 
 export const LectuerCalenderView = (props) => {
   //modal state
@@ -26,7 +30,9 @@ export const LectuerCalenderView = (props) => {
   const selectedDate = props.selectedDate,
     setSelectedDate = props.setSelectedDate,
     selectedWeek = props.selectedWeek,
-    setSelectedWeek = props.setSelectedWeek;
+    setSelectedWeek = props.setSelectedWeek,
+    setCreatedSlotView = props.setCreatedSlotView,
+    setEditingSlot = props.setEditingSlot;
 
   //handle onClick next week
   const onClickNextWeek = () => {
@@ -131,7 +137,7 @@ export const LectuerCalenderView = (props) => {
               <li>{weekDate.day}</li>
               <li
                 className={
-                  selectedDate === weekDate.date && "LecturerSelectedDates"
+                  selectedDate === weekDate.date ? "LecturerSelectedDates" : ""
                 }
               >
                 {weekDate.date}
@@ -143,6 +149,7 @@ export const LectuerCalenderView = (props) => {
                   slot.date === weekDate.date && (
                     // PopOver -> Appear when user hover
                     <Popover
+                      key={key}
                       // Header of PopOver
                       title={
                         <>
@@ -151,7 +158,7 @@ export const LectuerCalenderView = (props) => {
                             <div>
                               {/* Edit Button */}
                               <EditOutlined
-                                onClick={() => console.log("edit ")}
+                                onClick={() => LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot)}
                               />
                               {/* Delete Button */}
                               <DeleteOutlined
@@ -159,7 +166,7 @@ export const LectuerCalenderView = (props) => {
                                   { color: "red" },
                                   { margin: "0 0 0 7px" }
                                 )}
-                                onClick={() => console.log("Delete")}
+                                onClick={() => LecturerDeleteSlotFunction(slot)}
                               />{" "}
                             </div>
                           </div>
@@ -193,10 +200,7 @@ export const LectuerCalenderView = (props) => {
                       }
                     >
                       {/* Slot box appear in Week Calender */}
-                      <li
-                        className="slotDisplay"
-                        key={key}
-                      >
+                      <li className="slotDisplay" key={key}>
                         {slot.startTime} - {slot.endTime}
                       </li>
                     </Popover>
