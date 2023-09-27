@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/KhangTNG.MeetingMyLecturerFE/static/css/main.c8fb2bb8.css",
-    "main.js": "/KhangTNG.MeetingMyLecturerFE/static/js/main.2452b6e3.js",
+    "main.js": "/KhangTNG.MeetingMyLecturerFE/static/js/main.8277b098.js",
     "static/js/787.2f0fd031.chunk.js": "/KhangTNG.MeetingMyLecturerFE/static/js/787.2f0fd031.chunk.js",
     "index.html": "/KhangTNG.MeetingMyLecturerFE/index.html",
     "main.c8fb2bb8.css.map": "/KhangTNG.MeetingMyLecturerFE/static/css/main.c8fb2bb8.css.map",
-    "main.2452b6e3.js.map": "/KhangTNG.MeetingMyLecturerFE/static/js/main.2452b6e3.js.map",
+    "main.8277b098.js.map": "/KhangTNG.MeetingMyLecturerFE/static/js/main.8277b098.js.map",
     "787.2f0fd031.chunk.js.map": "/KhangTNG.MeetingMyLecturerFE/static/js/787.2f0fd031.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c8fb2bb8.css",
-    "static/js/main.2452b6e3.js"
+    "static/js/main.8277b098.js"
   ]
 }
