@@ -48,7 +48,7 @@ export const LecturerRequests = () => {
     },
     {
       key: "7",
-      title: "Students want to meet",
+      title: "This slot Bookers",
       render: (booking) => {
         return (
           <>

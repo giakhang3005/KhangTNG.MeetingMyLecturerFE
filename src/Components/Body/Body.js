@@ -12,11 +12,12 @@ export const Body = () => {
   //default date = today
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));
-  const [role, setRole] = useState("lecturer");
+  const [role, setRole] = useState(""); //"lecturer"
   //default MenuOpt
-  const [menuOpt, setMenuOpt] = useState(
-    role === "lecturer" ? "lecturerDashboard" : ""
-  );
+  const [menuOpt, setMenuOpt] = useState("");
+
+  //TODO: for backed
+  const [input, setInput] = useState();
 
   return (
     //pass value to all component inside
@@ -45,7 +46,7 @@ export const Body = () => {
             role === "lecturer" ? (
               //return
               <>
-                <Lecturer />
+                <Lecturer setMenuOpt={setMenuOpt} />
               </>
             ) : // else if role === student
             role === "student" ? (
@@ -57,7 +58,12 @@ export const Body = () => {
               //others/no role
               <>
                 {/* <>Login</> */}
-                <input /> <button>Add role</button>
+                <input
+                  onChange={(event) => setInput(event.target.value)}
+                />{" "}
+                <button onClick={() => setRole(input)}>Add role</button>
+                <br />
+                lecturer, student, admin
               </>
             )
           }
