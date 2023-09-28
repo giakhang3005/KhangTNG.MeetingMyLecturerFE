@@ -16,7 +16,9 @@ export const Body = (props) => {
   //default date = today
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));
-  const [role, setRole] = useState(""); //"lecturer"
+
+  //! Get role in localStorage 
+  const [role, setRole] = useState(""); 
 
   //default MenuOpt
   const [menuOpt, setMenuOpt] = useState("default");

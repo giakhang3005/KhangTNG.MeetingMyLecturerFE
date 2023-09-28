@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import { Button, Alert } from "antd";
+import { Button, Alert, Form, Input, Typography } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Data } from "../Body";
+import "./LoginStyle.css";
 
 export const Login = () => {
+  const { Title } = Typography;
   // User
   const { user, setUser } = useContext(Data);
 
@@ -14,7 +16,7 @@ export const Login = () => {
     feEmail = "@fe.edu.vn";
   const [checkMailErr, setCheckMailErr] = useState(false);
 
-  //Login Function
+  //Handle login by gmail
   const login = useGoogleLogin({
     // Succes
     onSuccess: (codeResponse) =>
@@ -51,35 +53,88 @@ export const Login = () => {
   });
 
   // Logout function
-  const logOut = () => {
-    googleLogout();
-    setUser(null);
-  };
+  //   const logOut = () => {
+  //     googleLogout();
+  //     setUser(null);
+  //   };
 
+  // Handle login by username & password
+  const handleLoginByUsernameFinish = (data) => {
+    console.log(data);
+  };
   return (
-    <div>
-      {user !== null ? (
-        <>
-          <h5>{user.id}</h5>
-          <h5>{user.name}</h5>
-          <h5>{user.email}</h5>
-          <img src={user.picture} />
-          <Button onClick={logOut}>Log out</Button>
-        </>
-      ) : (
-        <>
-          <Button icon={<GoogleOutlined />} onClick={login}>
-            Sign in with Google
+    <div className="backgroundLogin">
+      <Form className="loginForm" onFinish={handleLoginByUsernameFinish}>
+        <Title className="loginTitle" level={3}>
+          Login Form
+        </Title>
+        <Form.Item
+          name="username"
+          label="Username"
+          className="input"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          className="input"
+          rules={[{ required: true }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item>
+          <Button className="loginBtn" type="primary" htmlType="submit">
+            Login
           </Button>
-          {checkMailErr && (
-            <Alert
-              message="Your email doesn't have permission to sign in!"
-              type="error"
-              banner
-            />
-          )}
-        </>
-      )}
+        </Form.Item>
+
+        {/* signin with google */}
+        <Button
+          style={Object.assign({ width: "100%" }, { margin: "0 0 10px 0" }, {height: "40px"})}
+          icon={<GoogleOutlined />}
+          onClick={login}
+        >
+          Sign in with Google
+        </Button>
+        {checkMailErr && (
+          <Alert
+            message="Your email doesn't have permission to sign in!"
+            type="error"
+            banner
+          />
+        )}
+      </Form>
+      <svg
+        className="curvesLogin"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+      >
+        <path
+          fill="#ffc77d"
+          fill-opacity="1"
+          d="M0,32L48,64C96,96,192,160,288,170.7C384,181,480,139,576,138.7C672,139,768,181,864,186.7C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
     </div>
   );
 };
+// {user !== null ? (
+//   <>
+//     <h5>{user.id}</h5>
+//     <h5>{user.name}</h5>
+//     <h5>{user.email}</h5>
+//     <img src={user.picture} />
+//     {/* <Button onClick={logOut}>Log out</Button> */}
+//   </>
+// ) : (
+//   <>
+//     <Button icon={<GoogleOutlined />} onClick={login}>
+//       Sign in with Google
+//     </Button>
+
+//     {/* Error */}
+
+//   </>
+// )}
