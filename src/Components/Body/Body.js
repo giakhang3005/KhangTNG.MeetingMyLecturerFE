@@ -3,18 +3,25 @@ import { ConfigProvider } from "antd";
 import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
 import { Lecturer } from "./Lecturer/Lecturer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {Login} from "./Login/Login";
 
 export const Data = createContext();
-export const Body = () => {
+export const Body = (props) => {
+  const user = props.user,
+  setUser = props.setUser;
   //Create new client
   const client = new QueryClient();
+
   //get user select option
   //default date = today
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));
   const [role, setRole] = useState(""); //"lecturer"
+
   //default MenuOpt
-  const [menuOpt, setMenuOpt] = useState("");
+  const [menuOpt, setMenuOpt] = useState("default");
+
+  
 
   //TODO: for backed
   const [input, setInput] = useState();
@@ -30,6 +37,8 @@ export const Body = () => {
           setSelectedDate,
           selectedWeek,
           setSelectedWeek,
+          user,
+          setUser,
         }}
       >
         <ConfigProvider
@@ -46,7 +55,7 @@ export const Body = () => {
             role === "lecturer" ? (
               //return
               <>
-                <Lecturer setMenuOpt={setMenuOpt} />
+                <Lecturer setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
               </>
             ) : // else if role === student
             role === "student" ? (
@@ -57,13 +66,13 @@ export const Body = () => {
             ) : (
               //others/no role
               <>
-                {/* <>Login</> */}
                 <input
                   onChange={(event) => setInput(event.target.value)}
                 />{" "}
                 <button onClick={() => setRole(input)}>Add role</button>
                 <br />
                 lecturer, student, admin
+                <Login />
               </>
             )
           }
