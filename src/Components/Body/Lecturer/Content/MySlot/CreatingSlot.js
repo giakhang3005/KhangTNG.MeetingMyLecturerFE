@@ -51,8 +51,10 @@ export const CreatingSlot = (props) => {
           data.date.$y
         } ${startTime.$d.getHours()}:${startTime.$d.getMinutes()} - ${endTime.$d.getHours()}:${endTime.$d.getMinutes()}`
       );
+
       //TODO: For Backend
       console.log(data)
+
       //forward to view
       setCreatedSlotView("");
     } else {
@@ -127,19 +129,19 @@ export const CreatingSlot = (props) => {
           <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
             <Radio.Group>
               <Radio.Button
-                value="manual"
+                value="Manual approve"
                 onClick={() => setIsAssignMode(false)}
               >
                 Manual approve
               </Radio.Button>
               <Radio.Button
-                value="first"
+                value="Accept the first Booker"
                 onClick={() => setIsAssignMode(false)}
               >
                 Accept the first Booker
               </Radio.Button>
               <Radio.Button
-                value="assign"
+                value="Assign student"
                 onClick={() => setIsAssignMode(true)}
               >
                 Assign student

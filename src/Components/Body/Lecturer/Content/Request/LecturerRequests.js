@@ -101,7 +101,7 @@ export const LecturerRequests = () => {
   const acceptBooking = (booking) => {
     //TODO: For Backend
     console.log(booking)
-    
+
     //! Place API here
 
     message.success(`Accepted ${booking.username}'s Booking`);
@@ -133,6 +133,8 @@ export const LecturerRequests = () => {
 
   return (
     <>
+      {console.log("INPUT BOOKING")}
+      {console.log(BookingList)}
       <Title className="sectionTitle" level={3}>
         BOOKING REQUESTS
       </Title>

@@ -103,13 +103,14 @@ export const CreatedSlotTableView = (props) => {
     //! Place fetching DELETE API here
   };
 
-  //test data 
+  //test data
   const slotList = [
     {
       id: 1,
       date: "30/09/2023",
       startTime: "10:00",
       endTime: "11:00",
+      mode: 'Manual approve' ,
       location: "FPT",
       student: null,
       subject: ["SWP391", "SWT301"],
@@ -120,13 +121,25 @@ export const CreatedSlotTableView = (props) => {
       date: "27/09/2023",
       startTime: "14:00",
       endTime: "16:30",
+      mode: 'Assign student' ,
       location: "FPT",
       student: "Tran Cong Lam (K17 HCM)",
       subject: ["SWP391", "SWT301"],
       password: "12345",
     },
+    {
+      id: 3,
+      date: "30/09/2023",
+      startTime: "15:00",
+      endTime: "17:30",
+      mode: 'Accept the first Booker' ,
+      location: "FPT",
+      student: "",
+      subject: ["SWT301"],
+      password: "12345",
+    },
   ];
-
+  
   return (
     <div className="tableviewcontainer">
       <Table

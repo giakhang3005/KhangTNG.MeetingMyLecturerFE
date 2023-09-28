@@ -5,7 +5,7 @@ export const LecturerEditSlotFunction = (
   setEditingSlot
 ) => {
     //havent accept anyone
-  if (slot.student === null) {
+  if (slot.student === null || slot.student == "") {
     setCreatedSlotView("edit");
     setEditingSlot(slot);
   } else {

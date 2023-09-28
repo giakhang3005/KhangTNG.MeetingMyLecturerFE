@@ -85,6 +85,7 @@ export const LectuerCalenderView = (props) => {
       date: "30/09/2023",
       startTime: "10:00",
       endTime: "11:00",
+      mode: 'Manual approve' ,
       location: "FPT",
       student: null,
       subject: ["SWP391", "SWT301"],
@@ -95,15 +96,29 @@ export const LectuerCalenderView = (props) => {
       date: "27/09/2023",
       startTime: "14:00",
       endTime: "16:30",
+      mode: 'Assign student' ,
       location: "FPT",
       student: "Tran Cong Lam (K17 HCM)",
       subject: ["SWP391", "SWT301"],
+      password: "12345",
+    },
+    {
+      id: 3,
+      date: "30/09/2023",
+      startTime: "15:00",
+      endTime: "17:30",
+      mode: 'Accept the first Booker' ,
+      location: "FPT",
+      student: "",
+      subject: ["SWT301"],
       password: "12345",
     },
   ];
 
   return (
     <div className="CalenderViewContainer">
+      {console.log("INPUT SLOT LIST")}
+      {console.log(slotList)}
       {/* Support Buttons */}
       <div className="CalenderViewSupportBtn">
         {/* back to previous week */}
@@ -184,6 +199,9 @@ export const LectuerCalenderView = (props) => {
                           </div>
                           <div>
                             <b>Time:</b> {slot.startTime} - {slot.endTime}
+                          </div>
+                          <div>
+                            <b>Mode:</b> {slot.mode}
                           </div>
                           <div>
                             <b>Location:</b> {slot.location}

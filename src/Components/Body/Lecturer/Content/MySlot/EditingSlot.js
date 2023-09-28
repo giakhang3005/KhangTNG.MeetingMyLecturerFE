@@ -6,6 +6,7 @@ import {
   Typography,
   message,
   TimePicker,
+  Radio,
 } from "antd";
 import "../../Lecturer.css";
 import { parseDate } from "../../../../../ExtendedFunction/Date.js";
@@ -29,6 +30,7 @@ export const EditingSlot = (props) => {
     ["date"]: editingSlot.date,
     ["startTime"]: startTimeDayjs,
     ["endTime"]: endTimeDayjs,
+    ["mode"]: editingSlot.mode,
     ["location"]: editingSlot.location, //Show many options
     ["subject"]: editingSlot.subject, //can select many options
     ["password"]: editingSlot.password,
@@ -46,10 +48,10 @@ export const EditingSlot = (props) => {
     const startTime = data.startTime,
       endTime = data.endTime;
     //remove all space in password
-    const passwordWithoutSpace = "";
-    if (data.password !== null) {
-      passwordWithoutSpace = data.password.replace(" ", "");
-    }
+    // const passwordWithoutSpace = "";
+    // if (data.password !== null) {
+    //   passwordWithoutSpace = data.password.replace(" ", "");
+    // }
 
     //check if start time < end time
     if (endTime > startTime) {
@@ -84,7 +86,10 @@ export const EditingSlot = (props) => {
 
   //Handle location
   //! location from API
-  const locations = ["FPT", "NVH"];
+  const locations = [
+    { key: "jjj", name: "FPT" },
+    { key: "aaa", name: "NVH" },
+  ];
 
   return (
     <>
@@ -117,7 +122,30 @@ export const EditingSlot = (props) => {
           >
             <TimePicker format="hh:mm" />
           </Form.Item>
+          <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
+            <Radio.Group>
+              <Radio.Button
+                value="Manual approve"
+              >
+                Manual approve
+              </Radio.Button>
+              <Radio.Button
+                value="Accept the first Booker"
+              >
+                Accept the first Booker
+              </Radio.Button>
+              <Radio.Button
+                value="Assign student"
+                disabled
+              >
+                Assign student
+              </Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+
           {/* Location */}
+          {console.log('Input locations')}
+          {console.log(locations)}
           <Form.Item
             name="location"
             label="Location"
@@ -125,11 +153,14 @@ export const EditingSlot = (props) => {
           >
             <Select>
               {locations.map((location) => {
-                return <Option key={location}>{location}</Option>;
+                return <Option key={location.key}>{location.name}</Option>;
               })}
             </Select>
           </Form.Item>
+
           {/* Subject */}
+          {console.log('Input subjects')}
+          {console.log(subjects)}
           <Form.Item
             name="subject"
             label="Subject"
@@ -148,6 +179,7 @@ export const EditingSlot = (props) => {
           >
             <Input />
           </Form.Item>
+
           {/* Cancel */}
           <Form.Item>
             <Button
