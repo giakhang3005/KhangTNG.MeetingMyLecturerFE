@@ -1,4 +1,4 @@
-import { Button, Typography, Table, message } from "antd";
+import { Button, Typography, Table, message, Popover } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 
 export const LecturerRequests = () => {
@@ -48,11 +48,33 @@ export const LecturerRequests = () => {
     },
     {
       key: "7",
+      title: "Students want to meet",
+      render: (booking) => {
+        return (
+          <>
+            <Popover
+              title="Students also book this slot"
+              content={
+                <ol>
+                  {booking.alsoBookThisSlot.name.map((studentName) => {
+                    return <li>{studentName}</li>;
+                  })}
+                </ol>
+              }
+            >
+              {booking.alsoBookThisSlot.amount} (Hover to view)
+            </Popover>
+          </>
+        );
+      },
+    },
+    {
+      key: "8",
       title: "Note",
       dataIndex: "note",
     },
     {
-      key: "8",
+      key: "9",
       title: "",
       render: (booking) => {
         return (
@@ -77,6 +99,9 @@ export const LecturerRequests = () => {
 
   //handle edit slot
   const acceptBooking = (booking) => {
+    //TODO: For Backend
+    console.log(booking)
+    
     //! Place API here
 
     message.success(`Accepted ${booking.username}'s Booking`);
@@ -98,7 +123,11 @@ export const LecturerRequests = () => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: 'ACC101',
+      subject: "ACC101",
+      alsoBookThisSlot: {
+        amount: 2,
+        name: ["Tran Cong Lam (K17 HCM)", "Truong Nguyen Gia Khang (K17 HCM)"],
+      },
     },
   ];
 

@@ -22,6 +22,9 @@ export const EditingLocation = (props) => {
 
   //handle submit update
   const handleSubmit = (data) => {
+    //TODO: For Backend
+    console.log(data)
+    
     message.success(`Updated location ${data.name}`)
     
     //! Place fetching UPDATE API here

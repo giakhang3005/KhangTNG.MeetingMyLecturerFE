@@ -42,12 +42,14 @@ export const EditingSlot = (props) => {
 
   //handle submit update
   const handleSubmit = (data) => {
-    //current date
-    const now = new dayjs();
-
     //parse end time and start time
     const startTime = data.startTime,
       endTime = data.endTime;
+    //remove all space in password
+    const passwordWithoutSpace = "";
+    if (data.password !== null) {
+      passwordWithoutSpace = data.password.replace(" ", "");
+    }
 
     //check if start time < end time
     if (endTime > startTime) {
@@ -65,6 +67,10 @@ export const EditingSlot = (props) => {
             : endTime.$d.getMinutes()
         }`
       );
+      //TODO: For Backend
+      console.log(data)
+
+      //change view
       setCreatedSlotView("");
     } else {
       // Error
@@ -101,7 +107,7 @@ export const EditingSlot = (props) => {
             label="Start Time"
             rules={[{ required: true }]}
           >
-            <TimePicker />
+            <TimePicker format="hh:mm" />
           </Form.Item>
           {/* End time */}
           <Form.Item
@@ -109,7 +115,7 @@ export const EditingSlot = (props) => {
             label="End Time"
             rules={[{ required: true }]}
           >
-            <TimePicker />
+            <TimePicker format="hh:mm" />
           </Form.Item>
           {/* Location */}
           <Form.Item

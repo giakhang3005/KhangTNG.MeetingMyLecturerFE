@@ -9,17 +9,7 @@ export const Nav = () => {
       <Title level={5} className="logo">
         {/* Logo */}
         MEETING MY LECTURERS
-        {/* Version */}
-        {/* <p
-          style={Object.assign(
-            { padding: 0 },
-            { margin: 0 },
-            { "font-size": "7px" },
-            { color: "grey" },
-          )}
-        >
-          ver 1.0
-        </p> */}
+
       </Title>
 
       {/* User */}

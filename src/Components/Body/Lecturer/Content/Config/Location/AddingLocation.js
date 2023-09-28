@@ -16,7 +16,9 @@ export const AddingLocation = (props) => {
 
   //handle submit
   const handleSubmit = (data) => {
-
+    //TODO: For Backend
+    console.log(data)
+    
     //! Place fetching ADD API here
 
     message.success(`Added location ${data.name}`)
