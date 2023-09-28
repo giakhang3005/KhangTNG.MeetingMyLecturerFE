@@ -39,6 +39,7 @@ export const Body = (props) => {
           setSelectedWeek,
           user,
           setUser,
+          setRole,
         }}
       >
         <ConfigProvider
