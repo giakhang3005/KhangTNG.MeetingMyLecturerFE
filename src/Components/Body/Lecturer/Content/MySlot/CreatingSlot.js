@@ -34,6 +34,7 @@ export const CreatingSlot = (props) => {
     const now = new dayjs();
     const mustCreateAfter = now.add(8, "hour");
 
+
     //parse end time and start time from user input
     const createDate = data.date,
       startTime = data.startTime
@@ -44,6 +45,11 @@ export const CreatingSlot = (props) => {
         .date(createDate.$D)
         .month(createDate.$M)
         .year(createDate.$y);
+
+    //Convert to string
+    const dateString = `${createDate.$D}/${(createDate.$M + 1) < 10 ? `0${createDate.$M + 1}` : createDate.$M + 1}/${createDate.$y}`
+    const startTimeString = `${startTime.$H}:${startTime.$m < 10 ? `0${startTime.$m}` : startTime.$m}`
+    const endTimeString = `${endTime.$H}:${endTime.$m < 10 ? `0${endTime.$m}` : endTime.$m}`
 
     // Error
     const handleError = () => {
@@ -75,7 +81,9 @@ export const CreatingSlot = (props) => {
       //forward to view
       setCreatedSlotView("");
       //TODO: For Backend
-      console.log(data);
+
+      const result = {...data, startTime: startTimeString, endTime: endTimeString, date: dateString}
+      console.log(result);
     };
 
     //Check condition
