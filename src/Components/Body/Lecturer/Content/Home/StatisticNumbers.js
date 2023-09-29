@@ -30,7 +30,7 @@ export const StatisticNumber = () => {
       {/* Most meeting subject */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
-          <Statistic title="Most meeting Subject" value={"SWP391"} />
+          <Statistic title="Most Discuss" value={"SWP391"} />
         </Card>
       </Col>
     </Row>

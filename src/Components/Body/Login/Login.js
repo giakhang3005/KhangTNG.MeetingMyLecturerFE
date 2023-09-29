@@ -8,7 +8,7 @@ import "./LoginStyle.css";
 
 export const Login = () => {
   const { Title } = Typography;
-  // User
+  // User -> user.name, email, picture, id
   const { user, setUser } = useContext(Data);
 
   // Email check
@@ -52,18 +52,14 @@ export const Login = () => {
     onError: (error) => console.log("Login Failed:", error),
   });
 
-  // Logout function
-  //   const logOut = () => {
-  //     googleLogout();
-  //     setUser(null);
-  //   };
-
   // Handle login by username & password
   const handleLoginByUsernameFinish = (data) => {
     console.log(data);
   };
   return (
     <div className="backgroundLogin">
+      <svg className="curvessLoginUpper"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffc77d" fill-opacity="1" d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,234.7C672,245,768,235,864,213.3C960,192,1056,160,1152,144C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+
       <Form className="loginForm" onFinish={handleLoginByUsernameFinish}>
         <Title className="loginTitle" level={3}>
           Login Form
@@ -106,6 +102,7 @@ export const Login = () => {
           />
         )}
       </Form>
+
       <svg
         className="curvesLogin"
         xmlns="http://www.w3.org/2000/svg"
@@ -120,21 +117,4 @@ export const Login = () => {
     </div>
   );
 };
-// {user !== null ? (
-//   <>
-//     <h5>{user.id}</h5>
-//     <h5>{user.name}</h5>
-//     <h5>{user.email}</h5>
-//     <img src={user.picture} />
-//     {/* <Button onClick={logOut}>Log out</Button> */}
-//   </>
-// ) : (
-//   <>
-//     <Button icon={<GoogleOutlined />} onClick={login}>
-//       Sign in with Google
-//     </Button>
 
-//     {/* Error */}
-
-//   </>
-// )}

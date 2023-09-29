@@ -5,6 +5,7 @@
     padding: 0 1% 0 2%;
     /* box-shadow: 0px 3px 4px gray; */
     border-bottom: 1px solid rgb(212, 212, 212);
+    background: white;
 }
 .Nav .User, 
 .Nav .logo {

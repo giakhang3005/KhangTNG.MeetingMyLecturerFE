@@ -32,14 +32,35 @@ export const CreatingSlot = (props) => {
   const handleSubmit = (data) => {
     //current date
     const now = new dayjs();
-    //parse end time and start time from user input
-    const startTime = data.startTime,
-      endTime = data.endTime;
+    const mustCreateAfter = now.add(8, "hour");
 
-    if (startTime <= endTime && startTime >= now) {
+    //parse end time and start time from user input
+    const createDate = data.date,
+      startTime = data.startTime
+        .date(createDate.$D)
+        .month(createDate.$M)
+        .year(createDate.$y),
+      endTime = data.endTime
+        .date(createDate.$D)
+        .month(createDate.$M)
+        .year(createDate.$y);
+
+    // Error
+    const handleError = () => {
+      message.error(
+        `START TIME must be EARLIER than END TIME and AFTER ${mustCreateAfter.$d.getDate()}/${
+          mustCreateAfter.$d.getMonth() + 1
+        }/${
+          mustCreateAfter.$y
+        } ${mustCreateAfter.$d.getHours()}:${mustCreateAfter.$d.getMinutes()}`
+      );
+    };
+
+    // on success
+    const handleSuccess = () => {
       //Success
       if (!isAssignMode) {
-        data = { ...data, studentname: "" };
+        data = { ...data, studentemail: null };
       }
 
       //! Place fetching UPDATE API here
@@ -51,19 +72,21 @@ export const CreatingSlot = (props) => {
           data.date.$y
         } ${startTime.$d.getHours()}:${startTime.$d.getMinutes()} - ${endTime.$d.getHours()}:${endTime.$d.getMinutes()}`
       );
-
-      //TODO: For Backend
-      console.log(data)
-
       //forward to view
       setCreatedSlotView("");
+      //TODO: For Backend
+      console.log(data);
+    };
+
+    //Check condition
+    if (startTime < mustCreateAfter) {
+      handleError();
     } else {
-      // Error
-      message.error(
-        `START TIME must be EARLIER than END TIME and AFTER ${now.$d.getDate()}/${
-          now.$d.getMonth() + 1
-        }/${now.$y} ${now.$d.getHours()}:${now.$d.getMinutes()}`
-      );
+      if (startTime < endTime) {
+        handleSuccess();
+      } else {
+        handleError();
+      }
     }
   };
 
@@ -78,9 +101,11 @@ export const CreatingSlot = (props) => {
     { key: "aaa", name: "NVH" },
   ];
 
-  const students = [
-    { key: "abc", name: "Truong Nguyen Gia Khang (K17 HCM)" },
-    { key: "xyz", name: "Tran Cong Lam (K17 HCM)" },
+  const allStudentsEmail = [
+    "khangtngse171927@fpt.edu.vn",
+    "lamtcse173603@fpt.edu.vn",
+    "thanhvtse173589@fpt.edu.vn",
+    "minhmndse173605@fpt.edu.vn",
   ];
 
   return (
@@ -106,7 +131,7 @@ export const CreatingSlot = (props) => {
             label="Start Time"
             rules={[{ required: true }]}
           >
-            <TimePicker format="hh:mm" />
+            <TimePicker format="HH:mm" />
           </Form.Item>
 
           {/* End time */}
@@ -115,7 +140,7 @@ export const CreatingSlot = (props) => {
             label="End Time"
             rules={[{ required: true }]}
           >
-            <TimePicker format="hh:mm" />
+            <TimePicker format="HH:mm" />
           </Form.Item>
 
           {/* Mode */}
@@ -149,16 +174,16 @@ export const CreatingSlot = (props) => {
             </Radio.Group>
           </Form.Item>
 
-          {/* Student name */}
+          {/* Student email */}
           {isAssignMode && (
             <Form.Item
-              name="studentname"
-              label="Student"
+              name="studentemail"
+              label="Student Email"
               rules={[{ required: isAssignMode ? true : false }]}
             >
               <Select showSearch allowClear={true}>
-                {students.map((student) => {
-                  return <Option key={student.key}>{student.name}</Option>;
+                {allStudentsEmail.map((student) => {
+                  return <Option value={student}>{student}</Option>;
                 })}
               </Select>
             </Form.Item>

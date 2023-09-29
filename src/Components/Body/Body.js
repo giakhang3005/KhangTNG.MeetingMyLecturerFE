@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import { ConfigProvider } from "antd";
 import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
 import { Lecturer } from "./Lecturer/Lecturer";
+import { Student } from "./Student/Student";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {Login} from "./Login/Login";
 
@@ -62,7 +63,7 @@ export const Body = (props) => {
               </>
             ) : // else if role === student
             role === "student" ? (
-              <>Student</>
+              <Student setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
             ) : // else if role === admin
             role === "admin" ? (
               <>Admin</>

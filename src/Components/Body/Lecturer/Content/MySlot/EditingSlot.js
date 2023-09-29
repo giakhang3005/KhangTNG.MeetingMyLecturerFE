@@ -44,9 +44,20 @@ export const EditingSlot = (props) => {
 
   //handle submit update
   const handleSubmit = (data) => {
-    //parse end time and start time
-    const startTime = data.startTime,
-      endTime = data.endTime;
+    const now = new dayjs();
+    const mustCreateAfter = now.add(4, "hour");
+
+    //parse end time and start time from user input
+    const createDate = data.date,
+      startTime = data.startTime
+        .date(createDate.$D)
+        .month(createDate.$M)
+        .year(createDate.$y),
+      endTime = data.endTime
+        .date(createDate.$D)
+        .month(createDate.$M)
+        .year(createDate.$y);
+
     //remove all space in password
     // const passwordWithoutSpace = "";
     // if (data.password !== null) {
@@ -54,29 +65,47 @@ export const EditingSlot = (props) => {
     // }
 
     //check if start time < end time
-    if (endTime > startTime) {
-      //Successful
-      //! Place fetching UPDATE API here
+    const checkStartEnd = () => {
+      if (endTime > startTime) {
+        //Successful
+        //! Place fetching UPDATE API here
 
-      message.success(
-        `Updated slot ${data.date} ${startTime.$d.getHours()}:${
-          startTime.$d.getMinutes() < 10
-            ? "0" + startTime.$d.getMinutes()
-            : startTime.$d.getMinutes()
-        } - ${endTime.$d.getHours()}:${
-          endTime.$d.getMinutes() < 10
-            ? "0" + endTime.$d.getMinutes()
-            : endTime.$d.getMinutes()
-        }`
-      );
-      //TODO: For Backend
-      console.log(data)
+        message.success(
+          `Updated slot ${data.date} ${startTime.$d.getHours()}:${
+            startTime.$d.getMinutes() < 10
+              ? "0" + startTime.$d.getMinutes()
+              : startTime.$d.getMinutes()
+          } - ${endTime.$d.getHours()}:${
+            endTime.$d.getMinutes() < 10
+              ? "0" + endTime.$d.getMinutes()
+              : endTime.$d.getMinutes()
+          }`
+        );
+        //TODO: For Backend
+        console.log(data);
 
-      //change view
-      setCreatedSlotView("");
+        //change view
+        setCreatedSlotView("");
+      } else {
+        // Error
+        message.error("START TIME must be earlier than END TIME");
+      }
+    };
+    //check if user change start time
+    if (startTime != startTimeDayjs) {
+      if (startTime < mustCreateAfter) {
+        message.error(
+          `START TIME must be AFTER ${mustCreateAfter.$d.getDate()}/${
+            mustCreateAfter.$d.getMonth() + 1
+          }/${
+            mustCreateAfter.$y
+          } ${mustCreateAfter.$d.getHours()}:${mustCreateAfter.$d.getMinutes()}`
+        );
+      } else {
+        checkStartEnd();
+      }
     } else {
-      // Error
-      message.error("START TIME must be earlier than END TIME");
+      checkStartEnd();
     }
   };
 
@@ -112,7 +141,7 @@ export const EditingSlot = (props) => {
             label="Start Time"
             rules={[{ required: true }]}
           >
-            <TimePicker format="hh:mm" />
+            <TimePicker format="HH:mm" />
           </Form.Item>
           {/* End time */}
           <Form.Item
@@ -120,31 +149,22 @@ export const EditingSlot = (props) => {
             label="End Time"
             rules={[{ required: true }]}
           >
-            <TimePicker format="hh:mm" />
+            <TimePicker format="HH:mm" />
           </Form.Item>
           <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
             <Radio.Group>
-              <Radio.Button
-                value="Manual approve"
-              >
-                Manual approve
-              </Radio.Button>
-              <Radio.Button
-                value="Accept the first Booker"
-              >
+              <Radio.Button value="Manual approve">Manual approve</Radio.Button>
+              <Radio.Button value="Accept the first Booker">
                 Accept the first Booker
               </Radio.Button>
-              <Radio.Button
-                value="Assign student"
-                disabled
-              >
+              <Radio.Button value="Assign student" disabled>
                 Assign student
               </Radio.Button>
             </Radio.Group>
           </Form.Item>
 
           {/* Location */}
-          {console.log('Input locations')}
+          {console.log("Input locations")}
           {console.log(locations)}
           <Form.Item
             name="location"
@@ -159,7 +179,7 @@ export const EditingSlot = (props) => {
           </Form.Item>
 
           {/* Subject */}
-          {console.log('Input subjects')}
+          {console.log("Input subjects")}
           {console.log(subjects)}
           <Form.Item
             name="subject"
