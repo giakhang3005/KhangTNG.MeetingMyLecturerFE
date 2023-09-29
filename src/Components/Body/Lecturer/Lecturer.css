@@ -159,6 +159,19 @@
 .cardStatisticNumber:hover {
   box-shadow: 2px 2px 12px rgb(152, 152, 152);
 }
+.Chart {
+  position: relative;
+  height: 60vh;
+  width: 100%;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+.displayGraph {
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 @media only screen and (max-width: 576px) {
   .LecturerShow {
     height: 100vh;

@@ -24,9 +24,7 @@ export const Body = (props) => {
   //default MenuOpt
   const [menuOpt, setMenuOpt] = useState("default");
 
-  
-
-  //TODO: for backed
+  //TODO: for backend
   const [input, setInput] = useState();
 
   return (

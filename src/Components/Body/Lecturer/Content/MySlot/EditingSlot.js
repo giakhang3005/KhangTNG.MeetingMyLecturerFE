@@ -28,7 +28,7 @@ export const EditingSlot = (props) => {
     .year(dateSplit[2]);
   const endTimeDayjs = new dayjs(editingSlot.endTime, timeFormat)
     .date(dateSplit[0])
-    .month(dateSplit[1])
+    .month(dateSplit[1] - 1)
     .year(dateSplit[2]);
 
   //set form values
@@ -56,8 +56,8 @@ export const EditingSlot = (props) => {
 
     //parse end time and start time from user input
     const createDate = data.date,
-      startTime = data.startTime,
-      endTime = data.endTime;
+      startTime = data.startTime.second(0),
+      endTime = data.endTime.second(0);
     const startTimeString = `${startTime.$H}:${
       startTime.$m < 10 ? `0${startTime.$m}` : startTime.$m
     }`;
@@ -89,7 +89,11 @@ export const EditingSlot = (props) => {
           }`
         );
 
-        const result = {...data, startTime: startTimeString, endTime: endTimeString}
+        const result = {
+          ...data,
+          startTime: startTimeString,
+          endTime: endTimeString,
+        };
         //TODO: For Backend
         console.log(result);
 

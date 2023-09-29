@@ -1,9 +1,8 @@
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import "../../Lecturer.css";
 import { Typography } from "antd";
 
-export const RecentSlotsMonth = () => {
+export const RecentMeetingMonth = () => {
   const { Title } = Typography;
   const data = [
     { month: "January", slots: 3 },
@@ -15,7 +14,7 @@ export const RecentSlotsMonth = () => {
   ];
   return (
     <div className="Chart">
-      <Title level={4}>Number of slots in recent months</Title>
+      <Title level={4}>Number of meetings in recent months</Title>
       <Bar
         className="displayGraph"
         data={{

@@ -58,7 +58,17 @@ export const Login = () => {
   };
   return (
     <div className="backgroundLogin">
-      <svg className="curvessLoginUpper"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffc77d" fill-opacity="1" d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,234.7C672,245,768,235,864,213.3C960,192,1056,160,1152,144C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+      <svg
+        className="curvessLoginUpper"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+      >
+        <path
+          fill="#ffc77d"
+          fillOpacity="1"
+          d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,234.7C672,245,768,235,864,213.3C960,192,1056,160,1152,144C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
 
       <Form className="loginForm" onFinish={handleLoginByUsernameFinish}>
         <Title className="loginTitle" level={3}>
@@ -85,10 +95,13 @@ export const Login = () => {
             Login
           </Button>
         </Form.Item>
-
         {/* signin with google */}
         <Button
-          style={Object.assign({ width: "100%" }, { margin: "0 0 10px 0" }, {height: "40px"})}
+          style={Object.assign(
+            { width: "100%" },
+            { margin: "0 0 10px 0" },
+            { height: "40px" }
+          )}
           icon={<GoogleOutlined />}
           onClick={login}
         >
@@ -110,11 +123,10 @@ export const Login = () => {
       >
         <path
           fill="#ffc77d"
-          fill-opacity="1"
+          fillOpacity="1"
           d="M0,32L48,64C96,96,192,160,288,170.7C384,181,480,139,576,138.7C672,139,768,181,864,186.7C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
         ></path>
       </svg>
     </div>
   );
 };
-

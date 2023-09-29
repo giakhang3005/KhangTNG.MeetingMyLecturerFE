@@ -2,9 +2,8 @@ import "../Lecturer.css";
 import { useContext, useState } from "react";
 import { Data } from "../../Body";
 import { LecturerMenu } from "./LecturerMenu";
-import { Calendar, Button } from "antd";
+import { Button } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { ConvertDate, GetWeek } from "../../../../ExtendedFunction/Date";
 
 export const LecturerSider = () => {
   // Set menu state
