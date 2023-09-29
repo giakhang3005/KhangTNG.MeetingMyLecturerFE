@@ -145,6 +145,7 @@ export const LecturerRequests = () => {
         dataSource={BookingList}
         // loading={isLoading}
         rowKey="id"
+        key="key"
       ></Table>
     </>
   );

@@ -20,10 +20,16 @@ export const EditingSlot = (props) => {
     setCreatedSlotView = props.setCreatedSlotView;
 
   //Time format
-  const dateSplit = editingSlot.date.split("/")
+  const dateSplit = editingSlot.date.split("/");
   const timeFormat = "HH:mm";
-  let startTimeDayjs = new dayjs(editingSlot.startTime, timeFormat).date(dateSplit[0]).month(dateSplit[1]-1).year(dateSplit[2]);
-  const endTimeDayjs = new dayjs(editingSlot.endTime, timeFormat).date(dateSplit[0]).month(dateSplit[1]).year(dateSplit[2]);
+  const startTimeDayjs = new dayjs(editingSlot.startTime, timeFormat)
+    .date(dateSplit[0])
+    .month(dateSplit[1] - 1)
+    .year(dateSplit[2]);
+  const endTimeDayjs = new dayjs(editingSlot.endTime, timeFormat)
+    .date(dateSplit[0])
+    .month(dateSplit[1])
+    .year(dateSplit[2]);
 
   //set form values
   const formValues = {
@@ -52,6 +58,12 @@ export const EditingSlot = (props) => {
     const createDate = data.date,
       startTime = data.startTime,
       endTime = data.endTime;
+    const startTimeString = `${startTime.$H}:${
+      startTime.$m < 10 ? `0${startTime.$m}` : startTime.$m
+    }`;
+    const endTimeString = `${endTime.$H}:${
+      endTime.$m < 10 ? `0${endTime.$m}` : endTime.$m
+    }`;
 
     //remove all space in password
     // const passwordWithoutSpace = "";
@@ -76,8 +88,10 @@ export const EditingSlot = (props) => {
               : endTime.$d.getMinutes()
           }`
         );
+
+        const result = {...data, startTime: startTimeString, endTime: endTimeString}
         //TODO: For Backend
-        console.log(data);
+        console.log(result);
 
         //change view
         setCreatedSlotView("");

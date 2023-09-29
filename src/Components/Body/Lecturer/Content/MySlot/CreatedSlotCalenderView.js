@@ -17,7 +17,6 @@ import {
   LecturerEditSlotFunction,
   LecturerDeleteSlotFunction,
 } from "./CalenderSlotViewFunction";
-import { array } from "yup";
 
 export const LectuerCalenderView = (props) => {
   //modal state
@@ -115,6 +114,7 @@ export const LectuerCalenderView = (props) => {
     },
   ];
 
+  //get curren time
   return (
     <div className="CalenderViewContainer">
       {console.log("INPUT SLOT LIST")}
