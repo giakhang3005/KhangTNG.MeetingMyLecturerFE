@@ -95,16 +95,11 @@ export const ResultDisplay = (props) => {
     //check if user booked aldredy or not
     //if (1) return true -> show aldready booked message
     if (booking.id === bookAldreadyID) {
-        message.error("You have booked this slot aldready, please check the 'Requests sent' category to view booking status!")
+      message.error(
+        "You have booked this slot aldready, please check the 'Requests sent' category to view booking status!"
+      );
     } else {
-      // If slot do not have password -> book
-      if (booking.password === null || booking.password === "") {
-        //on success
-        BookingSuccess(booking);
-      } else {
-        //Slot have password
-        setIsSelectedSlot(booking);
-      }
+      setIsSelectedSlot(booking);
     }
   };
 
@@ -134,14 +129,14 @@ export const ResultDisplay = (props) => {
       password: null,
     });
     BookingList.push({
-        id: 3,
-        lecturer: "test đã book",
-        date: "01/10/2023",
-        startTime: "16:30",
-        endTime: "17:00",
-        subject: "SWP391",
-        password: null,
-      });
+      id: 3,
+      lecturer: "test đã book",
+      date: "01/10/2023",
+      startTime: "16:30",
+      endTime: "17:00",
+      subject: "SWP391",
+      password: null,
+    });
   }
   if (isSearchingSubject === "SWT301") {
     BookingList.push({

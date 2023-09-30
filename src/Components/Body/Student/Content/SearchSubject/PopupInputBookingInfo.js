@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Typography, Input, Button, message } from "antd";
-import {BookingSuccess} from "./ResultDisplay"
+import { BookingSuccess } from "./ResultDisplay";
 
 export function PopupInputPassword(props) {
   const isSelectedSlot = props.isSelectedSlot,
@@ -18,20 +18,27 @@ export function PopupInputPassword(props) {
     ["endTime"]: isSelectedSlot.endTime,
   };
 
-  const handleCancel = () => {setIsSelectedSlot([])};
+  const handleCancel = () => {
+    setIsSelectedSlot([]);
+  };
   const handleSubmit = (data) => {
-    if(data.password === isSelectedSlot.password) {
+    if (isSelectedSlot.password === null) {
+      BookingSuccess(isSelectedSlot);
+      setIsSelectedSlot([]);
+    } else {
+      if (data.password === isSelectedSlot.password) {
         BookingSuccess(isSelectedSlot);
         setIsSelectedSlot([]);
-    } else {
-        message.error("Password does not match")
+      } else {
+        message.error("Password does not match");
+      }
     }
   };
 
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        BOOKING AUTHENTICATION
+        BOOKING
       </Title>
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmit}>
@@ -80,11 +87,23 @@ export function PopupInputPassword(props) {
           </Form.Item>
 
           {/* Input Password */}
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true }]}
-          >
+          {/* Show password section if this slot have password */}
+          {isSelectedSlot.password !== null && (
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: isSelectedSlot.password !== null,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          )}
+
+          {/* Note */}
+          <Form.Item name="note" label="Note" rules={[{ required: false }]}>
             <Input />
           </Form.Item>
 

@@ -1,6 +1,6 @@
 import { SearchBar } from "./SearchBar";
 import { ResultDisplay } from "./ResultDisplay";
-import { PopupInputPassword } from "./PopupInputPassword";
+import { PopupInputPassword } from "./PopupInputBookingInfo";
 import { useState } from "react";
 import { Typography, Space } from "antd";
 

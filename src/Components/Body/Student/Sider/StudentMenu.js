@@ -32,7 +32,7 @@ export const StudentMenu = () => {
         { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
       ],
     },
-    { label: "Requests sent", icon: <BellFilled />, key: "requestsSent" },
+    { label: "Requests sent", icon: <BellFilled />, key: "sentRequests" },
   ];
   //selectedKeys
   return (

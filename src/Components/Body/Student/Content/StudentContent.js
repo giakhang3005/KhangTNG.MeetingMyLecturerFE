@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Data } from "../../Body";
 import {StudentDashboard} from "./Home/StudentDashboard"
 import {SearchSubject} from "./SearchSubject/SearchSubject"
+import {RequestsSent} from "./RequestsSent/RequestsSent"
 
 export const StudentContent = () => {
   const { menuOpt} = useContext(Data);
@@ -14,8 +15,8 @@ export const StudentContent = () => {
         ) : menuOpt === "subjectSearch" ? (
             <SearchSubject />
         ) : // request
-        menuOpt === "c" ? (
-          <></>
+        menuOpt === "sentRequests" ? (
+          <RequestsSent />
         ) : (
           <></>
         )}
