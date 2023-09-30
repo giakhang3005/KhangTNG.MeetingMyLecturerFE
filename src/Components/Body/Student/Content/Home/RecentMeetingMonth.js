@@ -5,12 +5,12 @@ import { Typography } from "antd";
 export const RecentMeetingMonth = () => {
   const { Title } = Typography;
   const data = [
-    { month: "January", slots: 3 },
-    { month: "Febuary", slots: 2 },
-    { month: "March", slots: 5 },
-    { month: "April", slots: 9 },
-    { month: "May", slots: 0 },
-    { month: "June", slots: 15 },
+    { month: "January", meetings: 3 },
+    { month: "Febuary", meetings: 2 },
+    { month: "March", meetings: 5 },
+    { month: "April", meetings: 9 },
+    { month: "May", meetings: 7 },
+    { month: "June", meetings: 15 },
   ];
   return (
     <div className="Chart">
@@ -21,8 +21,8 @@ export const RecentMeetingMonth = () => {
           labels: data.map((data) => data.month),
           datasets: [
             {
-              label: "Slots",
-              data: data.map((data) => data.slots),
+              label: "Meetings",
+              data: data.map((data) => data.meetings),
               backgroundColor: "#FFC77D",
             },
           ],

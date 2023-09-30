@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { Data } from "../../Body";
-import { Menu} from "antd";
+import { Menu } from "antd";
 import {
-  DropboxOutlined,
+  SearchOutlined,
   BellFilled,
   HomeFilled,
-  SettingFilled,
-  EnvironmentFilled
+  TeamOutlined,
+  HourglassFilled,
+  ClockCircleFilled,
 } from "@ant-design/icons";
 import { LogOutBtn } from "../../../../ExtendedFunction/Users";
 
@@ -16,11 +17,22 @@ export const StudentMenu = () => {
 
   //Item for menu
   const menuItems = [
-    { label: "Home", icon:  <HomeFilled />, key: "studentDashboard" },
-    // { label: "My slots", icon: <DropboxOutlined />, key: "createdSlot" },
-    // { label: "Booking requests", icon: <BellFilled />, key: "request" },
-    // { label: "Configurations", icon: <SettingFilled />, key: null, children: [{label: "Locations", icon: <EnvironmentFilled />, key: 'locations'},]}
-    // { label: "Configurations", icon: <ControlFilled />, null, [getItem('Locations', 'location')], "group" },
+    { label: "Home", icon: <HomeFilled />, key: "studentDashboard" },
+    { label: "Search", icon: <SearchOutlined />, key: "subjectSearch" },
+    {
+      label: "My Meetings",
+      icon: <TeamOutlined />,
+      key: null,
+      children: [
+        {
+          label: "Upcomming",
+          icon: <HourglassFilled />,
+          key: "upcommingMeetings",
+        },
+        { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
+      ],
+    },
+    { label: "Requests sent", icon: <BellFilled />, key: "requestsSent" },
   ];
   //selectedKeys
   return (
