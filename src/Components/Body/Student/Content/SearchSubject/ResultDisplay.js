@@ -57,6 +57,7 @@ export const ResultDisplay = (props) => {
       render: (booking) => {
         return (
           <>
+            {/* Slot does not have password */}
             {booking.password === null || booking.password === "" ? (
               <Popover content="Click to send a booking request!">
                 <UnlockFilled
@@ -69,6 +70,7 @@ export const ResultDisplay = (props) => {
                 />
               </Popover>
             ) : (
+              // Slot have password
               <Popover content="This slot have a password, Click to enter password!">
                 <LockFilled
                   style={Object.assign(
@@ -88,13 +90,21 @@ export const ResultDisplay = (props) => {
 
   //handle book action
   const Book = (booking) => {
-    // If slot do not have password -> book
-    if (booking.password === null || booking.password === "") {
-      //on success
-      BookingSuccess(booking);
+    //!fetch...... -> return true/false (1)
+    const bookAldreadyID = 3;
+    //check if user booked aldredy or not
+    //if (1) return true -> show aldready booked message
+    if (booking.id === bookAldreadyID) {
+        message.error("You have booked this slot aldready, please check the 'Requests sent' category to view booking status!")
     } else {
-      //Slot have password
-      setIsSelectedSlot(booking);
+      // If slot do not have password -> book
+      if (booking.password === null || booking.password === "") {
+        //on success
+        BookingSuccess(booking);
+      } else {
+        //Slot have password
+        setIsSelectedSlot(booking);
+      }
     }
   };
 
@@ -107,7 +117,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWP391") {
     BookingList.push({
       id: 1,
-      lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
+      lecturer: "Test có pass",
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
@@ -116,13 +126,22 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
-      lecturer: "Tran Cong Lam (K17 HCM)",
+      lecturer: "Test không có pass",
       date: "01/10/2023",
       startTime: "16:30",
       endTime: "17:00",
       subject: "SWP391",
       password: null,
     });
+    BookingList.push({
+        id: 3,
+        lecturer: "test đã book",
+        date: "01/10/2023",
+        startTime: "16:30",
+        endTime: "17:00",
+        subject: "SWP391",
+        password: null,
+      });
   }
   if (isSearchingSubject === "SWT301") {
     BookingList.push({
@@ -147,9 +166,12 @@ export const ResultDisplay = (props) => {
 
   return (
     <>
-      {" "}
       {isSearchingSubject !== "" && (
-        <Alert message={`Found ${BookingList.length} slots for subject ${isSearchingSubject}`} type="info" showIcon closable />
+        <Alert
+          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject}`}
+          type="info"
+          showIcon
+        />
       )}
       {/* Table of result */}
       <Table
