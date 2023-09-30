@@ -91,6 +91,7 @@ export const EditingSlot = (props) => {
 
         const result = {
           ...data,
+          password: data.password.trim() === "" ? null : data.password.trim(),
           startTime: startTimeString,
           endTime: endTimeString,
         };

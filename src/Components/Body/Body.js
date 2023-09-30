@@ -70,7 +70,7 @@ export const Body = (props) => {
               <>
                 <input
                   onChange={(event) => setInput(event.target.value)}
-                />{" "}
+                />
                 <button onClick={() => setRole(input)}>Add role</button>
                 <br />
                 lecturer, student, admin
