@@ -94,6 +94,7 @@ export const EditingSlot = (props) => {
           password: data.password.trim() === "" ? null : data.password.trim(),
           startTime: startTimeString,
           endTime: endTimeString,
+          lecturer: null,
         };
         //TODO: For Backend
         console.log(result);

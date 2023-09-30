@@ -93,6 +93,7 @@ export const CreatingSlot = (props) => {
         startTime: startTimeString,
         endTime: endTimeString,
         date: dateString,
+        lecturer: null,
       };
       console.log(result);
     };

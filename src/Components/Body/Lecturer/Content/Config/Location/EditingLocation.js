@@ -23,7 +23,8 @@ export const EditingLocation = (props) => {
   //handle submit update
   const handleSubmit = (data) => {
     //TODO: For Backend
-    console.log(data)
+    const result = {...data, lecturer: null}
+    console.log(result)
     
     message.success(`Updated location ${data.name}`)
     

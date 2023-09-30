@@ -1,54 +1,42 @@
 import React from "react";
 import { Form, Typography, Input, Button, message } from "antd";
-import { BookingSuccess } from "./ResultDisplay";
 
-export function PopupInputPassword(props) {
-  const isSelectedSlot = props.isSelectedSlot,
-    setIsSelectedSlot = props.setIsSelectedSlot;
-
+export function EditRequests(props) {
+  const isSelectedBooking = props.isSelectedBooking,
+    setIsSelectedBooking = props.setIsSelectedBooking;
   const { Title } = Typography;
 
   //set form values
   const formValues = {
-    ["id"]: isSelectedSlot.id,
-    ["subject"]: isSelectedSlot.subject,
-    ["lecturer"]: isSelectedSlot.lecturer,
-    ["date"]: isSelectedSlot.date,
-    ["startTime"]: isSelectedSlot.startTime,
-    ["endTime"]: isSelectedSlot.endTime,
+    ["id"]: isSelectedBooking.id,
+    ["subject"]: isSelectedBooking.subject,
+    ["lecturer"]: isSelectedBooking.lecturer,
+    ["date"]: isSelectedBooking.date,
+    ["startTime"]: isSelectedBooking.startTime,
+    ["endTime"]: isSelectedBooking.endTime,
+    ["note"]: isSelectedBooking.note,
   };
 
   const handleCancel = () => {
-    setIsSelectedSlot([]);
+    setIsSelectedBooking([]);
   };
   const handleSubmit = (data) => {
-    if (isSelectedSlot.password === null) {
-      const result = {
-        ...data,
-        note: data.note === "" ? null : data.note,
-        booker: null,
-      };
-      BookingSuccess(result);
-      setIsSelectedSlot([]);
-    } else {
-      if (data.password === isSelectedSlot.password) {
-        const result = {
-          ...data,
-          note: data.note === "" ? null : data.note,
-          booker: null,
-        };
-        BookingSuccess(result);
-        setIsSelectedSlot([]);
-      } else {
-        message.error("Password does not match");
-      }
-    }
+    const result = {
+      ...data,
+      note: data.note === "" ? null : data.note,
+      //! get Booker then send to backend
+      booker: null,
+    };
+
+
+    message.success("Updated booking")
+    setIsSelectedBooking([]);
   };
 
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        BOOKING
+        REQUEST EDITING
       </Title>
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmit}>
@@ -96,22 +84,6 @@ export function PopupInputPassword(props) {
             <Input disabled />
           </Form.Item>
 
-          {/* Input Password */}
-          {/* Show password section if this slot have password */}
-          {isSelectedSlot.password !== null && (
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                {
-                  required: isSelectedSlot.password !== null,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          )}
-
           {/* Note */}
           <Form.Item name="note" label="Note" rules={[{ required: false }]}>
             <Input />
@@ -129,7 +101,7 @@ export function PopupInputPassword(props) {
             </Button>
             {/* Save */}
             <Button type="primary" htmlType="submit">
-              Submit
+              Save
             </Button>
           </Form.Item>
         </Form>
