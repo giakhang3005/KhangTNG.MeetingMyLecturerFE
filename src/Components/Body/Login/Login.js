@@ -10,6 +10,7 @@ export const Login = () => {
   const { Title } = Typography;
   // User -> user.name, email, picture, id
   const { user, setUser } = useContext(Data);
+  const { isErr, setIsErr } = useState(false);
 
   // Email check
   const fptEmail = "@fpt.edu.vn",
@@ -46,16 +47,23 @@ export const Login = () => {
           //! If user exists, get role
           //! Save to local storage
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          setIsErr(true);
+          console.log(err);
+        })
         .finally(() => {}),
     // error
-    onError: (error) => console.log("Login Failed:", error),
+    onError: (error) => {
+      setIsErr(true);
+      console.log("Login Failed:", error);
+    },
   });
 
   // Handle login by username & password
   const handleLoginByUsernameFinish = (data) => {
     console.log(data);
   };
+
   return (
     <div className="backgroundLogin">
       <svg
@@ -107,9 +115,18 @@ export const Login = () => {
         >
           Sign in with Google
         </Button>
+        {/* Email notification */}
         {checkMailErr && (
           <Alert
             message="Your email doesn't have permission to sign in!"
+            type="error"
+            banner
+          />
+        )}
+        {/* Error notification */}
+        {isErr && (
+          <Alert
+            message="There is an error, please try again!"
             type="error"
             banner
           />

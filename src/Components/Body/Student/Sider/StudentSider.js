@@ -11,7 +11,6 @@ export const StudentSider = () => {
 
   return (
     <div className="Sider">
-      {/* Button */}
       <div className="DisplayBtn">
         {/* show/unshow menu */}
         <Button

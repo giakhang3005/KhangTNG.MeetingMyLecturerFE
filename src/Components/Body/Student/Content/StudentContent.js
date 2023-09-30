@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Data } from "../../Body";
 import {StudentDashboard} from "./Home/StudentDashboard"
+import {SearchSubject} from "./SearchSubject/SearchSubject"
 
 export const StudentContent = () => {
   const { menuOpt} = useContext(Data);
@@ -10,8 +11,8 @@ export const StudentContent = () => {
         {/* CreatedSlot */}
         {menuOpt === "studentDashboard" ? (
           <StudentDashboard />
-        ) : menuOpt === "b" ? (
-            <></>
+        ) : menuOpt === "subjectSearch" ? (
+            <SearchSubject />
         ) : // request
         menuOpt === "c" ? (
           <></>

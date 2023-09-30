@@ -1,0 +1,19 @@
+.searchSubject {
+    position: relative;
+    height: 5vh;
+}
+.SearchBar {
+    display: flex;
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.BookingSlotPasswordForm div {
+    padding: 5px 0 0 0;
+}
+.SlotPasswordMain {
+    margin: 0;
+    padding: 0;
+}
