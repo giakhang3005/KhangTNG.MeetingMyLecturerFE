@@ -1,4 +1,4 @@
-import { Button, Table, message, Popover } from "antd";
+import { Button, Table, message, Popover, Alert } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useState } from "react";
 
@@ -6,7 +6,7 @@ import { useState } from "react";
 export const BookingSuccess = (booking) => {
   //TODO: For Backend
   //! Place API here
-  
+
   message.success(`Requets sent to ${booking.lecturer}`);
   message.info(
     `Slot Info: ${booking.date} ${booking.startTime} - ${booking.endTime}`
@@ -15,7 +15,8 @@ export const BookingSuccess = (booking) => {
 
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,
-    setIsSelectedSlot = props.setIsSelectedSlot;
+    setIsSelectedSlot = props.setIsSelectedSlot,
+    isSearchingSubject = props.isSearchingSubject;
 
   //table variables
   const columns = [
@@ -99,8 +100,12 @@ export const ResultDisplay = (props) => {
 
   //test data (ACC101)
   //! Fetch API here -> BookingList by Subject ID
-  const BookingList = [
-    {
+  const BookingList = [];
+
+  //fetch...... {isSearchingSubject}
+  //after fetch: (demo)
+  if (isSearchingSubject === "SWP391") {
+    BookingList.push({
       id: 1,
       lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
       date: "01/10/2023",
@@ -108,8 +113,8 @@ export const ResultDisplay = (props) => {
       endTime: "15:00",
       subject: "SWP391",
       password: "abc",
-    },
-    {
+    });
+    BookingList.push({
       id: 2,
       lecturer: "Tran Cong Lam (K17 HCM)",
       date: "01/10/2023",
@@ -117,11 +122,35 @@ export const ResultDisplay = (props) => {
       endTime: "17:00",
       subject: "SWP391",
       password: null,
-    },
-  ];
+    });
+  }
+  if (isSearchingSubject === "SWT301") {
+    BookingList.push({
+      id: 1,
+      lecturer: "Khang Dep Zai",
+      date: "01/10/2023",
+      startTime: "13:30",
+      endTime: "15:00",
+      subject: "SWT301",
+      password: "abc",
+    });
+    BookingList.push({
+      id: 2,
+      lecturer: "Lam Djt Thui",
+      date: "01/10/2023",
+      startTime: "16:30",
+      endTime: "17:00",
+      subject: "SWT301",
+      password: null,
+    });
+  }
 
   return (
     <>
+      {" "}
+      {isSearchingSubject !== "" && (
+        <Alert message={`Found ${BookingList.length} slots for subject ${isSearchingSubject}`} type="info" showIcon closable />
+      )}
       {/* Table of result */}
       <Table
         className="tableOfLocations"

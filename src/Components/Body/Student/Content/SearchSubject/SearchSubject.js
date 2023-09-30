@@ -2,7 +2,7 @@ import { SearchBar } from "./SearchBar";
 import { ResultDisplay } from "./ResultDisplay";
 import { PopupInputPassword } from "./PopupInputPassword";
 import { useState } from "react";
-import { Typography } from "antd";
+import { Typography, Space } from "antd";
 
 export const SearchSubject = () => {
   const { Title } = Typography;
@@ -16,11 +16,19 @@ export const SearchSubject = () => {
           <Title className="sectionTitle" level={3}>
             SUBJECTS SEARCH
           </Title>
-          <SearchBar setIsSearchingSubject={setIsSearchingSubject} />
-          <ResultDisplay setIsSelectedSlot={setIsSelectedSlot} />
+          <Space direction="vertical" style={{ width: "100%" }}>
+            <SearchBar setIsSearchingSubject={setIsSearchingSubject} />
+            <ResultDisplay
+              setIsSelectedSlot={setIsSelectedSlot}
+              isSearchingSubject={isSearchingSubject}
+            />
+          </Space>
         </>
       ) : (
-        <PopupInputPassword setIsSelectedSlot={setIsSelectedSlot} isSelectedSlot={isSelectedSlot} />
+        <PopupInputPassword
+          setIsSelectedSlot={setIsSelectedSlot}
+          isSelectedSlot={isSelectedSlot}
+        />
       )}
     </div>
   );
