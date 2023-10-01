@@ -117,8 +117,6 @@ export const LectuerCalenderView = (props) => {
   //get curren time
   return (
     <div className="CalenderViewContainer">
-      {console.log("INPUT SLOT LIST")}
-      {console.log(slotList)}
       {/* Support Buttons */}
       <div className="CalenderViewSupportBtn">
         {/* back to previous week */}

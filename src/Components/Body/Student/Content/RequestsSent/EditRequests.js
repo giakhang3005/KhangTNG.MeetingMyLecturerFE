@@ -24,9 +24,11 @@ export function EditRequests(props) {
     const result = {
       ...data,
       note: data.note === "" ? null : data.note,
-      //! get Booker then send to backend
-      booker: null,
+      status: isSelectedBooking.status,
+      //! get student then send to backend
+      student: isSelectedBooking.student,
     };
+    console.log(result);
 
 
     message.success("Updated booking")

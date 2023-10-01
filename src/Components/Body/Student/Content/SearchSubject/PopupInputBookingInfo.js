@@ -26,7 +26,8 @@ export function PopupInputPassword(props) {
       const result = {
         ...data,
         note: data.note === "" ? null : data.note,
-        booker: null,
+        //! Add student
+        student: null,
       };
       BookingSuccess(result);
       setIsSelectedSlot([]);
@@ -35,7 +36,8 @@ export function PopupInputPassword(props) {
         const result = {
           ...data,
           note: data.note === "" ? null : data.note,
-          booker: null,
+          //! Add student
+          student: null,
         };
         BookingSuccess(result);
         setIsSelectedSlot([]);

@@ -91,10 +91,15 @@ export const EditingSlot = (props) => {
 
         const result = {
           ...data,
-          password: data.password.trim() === "" ? null : data.password.trim(),
+          password:
+            data.password === null || data.password === undefined
+              ? null
+              : data.password.trim() === ""
+              ? null
+              : data.password.trim(),
           startTime: startTimeString,
           endTime: endTimeString,
-          lecturer: null,
+          lecturer: editingSlot.lecturer,
         };
         //TODO: For Backend
         console.log(result);
@@ -179,8 +184,6 @@ export const EditingSlot = (props) => {
           </Form.Item>
 
           {/* Location */}
-          {console.log("Input locations")}
-          {console.log(locations)}
           <Form.Item
             name="location"
             label="Location"
@@ -194,8 +197,6 @@ export const EditingSlot = (props) => {
           </Form.Item>
 
           {/* Subject */}
-          {console.log("Input subjects")}
-          {console.log(subjects)}
           <Form.Item
             name="subject"
             label="Subject"

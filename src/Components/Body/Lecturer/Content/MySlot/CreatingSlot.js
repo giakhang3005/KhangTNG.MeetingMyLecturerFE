@@ -79,9 +79,23 @@ export const CreatingSlot = (props) => {
       message.success(
         `Created slot at ${data.date.$d.getDate()}/${
           data.date.$d.getMonth() + 1
-        }/${
-          data.date.$y
-        } ${startTime.$d.getHours()}:${startTime.$d.getMinutes()} - ${endTime.$d.getHours()}:${endTime.$d.getMinutes()}`
+        }/${data.date.$y} ${
+          startTime.$d.getHours() < 10
+            ? `0${startTime.$d.getHours()}`
+            : startTime.$d.getHours()
+        }:${
+          startTime.$d.getMinutes() < 10
+            ? `0${startTime.$d.getMinutes()}`
+            : startTime.$d.getMinutes()
+        } - ${
+          endTime.$d.getHours() < 10
+            ? `0${endTime.$d.getHours()}`
+            : endTime.$d.getHours()
+        }:${
+          endTime.$d.getMinutes() < 10
+            ? `0${endTime.$d.getMinutes()}`
+            : endTime.$d.getMinutes()
+        }`
       );
       //forward to view
       setCreatedSlotView("");
@@ -89,10 +103,16 @@ export const CreatingSlot = (props) => {
 
       const result = {
         ...data,
-        password: data.password.trim() === "" ? null : data.password.trim(),
+        password:
+          data.password === null || data.password === undefined
+            ? null
+            : data.password.trim() === ""
+            ? null
+            : data.password.trim(),
         startTime: startTimeString,
         endTime: endTimeString,
         date: dateString,
+        //! Add lecturer
         lecturer: null,
       };
       console.log(result);

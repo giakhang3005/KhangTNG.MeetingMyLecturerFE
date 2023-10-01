@@ -1,6 +1,5 @@
 import { Button, Table, message, Popover, Alert } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
-import { useState } from "react";
 
 //Handle success -> Book -> export for popup input password
 export const BookingSuccess = (booking) => {
@@ -141,7 +140,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWT301") {
     BookingList.push({
       id: 1,
-      lecturer: "Khang Dep Zai",
+      lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
@@ -150,7 +149,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
-      lecturer: "Lam Djt Thui",
+      lecturer: "Tran Cong Lam (K17 HCM)",
       date: "01/10/2023",
       startTime: "16:30",
       endTime: "17:00",
