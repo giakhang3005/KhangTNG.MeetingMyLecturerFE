@@ -69,12 +69,6 @@ export const Body = (props) => {
             ) : (
               //others/no role
               <>
-                <input
-                  onChange={(event) => setInput(event.target.value)}
-                />
-                <button onClick={() => setRole(input)}>Add role</button>
-                <br />
-                lecturer, student, admin
                 <Login />
               </>
             )

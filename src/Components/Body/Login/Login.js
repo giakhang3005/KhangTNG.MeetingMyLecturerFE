@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import { Button, Alert, Form, Input, Typography } from "antd";
+import { Button, Alert, Form, Input, Typography, message } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Data } from "../Body";
@@ -74,7 +74,24 @@ export const Login = () => {
 
   // Handle login by username & password
   const handleLoginByUsernameFinish = (data) => {
-    console.log(data);
+    //test lecturer account
+    const lecturerTestAccount = {id: "lecturer@test", password: "test@123", role: "lecturer", name: "Test Lecturer Account"}
+
+    if(data.userId === lecturerTestAccount.id && data.password === lecturerTestAccount.password) {
+      //!Get full user from DB using data.username & data.password
+      const FinalUser = {...lecturerTestAccount}
+
+      // Set Internal state
+      setUser(FinalUser);
+      setRole(FinalUser.role);
+
+      //encode user
+      const encodedUser = btoa(JSON.stringify(FinalUser))
+      //! Save to session storage
+      sessionStorage.setItem("user", encodedUser);
+    } else {
+      message.error("Invalid username or password!")
+    }
   };
 
   return (
@@ -96,8 +113,8 @@ export const Login = () => {
           Login Form
         </Title>
         <Form.Item
-          name="username"
-          label="Username"
+          name="userId"
+          label="UserID"
           className="input"
           rules={[{ required: true }]}
         >
