@@ -3,9 +3,6 @@ import { LockFilled, UnlockFilled } from "@ant-design/icons";
 
 //Handle success -> Book -> export for popup input password
 export const BookingSuccess = (booking) => {
-  //TODO: For Backend
-  //! Place API here
-
   message.success(`Requets sent to ${booking.lecturer}`);
   message.info(
     `Slot Info: ${booking.date} ${booking.startTime} - ${booking.endTime}`

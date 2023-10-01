@@ -24,25 +24,33 @@ export function PopupInputPassword(props) {
   const handleSubmit = (data) => {
     if (isSelectedSlot.password === null) {
       const result = {
-        ...data,
+        id: data.id,
+        slotId: isSelectedSlot.slotId,
         note: data.note === undefined ? null : data.note,
         //! Add student
         student: null,
       };
+      //TODO: For Backend
+      //! Place API here
+
       console.log(result);
-      BookingSuccess(result);
+      BookingSuccess(data);
       setIsSelectedSlot([]);
     } else {
       if (data.password === isSelectedSlot.password) {
         const result = {
-          ...data,
+          id: data.id,
           slotId: isSelectedSlot.slotId,
           note: data.note === undefined ? null : data.note,
           //! Add student
           student: null,
         };
+
+        //TODO: For Backend
+        //! Place API here
+
         console.log(result);
-        BookingSuccess(result);
+        BookingSuccess(data);
         setIsSelectedSlot([]);
       } else {
         message.error("Password does not match");
