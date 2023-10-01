@@ -90,7 +90,10 @@ export const EditingSlot = (props) => {
         );
 
         const result = {
-          ...data,
+          id: data.id,
+          mode: data.mode,
+          subject: data.subject,
+          location: data.location,
           password:
             data.password === null || data.password === undefined
               ? null
@@ -99,7 +102,6 @@ export const EditingSlot = (props) => {
               : data.password.trim(),
           startTime: startTimeString,
           endTime: endTimeString,
-          lecturer: editingSlot.lecturer,
         };
         //TODO: For Backend
         console.log(result);

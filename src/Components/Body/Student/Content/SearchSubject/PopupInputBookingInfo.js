@@ -25,20 +25,23 @@ export function PopupInputPassword(props) {
     if (isSelectedSlot.password === null) {
       const result = {
         ...data,
-        note: data.note === "" ? null : data.note,
+        note: data.note === undefined ? null : data.note,
         //! Add student
         student: null,
       };
+      console.log(result);
       BookingSuccess(result);
       setIsSelectedSlot([]);
     } else {
       if (data.password === isSelectedSlot.password) {
         const result = {
           ...data,
-          note: data.note === "" ? null : data.note,
+          slotId: isSelectedSlot.slotId,
+          note: data.note === undefined ? null : data.note,
           //! Add student
           student: null,
         };
+        console.log(result);
         BookingSuccess(result);
         setIsSelectedSlot([]);
       } else {

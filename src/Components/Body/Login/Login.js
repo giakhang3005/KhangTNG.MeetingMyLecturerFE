@@ -8,8 +8,8 @@ import "./LoginStyle.css";
 
 export const Login = () => {
   const { Title } = Typography;
-  // User -> user.name, email, picture, id
-  const { user, setUser } = useContext(Data);
+  // User -> user.name, email, picture, id, role...
+  const { user, setUser, setRole } = useContext(Data);
   const { isErr, setIsErr } = useState(false);
 
   // Email check
@@ -39,13 +39,24 @@ export const Login = () => {
             res.data.email.includes(feEmail)
           ) {
             setCheckMailErr(false);
-            setUser(res.data);
+            const userFromGg = res.data;
+            //! call database, if database does not exist -> add data to database (default role: student)
+
+            //! If user (check by email) exists, get role
+            const role = "student"; //this role fetch from DB
+
+            //user with role
+            const finalUser = {...userFromGg, role}
+
+            // Set Internal state
+            setUser(finalUser);
+            setRole(role);
+
+            //! Save to session storage
+            sessionStorage.setItem("user", JSON.stringify(finalUser));
           } else {
             setCheckMailErr(true);
           }
-          //! call database, if database does not exist -> add data to database (default role: student)
-          //! If user exists, get role
-          //! Save to local storage
         })
         .catch((err) => {
           setIsErr(true);

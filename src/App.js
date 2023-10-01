@@ -6,7 +6,8 @@ import {useState} from 'react';
 
 function App() {
   // User
-  const [user, setUser] = useState(null);
+  const startUser = sessionStorage.user === undefined ? null : JSON.parse(sessionStorage.user);
+  const [user, setUser] = useState(startUser);
   return (
     <>
     <GoogleOAuthProvider clientId="669729803056-i161n4ah2i4s7rdrbchrv2jf4km0ciqr.apps.googleusercontent.com">

@@ -22,16 +22,14 @@ export function EditRequests(props) {
   };
   const handleSubmit = (data) => {
     const result = {
-      ...data,
+      id: data.id,
       note: data.note === "" ? null : data.note,
-      status: isSelectedBooking.status,
       //! get student then send to backend
       student: isSelectedBooking.student,
     };
     console.log(result);
 
-
-    message.success("Updated booking")
+    message.success("Updated booking");
     setIsSelectedBooking([]);
   };
 

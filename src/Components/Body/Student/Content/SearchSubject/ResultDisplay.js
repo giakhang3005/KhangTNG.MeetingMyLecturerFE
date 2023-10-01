@@ -111,6 +111,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWP391") {
     BookingList.push({
       id: 1,
+      slotId: 'b',
       lecturer: "Test có pass",
       date: "01/10/2023",
       startTime: "13:30",
@@ -120,6 +121,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
+      slotId: 'a',
       lecturer: "Test không có pass",
       date: "01/10/2023",
       startTime: "16:30",
@@ -129,6 +131,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 3,
+      slotId: 'c',
       lecturer: "test đã book",
       date: "01/10/2023",
       startTime: "16:30",
@@ -140,6 +143,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWT301") {
     BookingList.push({
       id: 1,
+      slotId: 'c',
       lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
       date: "01/10/2023",
       startTime: "13:30",
@@ -149,6 +153,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
+      slotId: 'c',
       lecturer: "Tran Cong Lam (K17 HCM)",
       date: "01/10/2023",
       startTime: "16:30",
