@@ -6,7 +6,8 @@ import {useState} from 'react';
 
 function App() {
   // User
-  const startUser = sessionStorage.user === undefined ? null : JSON.parse(sessionStorage.user);
+  //atob == decode
+  const startUser = sessionStorage.user === undefined ? null : JSON.parse(atob(sessionStorage.user));
   const [user, setUser] = useState(startUser);
   return (
     <>

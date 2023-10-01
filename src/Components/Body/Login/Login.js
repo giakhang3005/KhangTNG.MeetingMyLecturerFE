@@ -52,8 +52,10 @@ export const Login = () => {
             setUser(finalUser);
             setRole(role);
 
+            //encode user
+            const encodedUser = btoa(JSON.stringify(finalUser))
             //! Save to session storage
-            sessionStorage.setItem("user", JSON.stringify(finalUser));
+            sessionStorage.setItem("user", encodedUser);
           } else {
             setCheckMailErr(true);
           }
@@ -114,6 +116,7 @@ export const Login = () => {
             Login
           </Button>
         </Form.Item>
+
         {/* signin with google */}
         <Button
           style={Object.assign(
