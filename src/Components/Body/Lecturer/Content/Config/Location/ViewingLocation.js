@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Typography, Table } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
+import axios from "axios";
 import {
   PlusCircleFilled,
   EditOutlined,
@@ -22,9 +23,8 @@ export const ViewingLocation = (props) => {
     isError,
     refetch,
   } = useQuery(["locations"], () => {
-    return fetch("https://retoolapi.dev/xGHy24/data").then((res) => res.json()); //fetching and turn it into json
+    return axios.get("https://retoolapi.dev/xGHy24/data").then((response) =>  response.data); //fetching and turn it into json
   });
-
   //columns of table
   const columns = [
     {

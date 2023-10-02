@@ -24,8 +24,7 @@ export function PopupInputPassword(props) {
   const handleSubmit = (data) => {
     if (isSelectedSlot.password === null) {
       const result = {
-        id: data.id,
-        slotId: isSelectedSlot.slotId,
+        slotId: isSelectedSlot.id,
         note: data.note === undefined ? null : data.note,
         //! Add student
         student: null,
@@ -33,14 +32,13 @@ export function PopupInputPassword(props) {
       //TODO: For Backend
       //! Place API here
 
-      console.log(result);
+      console.log(JSON.stringify(result));
       BookingSuccess(data);
       setIsSelectedSlot([]);
     } else {
       if (data.password === isSelectedSlot.password) {
         const result = {
-          id: data.id,
-          slotId: isSelectedSlot.slotId,
+          slotId: isSelectedSlot.id,
           note: data.note === undefined ? null : data.note,
           //! Add student
           student: null,
@@ -49,7 +47,7 @@ export function PopupInputPassword(props) {
         //TODO: For Backend
         //! Place API here
 
-        console.log(result);
+        console.log(JSON.stringify(result));
         BookingSuccess(data);
         setIsSelectedSlot([]);
       } else {
@@ -69,6 +67,7 @@ export function PopupInputPassword(props) {
           <Form.Item name="id" label="ID" rules={[{ required: true }]}>
             <Input disabled />
           </Form.Item>
+
           {/* Subject */}
           <Form.Item
             name="subject"

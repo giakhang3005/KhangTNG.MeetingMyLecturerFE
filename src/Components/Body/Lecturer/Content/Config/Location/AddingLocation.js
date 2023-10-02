@@ -17,7 +17,7 @@ export const AddingLocation = (props) => {
   //handle submit
   const handleSubmit = (data) => {
     //TODO: For Backend
-    const result = {...data, lecturer: null,}
+    const result = {name: data.name, address: data.address, lecturer: null,}
     console.log(result)
     
     //! Place fetching ADD API here

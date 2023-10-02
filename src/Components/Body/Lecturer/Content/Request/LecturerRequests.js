@@ -57,7 +57,7 @@ export const LecturerRequests = () => {
               content={
                 <ol>
                   {booking.alsoBookThisSlot.name.map((studentName) => {
-                    return <li>{studentName}</li>;
+                    return <li key={studentName}>{studentName}</li>;
                   })}
                 </ol>
               }
@@ -133,8 +133,6 @@ export const LecturerRequests = () => {
 
   return (
     <>
-      {console.log("INPUT BOOKING")}
-      {console.log(BookingList)}
       <Title className="sectionTitle" level={3}>
         BOOKING REQUESTS
       </Title>

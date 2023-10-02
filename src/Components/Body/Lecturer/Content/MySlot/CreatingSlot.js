@@ -102,7 +102,10 @@ export const CreatingSlot = (props) => {
       //TODO: For Backend
 
       const result = {
-        ...data,
+        studentemail: data.studentemail,
+        mode: data.mode,
+        location: data.location,
+        subject: data.subject,
         password:
           data.password === null || data.password === undefined
             ? null

@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { Data } from "../../Body";
-import { LecturerMenu } from "./LecturerMenu";
+import { AdminMenu } from "./AdminMenu";
 import { Button } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 
-export const LecturerSider = () => {
+export const AdminSider = () => {
   // Set menu state
   const [menuState, setMenuState] = useState(true);
+
   return (
     <div className="Sider">
       {/* Button */}
@@ -23,7 +24,7 @@ export const LecturerSider = () => {
       {menuState && (
         <>
           {/* Menu */}
-          <LecturerMenu />
+          <AdminMenu />
         </>
       )}
     </div>

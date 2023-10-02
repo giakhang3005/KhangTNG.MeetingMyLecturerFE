@@ -3,13 +3,14 @@ import { ConfigProvider } from "antd";
 import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
 import { Lecturer } from "./Lecturer/Lecturer";
 import { Student } from "./Student/Student";
+import { Admin } from "./Admin/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {Login} from "./Login/Login";
+import { Login } from "./Login/Login";
 
 export const Data = createContext();
 export const Body = (props) => {
   const user = props.user,
-  setUser = props.setUser;
+    setUser = props.setUser;
   //Create new client
   const client = new QueryClient();
 
@@ -18,9 +19,12 @@ export const Body = (props) => {
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));
 
-  //! Get role in localStorage 
-  const startRole = sessionStorage.user === undefined ? null : JSON.parse(atob(sessionStorage.user)).role;
-  const [role, setRole] = useState(startRole); 
+  //! Get role in localStorage
+  const startRole =
+    sessionStorage.user === undefined
+      ? null
+      : JSON.parse(atob(sessionStorage.user)).role;
+  const [role, setRole] = useState(startRole);
 
   //default MenuOpt
   const [menuOpt, setMenuOpt] = useState("default");
@@ -65,7 +69,7 @@ export const Body = (props) => {
               <Student setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
             ) : // else if role === admin
             role === "admin" ? (
-              <>Admin</>
+              <Admin setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
             ) : (
               //others/no role
               <>

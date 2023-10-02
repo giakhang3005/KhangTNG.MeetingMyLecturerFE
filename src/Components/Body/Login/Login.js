@@ -11,6 +11,7 @@ export const Login = () => {
   // User -> user.name, email, picture, id, role...
   const { user, setUser, setRole } = useContext(Data);
   const { isErr, setIsErr } = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Email check
   const fptEmail = "@fpt.edu.vn",
@@ -18,7 +19,7 @@ export const Login = () => {
   const [checkMailErr, setCheckMailErr] = useState(false);
 
   //Handle login by gmail
-  const login = useGoogleLogin({
+  const loginWithGG = useGoogleLogin({
     // Succes
     onSuccess: (codeResponse) =>
       // Fetch User data
@@ -46,14 +47,14 @@ export const Login = () => {
             const role = "student"; //this role fetch from DB
 
             //user with role
-            const finalUser = {...userFromGg, role}
+            const finalUser = { ...userFromGg, role };
 
             // Set Internal state
             setUser(finalUser);
             setRole(role);
 
             //encode user
-            const encodedUser = btoa(JSON.stringify(finalUser))
+            const encodedUser = btoa(JSON.stringify(finalUser));
             //! Save to session storage
             sessionStorage.setItem("user", encodedUser);
           } else {
@@ -64,33 +65,58 @@ export const Login = () => {
           setIsErr(true);
           console.log(err);
         })
-        .finally(() => {}),
+        .finally(() => {
+          // setIsLoading(false)
+        }),
     // error
     onError: (error) => {
       setIsErr(true);
+      // setIsLoading(false)
       console.log("Login Failed:", error);
     },
   });
 
+  const handleSignin = () => {
+    // setIsLoading(true)
+    loginWithGG();
+  };
+
   // Handle login by username & password
   const handleLoginByUsernameFinish = (data) => {
     //test lecturer account
-    const lecturerTestAccount = {id: "lecturer@test", password: "test@123", role: "lecturer", name: "Test Lecturer Account"}
+    const lecturerTestAccount = {
+      id: "lecturer@test",
+      password: "test@123",
+      role: "lecturer",
+      name: "Test Lecturer Account",
+    };
+    const adminTestAccount = {
+      id: "admin@test",
+      password: "test@123",
+      role: "admin",
+      name: "Test Admin Account",
+    };
 
-    if(data.userId === lecturerTestAccount.id && data.password === lecturerTestAccount.password) {
+    if (
+      (data.userId === lecturerTestAccount.id &&
+        data.password === lecturerTestAccount.password) ||
+      (data.userId === adminTestAccount.id &&
+        data.password === adminTestAccount.password)
+    ) {
       //!Get full user from DB using data.username & data.password
-      const FinalUser = {...lecturerTestAccount}
+      let FinalUser = {}
+      data.userId === lecturerTestAccount.id ? FinalUser = { ...lecturerTestAccount } : FinalUser = { ...adminTestAccount };
 
       // Set Internal state
       setUser(FinalUser);
       setRole(FinalUser.role);
 
       //encode user
-      const encodedUser = btoa(JSON.stringify(FinalUser))
+      const encodedUser = btoa(JSON.stringify(FinalUser));
       //! Save to session storage
       sessionStorage.setItem("user", encodedUser);
     } else {
-      message.error("Invalid username or password!")
+      message.error("Invalid username or password!");
     }
   };
 
@@ -141,8 +167,9 @@ export const Login = () => {
             { margin: "0 0 10px 0" },
             { height: "40px" }
           )}
+          loading={isLoading}
           icon={<GoogleOutlined />}
-          onClick={login}
+          onClick={() => handleSignin()}
         >
           Sign in with Google
         </Button>
