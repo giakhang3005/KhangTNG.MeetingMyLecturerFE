@@ -12,7 +12,7 @@ export const Nav = (props) => {
     <div className="Nav">
       <Title level={5} className="logo">
         {/* Logo */}
-        MEETING MY LECTURERS
+        <img src="../navBarLogo.png" style={Object.assign({height: '43px'}, {margin: '6px 0 0 0'}, {padding: 0})} />
       </Title>
 
       {/* User */}

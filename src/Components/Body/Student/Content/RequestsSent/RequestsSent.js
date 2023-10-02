@@ -1,21 +1,26 @@
 import React from "react";
 import { useState } from "react";
-import {RequestsView} from "./RequestsView"
-import { EditRequests } from "./EditRequests";
+import { RequestsView } from "./RequestsView";
+import { RequestsInfo } from "./RequestsInfo";
 
 export function RequestsSent() {
+  const [requestsView, setRequestsView] = useState("view");
   const [isSelectedBooking, setIsSelectedBooking] = useState([]);
   return (
     <>
-      {isSelectedBooking.length === 0 ? (
+      {requestsView === "view" ? (
         <RequestsView
-        setIsSelectedBooking={setIsSelectedBooking}
+          setIsSelectedBooking={setIsSelectedBooking}
+          setRequestsView={setRequestsView}
         />
-      ) : (
-        <EditRequests
+      ) : requestsView === "info" ? (
+        <RequestsInfo
           isSelectedBooking={isSelectedBooking}
           setIsSelectedBooking={setIsSelectedBooking}
+          setRequestsView={setRequestsView}
         />
+      ) : (
+        <></>
       )}
     </>
   );

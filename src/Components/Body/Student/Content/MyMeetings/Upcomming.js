@@ -1,4 +1,5 @@
 import { Button, Table, Typography } from "antd";
+import { Accept, Decline, Pending } from "../RequestsSent/RequestStatusTag";
 
 import React from "react";
 
@@ -19,35 +20,63 @@ export function Upcomming() {
     },
     {
       key: "3",
-      title: "Date",
-      dataIndex: "date",
-    },
-    {
-      key: "4",
-      title: "Start Time",
-      dataIndex: "startTime",
-    },
-    {
-      key: "5",
-      title: "End Time",
-      dataIndex: "endTime",
+      title: "Time",
+      render: (meeting) => {
+        return <>{meeting.date} ({meeting.startTime} - {meeting.endTime})</>
+      }
     },
     {
       key: "6",
       title: "Subject",
       dataIndex: "subject",
     },
+    {
+      key: "7",
+      title: "Location",
+      render: (meeting) => {
+        return (
+          <>
+            {meeting.location.name} ({meeting.location.address})
+          </>
+        );
+      },
+    },
+    {
+      key: "8",
+      title: "Your note",
+      dataIndex: "note",
+    },
+    {
+        key: "9",
+        title: "Status",
+        render: (meeting) => {
+          switch (meeting.status.toLowerCase()) {
+            case "accept":
+              return <Accept />;
+            case "decline":
+              return <Decline />;
+            default:
+              return <Pending />;
+          }
+        },
+      },
   ];
 
   //test data
   const upcommingMeetings = [
     {
       id: 1,
-      lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
-      date: "03/10/2023",
+      lecturer: "Truong Nguyen Gia Khang",
+      date: "05/10/2023",
       startTime: "13:30",
       endTime: "15:00",
       subject: "SWT301",
+      note: "hello teacher",
+      status: "accept",
+      location: {
+        name: "FPT",
+        address: "Khu cong nghe cao, quan 9, TP Thu Duc",
+      },
     },
   ];
   return (

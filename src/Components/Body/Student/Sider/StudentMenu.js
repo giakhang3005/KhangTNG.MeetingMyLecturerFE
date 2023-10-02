@@ -18,7 +18,7 @@ export const StudentMenu = () => {
   //Item for menu
   const menuItems = [
     { label: "Home", icon: <HomeFilled />, key: "studentDashboard" },
-    { label: "Search", icon: <SearchOutlined />, key: "subjectSearch" },
+    { label: "Booking", icon: <SearchOutlined />, key: "subjectSearch" },
     {
       label: "My Meetings",
       icon: <TeamOutlined />,
@@ -30,9 +30,9 @@ export const StudentMenu = () => {
           key: "upcommingMeetings",
         },
         { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
+        { label: "Requests sent", icon: <BellFilled />, key: "sentRequests" },
       ],
     },
-    { label: "Requests sent", icon: <BellFilled />, key: "sentRequests" },
   ];
   //selectedKeys
   return (

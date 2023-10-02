@@ -14,7 +14,7 @@ export const SearchSubject = () => {
       {isSelectedSlot.length === 0 ? (
         <>
           <Title className="sectionTitle" level={3}>
-            SUBJECTS SEARCH
+            BOOKING
           </Title>
           <Space direction="vertical" style={{ width: "100%" }}>
             <SearchBar setIsSearchingSubject={setIsSearchingSubject} />

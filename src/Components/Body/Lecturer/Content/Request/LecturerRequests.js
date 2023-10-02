@@ -100,7 +100,12 @@ export const LecturerRequests = () => {
   //handle edit slot
   const acceptBooking = (booking) => {
     //TODO: For Backend
-    console.log(booking)
+    const result = {
+      id: booking.id,
+      status: "accepted",
+    };
+
+    console.log(result);
 
     //! Place API here
 
@@ -109,6 +114,11 @@ export const LecturerRequests = () => {
 
   //handle delete click
   const declineBooking = (booking) => {
+    const result = {
+      id: booking.id,
+      status: "accepted",
+    };
+
     //! Place API here
 
     message.error(`Declined ${booking.username}'s Booking`);

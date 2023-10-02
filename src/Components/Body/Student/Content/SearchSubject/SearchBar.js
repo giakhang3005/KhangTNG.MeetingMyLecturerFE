@@ -14,8 +14,8 @@ export function SearchBar(props) {
   const subjects = ["SWP391", "SWT301", "SWR302"];
   return (
     <Row>
-      <Col xs={2} md={6}></Col>
-      <Col xs={20} md={12}>
+      {/* <Col xs={2} md={6}></Col> */}
+      <Col xs={17} md={9}>
         <Select
           suffixIcon={<SearchOutlined />}
           placeholder="Ex: SWP391,..."
