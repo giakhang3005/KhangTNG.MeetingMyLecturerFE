@@ -4,6 +4,9 @@
   margin: 25px 0 0 0;
   background: white;
 }
+.ant-col {
+  background: white;
+}
 .LecturerContent {
   display: flex;
   justify-content: center;
