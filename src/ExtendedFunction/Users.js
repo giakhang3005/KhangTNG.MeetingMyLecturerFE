@@ -13,11 +13,11 @@ export const LogOutBtn = () => {
     //logout
     googleLogout();
     setUser(null); 
-    setRole(null)
+    setRole(null);
 
     //! Delete user & role in session storage
     sessionStorage.removeItem('user')
-    
+
     //message
     message.error({
       content: "Logged out",

@@ -20,7 +20,7 @@ export function RequestsViewPending(props) {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWP391"],
       note: "test",
       status: "pending",
       location: {

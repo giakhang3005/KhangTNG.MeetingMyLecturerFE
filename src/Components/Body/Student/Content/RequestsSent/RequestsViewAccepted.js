@@ -20,7 +20,7 @@ export function RequestsViewAccepted(props) {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWT301"],
       note: "hello teacher",
       status: "accept",
       location: {

@@ -55,11 +55,10 @@ export function RequestsInfo(props) {
 
   const handleDeleteBooking = () => {
     if (isSelectedBooking.status === "pending") {
-        cancelBooking(isSelectedBooking.id, setRequestsView);
-      } else {
-        message.error("You can only delete pending booking requests");
-      }
-    
+      cancelBooking(isSelectedBooking.id, setRequestsView);
+    } else {
+      message.error("You can only delete pending booking requests");
+    }
   };
 
   return (
@@ -76,90 +75,221 @@ export function RequestsInfo(props) {
       >
         Back
       </Button>
-
       <Row>
         <Col xs={1}></Col>
-        <Col>
-          <Title level={5}>ID:</Title>
-          <Title level={5}>Lecturer:</Title>
-          <Title level={5}>Date:</Title>
-          <Title level={5}>Start time:</Title>
-          <Title level={5}>End time:</Title>
-          <Title level={5}>Location:</Title>
-          <Title level={5}>Subject:</Title>
-          <Title level={5}>Status:</Title>
-          <Title level={5}>Note:</Title>
-        </Col>
-        <Col xs={1}></Col>
-        <Col>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.id}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.lecturer}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.date}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.startTime}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.endTime}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.location.name} (
-            {isSelectedBooking.location.address})
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {isSelectedBooking.subject}
-          </Title>
-          <Title level={5} style={{ "font-weight": "400" }}>
-            {setStatusTag(isSelectedBooking.status)}
-          </Title>
-          <Popover
-            content={
-              isSelectedBooking.status !== "pending" &&
-              "You can only edit note for pending requests"
-            }
-          >
-            <TextArea
-              value={inputNote}
-              onChange={onChange}
-              placeholder={
-                isSelectedBooking.status === "pending" &&
-                "Questions, Notes for lecturer"
-              }
-              disabled={isSelectedBooking.status !== "pending"}
-            />
-          </Popover>
+        <Col xs={23}>
+          {/* ID */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                ID:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.id}
+              </Title>
+            </Col>
+          </Row>
 
-          {/* Update note */}
-          <Button
-            style={{ margin: "12px 0 0 0" }}
-            icon={<FormOutlined />}
-            onClick={() => handleUpdateNote()}
-          >
-            Update note
-          </Button>
+          {/* Lecturer */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Lecturer:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.lecturer}
+              </Title>
+            </Col>
+          </Row>
 
-          {/* Delete */}
-          <Popconfirm
-            title="Delete booking confirm"
-            description={`Are you sure to delete this booking request?`}
-            okText="Delete"
-            icon={<CloseOutlined style={{ color: "red" }} />}
-            onConfirm={handleDeleteBooking}
-          >
-            <Button
-              style={{ margin: "12px 0 0 8px" }}
-              icon={<CloseOutlined />}
-              danger
-              type="primary"
-            >
-              Delete booking
-            </Button>
-          </Popconfirm>
+          {/* Date */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Date:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.date}
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Start Time */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Start Time:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.startTime}
+              </Title>
+            </Col>
+          </Row>
+
+          {/* End Time */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                End Time:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.endTime}
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Location */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Location:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.location.name} (
+                {isSelectedBooking.location.address})
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Subject */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Subject:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {isSelectedBooking.subject}
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Status */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Status:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                {setStatusTag(isSelectedBooking.status)}
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Note */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Note:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ "font-weight": "400" }}
+              >
+                <Popover
+                  content={
+                    isSelectedBooking.status !== "pending" &&
+                    "You can only edit note for pending requests"
+                  }
+                >
+                  <TextArea
+                    value={inputNote}
+                    onChange={onChange}
+                    placeholder={
+                      isSelectedBooking.status === "pending" &&
+                      "Questions, Notes for lecturer"
+                    }
+                    disabled={isSelectedBooking.status !== "pending"}
+                  />
+                </Popover>
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Buttons */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}></Title>
+            </Col>
+            <Col xs={15} md={10}>
+              {/* Update note */}
+              <Button
+                style={{ margin: "12px 0 0 0" }}
+                icon={<FormOutlined />}
+                onClick={() => handleUpdateNote()}
+              >
+                Update note
+              </Button>
+
+              {/* Delete */}
+              <Popconfirm
+                title="Delete booking confirm"
+                description={`Are you sure to delete this booking request?`}
+                okText="Delete"
+                icon={<CloseOutlined style={{ color: "red" }} />}
+                onConfirm={handleDeleteBooking}
+              >
+                <Button
+                  style={{ margin: "12px 0 0 8px" }}
+                  icon={<CloseOutlined />}
+                  danger
+                  type="primary"
+                >
+                  Delete booking
+                </Button>
+              </Popconfirm>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>

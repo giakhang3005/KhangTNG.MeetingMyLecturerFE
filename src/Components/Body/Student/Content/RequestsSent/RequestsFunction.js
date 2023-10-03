@@ -50,7 +50,9 @@ export const tableColumn = (setRequestsView, setIsSelectedBooking) => {
     {
       key: "6",
       title: "Subject",
-      dataIndex: "subject",
+      render: (booking) => {
+        return booking.subject.map((subject) => `${subject}, `);
+      },
     },
     // {
     //   key: "7",
@@ -86,7 +88,7 @@ export const tableColumn = (setRequestsView, setIsSelectedBooking) => {
               <InfoCircleFilled
                 style={Object.assign(
                   { color: "#1c62d4" },
-                  { "font-size": "17px" }
+                  { fontSize: "17px" }
                 )}
                 onClick={() =>
                   viewInfo(booking, setRequestsView, setIsSelectedBooking)

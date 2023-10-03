@@ -1,13 +1,15 @@
 import React from "react";
-import { Typography, Table} from "antd";
-import {tableColumn} from './RequestsFunction'
+import { Typography, Table } from "antd";
+import { tableColumn } from "./RequestsFunction";
 
 export function RequestsViewAll(props) {
   const setIsSelectedBooking = props.setIsSelectedBooking,
     setRequestsView = props.setRequestsView;
   const { Title } = Typography;
-  
-    const columns = tableColumn(setRequestsView, setIsSelectedBooking);
+
+  //columns for table
+  const columns = tableColumn(setRequestsView, setIsSelectedBooking);
+
   //test data
   const RequestsSent = [
     {
@@ -16,10 +18,13 @@ export function RequestsViewAll(props) {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWP391"],
       note: "test",
       status: "pending",
-      location: {name: "FPT", address: "Khu cong nghe cao, quan 9, TP Thu Duc"}
+      location: {
+        name: "FPT",
+        address: "Khu cong nghe cao, quan 9, TP Thu Duc",
+      },
     },
     {
       id: 2,
@@ -27,10 +32,13 @@ export function RequestsViewAll(props) {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWT301", "SWP391"],
       note: null,
       status: "decline",
-      location: {name: "FPT", address: "Khu cong nghe cao, quan 9, TP Thu Duc"}
+      location: {
+        name: "FPT",
+        address: "Khu cong nghe cao, quan 9, TP Thu Duc",
+      },
     },
     {
       id: 3,
@@ -38,10 +46,13 @@ export function RequestsViewAll(props) {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWT301"],
       note: "hello teacher",
       status: "accept",
-      location: {name: "FPT", address: "Khu cong nghe cao, quan 9, TP Thu Duc"}
+      location: {
+        name: "FPT",
+        address: "Khu cong nghe cao, quan 9, TP Thu Duc",
+      },
     },
   ];
   return (

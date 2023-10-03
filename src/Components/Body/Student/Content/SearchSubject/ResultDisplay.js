@@ -12,7 +12,9 @@ export const BookingSuccess = (booking) => {
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,
     setIsSelectedSlot = props.setIsSelectedSlot,
-    isSearchingSubject = props.isSearchingSubject;
+    isSearchingSubject = props.isSearchingSubject,
+    startDate = props.startDate,
+    toDate = props.toDate;
 
   //table variables
   const columns = [
@@ -45,7 +47,11 @@ export const ResultDisplay = (props) => {
     {
       key: "6",
       title: "Subject",
-      dataIndex: "subject",
+      render: (booking) => {
+        return (
+            booking.subject.map((subject) => `${subject} `)
+        )
+      }
     },
     {
       key: "7",
@@ -113,7 +119,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWP391",
+      subject: ["SWP391"],
       password: "abc",
     });
     BookingList.push({
@@ -123,7 +129,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "16:30",
       endTime: "17:00",
-      subject: "SWP391",
+      subject: ["SWP391"],
       password: null,
     });
     BookingList.push({
@@ -133,7 +139,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "16:30",
       endTime: "17:00",
-      subject: "SWP391",
+      subject: ["SWP391"],
       password: null,
     });
   }
@@ -145,7 +151,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWP391"],
       password: "abc",
     });
     BookingList.push({
@@ -155,7 +161,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "16:30",
       endTime: "17:00",
-      subject: "SWT301",
+      subject: ["SWP391"],
       password: null,
     });
   }
@@ -164,7 +170,7 @@ export const ResultDisplay = (props) => {
     <>
       {isSearchingSubject !== "" && (
         <Alert
-          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject}`}
+          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject} ${startDate !== null ? `(${startDate.$D}/${startDate.$M}/${startDate.$y} - ${toDate.$D}/${toDate.$M}/${toDate.$y})` : ''}`}
           type="info"
           showIcon
         />

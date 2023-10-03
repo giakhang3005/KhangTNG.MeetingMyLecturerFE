@@ -28,7 +28,11 @@ export function Upcomming() {
     {
       key: "6",
       title: "Subject",
-      dataIndex: "subject",
+      render: (booking) => {
+        return (
+            booking.subject.map((subject) => `${subject}, `)
+        )
+      }
     },
     {
       key: "7",
@@ -70,7 +74,7 @@ export function Upcomming() {
       date: "05/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWT301"],
       note: "hello teacher",
       status: "accept",
       location: {

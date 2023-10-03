@@ -44,7 +44,11 @@ export const LecturerRequests = () => {
     {
       key: "6",
       title: "Subject",
-      dataIndex: "subject",
+      render: (booking) => {
+        return (
+            booking.subject.map((subject) => `${subject}, `)
+        )
+      }
     },
     {
       key: "7",
@@ -133,7 +137,7 @@ export const LecturerRequests = () => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "ACC101",
+      subject: ["ACC101"],
       alsoBookThisSlot: {
         amount: 2,
         name: ["Tran Cong Lam (K17 HCM)", "Truong Nguyen Gia Khang (K17 HCM)"],

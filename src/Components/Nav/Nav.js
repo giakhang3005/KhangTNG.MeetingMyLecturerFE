@@ -12,15 +12,24 @@ export const Nav = (props) => {
     <div className="Nav">
       <Title level={5} className="logo">
         {/* Logo */}
-        <img src="../navBarLogo.png" style={Object.assign({height: '33px'}, {margin: '6px 0 0 0'}, {padding: 0})} />
+        <img
+          src="../navBarLogo.png"
+          style={Object.assign(
+            { height: "33px" },
+            { margin: "6px 0 0 0" },
+            { padding: 0 }
+          )}
+        />
       </Title>
 
       {/* User */}
-      <div className="User">
-        <Text className="Name">{user?.name}</Text>
-        {/* <UserOutlined className="Icon" /> */}
-        {user !== null && <Avatar src={user?.picture} icon={<UserOutlined />}></Avatar>}
-      </div>
+        <div className="User">
+          <Text className="Name">{user?.name}</Text>
+          {/* <UserOutlined className="Icon" /> */}
+          {user !== null && (
+            <Avatar src={user?.picture} icon={<UserOutlined />}></Avatar>
+          )}
+        </div>
     </div>
   );
 };

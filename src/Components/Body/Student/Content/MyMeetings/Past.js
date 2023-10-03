@@ -35,7 +35,11 @@ export function Past() {
     {
       key: "6",
       title: "Subject",
-      dataIndex: "subject",
+      render: (booking) => {
+        return (
+            booking.subject.map((subject) => `${subject}, `)
+        )
+      }
     },
   ];
 
@@ -47,7 +51,7 @@ export function Past() {
       date: "28/09/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: "SWT301",
+      subject: ["SWT301"],
     },
   ];
   return (
