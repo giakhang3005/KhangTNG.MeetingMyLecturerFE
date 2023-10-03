@@ -61,6 +61,13 @@ export function SearchBar(props) {
   const handleSearch = (subject) => {
     setIsSearchingSubject(subject);
     //fetch subject, startDate, toDate
+    const startDateString =
+      startDate !== null
+        ? `${startDate.$D}/${startDate.$M}/${startDate.$y}`
+        : null;
+        
+    const toDateString =
+      toDate !== null ? `${toDate.$D}/${toDate.$M}/${toDate.$y}` : null;
   };
   //! subjectsget from API
   const subjects = ["SWP391", "SWT301", "SWR302"];
@@ -100,7 +107,13 @@ export function SearchBar(props) {
           ></Select>
         </Col>
         <Col xs={4} md={3}>
-          <Popover content={startDate === null ? "Click to create a Date option" : "Click to edit a Date option"}>
+          <Popover
+            content={
+              startDate === null
+                ? "Click to create a Date option"
+                : "Click to edit a Date option"
+            }
+          >
             <Button
               style={{ margin: "0 0 0 4px" }}
               icon={

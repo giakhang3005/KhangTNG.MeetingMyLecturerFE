@@ -54,28 +54,35 @@ export function PickDate(props) {
 
   return (
     <>
+    {/* Title */}
       <Row>
-        <Col xs={7}>
+        <Col xs={9} md={7}>
           <Title level={5} style={{ margin: "5px 0 5px 0" }}>
             From
           </Title>
         </Col>
-        <Col xs={7}> </Col>
-        <Col xs={7}>
+        <Col xs={3} md={7}> </Col>
+        <Col xs={9} md={7}>
           <Title level={5} style={{ margin: "5px 0 5px 0" }}>
             To
           </Title>
         </Col>
+
+        {/* Content */}
       </Row>
       <Row>
-        <Col xs={7}>
+        {/* From date */}
+        <Col xs={9} md={7}>
           <DatePicker
             onChange={onChangeFromDate}
             value={fromDatePicker === null ? today : fromDatePicker}
           />
         </Col>
+
+        {/* Arrow */}
         <Col
-          xs={7}
+          xs={3}
+          md={7}
           style={Object.assign(
             { display: "flex" },
             { justifyContent: "center" },
@@ -84,13 +91,17 @@ export function PickDate(props) {
         >
           <SwapRightOutlined />
         </Col>
-        <Col xs={7}>
+
+        {/* To date */}
+        <Col xs={9} md={7}>
           <DatePicker
             onChange={onChangeToDate}
             value={toDatePicker === null ? today : toDatePicker}
           />
         </Col>
         <Col xs={1}></Col>
+
+        {/* Clear button */}
         <Col xs={2}>
           <Popover content="Clear 'From date' and 'To date'">
             <Button
