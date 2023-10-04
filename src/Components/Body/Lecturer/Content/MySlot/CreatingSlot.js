@@ -139,6 +139,21 @@ export const CreatingSlot = (props) => {
     }
   };
 
+  //submit antispam
+  const [clickSubmit, setClickSubmit] = useState(0);
+  //cooldown 3s if users click over 2 times
+  setTimeout(() => {
+    clickSubmit > 0 && setClickSubmit(clickSubmit - 1);
+  }, 3000);
+  //checker
+  const handleSubmitAntispam = (data) => {
+    clickSubmit === 2 && message.error('Please try again in 3 seconds');
+    clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
+    if (clickSubmit < 2) {
+      handleSubmit(data);
+    }
+  };
+
   //Handle Subject
   //! subject from API
   const subjects = ["SWP391", "SWT301", "SWR302"];
@@ -163,7 +178,7 @@ export const CreatingSlot = (props) => {
         CREATING SLOT
       </Title>
       <div className="editLocationForm">
-        <Form onFinish={handleSubmit}>
+        <Form onFinish={handleSubmitAntispam}>
           {/*  ID */}
           <Form.Item name="id" label="ID" rules={[{ required: true }]}>
             <Input />

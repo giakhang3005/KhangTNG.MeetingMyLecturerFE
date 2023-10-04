@@ -1,5 +1,6 @@
 import { Button, Typography, Table, message, Popover } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 export const LecturerRequests = () => {
   const { Title } = Typography;
@@ -46,7 +47,7 @@ export const LecturerRequests = () => {
       title: "Subject",
       render: (booking) => {
         return (
-            booking.subject.map((subject) => `${subject}, `)
+            ArrayToString(booking.subject)
         )
       }
     },

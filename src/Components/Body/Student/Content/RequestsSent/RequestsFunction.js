@@ -1,6 +1,7 @@
 import { Typography, Table, message, Popover } from "antd";
 import { InfoCircleFilled } from "@ant-design/icons";
 import { Accept, Decline, Pending } from "./RequestStatusTag";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 export const viewInfo = (booking, setRequestsView, setIsSelectedBooking) => {
   setIsSelectedBooking(booking);
@@ -18,6 +19,7 @@ export const cancelBooking = (id, setRequestsView) => {
   message.success("Deleted successfully");
   setRequestsView("view");
 };
+
 
 export const tableColumn = (setRequestsView, setIsSelectedBooking) => {
   return [
@@ -51,7 +53,7 @@ export const tableColumn = (setRequestsView, setIsSelectedBooking) => {
       key: "6",
       title: "Subject",
       render: (booking) => {
-        return booking.subject.map((subject) => `${subject}, `);
+        return ArrayToString(booking.subject);
       },
     },
     // {

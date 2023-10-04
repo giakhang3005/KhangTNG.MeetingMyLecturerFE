@@ -1,5 +1,6 @@
 import { Button, Table, message, Popover, Alert } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 //Handle success -> Book -> export for popup input password
 export const BookingSuccess = (booking) => {
@@ -49,7 +50,7 @@ export const ResultDisplay = (props) => {
       title: "Subject",
       render: (booking) => {
         return (
-            booking.subject.map((subject) => `${subject} `)
+            ArrayToString(booking.subject)
         )
       }
     },
@@ -119,7 +120,7 @@ export const ResultDisplay = (props) => {
       date: "01/10/2023",
       startTime: "13:30",
       endTime: "15:00",
-      subject: ["SWP391"],
+      subject: ["SWP391", "SWT301"],
       password: "abc",
     });
     BookingList.push({

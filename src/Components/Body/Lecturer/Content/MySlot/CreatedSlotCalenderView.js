@@ -1,5 +1,5 @@
 import { Empty, Button, Modal, message, Popover } from "antd";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   CaretLeftFilled,
   CaretRightFilled,
@@ -17,6 +17,7 @@ import {
   LecturerEditSlotFunction,
   LecturerDeleteSlotFunction,
 } from "./CalenderSlotViewFunction";
+import {ArrayToString} from "../../../../../ExtendedFunction/ArrayToString";
 
 export const LectuerCalenderView = (props) => {
   //modal state
@@ -118,15 +119,17 @@ export const LectuerCalenderView = (props) => {
   //count click
   const [clickEdit, setClickEdit] = useState(0);
   const [clickDelete, setClickDelete] = useState(0);
-  //time out (7s)
+
+  //cooldown 3s if user click over 2 times
   setTimeout(() => {
-    setClickEdit(0);
-    setClickDelete(0);
-  }, 7000);
+    clickEdit > 0 && setClickEdit(clickEdit - 1);
+    clickDelete > 0 && setClickDelete(clickDelete - 1);
+  }, 3000);
 
   //check spam for edit
   const handleClickEdit = (slot) => {
-    setClickEdit(clickEdit + 1);
+    clickEdit === 2 && message.error('Please try again after 3 seconds')
+    clickEdit < 3 && setClickEdit(clickEdit + 1);
     if (clickEdit < 2) {
       LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot);
     }
@@ -134,11 +137,13 @@ export const LectuerCalenderView = (props) => {
 
   //check spam for delete
   const handleClickDelete = (slot) => {
-    setClickDelete(clickDelete + 1);
+    clickDelete === 2 && message.error(`Please try again after 3 seconds`)
+    clickDelete < 3 && setClickDelete(clickDelete + 1);
     if (clickDelete < 2) {
       LecturerDeleteSlotFunction(slot);
     }
   };
+
   return (
     <div className="CalenderViewContainer">
       {/* Support Buttons */}
@@ -205,7 +210,7 @@ export const LectuerCalenderView = (props) => {
                                   { margin: "0 0 0 14px" }
                                 )}
                                 onClick={() => handleClickDelete(slot)}
-                              />{" "}
+                              />
                             </div>
                           </div>
                         </>
@@ -232,8 +237,8 @@ export const LectuerCalenderView = (props) => {
                             <b>Student:</b> {slot.student}
                           </div>
                           <div>
-                            <b>Subject:</b>{" "}
-                            {slot.subject.map((subject) => `${subject}, `)}
+                            <b>Subject: </b>
+                            {ArrayToString(slot.subject)}
                           </div>
                           <div>
                             <b>Password:</b> {slot.password}

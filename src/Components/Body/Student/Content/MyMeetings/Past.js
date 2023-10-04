@@ -1,4 +1,5 @@
 import { Button, Table, Typography } from "antd";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 import React from "react";
 
@@ -37,7 +38,7 @@ export function Past() {
       title: "Subject",
       render: (booking) => {
         return (
-            booking.subject.map((subject) => `${subject}, `)
+          ArrayToString(booking.subject)
         )
       }
     },

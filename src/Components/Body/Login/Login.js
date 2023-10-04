@@ -122,6 +122,21 @@ export const Login = () => {
     }
   };
 
+  //submit antispam
+  const [clickSubmit, setClickSubmit] = useState(0);
+  //cooldown 3s if users click over 2 times
+  setTimeout(() => {
+    clickSubmit > 0 && setClickSubmit(clickSubmit - 1);
+  }, 3000);
+  //checker
+  const handleSubmitAntispam = (data) => {
+    clickSubmit === 2 && message.error('Please try again in 3 seconds');
+    clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
+    if (clickSubmit < 2) {
+      handleLoginByUsernameFinish(data);
+    }
+  };
+
   return (
     <div className="backgroundLogin">
       <svg
@@ -136,7 +151,7 @@ export const Login = () => {
         ></path>
       </svg>
 
-      <Form className="loginForm" onFinish={handleLoginByUsernameFinish}>
+      <Form className="loginForm" onFinish={handleSubmitAntispam}>
         <Title className="loginTitle" level={3}>
           Login Form
         </Title>

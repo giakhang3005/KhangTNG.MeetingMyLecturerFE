@@ -12,11 +12,11 @@ export const LogOutBtn = () => {
   const handleLogout = () => {
     //logout
     googleLogout();
-    setUser(null); 
+    setUser(null);
     setRole(null);
 
     //! Delete user & role in session storage
-    sessionStorage.removeItem('user')
+    sessionStorage.removeItem("user");
 
     //message
     message.error({
@@ -38,3 +38,4 @@ export const LogOutBtn = () => {
     </>
   );
 };
+

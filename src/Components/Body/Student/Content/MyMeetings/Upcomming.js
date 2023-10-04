@@ -1,5 +1,6 @@
 import { Button, Table, Typography } from "antd";
 import { Accept, Decline, Pending } from "../RequestsSent/RequestStatusTag";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 import React from "react";
 
@@ -22,17 +23,19 @@ export function Upcomming() {
       key: "3",
       title: "Time",
       render: (meeting) => {
-        return <>{meeting.date} ({meeting.startTime} - {meeting.endTime})</>
-      }
+        return (
+          <>
+            {meeting.date} ({meeting.startTime} - {meeting.endTime})
+          </>
+        );
+      },
     },
     {
       key: "6",
       title: "Subject",
       render: (booking) => {
-        return (
-            booking.subject.map((subject) => `${subject}, `)
-        )
-      }
+        return ArrayToString(booking.subject)
+      },
     },
     {
       key: "7",
@@ -51,19 +54,19 @@ export function Upcomming() {
       dataIndex: "note",
     },
     {
-        key: "9",
-        title: "Status",
-        render: (meeting) => {
-          switch (meeting.status.toLowerCase()) {
-            case "accept":
-              return <Accept />;
-            case "decline":
-              return <Decline />;
-            default:
-              return <Pending />;
-          }
-        },
+      key: "9",
+      title: "Status",
+      render: (meeting) => {
+        switch (meeting.status.toLowerCase()) {
+          case "accept":
+            return <Accept />;
+          case "decline":
+            return <Decline />;
+          default:
+            return <Pending />;
+        }
       },
+    },
   ];
 
   //test data

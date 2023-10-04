@@ -13,6 +13,7 @@ import { LeftOutlined, FormOutlined, CloseOutlined } from "@ant-design/icons";
 import { Accept, Decline, Pending } from "./RequestStatusTag";
 import { updateBooking, cancelBooking } from "./RequestsFunction";
 import "../../Student.css";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 export function RequestsInfo(props) {
   const isSelectedBooking = props.isSelectedBooking,
@@ -53,6 +54,22 @@ export function RequestsInfo(props) {
     }
   };
 
+  //count click
+  const [clickUpdate, setClickUpdate] = useState(0);
+
+  //cooldown 3s if user click over 2 times
+  setTimeout(() => {
+    clickUpdate > 0 && setClickUpdate(clickUpdate - 1);
+  }, 3000);
+  //checker
+  const updateAntiSpam = () => {
+    clickUpdate === 2 && message.error("Please try again after 3 seconds");
+    clickUpdate < 3 && setClickUpdate(clickUpdate + 1);
+    if (clickUpdate < 2) {
+      handleUpdateNote();
+    }
+  };
+
   const handleDeleteBooking = () => {
     if (isSelectedBooking.status === "pending") {
       cancelBooking(isSelectedBooking.id, setRequestsView);
@@ -89,7 +106,7 @@ export function RequestsInfo(props) {
               <Title
                 className="InfoText"
                 level={5}
-                style={{ "font-weight": "400" }}
+                style={{ fontWeight: "400" }}
               >
                 {isSelectedBooking.id}
               </Title>
@@ -200,7 +217,7 @@ export function RequestsInfo(props) {
                 level={5}
                 style={{ "font-weight": "400" }}
               >
-                {isSelectedBooking.subject}
+                {ArrayToString(isSelectedBooking.subject)}
               </Title>
             </Col>
           </Row>
@@ -266,7 +283,7 @@ export function RequestsInfo(props) {
               <Button
                 style={{ margin: "12px 8px 0 0" }}
                 icon={<FormOutlined />}
-                onClick={() => handleUpdateNote()}
+                onClick={updateAntiSpam}
               >
                 Update note
               </Button>

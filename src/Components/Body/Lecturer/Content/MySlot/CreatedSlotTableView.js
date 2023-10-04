@@ -1,4 +1,4 @@
-import { Button, Typography, Table } from "antd";
+import { message, Table } from "antd";
 import { useState } from "react";
 import {
   PlusCircleFilled,
@@ -6,12 +6,13 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import {
-    LecturerEditSlotFunction,
-    LecturerDeleteSlotFunction,
-  } from "./CalenderSlotViewFunction";
+  LecturerEditSlotFunction,
+  LecturerDeleteSlotFunction,
+} from "./CalenderSlotViewFunction";
+import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
 
 export const CreatedSlotTableView = (props) => {
-    const setCreatedSlotView = props.setCreatedSlotView,
+  const setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot;
   //fetching data
   //   const {
@@ -62,17 +63,13 @@ export const CreatedSlotTableView = (props) => {
       dataIndex: "student",
     },
     {
-        key: "7",
-        title: "Subject",
-        // dataIndex: 'subject',
-        render: (slot) => {
-            return (
-                <>
-                    {slot.subject.map((subject) => `${subject}, `)}
-                </>
-            )
-        }
+      key: "7",
+      title: "Subject",
+      // dataIndex: 'subject',
+      render: (slot) => {
+        return <>{ArrayToString(slot.subject)}</>;
       },
+    },
     {
       key: "8",
       title: "Password",
@@ -84,10 +81,14 @@ export const CreatedSlotTableView = (props) => {
       render: (slot) => {
         return (
           <>
-            <EditOutlined onClick={() => LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot)} />
+            <EditOutlined
+              onClick={() =>
+                handleClickEdit(slot, setCreatedSlotView, setEditingSlot)
+              }
+            />
             <DeleteOutlined
               className="locationDeleteBtn"
-              onClick={() => deleteSlot(slot)}
+              onClick={() => handleClickDelete(slot)}
             />
           </>
         );
@@ -95,12 +96,33 @@ export const CreatedSlotTableView = (props) => {
     },
   ];
 
-  //handle edit slot
-  const editSlot = (slot) => {};
+  //* Antispam handler
+  //count click
+  const [clickEdit, setClickEdit] = useState(0);
+  const [clickDelete, setClickDelete] = useState(0);
 
-  //handle delete click
-  const deleteSlot = (slot) => {
-    //! Place fetching DELETE API here
+  //cooldown 3s if user click over 2 times
+  setTimeout(() => {
+    clickEdit > 0 && setClickEdit(clickEdit - 1);
+    clickDelete > 0 && setClickDelete(clickDelete - 1);
+  }, 3000);
+
+  //check spam for edit
+  const handleClickEdit = (slot) => {
+    clickEdit === 2 && message.error("Please try again after 3 seconds");
+    clickEdit < 3 && setClickEdit(clickEdit + 1);
+    if (clickEdit < 2) {
+      LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot);
+    }
+  };
+
+  //check spam for delete
+  const handleClickDelete = (slot) => {
+    clickDelete === 2 && message.error(`Please try again after 3 seconds`);
+    clickDelete < 3 && setClickDelete(clickDelete + 1);
+    if (clickDelete < 2) {
+      LecturerDeleteSlotFunction(slot);
+    }
   };
 
   //test data
@@ -110,7 +132,7 @@ export const CreatedSlotTableView = (props) => {
       date: "30/09/2023",
       startTime: "10:00",
       endTime: "11:00",
-      mode: 'Manual approve' ,
+      mode: "Manual approve",
       location: "FPT",
       student: null,
       subject: ["SWP391", "SWT301"],
@@ -121,7 +143,7 @@ export const CreatedSlotTableView = (props) => {
       date: "27/09/2023",
       startTime: "14:00",
       endTime: "16:30",
-      mode: 'Assign student' ,
+      mode: "Assign student",
       location: "FPT",
       student: "Tran Cong Lam (K17 HCM)",
       subject: ["SWP391", "SWT301"],
@@ -132,14 +154,14 @@ export const CreatedSlotTableView = (props) => {
       date: "30/09/2023",
       startTime: "15:00",
       endTime: "17:30",
-      mode: 'Accept the first Booker' ,
+      mode: "Accept the first Booker",
       location: "FPT",
       student: "",
       subject: ["SWT301"],
       password: "12345",
     },
   ];
-  
+
   return (
     <div className="tableviewcontainer">
       <Table
