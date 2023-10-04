@@ -264,7 +264,7 @@ export function RequestsInfo(props) {
             <Col xs={15} md={10}>
               {/* Update note */}
               <Button
-                style={{ margin: "12px 0 0 0" }}
+                style={{ margin: "12px 8px 0 0" }}
                 icon={<FormOutlined />}
                 onClick={() => handleUpdateNote()}
               >
@@ -280,7 +280,7 @@ export function RequestsInfo(props) {
                 onConfirm={handleDeleteBooking}
               >
                 <Button
-                  style={{ margin: "12px 0 0 8px" }}
+                  style={{ margin: "12px 0 0 0" }}
                   icon={<CloseOutlined />}
                   danger
                   type="primary"

@@ -23,12 +23,12 @@ export const RecentSlotsMonth = () => {
             {
               label: "Meetings",
               data: meetings.map((data) => data.meetings),
-              backgroundColor: "#FFC77D",
+              backgroundColor: "#fa541c",
             },
             {
               label: "Users",
               data: meetings.map((data) => data.users),
-              backgroundColor: "#FF6F00",
+              backgroundColor: "#fa8c16",
             },
           ],
         }}

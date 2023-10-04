@@ -5,7 +5,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: -1;
+    z-index: -1; 
 }
 .loginForm {
     position: absolute;
@@ -19,6 +19,7 @@
     text-align: center;
     border-radius: 8px;
     box-shadow: 3px 3px 10px grey;
+    animation: glowing 3s linear infinite;
 }
 .input {
     display: block;

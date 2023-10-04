@@ -1,3 +1,6 @@
+/* body {
+  background: black;
+} */
 .Sider {
   overflow: hidden;
   padding: 0;
@@ -14,6 +17,9 @@
   min-height: 93vh;
   background: #fce7cc;
   border-left: 1px solid rgb(212, 212, 212);
+}
+#LecturerContentDark {
+  background: black;
 }
 .LecturerShow {
   background: white;

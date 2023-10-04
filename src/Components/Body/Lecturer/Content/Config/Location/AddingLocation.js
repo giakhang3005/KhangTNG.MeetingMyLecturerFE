@@ -6,23 +6,23 @@ export const AddingLocation = (props) => {
 
   //get props
   const setLocationSectionView = props.setLocationSectionView,
-  finalIdOfTheList = props.finalIdOfTheList;
+    finalIdOfTheList = props.finalIdOfTheList;
 
   //handle cancel
   const handleCancel = () => {
-    message.error(`Canceled adding location`)
-    setLocationSectionView('')
+    message.error(`Canceled adding location`);
+    setLocationSectionView("");
   };
 
   //handle submit
   const handleSubmit = (data) => {
     //TODO: For Backend
-    const result = {name: data.name, address: data.address, lecturer: null,}
-    console.log(result)
-    
+    const result = { name: data.name, address: data.address, lecturer: null };
+    console.log(result);
+
     //! Place fetching ADD API here
 
-    message.success(`Added location ${data.name}`)
+    message.success(`Added location ${data.name}`);
   };
 
   //form values
@@ -52,7 +52,12 @@ export const AddingLocation = (props) => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button onClick={handleCancel} style={{ margin: "0 8px 0 0" }} type="default" danger>
+            <Button
+              onClick={handleCancel}
+              style={{ margin: "0 8px 0 0" }}
+              type="default"
+              danger
+            >
               Cancel
             </Button>
             <Button type="primary" htmlType="submit">

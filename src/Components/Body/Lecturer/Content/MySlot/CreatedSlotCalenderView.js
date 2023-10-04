@@ -84,7 +84,7 @@ export const LectuerCalenderView = (props) => {
       date: "30/09/2023",
       startTime: "10:00",
       endTime: "11:00",
-      mode: 'Manual approve' ,
+      mode: "Manual approve",
       location: "FPT",
       student: null,
       subject: ["SWP391", "SWT301"],
@@ -95,7 +95,7 @@ export const LectuerCalenderView = (props) => {
       date: "27/09/2023",
       startTime: "14:00",
       endTime: "16:30",
-      mode: 'Assign student' ,
+      mode: "Assign student",
       location: "FPT",
       student: "Tran Cong Lam (K17 HCM)",
       subject: ["SWP391", "SWT301"],
@@ -106,7 +106,7 @@ export const LectuerCalenderView = (props) => {
       date: "03/10/2023",
       startTime: "15:00",
       endTime: "17:30",
-      mode: 'Accept the first Booker' ,
+      mode: "Accept the first Booker",
       location: "FPT",
       student: "",
       subject: ["SWT301"],
@@ -114,7 +114,31 @@ export const LectuerCalenderView = (props) => {
     },
   ];
 
-  //get curren time
+  //* Antispam handler
+  //count click
+  const [clickEdit, setClickEdit] = useState(0);
+  const [clickDelete, setClickDelete] = useState(0);
+  //time out (7s)
+  setTimeout(() => {
+    setClickEdit(0);
+    setClickDelete(0);
+  }, 7000);
+
+  //check spam for edit
+  const handleClickEdit = (slot) => {
+    setClickEdit(clickEdit + 1);
+    if (clickEdit < 2) {
+      LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot);
+    }
+  };
+
+  //check spam for delete
+  const handleClickDelete = (slot) => {
+    setClickDelete(clickDelete + 1);
+    if (clickDelete < 2) {
+      LecturerDeleteSlotFunction(slot);
+    }
+  };
   return (
     <div className="CalenderViewContainer">
       {/* Support Buttons */}
@@ -172,7 +196,7 @@ export const LectuerCalenderView = (props) => {
                             <div>
                               {/* Edit Button */}
                               <EditOutlined
-                                onClick={() => LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot)}
+                                onClick={() => handleClickEdit(slot)}
                               />
                               {/* Delete Button */}
                               <DeleteOutlined
@@ -180,7 +204,7 @@ export const LectuerCalenderView = (props) => {
                                   { color: "red" },
                                   { margin: "0 0 0 14px" }
                                 )}
-                                onClick={() => LecturerDeleteSlotFunction(slot)}
+                                onClick={() => handleClickDelete(slot)}
                               />{" "}
                             </div>
                           </div>
@@ -208,7 +232,8 @@ export const LectuerCalenderView = (props) => {
                             <b>Student:</b> {slot.student}
                           </div>
                           <div>
-                            <b>Subject:</b> {slot.subject.map((subject) => `${subject}, `)}
+                            <b>Subject:</b>{" "}
+                            {slot.subject.map((subject) => `${subject}, `)}
                           </div>
                           <div>
                             <b>Password:</b> {slot.password}

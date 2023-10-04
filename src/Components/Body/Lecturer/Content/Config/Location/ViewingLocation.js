@@ -15,7 +15,7 @@ export const ViewingLocation = (props) => {
     setFinalIdOfTheList = props.setFinalIdOfTheList;
 
   const { Title, Text } = Typography;
-
+  
   //! fetching data -> LocationsList
   const {
     data: LocationsList, //assign name for the data

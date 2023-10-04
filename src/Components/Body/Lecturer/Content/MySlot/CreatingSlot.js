@@ -61,9 +61,15 @@ export const CreatingSlot = (props) => {
       message.error(
         `START TIME must be EARLIER than END TIME and AFTER ${mustCreateAfter.$d.getDate()}/${
           mustCreateAfter.$d.getMonth() + 1
-        }/${
-          mustCreateAfter.$y
-        } ${mustCreateAfter.$d.getHours()}:${mustCreateAfter.$d.getMinutes()}`
+        }/${mustCreateAfter.$y} ${
+          mustCreateAfter.$d.getHours() < 10
+            ? `0${mustCreateAfter.$d.getHours()}`
+            : mustCreateAfter.$d.getHours()
+        }:${
+          mustCreateAfter.$d.getMinutes() < 10
+            ? `0${mustCreateAfter.$d.getMinutes()}`
+            : mustCreateAfter.$d.getMinutes()
+        }`
       );
     };
 

@@ -8,15 +8,15 @@ export const Lecturer = (props) => {
     props.setMenuOpt("lecturerDashboard");
   }, []);
   return (
-    <Row>
-      {/* Set default menu option */}
-      {/* add to useeffect */}
-      <Col xs={24} sm={6} md={5} xl={4}>
-        <LecturerSider />
-      </Col>
-      <Col xs={24} sm={18} md={19} xl={20}>
-        <LecturerContent />
-      </Col>
-    </Row>
+      <Row>
+        {/* Set default menu option */}
+        {/* add to useeffect */}
+        <Col xs={24} sm={6} md={5} xl={4}>
+          <LecturerSider />
+        </Col>
+        <Col xs={24} sm={18} md={19} xl={20}>
+          <LecturerContent />
+        </Col>
+      </Row>
   );
 };

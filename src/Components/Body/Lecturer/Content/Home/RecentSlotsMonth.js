@@ -24,7 +24,7 @@ export const RecentSlotsMonth = () => {
             {
               label: "Slots",
               data: data.map((data) => data.slots),
-              backgroundColor: "#FFC77D",
+              backgroundColor: "#fa8c16",
             },
           ],
         }}

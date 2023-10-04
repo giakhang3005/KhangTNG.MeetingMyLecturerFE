@@ -6,25 +6,26 @@ const { Text, Title } = Typography;
 export const Nav = (props) => {
   //user
   const user = props.user,
-    setUser = props.setUser;
+    setUser = props.setUser,
+    isDarkMode = props.isDarkMode
 
   return (
     <div className="Nav">
-      <Title level={5} className="logo">
+      <div className="logo">
         {/* Logo */}
         <img
           src="../navBarLogo.png"
           style={Object.assign(
-            { height: "33px" },
+            { height: "39px" },
             { margin: "6px 0 0 0" },
             { padding: 0 }
           )}
         />
-      </Title>
+      </div>
 
       {/* User */}
         <div className="User">
-          <Text className="Name">{user?.name}</Text>
+          <Text className="Name" >{user?.name}</Text>
           {/* <UserOutlined className="Icon" /> */}
           {user !== null && (
             <Avatar src={user?.picture} icon={<UserOutlined />}></Avatar>

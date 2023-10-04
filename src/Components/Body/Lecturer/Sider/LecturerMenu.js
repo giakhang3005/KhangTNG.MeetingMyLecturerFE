@@ -12,7 +12,7 @@ import { LogOutBtn } from "../../../../ExtendedFunction/Users";
 
 export const LecturerMenu = () => {
   //Get data from app.js
-  const { menuOpt, setMenuOpt } = useContext(Data);
+  const { menuOpt, setMenuOpt, isDarkMode } = useContext(Data);
 
   //Item for menu
   const menuItems = [

@@ -170,7 +170,7 @@ export const ResultDisplay = (props) => {
     <>
       {isSearchingSubject !== "" && (
         <Alert
-          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject} ${startDate !== null ? `(${startDate.$D}/${startDate.$M}/${startDate.$y} - ${toDate.$D}/${toDate.$M}/${toDate.$y})` : ''}`}
+          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject} ${startDate !== null ? `(${startDate.$D}/${startDate.$M + 1}/${startDate.$y} - ${toDate.$D}/${toDate.$M + 1}/${toDate.$y})` : ''}`}
           type="info"
           showIcon
         />

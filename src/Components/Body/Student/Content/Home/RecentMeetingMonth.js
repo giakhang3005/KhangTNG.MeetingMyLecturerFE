@@ -23,7 +23,7 @@ export const RecentMeetingMonth = () => {
             {
               label: "Meetings",
               data: data.map((data) => data.meetings),
-              backgroundColor: "#FFC77D",
+              backgroundColor: "#fa8c16",
             },
           ],
         }}

@@ -1,16 +1,20 @@
 import { createContext, useState } from "react";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Switch } from "antd";
 import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
 import { Lecturer } from "./Lecturer/Lecturer";
 import { Student } from "./Student/Student";
 import { Admin } from "./Admin/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SettingFilled } from "@ant-design/icons";
 import { Login } from "./Login/Login";
 
 export const Data = createContext();
 export const Body = (props) => {
   const user = props.user,
-    setUser = props.setUser;
+    setUser = props.setUser,
+    isDarkMode = props.isDarkMode,
+    setIsDarkMode = props.setIsDarkMode;
+
   //Create new client
   const client = new QueryClient();
 
@@ -32,6 +36,13 @@ export const Body = (props) => {
   //TODO: for backend
   const [input, setInput] = useState();
 
+  //handle light/dark mode change
+  const handleModeChange = () => {
+    setIsDarkMode(!isDarkMode);
+    localStorage.removeItem("isDarkMode");
+    localStorage.setItem("isDarkMode", isDarkMode);
+  };
+
   return (
     //pass value to all component inside
     <QueryClientProvider client={client}>
@@ -46,15 +57,18 @@ export const Body = (props) => {
           user,
           setUser,
           setRole,
+          isDarkMode,
+          setIsDarkMode,
         }}
       >
         <ConfigProvider
-          theme={{
-            token: {
-              // Seed Token
-              colorPrimary: "#F15A25",
-            },
-          }}
+          theme={{ token: { colorPrimary: "#F15A25" } }}
+          // {{
+          //   token: {
+          //     // Seed Token
+          //     colorPrimary: "#F15A25",
+          //   },
+          // }}
         >
           {/* show component base on user role */}
           {
@@ -62,14 +76,26 @@ export const Body = (props) => {
             role === "lecturer" ? (
               //return
               <>
-                <Lecturer setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
+                <Lecturer
+                  setMenuOpt={setMenuOpt}
+                  menuOpt={menuOpt}
+                  isDarkMode={isDarkMode}
+                />
               </>
             ) : // else if role === student
             role === "student" ? (
-              <Student setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
+              <Student
+                setMenuOpt={setMenuOpt}
+                menuOpt={menuOpt}
+                isDarkMode={isDarkMode}
+              />
             ) : // else if role === admin
             role === "admin" ? (
-              <Admin setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
+              <Admin
+                setMenuOpt={setMenuOpt}
+                menuOpt={menuOpt}
+                isDarkMode={isDarkMode}
+              />
             ) : (
               //others/no role
               <>

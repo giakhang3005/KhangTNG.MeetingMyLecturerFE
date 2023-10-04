@@ -63,11 +63,11 @@ export function SearchBar(props) {
     //fetch subject, startDate, toDate
     const startDateString =
       startDate !== null
-        ? `${startDate.$D}/${startDate.$M}/${startDate.$y}`
+        ? `${startDate.$D}/${startDate.$M + 1}/${startDate.$y}`
         : null;
-        
+
     const toDateString =
-      toDate !== null ? `${toDate.$D}/${toDate.$M}/${toDate.$y}` : null;
+      toDate !== null ? `${toDate.$D}/${toDate.$M + 1}/${toDate.$y}` : null;
   };
   //! subjectsget from API
   const subjects = ["SWP391", "SWT301", "SWR302"];

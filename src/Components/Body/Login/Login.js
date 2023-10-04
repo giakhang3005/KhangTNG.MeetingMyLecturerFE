@@ -104,8 +104,10 @@ export const Login = () => {
         data.password === adminTestAccount.password)
     ) {
       //!Get full user from DB using data.username & data.password
-      let FinalUser = {}
-      data.userId === lecturerTestAccount.id ? FinalUser = { ...lecturerTestAccount } : FinalUser = { ...adminTestAccount };
+      let FinalUser = {};
+      data.userId === lecturerTestAccount.id
+        ? (FinalUser = { ...lecturerTestAccount })
+        : (FinalUser = { ...adminTestAccount });
 
       // Set Internal state
       setUser(FinalUser);
@@ -190,7 +192,7 @@ export const Login = () => {
           />
         )}
       </Form>
-
+    
       <svg
         className="curvesLogin"
         xmlns="http://www.w3.org/2000/svg"
