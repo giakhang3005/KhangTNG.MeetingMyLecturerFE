@@ -16,6 +16,7 @@ import {
   MailFilled,
 } from "@ant-design/icons";
 import { AdvancePopover } from "./AdvancePopover";
+import { UserResultDisplay } from "./UserResultDisplay";
 
 export const UsersManage = () => {
   const { Title } = Typography;
@@ -27,6 +28,7 @@ export const UsersManage = () => {
     role: searchRole,
     status: searchStatus,
   });
+  const [recentSearch, setRecentlSearch] = useState(finalSearch);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -148,6 +150,7 @@ export const UsersManage = () => {
 
   //handle search
   const handleSearch = () => {
+    setRecentlSearch(finalSearch)
     console.log(finalSearch);
     //!fetch finalSearch
   };
@@ -212,6 +215,9 @@ export const UsersManage = () => {
           onClick={handleSearch}
         ></Button>
       </Popover>
+
+      {/* Alert banner */}
+      <UserResultDisplay recentSearch={recentSearch} />
 
       {/* Table of result */}
       <Table
