@@ -22,6 +22,8 @@ export const SearchSubject = () => {
           <Title className="sectionTitle" level={3}>
             BOOKING
           </Title>
+
+          {/* Display Search Bar & result */}
           <Space direction="vertical" style={{ width: "100%" }}>
             <SearchBar setIsSearchingSubject={setIsSearchingSubject} startDate={startDate} setStartDate={setStartDate} toDate={toDate} setToDate={setToDate}  />
             <ResultDisplay

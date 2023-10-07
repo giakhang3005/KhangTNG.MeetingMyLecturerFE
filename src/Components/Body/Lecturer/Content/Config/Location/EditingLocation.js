@@ -37,6 +37,7 @@ export const EditingLocation = (props) => {
       <Title className="sectionTitle" level={3}>
         EDITTING LOCATION
       </Title>
+      
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmit}>
           <Form.Item name="id" label="ID" rules={[{ required: true }]}>

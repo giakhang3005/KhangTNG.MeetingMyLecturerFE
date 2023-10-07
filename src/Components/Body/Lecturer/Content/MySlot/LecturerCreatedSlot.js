@@ -7,7 +7,6 @@ import "../../Lecturer.css";
 import { EditingSlot } from "./EditingSlot";
 import { CreatingSlot } from "./CreatingSlot";
 import { Typography, Tabs } from "antd";
-import dayjs from "dayjs";
 
 export const LecturerCreatedSlot = () => {
   // Get state

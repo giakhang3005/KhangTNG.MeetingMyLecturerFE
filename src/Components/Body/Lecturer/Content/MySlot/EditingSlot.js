@@ -163,6 +163,7 @@ export const EditingSlot = (props) => {
       <Title className="sectionTitle" level={3}>
         EDITTING SLOT
       </Title>
+      
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmitAntispam}>
           {/* ID */}

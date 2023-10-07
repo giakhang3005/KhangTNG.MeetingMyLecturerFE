@@ -176,6 +176,7 @@ export const ResultDisplay = (props) => {
           showIcon
         />
       )}
+      
       {/* Table of result */}
       <Table
         className="tableOfLocations"

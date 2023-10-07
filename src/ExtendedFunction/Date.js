@@ -216,3 +216,7 @@ export const parseDate = (date) => {
     
     return d;
 }
+
+export const BackendDateConver = (arr) => {
+  
+}

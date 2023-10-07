@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { Button, Alert, Form, Input, Typography, message } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import { Data } from "../Body";
 import "./LoginStyle.css";
 
 export const Login = () => {
+
   const { Title } = Typography;
   // User -> user.name, email, picture, id, role...
   const { user, setUser, setRole } = useContext(Data);
@@ -130,95 +131,95 @@ export const Login = () => {
   }, 3000);
   //checker
   const handleSubmitAntispam = (data) => {
-    clickSubmit === 2 && message.error('Please try again in 3 seconds');
+    clickSubmit === 2 && message.error("Please try again in 3 seconds");
     clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
     if (clickSubmit < 2) {
-      handleLoginByUsernameFinish(data);
+        handleLoginByUsernameFinish(data);
     }
   };
 
   return (
-    <div className="backgroundLogin">
-      <svg
-        className="curvessLoginUpper"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="#ffc77d"
-          fillOpacity="1"
-          d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,234.7C672,245,768,235,864,213.3C960,192,1056,160,1152,144C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-      </svg>
+      <div className="backgroundLogin">
+        <svg
+          className="curvessLoginUpper"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+        >
+          <path
+            fill="#ffc77d"
+            fillOpacity="1"
+            d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,234.7C672,245,768,235,864,213.3C960,192,1056,160,1152,144C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
 
-      <Form className="loginForm" onFinish={handleSubmitAntispam}>
-        <Title className="loginTitle" level={3}>
-          Login Form
-        </Title>
-        <Form.Item
-          name="userId"
-          label="UserID"
-          className="input"
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          className="input"
-          rules={[{ required: true }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item>
-          <Button className="loginBtn" type="primary" htmlType="submit">
-            Login
+        <Form className="loginForm" onFinish={handleSubmitAntispam}>
+          <Title className="loginTitle" level={3}>
+            Login Form
+          </Title>
+          <Form.Item
+            name="userId"
+            label="UserID"
+            className="input"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            className="input"
+            rules={[{ required: true }]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item>
+            <Button className="loginBtn" type="primary" htmlType="submit">
+              Login
+            </Button>
+          </Form.Item>
+
+          {/* signin with google */}
+          <Button
+            style={Object.assign(
+              { width: "100%" },
+              { margin: "0 0 10px 0" },
+              { height: "40px" }
+            )}
+            loading={isLoading}
+            icon={<GoogleOutlined />}
+            onClick={() => handleSignin()}
+          >
+            Sign in with Google
           </Button>
-        </Form.Item>
-
-        {/* signin with google */}
-        <Button
-          style={Object.assign(
-            { width: "100%" },
-            { margin: "0 0 10px 0" },
-            { height: "40px" }
+          {/* Email notification */}
+          {checkMailErr && (
+            <Alert
+              message="Your email doesn't have permission to sign in!"
+              type="error"
+              banner
+            />
           )}
-          loading={isLoading}
-          icon={<GoogleOutlined />}
-          onClick={() => handleSignin()}
+          {/* Error notification */}
+          {isErr && (
+            <Alert
+              message="There is an error, please try again!"
+              type="error"
+              banner
+            />
+          )}
+        </Form>
+
+        <svg
+          className="curvesLogin"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
         >
-          Sign in with Google
-        </Button>
-        {/* Email notification */}
-        {checkMailErr && (
-          <Alert
-            message="Your email doesn't have permission to sign in!"
-            type="error"
-            banner
-          />
-        )}
-        {/* Error notification */}
-        {isErr && (
-          <Alert
-            message="There is an error, please try again!"
-            type="error"
-            banner
-          />
-        )}
-      </Form>
-    
-      <svg
-        className="curvesLogin"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="#ffc77d"
-          fillOpacity="1"
-          d="M0,32L48,64C96,96,192,160,288,170.7C384,181,480,139,576,138.7C672,139,768,181,864,186.7C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-      </svg>
-    </div>
+          <path
+            fill="#ffc77d"
+            fillOpacity="1"
+            d="M0,32L48,64C96,96,192,160,288,170.7C384,181,480,139,576,138.7C672,139,768,181,864,186.7C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
   );
 };

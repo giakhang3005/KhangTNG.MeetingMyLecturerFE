@@ -5,6 +5,7 @@ import React from "react";
 
 export function Past() {
   const { Title } = Typography;
+
   //table variables
   const columns = [
     {
@@ -55,6 +56,7 @@ export function Past() {
       subject: ["SWT301"],
     },
   ];
+  
   return (
     <>
       <Title className="sectionTitle" level={3}>

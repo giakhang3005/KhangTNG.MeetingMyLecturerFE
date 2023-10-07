@@ -92,6 +92,7 @@ export function RequestsInfo(props) {
       >
         Back
       </Button>
+      
       <Row>
         <Col xs={1}></Col>
         <Col xs={23}>

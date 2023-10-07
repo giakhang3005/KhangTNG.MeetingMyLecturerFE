@@ -69,8 +69,10 @@ export function SearchBar(props) {
     const toDateString =
       toDate !== null ? `${toDate.$D}/${toDate.$M + 1}/${toDate.$y}` : null;
   };
+
   //! subjectsget from API
   const subjects = ["SWP391", "SWT301", "SWR302"];
+  
   return (
     <>
       <Modal
@@ -88,9 +90,11 @@ export function SearchBar(props) {
           handleClearDate={handleClearDate}
         />
       </Modal>
+
       <Row>
         {/* <Col xs={2} md={6}></Col> */}
         <Col xs={17} md={9}>
+          {/* Search box */}
           <Select
             suffixIcon={<SearchOutlined />}
             placeholder="Ex: SWP391,..."
@@ -106,6 +110,7 @@ export function SearchBar(props) {
             }}
           ></Select>
         </Col>
+        {/* Advance option */}
         <Col xs={4} md={3}>
           <Popover
             content={

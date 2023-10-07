@@ -38,6 +38,7 @@ export function PickDate(props) {
       }
     }
   };
+
   const onChangeToDate = (date, dateString) => {
     const toDate = date.hour(0).minute(0).second(0);
 
@@ -54,14 +55,18 @@ export function PickDate(props) {
 
   return (
     <>
-    {/* Title */}
+      {/* Title */}
       <Row>
+        {/* From */}
         <Col xs={9} md={7}>
           <Title level={5} style={{ margin: "5px 0 5px 0" }}>
             From
           </Title>
         </Col>
-        <Col xs={3} md={7}> </Col>
+
+        <Col xs={3} md={7}></Col>
+
+        {/* To */}
         <Col xs={9} md={7}>
           <Title level={5} style={{ margin: "5px 0 5px 0" }}>
             To
@@ -70,10 +75,12 @@ export function PickDate(props) {
 
         {/* Content */}
       </Row>
+
       <Row>
         {/* From date */}
         <Col xs={9} md={7}>
           <DatePicker
+            format="DD/MM/YYYY"
             onChange={onChangeFromDate}
             value={fromDatePicker === null ? today : fromDatePicker}
           />
@@ -95,10 +102,12 @@ export function PickDate(props) {
         {/* To date */}
         <Col xs={9} md={7}>
           <DatePicker
+            format="DD/MM/YYYY"
             onChange={onChangeToDate}
             value={toDatePicker === null ? today : toDatePicker}
           />
         </Col>
+
         <Col xs={1}></Col>
 
         {/* Clear button */}

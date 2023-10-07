@@ -12,6 +12,7 @@ export const RecentSlotsMonth = () => {
     { month: "May", meetings: 0, users: 60 },
     { month: "June", meetings: 15, users: 70 },
   ];
+  
   return (
     <div className="Chart">
       <Title level={4}>Number of slots & users in recent months</Title>

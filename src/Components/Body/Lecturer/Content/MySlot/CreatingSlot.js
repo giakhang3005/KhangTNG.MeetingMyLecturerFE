@@ -177,6 +177,7 @@ export const CreatingSlot = (props) => {
       <Title className="sectionTitle" level={3}>
         CREATING SLOT
       </Title>
+      
       <div className="editLocationForm">
         <Form onFinish={handleSubmitAntispam}>
           {/*  ID */}

@@ -7,9 +7,7 @@ import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 export const LecturerSider = () => {
   // Set menu state
   const [menuState, setMenuState] = useState(true);
-  const {isDarkMode} = useContext(Data);
   return (
-    <div style={Object.assign({height: '91.2vh'})} id={isDarkMode && "SideDark"}>
       <div className="Sider">
         {/* Button */}
         <div className="DisplayBtn">
@@ -29,6 +27,5 @@ export const LecturerSider = () => {
           </>
         )}
       </div>
-    </div>
   );
 };

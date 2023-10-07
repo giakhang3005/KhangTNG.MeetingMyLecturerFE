@@ -7,6 +7,7 @@ export const Lecturer = (props) => {
   useEffect(() => {
     props.setMenuOpt("lecturerDashboard");
   }, []);
+  
   return (
       <Row>
         {/* Set default menu option */}

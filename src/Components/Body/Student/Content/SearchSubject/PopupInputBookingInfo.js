@@ -56,6 +56,7 @@ export function PopupInputPassword(props) {
       }
     }
   };
+  
     //submit antispam
     const [clickSubmit, setClickSubmit] = useState(0);
     //cooldown 3s if users click over 2 times
@@ -75,6 +76,7 @@ export function PopupInputPassword(props) {
       <Title className="sectionTitle" level={3}>
         BOOKING
       </Title>
+      
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmitAntispam}>
           {/* ID */}

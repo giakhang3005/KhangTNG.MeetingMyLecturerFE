@@ -23,6 +23,7 @@ export const AddingLocation = (props) => {
     //! Place fetching ADD API here
 
     message.success(`Added location ${data.name}`);
+    setLocationSectionView("");
   };
 
   //form values
@@ -35,6 +36,7 @@ export const AddingLocation = (props) => {
       <Title className="sectionTitle" level={3}>
         ADDING LOCATION
       </Title>
+
       {/* Form */}
       <div className="editLocationForm">
         <Form initialValues={formValues} onFinish={handleSubmit}>

@@ -104,7 +104,7 @@ export const LectuerCalenderView = (props) => {
     },
     {
       id: 3,
-      date: "03/10/2023",
+      date: "12/12/2023",
       startTime: "15:00",
       endTime: "17:30",
       mode: "Accept the first Booker",
@@ -146,6 +146,7 @@ export const LectuerCalenderView = (props) => {
 
   return (
     <div className="CalenderViewContainer">
+
       {/* Support Buttons */}
       <div className="CalenderViewSupportBtn">
         {/* back to previous week */}
