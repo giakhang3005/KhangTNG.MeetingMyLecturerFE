@@ -9,7 +9,7 @@
 </ul>
 
 <h3>Introduction</h3>
-This is a Capstone Project for SWP391 which present as a Booking app for Lecturers and Students.
+This is a Capstone Project for SWP391 which present as a Booking app for FPT University Lecturers to create a Free time slot and let Students book it with a topic
 
 <h3>Main Functions:</h3>
 <ul>
