@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   Typography,
@@ -17,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import { AdvancePopover } from "./AdvancePopover";
 import { UserResultDisplay } from "./UserResultDisplay";
+import axios from "axios";
 
 export const UsersManage = () => {
   const { Title } = Typography;
@@ -24,7 +26,7 @@ export const UsersManage = () => {
   const [searchRole, setSearchRole] = useState(null);
   const [searchStatus, setSearchStatus] = useState(null);
   const [finalSearch, setFinalSearch] = useState({
-    email: null,
+    name: null,
     role: searchRole,
     status: searchStatus,
   });
@@ -49,24 +51,43 @@ export const UsersManage = () => {
   };
 
   //test data
-  const users = [
-    {
-      id: "10019293123123",
-      name: "Truong Nguyen Gia Khang (K17 HCM)",
-      email: "khangtngse171927@fpt.edu.vn",
-      role: "student",
-      password: null,
-      status: false,
-    },
-    {
-      id: "10019293123124",
-      name: "Truong Nguyen Gia Khang (K17 HCM)",
-      email: "khangtngse171927@fpt.edu.vn",
-      role: "student",
-      password: null,
-      status: true,
-    },
+  //! fetching data
+  const {
+    data: users, //assign name for the data
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(["user"], () => {
+    return axios
+      .get("https://meet-production-52c7.up.railway.app/api/v1/user/get")
+      .then((response) => response.data.data); //fetching and turn it into json
+  });
+
+  const checkRole = (role) => {
+    switch (role) {
+      case 0:
+        return "Admin";
+      case 1:
+        return "Lecturer";
+      case 2:
+        return "Student";
+    }
+  };
+
+  //* PUSH USER NAME INTO SEARCH BOX
+  //test users value
+  const usersSearch = [
+    // {
+    //   key: "khangtngse171927@fpt.edu.vn",
+    //   label: "khangtngse171927@fpt.edu.vn",
+    // },
   ];
+  const getName = () => {
+    users?.map((user) => {
+      usersSearch.push({ key: user.name, label: user.name });
+    });
+  };
+  getName();
 
   //columns of table
   const columns = [
@@ -89,7 +110,9 @@ export const UsersManage = () => {
     {
       key: "4",
       title: "Role",
-      dataIndex: "role",
+      render: (user) => {
+        return checkRole(user.role);
+      },
     },
     {
       key: "5",
@@ -144,24 +167,44 @@ export const UsersManage = () => {
   const activeUser = (user) => {};
 
   //handle search user
-  const handleUserInput = (email) => {
-    setFinalSearch({ ...finalSearch, email: email });
+  const handleUserInput = (name) => {
+    setFinalSearch({ ...finalSearch, name: name });
   };
 
   //handle search
+  const [usersList, setUsersList] = useState([]);
   const handleSearch = () => {
-    setRecentlSearch(finalSearch)
-    console.log(finalSearch);
-    //!fetch finalSearch
-  };
+    //set recent search result
+    setRecentlSearch(finalSearch);
 
-  //test users value
-  const usersSearch = [
-    {
-      key: "khangtngse171927@fpt.edu.vn",
-      label: "khangtngse171927@fpt.edu.vn",
-    },
-  ];
+    //create a search array contain all users
+    let searchResult = users;
+
+    //filter by name
+    if (finalSearch.name !== null) {
+      searchResult = searchResult.filter((user) => {
+        return user.name === finalSearch.name;
+      });
+    }
+
+    //filter by role
+    if (finalSearch.role !== null) {
+      searchResult = searchResult.filter((user) => {
+        return user.role === finalSearch.role;
+      });
+    }
+
+    //filter by role
+    if (finalSearch.status !== null) {
+      searchResult = searchResult.filter((user) => {
+        return user.status === finalSearch.status;
+      });
+    }
+
+    //set the search to null and print empty on the table
+    if(searchResult.length === 0) {searchResult = null}
+    setUsersList(searchResult);
+  };
 
   return (
     <>
@@ -172,11 +215,11 @@ export const UsersManage = () => {
       {/* Search user */}
       <Select
         suffixIcon={<MailFilled />}
-        placeholder="Ex: user@fpt.edu.vn,..."
+        placeholder="Ex: Nguyen Van A,..."
         showSearch
         allowClear
         onSelect={(user) => handleUserInput(user)}
-        onClear={() => setFinalSearch({ ...finalSearch, email: null })}
+        onClear={() => setFinalSearch({ ...finalSearch, name: null })}
         options={usersSearch.map((user) => ({
           value: user.key,
           label: user.label,
@@ -223,8 +266,8 @@ export const UsersManage = () => {
       <Table
         className="tableOfLocations"
         columns={columns}
-        dataSource={users}
-        // loading={isLoading}
+        dataSource={usersList?.length === 0 ? users : usersList}
+        loading={isLoading}
         rowKey="id"
       ></Table>
 

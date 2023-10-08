@@ -11,7 +11,7 @@ export function UserResultDisplay(props) {
       case 1:
         return <Tag color="cyan">Lecturer</Tag>;
       case 2:
-        return <Tag color="magneta">Student</Tag>;
+        return <Tag color="pink">Student</Tag>;
     }
   };
 
@@ -25,7 +25,7 @@ export function UserResultDisplay(props) {
   };
   return (
     <div style={{ margin: "10px 0 0 0" }}>
-            {recentSearch.email === null ? "" : <Tag color="orange">{recentSearch.email}</Tag>}
+            {recentSearch.name === null ? "" : <Tag color="orange">{recentSearch.name}</Tag>}
             {recentSearch.role === null ? "" : checkRole(recentSearch.role)}
             {recentSearch.status === null ? "" : checkStatus(recentSearch.status)}
     </div>
