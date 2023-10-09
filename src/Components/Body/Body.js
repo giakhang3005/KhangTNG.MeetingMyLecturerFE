@@ -7,6 +7,7 @@ import { Admin } from "./Admin/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SettingFilled } from "@ant-design/icons";
 import { Login } from "./Login/Login";
+import "./Body.css"
 
 export const Data = createContext();
 export const Body = (props) => {
@@ -61,15 +62,19 @@ export const Body = (props) => {
           setIsDarkMode,
         }}
       >
-        <ConfigProvider
-          theme={{ token: { colorPrimary: "#F15A25" } }}
-          // {{
-          //   token: {
-          //     // Seed Token
-          //     colorPrimary: "#F15A25",
-          //   },
-          // }}
-        >
+        <ConfigProvider theme={{ token: { colorPrimary: "#F15A25" } }}>
+          <ul class="background">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
           {/* show component base on user role */}
           {
             //if role === lecturer
