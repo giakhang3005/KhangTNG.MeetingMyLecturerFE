@@ -7,7 +7,6 @@ import { Data } from "../Body";
 import "./LoginStyle.css";
 
 export const Login = () => {
-
   const { Title } = Typography;
   // User -> user.name, email, picture, id, role...
   const { user, setUser, setRole } = useContext(Data);
@@ -45,7 +44,7 @@ export const Login = () => {
             //! call database, if database does not exist -> add data to database (default role: student)
             // console.log(userFromGg)
             // axios.get(`https://meet-production-52c7.up.railway.app/api/v1/user/get/${userFromGg.id}`).then(fetchRes => console.log(fetchRes))
-            //! If user (check by email) exists, get role 
+            //! If user (check by email) exists, get role
             const role = "student"; //this role fetch from DB
 
             // Login successfully
@@ -83,46 +82,52 @@ export const Login = () => {
     // setIsLoading(true)
     loginWithGG();
   };
-
-  // Handle login by username & password
-  const handleLoginByUsernameFinish = (data) => {
-    //test lecturer account
-    const lecturerTestAccount = {
-      id: "lecturer@test",
-      password: "test@123",
-      role: "lecturer",
-      name: "Test Lecturer Account",
-    };
-    const adminTestAccount = {
-      id: "admin@test",
-      password: "test@123",
-      role: "admin",
-      name: "Test Admin Account",
-    };
-
-    if (
-      (data.userId === lecturerTestAccount.id &&
-        data.password === lecturerTestAccount.password) ||
-      (data.userId === adminTestAccount.id &&
-        data.password === adminTestAccount.password)
-    ) {
-      //!Get full user from DB using data.username & data.password
-      let FinalUser = {};
-      data.userId === lecturerTestAccount.id
-        ? (FinalUser = { ...lecturerTestAccount })
-        : (FinalUser = { ...adminTestAccount });
-
-      // Set Internal state
-      setUser(FinalUser);
-      setRole(FinalUser.role);
-
-      //encode user
-      const encodedUser = btoa(JSON.stringify(FinalUser));
-      //! Save to session storage
-      sessionStorage.setItem("user", encodedUser);
-    } else {
-      message.error("Invalid username or password!");
+  const getRole = (roleId) => {
+    switch (roleId) {
+      case 0:
+        return "admin";
+      case 1:
+        return "lecturer";
+      case 2:
+        return "student";
+      default:
+        return "";
     }
+  };
+  // Handle login by username & password
+  const [loading, setLoading] = useState(false)
+  const handleLoginByUsernameFinish = (data) => {
+    setLoading(true)
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/v1/user/get/${data.userId}`
+      )
+      .then((response) => response.data.data)
+      .then((userData) => {
+        if (userData.password === data.password) {
+          const finalUser = {
+            id: userData.id,
+            name: userData.name,
+            picture: null,
+            email: userData.email,
+            role: getRole(userData.role),
+            status: userData.status,
+          };
+          //check account if disabled
+          if (finalUser.status === false) {
+            message.error("Your account have been disabled");
+          } else {
+            setUser(finalUser);
+            setRole(finalUser.role);
+            const encodedUser = btoa(JSON.stringify(finalUser));
+            sessionStorage.setItem("user", encodedUser);
+          }
+        } else {
+          message.error("Invalid username or password!");
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false))
   };
 
   //submit antispam
@@ -136,80 +141,79 @@ export const Login = () => {
     clickSubmit === 2 && message.error("Please try again in 3 seconds");
     clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
     if (clickSubmit < 2) {
-        handleLoginByUsernameFinish(data);
+      handleLoginByUsernameFinish(data);
     }
   };
 
   return (
-      <div className="backgroundLogin">
-
-        <Form className="loginForm" onFinish={handleSubmitAntispam}>
-          <Title className="loginTitle" level={3}>
-            Login Form
-          </Title>
-          <Form.Item
-            name="userId"
-            label="UserID"
-            className="input"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            className="input"
-            rules={[{ required: true }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item>
-            <Button className="loginBtn" type="primary" htmlType="submit">
-              Login
-            </Button>
-          </Form.Item>
-
-          {/* signin with google */}
-          <Button
-            style={Object.assign(
-              { width: "100%" },
-              { margin: "0 0 10px 0" },
-              { height: "40px" }
-            )}
-            loading={isLoading}
-            icon={<GoogleOutlined />}
-            onClick={() => handleSignin()}
-          >
-            Sign in with Google
+    <div className="backgroundLogin">
+      <Form className="loginForm" onFinish={handleSubmitAntispam}>
+        <Title className="loginTitle" level={3}>
+          Login Form
+        </Title>
+        <Form.Item
+          name="userId"
+          label="UserID"
+          className="input"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          className="input"
+          rules={[{ required: true }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item>
+          <Button loading={loading} className="loginBtn" type="primary" htmlType="submit">
+            Login
           </Button>
-          {/* Email notification */}
-          {checkMailErr && (
-            <Alert
-              message="Your email doesn't have permission to sign in!"
-              type="error"
-              banner
-            />
+        </Form.Item>
+
+        {/* signin with google */}
+        <Button
+          style={Object.assign(
+            { width: "100%" },
+            { margin: "0 0 10px 0" },
+            { height: "40px" }
           )}
-          {/* Error notification */}
-          {isErr && (
-            <Alert
-              message="There is an error, please try again!"
-              type="error"
-              banner
-            />
-          )}
-        </Form>
-            <ul className="background">
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-      </div>
+          loading={isLoading}
+          icon={<GoogleOutlined />}
+          onClick={() => handleSignin()}
+        >
+          Sign in with Google
+        </Button>
+        {/* Email notification */}
+        {checkMailErr && (
+          <Alert
+            message="Your email doesn't have permission to sign in!"
+            type="error"
+            banner
+          />
+        )}
+        {/* Error notification */}
+        {isErr && (
+          <Alert
+            message="There is an error, please try again!"
+            type="error"
+            banner
+          />
+        )}
+      </Form>
+      <ul className="background">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
   );
 };
