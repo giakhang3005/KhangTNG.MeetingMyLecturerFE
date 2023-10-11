@@ -17,6 +17,8 @@ export const Body = (props) => {
 
   const { getCurrentDate, GetWeek } = useDate();
 
+  //!Kick user when account is disable
+  //check 5 minutes
   setTimeout(() => {
     if (user !== null && user !== undefined) {
       axios
@@ -36,10 +38,9 @@ export const Body = (props) => {
             message.error("Your account have been disabled");
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {});
     }
   }, 1000*60*5);
-  //INTERVAL 5 MINITES
 
   //Create new client
   const client = new QueryClient({

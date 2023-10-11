@@ -55,8 +55,8 @@ export const UsersManage = () => {
           role: null,
           status: null,
         });
-        setUsersList([])
-      })
+        setUsersList([]);
+      });
   });
 
   const checkRole = (role) => {
@@ -71,13 +71,7 @@ export const UsersManage = () => {
   };
 
   //* PUSH USER NAME INTO SEARCH BOX
-  //test users value
-  const usersSearch = [
-    // {
-    //   key: "khangtngse171927@fpt.edu.vn",
-    //   label: "khangtngse171927@fpt.edu.vn",
-    // },
-  ];
+  const usersSearch = [];
   const getName = () => {
     users?.map((user) => {
       usersSearch.push({ key: user.name, label: user.name });
@@ -220,11 +214,26 @@ export const UsersManage = () => {
     setUsersList(searchResult);
   };
 
+  const handleRefetch = () => {
+    refetch();
+    setRecentlSearch({
+      name: null,
+      role: null,
+      status: null,
+    });
+    setFinalSearch({
+      name: null,
+      role: null,
+      status: null,
+    });
+    setUsersList([]);
+  };
+
   return (
     <>
       <Title className="sectionTitle" level={3}>
         USERS MANAGEMENT
-        {toggleLoading === true && <Spin />}
+        <Button type="primary" onClick={() => handleRefetch()} loading={toggleLoading || isLoading}>Refresh</Button>
       </Title>
 
       {/* Search user */}
