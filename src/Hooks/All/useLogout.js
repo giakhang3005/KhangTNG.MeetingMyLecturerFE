@@ -10,8 +10,8 @@ export const useLogOut = () => {
     // User
     const { setUser, setRole } = useContext(Data);
     //handle log out on click function
+    //logout
     const handleLogout = () => {
-      //logout
       googleLogout();
       setUser(null);
       setRole(null);
@@ -25,6 +25,7 @@ export const useLogOut = () => {
         icon: <LogoutOutlined />,
       });
     };
+
     return (
       <>
         <Button

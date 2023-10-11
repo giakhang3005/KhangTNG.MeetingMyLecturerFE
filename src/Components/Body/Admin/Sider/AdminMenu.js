@@ -14,9 +14,7 @@ import { useLogOut } from "../../../../Hooks/All/useLogout";
 export const AdminMenu = () => {
   //Get data from app.js
   const { menuOpt, setMenuOpt } = useContext(Data);
-
-  const {LogOutBtn} = useLogOut();
-
+  const LogOutBtn = useLogOut()
   //Item for menu
   const menuItems = [
     { label: "Home", icon: <HomeFilled />, key: "adminDashboard" },
