@@ -19,9 +19,9 @@ export function UserResultDisplay(props) {
 
   const checkStatus = (status) => {
     switch (status) {
-      case 0:
+      case false:
         return <Tag color="red">Disabled</Tag>;
-      case 1:
+      case true:
         return <Tag color="green">Active</Tag>;
       default:
         return <></>;

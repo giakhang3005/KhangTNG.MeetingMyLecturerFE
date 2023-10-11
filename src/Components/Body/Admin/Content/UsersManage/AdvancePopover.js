@@ -29,8 +29,8 @@ export function AdvancePopover(props) {
     { key: 2, label: "Student" },
   ];
   const statusList = [
-    { key: 0, label: "Disabled" },
-    { key: 1, label: "Active" },
+    { key: false, label: "Disabled" },
+    { key: true, label: "Active" },
   ];
 
   return (

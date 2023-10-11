@@ -9,6 +9,8 @@ import {
   Button,
   Col,
   Row,
+  message,
+  Spin,
 } from "antd";
 import {
   PoweroffOutlined,
@@ -39,7 +41,8 @@ export const UsersManage = () => {
   } = useQuery(["user"], () => {
     return axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/user/get")
-      .then((response) => response.data.data); //fetching and turn it into json
+      .then((response) => response.data.data);
+    // .then((responseData) => setUsersList(responseData))
   });
 
   const checkRole = (role) => {
@@ -115,10 +118,10 @@ export const UsersManage = () => {
       render: (user) => {
         return (
           <>
-            {user.status ? (
+            {toggleLoading === true ? <Popover content="Please wait for the Update finish"><PoweroffOutlined style={Object.assign({ fontSize: "18px" }, {color: 'black'}, {opacity: '0.1'})} /></Popover> : user.status ? (
               <Popover content={`Click to disable ${user.name}'s account`}>
                 <PoweroffOutlined
-                  onClick={() => activeUser(user)}
+                  onClick={() => toggleUser(user)}
                   style={Object.assign(
                     { fontSize: "18px" },
                     { color: "green" }
@@ -128,7 +131,7 @@ export const UsersManage = () => {
             ) : (
               <Popover content={`Click to active ${user.name}'s account`}>
                 <PoweroffOutlined
-                  onClick={() => disableUser(user)}
+                  onClick={() => toggleUser(user)}
                   style={Object.assign({ fontSize: "18px" }, { color: "red" })}
                 />
               </Popover>
@@ -139,11 +142,34 @@ export const UsersManage = () => {
     },
   ];
 
-  //disable user
-  const disableUser = (user) => {};
+  //toggle user
+  const [toggleLoading, setToggleLoading] = useState(false);
+  const toggleUser = async (user) => {
+    setToggleLoading(true);
+    const data = { ...user, status: !user.status };
+    await axios.put(
+      `https://meet-production-52c7.up.railway.app/api/v1/user/put/${user.id}`,
+      data
+    );
+    refetch();
+    setTimeout(() => {
+      setToggleLoading(false);
+      message.success("Update successfully");
 
-  //disable user
-  const activeUser = (user) => {};
+      //clear recent search history
+      setUsersList([]);
+      setRecentlSearch({
+        name: null,
+        role: null,
+        status: null,
+      });
+      setFinalSearch({
+        name: null,
+        role: null,
+        status: null,
+      });
+    }, 4000);
+  };
 
   //handle search user
   const handleUserInput = (name) => {
@@ -155,7 +181,6 @@ export const UsersManage = () => {
   const handleSearch = () => {
     //set recent search result
     setRecentlSearch(finalSearch);
-
     //create a search array contain all users
     let searchResult = users;
 
@@ -191,6 +216,7 @@ export const UsersManage = () => {
     <>
       <Title className="sectionTitle" level={3}>
         USERS MANAGEMENT
+        {toggleLoading === true && <Spin />}
       </Title>
 
       {/* Search user */}
@@ -207,10 +233,9 @@ export const UsersManage = () => {
               value: user.key,
               label: user.label,
             }))}
-            style={{width: '98%'}}
+            style={{ width: "98%" }}
           ></Select>
         </Col>
-
 
         {/* Others search */}
         <Col xs={11}>
