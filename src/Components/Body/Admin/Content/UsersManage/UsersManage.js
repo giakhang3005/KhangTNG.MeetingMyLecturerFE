@@ -32,17 +32,31 @@ export const UsersManage = () => {
   const [recentSearch, setRecentlSearch] = useState(finalSearch);
 
   //test data
+  const [users, setUsers] = useState([]);
   //! fetching data
   const {
-    data: users, //assign name for the data
+    // data, //assign name for the data
     isLoading,
-    isError,
+    // isError,
     refetch,
   } = useQuery(["user"], () => {
     return axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/user/get")
-      .then((response) => response.data.data);
-    // .then((responseData) => setUsersList(responseData))
+      .then((response) => response.data.data)
+      .then((responseData) => setUsers(responseData))
+      .finally(() => {
+        setRecentlSearch({
+          name: null,
+          role: null,
+          status: null,
+        });
+        setFinalSearch({
+          name: null,
+          role: null,
+          status: null,
+        });
+        setUsersList([])
+      })
   });
 
   const checkRole = (role) => {
@@ -118,7 +132,17 @@ export const UsersManage = () => {
       render: (user) => {
         return (
           <>
-            {toggleLoading === true ? <Popover content="Please wait for the Update finish"><PoweroffOutlined style={Object.assign({ fontSize: "18px" }, {color: 'black'}, {opacity: '0.1'})} /></Popover> : user.status ? (
+            {toggleLoading === true ? (
+              <Popover content="Please wait for the Update finish">
+                <PoweroffOutlined
+                  style={Object.assign(
+                    { fontSize: "18px" },
+                    { color: "black" },
+                    { opacity: "0.1" }
+                  )}
+                />
+              </Popover>
+            ) : user.status ? (
               <Popover content={`Click to disable ${user.name}'s account`}>
                 <PoweroffOutlined
                   onClick={() => toggleUser(user)}
@@ -152,23 +176,7 @@ export const UsersManage = () => {
       data
     );
     refetch();
-    setTimeout(() => {
-      setToggleLoading(false);
-      message.success("Update successfully");
-
-      //clear recent search history
-      setUsersList([]);
-      setRecentlSearch({
-        name: null,
-        role: null,
-        status: null,
-      });
-      setFinalSearch({
-        name: null,
-        role: null,
-        status: null,
-      });
-    }, 4000);
+    setToggleLoading(false);
   };
 
   //handle search user

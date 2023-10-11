@@ -17,7 +17,13 @@ export const Body = (props) => {
   const { getCurrentDate, GetWeek } = useDate();
 
   //Create new client
-  const client = new QueryClient();
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false, // default: true
+      },
+    },
+  });
 
   //get user select option
   //default date = today
