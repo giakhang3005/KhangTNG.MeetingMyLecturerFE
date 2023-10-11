@@ -233,12 +233,19 @@ export const UsersManage = () => {
     <>
       <Title className="sectionTitle" level={3}>
         USERS MANAGEMENT
-        <Button type="primary" onClick={() => handleRefetch()} loading={toggleLoading || isLoading}>Refresh</Button>
+        <Button
+          style={{ margin: "0 0 0 5px" }}
+          type="primary"
+          onClick={() => handleRefetch()}
+          loading={toggleLoading || isLoading}
+        >
+          Refresh
+        </Button>
       </Title>
 
       {/* Search user */}
       <Row>
-        <Col xs={12}>
+        <Col xs={10} md={12}>
           <Select
             suffixIcon={<MailFilled />}
             placeholder="Ex: Nguyen Van A,..."
@@ -279,13 +286,17 @@ export const UsersManage = () => {
       <UserResultDisplay recentSearch={recentSearch} />
 
       {/* Table of result */}
-      <Table
-        className="tableOfLocations"
-        columns={columns}
-        dataSource={usersList?.length === 0 ? users : usersList}
-        loading={isLoading}
-        rowKey="id"
-      ></Table>
+      <Row style={{overflow: 'scroll'}}>
+        <Col xs={24}>
+          <Table
+            className="tableOfLocations"
+            columns={columns}
+            dataSource={usersList?.length === 0 ? users : usersList}
+            loading={isLoading}
+            rowKey="id"
+          ></Table>
+        </Col>
+      </Row>
     </>
   );
 };
