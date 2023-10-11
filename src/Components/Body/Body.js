@@ -19,6 +19,7 @@ export const Body = (props) => {
 
   //!Kick user when account is disable
   //check 5 minutes
+  const [currentNoti, setCurrentNoti] = useState(false);
   setTimeout(() => {
     if (user !== null && user !== undefined) {
       axios
@@ -34,13 +35,13 @@ export const Body = (props) => {
 
             //! Delete user & role in session storage
             sessionStorage.removeItem("user");
-
-            message.error("Your account have been disabled");
+            !currentNoti && message.error("Your account have been disabled");
+            setCurrentNoti(true);
           }
         })
         .catch((error) => {});
     }
-  }, 1000*60*5);
+  }, 1000 * 60 * 5);
 
   //Create new client
   const client = new QueryClient({
