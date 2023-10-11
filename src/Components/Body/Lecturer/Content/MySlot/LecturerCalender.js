@@ -1,6 +1,5 @@
 import { Calendar } from "antd";
-import { ConvertDate, GetWeek } from "../../../../../ExtendedFunction/Date.js";
-import { parseDate } from "../../../../../ExtendedFunction/Date.js";
+import { useDate } from "../../../../../Hooks/All/useDate.js";
 import React from "react";
 import dayjs from "dayjs";
 
@@ -8,6 +7,8 @@ export const LecturerCalender = (props) => {
   //receive function
   const onChoosingDate = props.onChoosingDate,
   setOnChoosingDate = props.setOnChoosingDate;
+
+  const { ConvertDate, parseDate } = useDate();
 
   //function run when change year/month
   const onPanelChange = (value, mode) => {

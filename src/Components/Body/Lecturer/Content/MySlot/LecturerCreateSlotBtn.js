@@ -1,9 +1,10 @@
 import { Button } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
-import { LecturerCreateSlotFunction } from "./CalenderSlotViewFunction";
+import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const LecturerCreateSlotBtn = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView;
+  const { LecturerCreateSlotFunction } = useSlotLecturer();
   return (
     <>
       {/* <FloatButton icon={<PlusCircleFilled />} tooltip={<div>Tạo slot</div>} onClick={onClickCreateBtn}/> */}

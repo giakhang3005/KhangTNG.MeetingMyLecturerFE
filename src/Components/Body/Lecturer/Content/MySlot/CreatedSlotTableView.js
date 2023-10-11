@@ -5,17 +5,17 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import {
-  LecturerEditSlotFunction,
-  LecturerDeleteSlotFunction,
-} from "./CalenderSlotViewFunction";
 import { useArray } from "../../../../../Hooks/All/useArray";
+import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const CreatedSlotTableView = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot;
 
-    const ArrayToString = useArray();
+  const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } =
+    useSlotLecturer();
+
+  const ArrayToString = useArray();
   //fetching data
   //   const {
   //     data: SlotList, //assign name for the data

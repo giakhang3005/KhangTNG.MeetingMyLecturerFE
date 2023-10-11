@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { ConfigProvider } from "antd";
-import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
+import { useDate } from "../../Hooks/All/useDate";
 import { Lecturer } from "./Lecturer/Lecturer";
 import { Student } from "./Student/Student";
 import { Admin } from "./Admin/Admin";
@@ -13,6 +13,8 @@ export const Body = (props) => {
     setUser = props.setUser,
     isDarkMode = props.isDarkMode,
     setIsDarkMode = props.setIsDarkMode;
+
+  const { getCurrentDate, GetWeek } = useDate();
 
   //Create new client
   const client = new QueryClient();
@@ -54,7 +56,6 @@ export const Body = (props) => {
         }}
       >
         <ConfigProvider theme={{ token: { colorPrimary: "#F15A25" } }}>
-          
           {/* show component base on user role */}
           {
             //if role === lecturer

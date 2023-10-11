@@ -1,5 +1,5 @@
 import { Empty, Button, Modal, message, Popover } from "antd";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import {
   CaretLeftFilled,
   CaretRightFilled,
@@ -7,24 +7,12 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import {
-  getNextWeek,
-  getPrevWeek,
-  GetWeek,
-} from "../../../../../ExtendedFunction/Date.js";
 import { LecturerCalender } from "./LecturerCalender";
-import {
-  LecturerEditSlotFunction,
-  LecturerDeleteSlotFunction,
-} from "./CalenderSlotViewFunction";
 import { useArray } from "../../../../../Hooks/All/useArray";
+import { useDate } from "../../../../../Hooks/All/useDate.js";
+import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const LectuerCalenderView = (props) => {
-  //modal state
-  const [open, setOpen] = useState(false);
-
-  const ArrayToString = useArray();
-
   //API
   const [SlotList, setSlotList] = useState([]);
   //! Fetching API slot from date to date of user here
@@ -36,6 +24,14 @@ export const LectuerCalenderView = (props) => {
     setSelectedWeek = props.setSelectedWeek,
     setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot;
+
+  const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } = useSlotLecturer(); 
+
+  //modal state
+  const [open, setOpen] = useState(false);
+
+  const ArrayToString = useArray();
+  const { getNextWeek, getPrevWeek, GetWeek } = useDate();
 
   //handle onClick next week
   const onClickNextWeek = () => {
@@ -130,7 +126,7 @@ export const LectuerCalenderView = (props) => {
 
   //check spam for edit
   const handleClickEdit = (slot) => {
-    clickEdit === 2 && message.error('Please try again after 3 seconds')
+    clickEdit === 2 && message.error("Please try again after 3 seconds");
     clickEdit < 3 && setClickEdit(clickEdit + 1);
     if (clickEdit < 2) {
       LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot);
@@ -139,7 +135,7 @@ export const LectuerCalenderView = (props) => {
 
   //check spam for delete
   const handleClickDelete = (slot) => {
-    clickDelete === 2 && message.error(`Please try again after 3 seconds`)
+    clickDelete === 2 && message.error(`Please try again after 3 seconds`);
     clickDelete < 3 && setClickDelete(clickDelete + 1);
     if (clickDelete < 2) {
       LecturerDeleteSlotFunction(slot);
@@ -148,7 +144,6 @@ export const LectuerCalenderView = (props) => {
 
   return (
     <div className="CalenderViewContainer">
-
       {/* Support Buttons */}
       <div className="CalenderViewSupportBtn">
         {/* back to previous week */}
