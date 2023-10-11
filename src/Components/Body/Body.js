@@ -6,15 +6,40 @@ import { Student } from "./Student/Student";
 import { Admin } from "./Admin/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Login } from "./Login/Login";
+import { message } from "antd";
+import { googleLogout } from "@react-oauth/google";
+import axios from "axios";
 
 export const Data = createContext();
 export const Body = (props) => {
   const user = props.user,
-    setUser = props.setUser,
-    isDarkMode = props.isDarkMode,
-    setIsDarkMode = props.setIsDarkMode;
+    setUser = props.setUser;
 
   const { getCurrentDate, GetWeek } = useDate();
+
+  setTimeout(() => {
+    if (user !== null && user !== undefined) {
+      axios
+        .get(
+          `https://meet-production-52c7.up.railway.app/api/v1/user/get/${user.id}`
+        )
+        .then((response) => response.data.data)
+        .then((fetchUser) => {
+          if (!fetchUser.status) {
+            googleLogout();
+            setUser(null);
+            setRole(null);
+
+            //! Delete user & role in session storage
+            sessionStorage.removeItem("user");
+
+            message.error("Your account have been disabled");
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  }, 1000*60*5);
+  //INTERVAL 5 MINITES
 
   //Create new client
   const client = new QueryClient({
@@ -57,8 +82,6 @@ export const Body = (props) => {
           user,
           setUser,
           setRole,
-          isDarkMode,
-          setIsDarkMode,
         }}
       >
         <ConfigProvider theme={{ token: { colorPrimary: "#F15A25" } }}>
@@ -68,26 +91,14 @@ export const Body = (props) => {
             role === "lecturer" ? (
               //return
               <>
-                <Lecturer
-                  setMenuOpt={setMenuOpt}
-                  menuOpt={menuOpt}
-                  isDarkMode={isDarkMode}
-                />
+                <Lecturer setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
               </>
             ) : // else if role === student
             role === "student" ? (
-              <Student
-                setMenuOpt={setMenuOpt}
-                menuOpt={menuOpt}
-                isDarkMode={isDarkMode}
-              />
+              <Student setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
             ) : // else if role === admin
             role === "admin" ? (
-              <Admin
-                setMenuOpt={setMenuOpt}
-                menuOpt={menuOpt}
-                isDarkMode={isDarkMode}
-              />
+              <Admin setMenuOpt={setMenuOpt} menuOpt={menuOpt} />
             ) : (
               //others/no role
               <>

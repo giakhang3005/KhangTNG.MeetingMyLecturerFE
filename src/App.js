@@ -12,25 +12,16 @@ function App() {
       ? null
       : JSON.parse(atob(sessionStorage.user));
   const [user, setUser] = useState(startUser);
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("isDarkMode") === undefined
-      ? false
-      : localStorage.getItem("isDarkMode")
-  );
   return (
     <>
         <GoogleOAuthProvider clientId="669729803056-i161n4ah2i4s7rdrbchrv2jf4km0ciqr.apps.googleusercontent.com">
           <Nav
             user={user}
             setUser={setUser}
-            isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode}
           />
           <Body
             user={user}
             setUser={setUser}
-            isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode}
           />
         </GoogleOAuthProvider>
     </>
