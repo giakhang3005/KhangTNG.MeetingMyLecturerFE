@@ -21,3 +21,14 @@
     margin: 10px 0 0 0;
     padding: 0;
 }
+.requestsInfo {
+    animation: fade 0.25s linear;
+}
+@keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

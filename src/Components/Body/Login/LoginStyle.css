@@ -19,7 +19,7 @@
   text-align: center;
   border-radius: 8px;
   box-shadow: 3px 3px 10px grey;
-  animation: glowing 3s linear infinite;
+  animation: fade 0.5s linear;
 }
 .input {
   display: block;
@@ -163,5 +163,13 @@
     transform: translateY(-1000px) rotate(720deg);
     opacity: 0;
     border-radius: 50%;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

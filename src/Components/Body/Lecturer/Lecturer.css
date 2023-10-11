@@ -6,6 +6,7 @@
   padding: 0;
   margin: 25px 0 0 0;
   background: white;
+  animation: showLeftToRight 0.35s ease-out;
 }
 .ant-col {
   background: white;
@@ -30,6 +31,7 @@
   margin: 8px;
   justify-content: center;
   overflow: scroll;
+  animation: fade 0.2s linear;
 }
 .logOutBtn {
   text-align: left;
@@ -87,6 +89,7 @@
 .tableOfLocations {
   margin-top: 10px;
   width: 100%;
+  animation: fade 0.25s linear;
 }
 .locationDeleteBtn {
   color: red;
@@ -97,6 +100,10 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  animation: fade 0.2s linear;
+}
+.CalenderViewContainer  {
+  animation: fade 0.25s linear;
 }
 .editLocationForm Form {
   width: 50%;
@@ -135,6 +142,7 @@
 .tableviewcontainer {
   width: 100%;
   overflow: scroll;
+  animation: fade 0.3s linear;
 }
 .slotDisplay {
   margin: 12.9px 0 22px 0;
@@ -160,6 +168,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  animation: showUp 0.45s ease-out;
 }
 .cardStatisticNumber {
   box-shadow: 1px 1px 5px rgb(175, 175, 175);
@@ -208,5 +217,45 @@
   }
   .editLocationForm Form {
     width: 90%;
+  }
+}
+@keyframes showLeftToRight {
+  0% {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes showUp {
+  0% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes showLeftToRight2 {
+  0% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

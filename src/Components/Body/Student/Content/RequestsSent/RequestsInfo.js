@@ -96,7 +96,7 @@ export function RequestsInfo(props) {
         Back
       </Button>
 
-      <Row>
+      <Row class="requestsInfo">
         <Col xs={1}></Col>
         <Col xs={23}>
           {/* ID */}

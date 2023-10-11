@@ -37,7 +37,7 @@ export const AdminMenu = () => {
   ];
   //selectedKeys
   return (
-    <>
+    <span>
       <Menu
         mode="inline"
         items={menuItems}
@@ -50,6 +50,6 @@ export const AdminMenu = () => {
 
       {/* Logout Btn */}
       <LogOutBtn />
-    </>
+    </span>
   );
 };
