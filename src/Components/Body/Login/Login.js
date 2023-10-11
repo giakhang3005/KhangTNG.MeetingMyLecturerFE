@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from "react";
-import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Alert, Form, Input, Typography, message } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -199,7 +199,17 @@ export const Login = () => {
             />
           )}
         </Form>
-        
+            <ul className="background">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
       </div>
   );
 };

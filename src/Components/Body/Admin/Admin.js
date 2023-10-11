@@ -3,9 +3,9 @@ import { AdminSider } from "./Sider/AdminSider";
 import { AdminContent } from "./Content/AdminContent";
 import { useEffect } from "react";
 
-export const Admin = (props) => {
+export const Admin = ({setMenuOpt}) => {
   useEffect(() => {
-    props.setMenuOpt("adminDashboard");
+    setMenuOpt("adminDashboard");
   }, []);
   return (
     <Row>

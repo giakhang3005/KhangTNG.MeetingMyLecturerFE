@@ -9,7 +9,6 @@ import {
   Radio,
 } from "antd";
 import "../../Lecturer.css";
-import { parseDate } from "../../../../../ExtendedFunction/Date.js";
 import dayjs from "dayjs";
 import { useState } from "react";
 

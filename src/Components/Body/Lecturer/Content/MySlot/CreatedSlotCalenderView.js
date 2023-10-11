@@ -17,11 +17,13 @@ import {
   LecturerEditSlotFunction,
   LecturerDeleteSlotFunction,
 } from "./CalenderSlotViewFunction";
-import {ArrayToString} from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
 
 export const LectuerCalenderView = (props) => {
   //modal state
   const [open, setOpen] = useState(false);
+
+  const ArrayToString = useArray();
 
   //API
   const [SlotList, setSlotList] = useState([]);

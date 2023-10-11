@@ -3,7 +3,6 @@ import { Typography, Table } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import axios from "axios";
 import {
-  PlusCircleFilled,
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
@@ -14,7 +13,7 @@ export const ViewingLocation = (props) => {
     setEditLocation = props.setEditLocation,
     setFinalIdOfTheList = props.setFinalIdOfTheList;
 
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
   
   //! fetching data -> LocationsList
   const {

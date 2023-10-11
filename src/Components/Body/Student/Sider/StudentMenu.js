@@ -9,16 +9,28 @@ import {
   HourglassFilled,
   ClockCircleFilled,
 } from "@ant-design/icons";
-import { LogOutBtn } from "../../../../ExtendedFunction/Users";
+import { useLogOut } from "../../../../Hooks/All/useLogout";
 
 export const StudentMenu = () => {
   //Get data from app.js
   const { menuOpt, setMenuOpt } = useContext(Data);
 
+  const LogOutBtn = useLogOut();
+
   //Item for menu
   const menuItems = [
     { label: "Home", icon: <HomeFilled />, key: "studentDashboard" },
-    { label: "Booking", icon: <SearchOutlined />, key: "subjectSearch" },
+    {
+      label: "Slots",
+      icon: <TeamOutlined />,
+      key: null,
+      children: [
+        { label: "Find slots", icon: <SearchOutlined />, key: "subjectSearch" },
+        { label: "Requests sent", icon: <BellFilled />, key: "sentRequests" },
+      ],
+      type: "group",
+    },
+
     {
       label: "My Meetings",
       icon: <TeamOutlined />,
@@ -30,8 +42,8 @@ export const StudentMenu = () => {
           key: "upcommingMeetings",
         },
         { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
-        { label: "Requests sent", icon: <BellFilled />, key: "sentRequests" },
       ],
+      type: "group",
     },
   ];
   //selectedKeys

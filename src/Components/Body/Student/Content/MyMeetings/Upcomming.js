@@ -1,11 +1,13 @@
-import { Button, Table, Typography } from "antd";
-import { Accept, Decline, Pending } from "../RequestsSent/RequestStatusTag";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { Table, Typography } from "antd";
+import { useArray } from "../../../../../Hooks/All/useArray";
+import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 import React from "react";
 
 export function Upcomming() {
   const { Title } = Typography;
+  const ArrayToString = useArray();
+  const { Accept, Decline, Pending } = useStudentRequests();
   //table variables
   const columns = [
     {
@@ -34,7 +36,7 @@ export function Upcomming() {
       key: "6",
       title: "Subject",
       render: (booking) => {
-        return ArrayToString(booking.subject)
+        return ArrayToString(booking.subject);
       },
     },
     {

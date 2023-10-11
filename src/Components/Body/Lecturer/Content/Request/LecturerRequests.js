@@ -1,9 +1,10 @@
 import { Button, Typography, Table, message, Popover } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
 
 export const LecturerRequests = () => {
   const { Title } = Typography;
+  const ArrayToString = useArray()
 
   //fetching data
   //   const {

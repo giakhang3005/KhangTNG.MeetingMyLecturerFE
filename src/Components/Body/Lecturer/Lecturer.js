@@ -3,9 +3,9 @@ import { LecturerSider } from "./Sider/LecturerSider";
 import { LecturerContent } from "./Content/LecturerContent";
 import { useEffect } from "react";
 
-export const Lecturer = (props) => {
+export const Lecturer = ({setMenuOpt}) => {
   useEffect(() => {
-    props.setMenuOpt("lecturerDashboard");
+    setMenuOpt("lecturerDashboard");
   }, []);
   
   return (

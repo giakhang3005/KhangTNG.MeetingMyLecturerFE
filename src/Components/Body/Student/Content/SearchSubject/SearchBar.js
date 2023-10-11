@@ -5,7 +5,6 @@ import {
   CalendarFilled,
   CarryOutFilled,
 } from "@ant-design/icons";
-import { Data } from "../../../Body";
 import dayjs from "dayjs";
 
 import { PickDate } from "./PickDate";

@@ -4,6 +4,8 @@ import {AdminDashboard} from "./Dashboard/AdminDashboard"
 import { UsersManage } from "./UsersManage/UsersManage"
 import { SlotsManage } from "./SlotsManage/SlotsManage"
 import {BookingManage} from "./BookingManage/BookingManage"
+import { LecturersManage } from "./UsersManage/LecturersManage"
+import { StudentsManage } from "./UsersManage/StudentsManage"
 
 export const AdminContent = () => {
   const { menuOpt} = useContext(Data);
@@ -15,6 +17,10 @@ export const AdminContent = () => {
            <AdminDashboard />
         ) : menuOpt === "usersManage" ? (
           <UsersManage />
+        ) : menuOpt === "lecturersManage" ? (
+          <LecturersManage />
+        ) : menuOpt === "studentsManage" ? (
+          <StudentsManage />
         ) : // request
         menuOpt === "slotsManage" ? (
           <SlotsManage />

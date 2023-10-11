@@ -7,13 +7,12 @@ import {
   Popover,
   Select,
   Button,
-  message,
-  Modal,
+  Col,
+  Row,
 } from "antd";
 import {
   PoweroffOutlined,
   SearchOutlined,
-  SettingFilled,
   MailFilled,
 } from "@ant-design/icons";
 import { AdvancePopover } from "./AdvancePopover";
@@ -23,32 +22,12 @@ import axios from "axios";
 export const UsersManage = () => {
   const { Title } = Typography;
   // State
-  const [searchRole, setSearchRole] = useState(null);
-  const [searchStatus, setSearchStatus] = useState(null);
   const [finalSearch, setFinalSearch] = useState({
     name: null,
-    role: searchRole,
-    status: searchStatus,
+    role: null,
+    status: null,
   });
   const [recentSearch, setRecentlSearch] = useState(finalSearch);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setSearchRole(finalSearch.role);
-    setSearchStatus(finalSearch.status);
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setFinalSearch({ ...finalSearch, role: searchRole, status: searchStatus });
-    message.success("Saved Advanced option");
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   //test data
   //! fetching data
@@ -202,7 +181,9 @@ export const UsersManage = () => {
     }
 
     //set the search to null and print empty on the table
-    if(searchResult.length === 0) {searchResult = null}
+    if (searchResult.length === 0) {
+      searchResult = null;
+    }
     setUsersList(searchResult);
   };
 
@@ -213,51 +194,44 @@ export const UsersManage = () => {
       </Title>
 
       {/* Search user */}
-      <Select
-        suffixIcon={<MailFilled />}
-        placeholder="Ex: Nguyen Van A,..."
-        showSearch
-        allowClear
-        onSelect={(user) => handleUserInput(user)}
-        onClear={() => setFinalSearch({ ...finalSearch, name: null })}
-        options={usersSearch.map((user) => ({
-          value: user.key,
-          label: user.label,
-        }))}
-        style={{
-          width: "33.33%",
-        }}
-      ></Select>
+      <Row>
+        <Col xs={12}>
+          <Select
+            suffixIcon={<MailFilled />}
+            placeholder="Ex: Nguyen Van A,..."
+            showSearch
+            allowClear
+            onSelect={(user) => handleUserInput(user)}
+            onClear={() => setFinalSearch({ ...finalSearch, name: null })}
+            options={usersSearch.map((user) => ({
+              value: user.key,
+              label: user.label,
+            }))}
+            style={{width: '98%'}}
+          ></Select>
+        </Col>
 
-      {/* Advance button */}
-      <Popover
-        content={
-          finalSearch.role !== null || finalSearch.status !== null
-            ? "Click to edit advanced search options"
-            : "Click to add advanced search options"
-        }
-      >
-        <Button
-          style={Object.assign(
-            { margin: "0 0 0 8px" },
-            (finalSearch.role !== null || finalSearch.status !== null) && {
-              color: "green",
-            }
-          )}
-          icon={<SettingFilled />}
-          onClick={showModal}
-        ></Button>
-      </Popover>
 
-      {/* Search button */}
-      <Popover content="Click to search">
-        <Button
-          style={{ margin: "0 0 0 8px" }}
-          type="primary"
-          icon={<SearchOutlined />}
-          onClick={handleSearch}
-        ></Button>
-      </Popover>
+        {/* Others search */}
+        <Col xs={11}>
+          <AdvancePopover
+            finalSearch={finalSearch}
+            setFinalSearch={setFinalSearch}
+          />
+        </Col>
+
+        {/* Search button */}
+        <Col xs={1}>
+          <Popover content="Click to search">
+            <Button
+              style={{ margin: "0 0 0 8px" }}
+              type="primary"
+              icon={<SearchOutlined />}
+              onClick={handleSearch}
+            ></Button>
+          </Popover>
+        </Col>
+      </Row>
 
       {/* Alert banner */}
       <UserResultDisplay recentSearch={recentSearch} />
@@ -270,22 +244,6 @@ export const UsersManage = () => {
         loading={isLoading}
         rowKey="id"
       ></Table>
-
-      <Modal
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        title="Advanced Option"
-        okText="Save"
-      >
-        <AdvancePopover
-          finalSearch={finalSearch}
-          searchRole={searchRole}
-          setSearchRole={setSearchRole}
-          searchStatus={searchStatus}
-          setSearchStatus={setSearchStatus}
-        />
-      </Modal>
     </>
   );
 };

@@ -3,9 +3,9 @@ import { StudentSider } from "./Sider/StudentSider";
 import { StudentContent } from "./Content/StudentContent";
 import { useEffect } from "react";
 
-export const Student = (props) => {
+export const Student = ({setMenuOpt}) => {
     useEffect(() => {
-        props.setMenuOpt("studentDashboard");
+        setMenuOpt("studentDashboard");
       }, []);
 
     return (

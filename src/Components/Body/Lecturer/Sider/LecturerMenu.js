@@ -8,12 +8,14 @@ import {
   SettingFilled,
   EnvironmentFilled,
 } from "@ant-design/icons";
-import { LogOutBtn } from "../../../../ExtendedFunction/Users";
+import { useLogOut } from "../../../../Hooks/All/useLogout";
 
 export const LecturerMenu = () => {
   //Get data from app.js
   const { menuOpt, setMenuOpt, isDarkMode } = useContext(Data);
   const [titleUpdate, setTitleUpdate] = useState(false);
+
+  const LogOutBtn = useLogOut();
 
   //Item for menu
   const menuItems = [

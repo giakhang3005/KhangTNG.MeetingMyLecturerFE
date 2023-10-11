@@ -1,48 +1,167 @@
 .backgroundLogin {
-    height: 90vh;
+  height: 90vh;
 }
 .curvesLogin {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -1; 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 .loginForm {
-    position: absolute;
-    background: white;
-    border: 1px solid rgb(222, 222, 222);
-    width: 340px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 0 14px 18px 14px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 3px 3px 10px grey;
-    animation: glowing 3s linear infinite;
+  position: absolute;
+  background: white;
+  border: 1px solid rgb(222, 222, 222);
+  width: 340px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 14px 18px 14px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 3px 3px 10px grey;
+  animation: glowing 3s linear infinite;
 }
 .input {
-    display: block;
-    min-width: 100%;
-    margin: 0 0 25px 0
+  display: block;
+  min-width: 100%;
+  margin: 0 0 25px 0;
 }
 .loginTitle {
-    margin: 0 0 30px 0;
-    padding: 15px 0 25px 0;
+  margin: 0 0 30px 0;
+  padding: 15px 0 25px 0;
 }
 .loginBtn {
-    width: 100%;
-    margin: 7px 0 0 0;
+  width: 100%;
+  margin: 7px 0 0 0;
 }
 .curvessLoginUpper {
-    transform: rotate(180deg);
-    position: absolute;
-    top: 0;
-    z-index: -1;
+  transform: rotate(180deg);
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+.background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background: #ffa57d;
+  overflow: hidden;
+  z-index: -1;
+  list-style: none;
+}
+.background li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: animate 19s linear infinite;
+}
+
+.background li:nth-child(0) {
+  left: 58%;
+  width: 146px;
+  height: 146px;
+  bottom: -146px;
+  animation-delay: 1s;
+}
+.background li:nth-child(1) {
+  left: 23%;
+  width: 128px;
+  height: 128px;
+  bottom: -128px;
+  animation-delay: 5s;
+}
+.background li:nth-child(2) {
+  left: 78%;
+  width: 111px;
+  height: 111px;
+  bottom: -111px;
+  animation-delay: 6s;
+}
+.background li:nth-child(3) {
+  left: 31%;
+  width: 191px;
+  height: 191px;
+  bottom: -191px;
+  animation-delay: 13s;
+}
+.background li:nth-child(4) {
+  left: 73%;
+  width: 102px;
+  height: 102px;
+  bottom: -102px;
+  animation-delay: 5s;
+}
+.background li:nth-child(5) {
+  left: 51%;
+  width: 166px;
+  height: 166px;
+  bottom: -166px;
+  animation-delay: 13s;
+}
+.background li:nth-child(6) {
+  left: 78%;
+  width: 191px;
+  height: 191px;
+  bottom: -191px;
+  animation-delay: 8s;
+}
+.background li:nth-child(7) {
+  left: 53%;
+  width: 151px;
+  height: 151px;
+  bottom: -151px;
+  animation-delay: 22s;
+}
+.background li:nth-child(8) {
+  left: 33%;
+  width: 154px;
+  height: 154px;
+  bottom: -154px;
+  animation-delay: 38s;
+}
+.background li:nth-child(9) {
+  left: 25%;
+  width: 119px;
+  height: 119px;
+  bottom: -119px;
+  animation-delay: 9s;
 }
 @media only screen and (max-width: 900px) {
-    .curvessLoginUpper, .curvesLogin {
-        display: none;
-    }
+  .curvessLoginUpper,
+  .curvesLogin {
+    display: none;
+  }
+}
 
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
 }

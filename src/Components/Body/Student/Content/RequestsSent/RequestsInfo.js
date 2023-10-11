@@ -10,18 +10,21 @@ import {
   Popconfirm,
 } from "antd";
 import { LeftOutlined, FormOutlined, CloseOutlined } from "@ant-design/icons";
-import { Accept, Decline, Pending } from "./RequestStatusTag";
-import { updateBooking, cancelBooking } from "./RequestsFunction";
 import "../../Student.css";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
+import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 export function RequestsInfo(props) {
   const isSelectedBooking = props.isSelectedBooking,
     setIsSelectedBooking = props.setIsSelectedBooking,
     setRequestsView = props.setRequestsView;
 
+  const { updateBooking, cancelBooking, Accept, Decline, Pending } =
+    useStudentRequests();
+
   const { Title, Text } = Typography;
   const { TextArea } = Input;
+  const ArrayToString = useArray();
 
   const [inputNote, setInputNote] = useState(isSelectedBooking.note);
 
@@ -92,7 +95,7 @@ export function RequestsInfo(props) {
       >
         Back
       </Button>
-      
+
       <Row>
         <Col xs={1}></Col>
         <Col xs={23}>

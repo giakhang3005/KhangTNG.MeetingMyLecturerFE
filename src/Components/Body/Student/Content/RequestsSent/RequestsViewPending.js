@@ -1,13 +1,13 @@
 import React from "react";
-import { Typography, Table, message, Popover } from "antd";
-import { InfoCircleFilled } from "@ant-design/icons";
-import { Accept, Decline, Pending } from "./RequestStatusTag";
-import { tableColumn } from "./RequestsFunction";
+import { Typography, Table} from "antd";
+import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 export function RequestsViewPending(props) {
   const setIsSelectedBooking = props.setIsSelectedBooking,
     setRequestsView = props.setRequestsView;
   const { Title } = Typography;
+
+  const { tableColumn } = useStudentRequests()
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);

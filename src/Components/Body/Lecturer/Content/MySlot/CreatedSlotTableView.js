@@ -9,11 +9,13 @@ import {
   LecturerEditSlotFunction,
   LecturerDeleteSlotFunction,
 } from "./CalenderSlotViewFunction";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
 
 export const CreatedSlotTableView = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot;
+
+    const ArrayToString = useArray();
   //fetching data
   //   const {
   //     data: SlotList, //assign name for the data

@@ -1,6 +1,6 @@
 import { Button, Table, message, Popover, Alert } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
 
 //Handle success -> Book -> export for popup input password
 export const BookingSuccess = (booking) => {
@@ -16,6 +16,8 @@ export const ResultDisplay = (props) => {
     isSearchingSubject = props.isSearchingSubject,
     startDate = props.startDate,
     toDate = props.toDate;
+
+  const ArrayToString = useArray();
 
   //table variables
   const columns = [
@@ -49,10 +51,8 @@ export const ResultDisplay = (props) => {
       key: "6",
       title: "Subject",
       render: (booking) => {
-        return (
-            ArrayToString(booking.subject)
-        )
-      }
+        return ArrayToString(booking.subject);
+      },
     },
     {
       key: "7",
@@ -115,7 +115,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWP391") {
     BookingList.push({
       id: 1,
-      slotId: 'b',
+      slotId: "b",
       lecturer: "Test có pass",
       date: "01/10/2023",
       startTime: "13:30",
@@ -125,7 +125,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
-      slotId: 'a',
+      slotId: "a",
       lecturer: "Test không có pass",
       date: "01/10/2023",
       startTime: "16:30",
@@ -135,7 +135,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 3,
-      slotId: 'c',
+      slotId: "c",
       lecturer: "test đã book",
       date: "01/10/2023",
       startTime: "16:30",
@@ -147,7 +147,7 @@ export const ResultDisplay = (props) => {
   if (isSearchingSubject === "SWT301") {
     BookingList.push({
       id: 1,
-      slotId: 'c',
+      slotId: "c",
       lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
       date: "01/10/2023",
       startTime: "13:30",
@@ -157,7 +157,7 @@ export const ResultDisplay = (props) => {
     });
     BookingList.push({
       id: 2,
-      slotId: 'c',
+      slotId: "c",
       lecturer: "Tran Cong Lam (K17 HCM)",
       date: "01/10/2023",
       startTime: "16:30",
@@ -171,12 +171,20 @@ export const ResultDisplay = (props) => {
     <>
       {isSearchingSubject !== "" && (
         <Alert
-          message={`Found ${BookingList.length} slots for subject ${isSearchingSubject} ${startDate !== null ? `(${startDate.$D}/${startDate.$M + 1}/${startDate.$y} - ${toDate.$D}/${toDate.$M + 1}/${toDate.$y})` : ''}`}
+          message={`Found ${
+            BookingList.length
+          } slots for subject ${isSearchingSubject} ${
+            startDate !== null
+              ? `(${startDate.$D}/${startDate.$M + 1}/${startDate.$y} - ${
+                  toDate.$D
+                }/${toDate.$M + 1}/${toDate.$y})`
+              : ""
+          }`}
           type="info"
           showIcon
         />
       )}
-      
+
       {/* Table of result */}
       <Table
         className="tableOfLocations"

@@ -1,6 +1,5 @@
 import "../Student.css";
-import { useContext, useState } from "react";
-import { Data } from "../../Body";
+import { useState } from "react";
 import { StudentMenu } from "./StudentMenu";
 import { Button } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";

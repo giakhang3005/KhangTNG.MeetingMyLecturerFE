@@ -1,10 +1,13 @@
 import { Button, Table, Typography } from "antd";
-import { ArrayToString } from "../../../../../ExtendedFunction/ArrayToString";
+import { useArray } from "../../../../../Hooks/All/useArray";
 
 import React from "react";
 
+
+
 export function Past() {
   const { Title } = Typography;
+  const ArrayToString = useArray();
 
   //table variables
   const columns = [
@@ -38,10 +41,8 @@ export function Past() {
       key: "6",
       title: "Subject",
       render: (booking) => {
-        return (
-          ArrayToString(booking.subject)
-        )
-      }
+        return ArrayToString(booking.subject);
+      },
     },
   ];
 
@@ -56,7 +57,7 @@ export function Past() {
       subject: ["SWT301"],
     },
   ];
-  
+
   return (
     <>
       <Title className="sectionTitle" level={3}>

@@ -1,6 +1,5 @@
 import { message } from "antd";
 import dayjs from "dayjs";
-import { useState } from "react";
 
 export const LecturerEditSlotFunction = (
   slot,

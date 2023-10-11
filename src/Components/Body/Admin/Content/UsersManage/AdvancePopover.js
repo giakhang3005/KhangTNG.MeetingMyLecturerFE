@@ -1,89 +1,75 @@
 import React from "react";
-import { Col, Row, Select, Typography } from "antd";
+import { Col, Row, Select } from "antd";
 import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
 export function AdvancePopover(props) {
   const finalSearch = props.finalSearch,
-    searchRole = props.searchRole,
-    setSearchRole = props.setSearchRole,
-    searchStatus = props.searchStatus,
-    setSearchStatus = props.setSearchStatus;
-
-    const {Text, Title} = Typography;
+    setFinalSearch = props.setFinalSearch;
 
   //Handle role
   const handleSelectRole = (role) => {
-    setSearchRole(role);
+    setFinalSearch({...finalSearch, role: role})
   };
   const handleClearRole = () => {
-    setSearchRole(null);
+    setFinalSearch({...finalSearch, role: null})
   };
 
   //Handle status
   const handleSelectStatus = (status) => {
-    setSearchStatus(status);
+    setFinalSearch({...finalSearch, status: status})
   };
   const handleClearStatus = () => {
-    setSearchStatus(null);
+    setFinalSearch({...finalSearch, status: null})
   };
 
   //test data
-  const roleList = [{key: 0, label: "Admin"},{key: 1, label: "Lecturer"},{key: 2, label: "Student"}];
-  const statusList = [{key: 0, label: "Disabled"},{key: 1, label: "Active"}];
+  const roleList = [
+    { key: 0, label: "Admin" },
+    { key: 1, label: "Lecturer" },
+    { key: 2, label: "Student" },
+  ];
+  const statusList = [
+    { key: 0, label: "Disabled" },
+    { key: 1, label: "Active" },
+  ];
 
   return (
     <>
-    {/* Search Role */}
-      <Row style={{ margin: "15px 0 0 0" }}>
-        <Col xs={4}>
-        <Text
-            style={Object.assign({ fontSize: "18px" })}
-          >
-            Role:
-          </Text>
-        </Col>
-        <Col xs={20}>
+      {/* Search Role */}
+      <Row>
+        <Col xs={12}>
           <Select
             suffixIcon={<UserOutlined />}
-            placeholder="Select an option"
+            placeholder="Select a role"
             allowClear
             onSelect={(role) => handleSelectRole(role)}
             onClear={handleClearRole}
-            value={searchRole}
+            value={finalSearch.role}
             options={roleList.map((role) => ({
               value: role.key,
               label: role.label,
             }))}
             style={{
-              width: "100%",
+              width: "98%",
             }}
           ></Select>
         </Col>
-      </Row>
 
-      {/* Search Status */}
-      <Row style={{ margin: "15px 0 0 0" }}>
-        <Col xs={4}>
-          <Text
-            style={Object.assign({ fontSize: "18px" })}
-          >
-            Status:
-          </Text>
-        </Col>
-        <Col xs={20}>
+        {/* Search Status */}
+        <Col xs={12}>
           <Select
             suffixIcon={<InfoCircleOutlined />}
-            placeholder="Select an option"
+            placeholder="Select a status"
             allowClear
             onSelect={(status) => handleSelectStatus(status)}
             onClear={handleClearStatus}
-            value={searchStatus}
+            value={finalSearch.status}
             options={statusList.map((status) => ({
               value: status.key,
               label: status.label,
             }))}
             style={{
-              width: "100%",
+              width: "98%",
             }}
           ></Select>
         </Col>

@@ -18,7 +18,7 @@ export function PickDate(props) {
     setToDatePicker = props.setToDatePicker,
     handleClearDate = props.handleClearDate;
 
-  const { Text, Title } = Typography;
+  const { Title } = Typography;
 
   const today = new dayjs().hour(0).minute(0).second(0);
 

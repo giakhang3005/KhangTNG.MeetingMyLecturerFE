@@ -1,7 +1,5 @@
 import React from "react";
-import { Typography, Tabs, message } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Accept, Decline, Pending } from "./RequestStatusTag";
+import { Typography, Tabs } from "antd";
 import { RequestsViewAll } from "./RequestsViewAll";
 import { RequestsViewPending } from "./RequestsViewPending";
 import { RequestsViewAccepted } from "./RequestsViewAccepted";

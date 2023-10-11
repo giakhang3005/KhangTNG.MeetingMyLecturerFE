@@ -1,13 +1,11 @@
 import { createContext, useState } from "react";
-import { ConfigProvider, Switch } from "antd";
+import { ConfigProvider } from "antd";
 import { getCurrentDate, GetWeek } from "../../ExtendedFunction/Date";
 import { Lecturer } from "./Lecturer/Lecturer";
 import { Student } from "./Student/Student";
 import { Admin } from "./Admin/Admin";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SettingFilled } from "@ant-design/icons";
 import { Login } from "./Login/Login";
-import "./Body.css"
 
 export const Data = createContext();
 export const Body = (props) => {
@@ -37,13 +35,6 @@ export const Body = (props) => {
   //TODO: for backend
   const [input, setInput] = useState();
 
-  //handle light/dark mode change
-  const handleModeChange = () => {
-    setIsDarkMode(!isDarkMode);
-    localStorage.removeItem("isDarkMode");
-    localStorage.setItem("isDarkMode", isDarkMode);
-  };
-
   return (
     //pass value to all component inside
     <QueryClientProvider client={client}>
@@ -63,18 +54,7 @@ export const Body = (props) => {
         }}
       >
         <ConfigProvider theme={{ token: { colorPrimary: "#F15A25" } }}>
-          <ul class="background">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
+          
           {/* show component base on user role */}
           {
             //if role === lecturer

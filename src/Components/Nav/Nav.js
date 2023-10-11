@@ -2,12 +2,10 @@ import { UserOutlined } from "@ant-design/icons";
 import { Typography, Avatar } from "antd";
 import "./NavStyle.css";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 export const Nav = (props) => {
   //user
-  const user = props.user,
-    setUser = props.setUser,
-    isDarkMode = props.isDarkMode
+  const user = props.user;
 
   return (
     <div className="Nav">
@@ -20,6 +18,7 @@ export const Nav = (props) => {
             { margin: "6px 0 0 0" },
             { padding: 0 }
           )}
+          alt="Meeting my Lecturers"
         />
       </div>
 
@@ -28,7 +27,7 @@ export const Nav = (props) => {
           <Text className="Name" >{user?.name}</Text>
           {/* <UserOutlined className="Icon" /> */}
           {user !== null && (
-            <Avatar src={user?.picture} icon={<UserOutlined />}></Avatar>
+            <Avatar src={user?.picture} icon={<UserOutlined />} alt="your avatar"></Avatar>
           )}
         </div>
     </div>
