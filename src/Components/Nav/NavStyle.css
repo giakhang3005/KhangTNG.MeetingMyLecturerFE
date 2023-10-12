@@ -48,3 +48,29 @@
     border: 1px solid black;
     border-radius: 50%;
 }
+.logo {
+    animation: floatLeft 0.35s ease-out
+}
+.User {
+    animation: floatRight 0.35s ease-out
+}
+@keyframes floatLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes floatRight {
+    from {
+        opacity: 0;
+        transform: translateX(40%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

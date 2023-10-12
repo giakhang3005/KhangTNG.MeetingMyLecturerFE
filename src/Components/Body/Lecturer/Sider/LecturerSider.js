@@ -20,10 +20,10 @@ export const LecturerSider = () => {
 
         {/* Menu */}
         {menuState && (
-          <>
+          <span className="menuAnimation">
             {/* Menu */}
             <LecturerMenu />
-          </>
+          </span>
         )}
       </div>
   );

@@ -48,6 +48,7 @@
 }
 .LecturerShowBtn {
   display: none;
+  z-index: 1;
 }
 
 .lecturerCreatedSlots {
@@ -201,6 +202,12 @@
     display: block;
     margin-left: 10px;
   }
+  .menuAnimation ul{
+    animation: menu 0.3s ease-out;
+  }
+  .logOutBtn {
+    animation: logout 0.3s ease-out;
+  }
   .Sider {
     margin: 0;
     border-bottom: 1px solid rgb(212, 212, 212);
@@ -217,6 +224,26 @@
   }
   .editLocationForm Form {
     width: 90%;
+  }
+}
+@keyframes menu {
+  0% {
+    transform: translateY(-80%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes logout {
+  0% {
+    transform: translateY(-1000%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 @keyframes showLeftToRight {

@@ -21,10 +21,10 @@ export const AdminSider = () => {
 
       {/* Menu */}
       {menuState && (
-        <>
+        <span className="menuAnimation">
           {/* Menu */}
           <AdminMenu />
-        </>
+        </span>
       )}
     </div>
   );

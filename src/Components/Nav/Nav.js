@@ -23,13 +23,18 @@ export const Nav = (props) => {
       </div>
 
       {/* User */}
+      {user !== null && (
         <div className="User">
-          <Text className="Name" >{user?.name}</Text>
+          <Text className="Name">{user?.name}</Text>
           {/* <UserOutlined className="Icon" /> */}
-          {user !== null && (
-            <Avatar src={user?.picture} icon={<UserOutlined />} alt="your avatar"></Avatar>
-          )}
+
+          <Avatar
+            src={user?.picture}
+            icon={<UserOutlined />}
+            alt="your avatar"
+          ></Avatar>
         </div>
+      )}
     </div>
   );
 };

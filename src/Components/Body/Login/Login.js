@@ -5,6 +5,7 @@ import { GoogleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Data } from "../Body";
 import "./LoginStyle.css";
+import { useAccountStatus } from "../../../Hooks/All/useAccountStatus";
 
 export const Login = () => {
   const { Title } = Typography;
@@ -12,6 +13,7 @@ export const Login = () => {
   const { user, setUser, setRole } = useContext(Data);
   const { isErr, setIsErr } = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const validStatus = useAccountStatus()
 
   // Email check
   const fptEmail = "@fpt.edu.vn",
@@ -45,20 +47,22 @@ export const Login = () => {
             // console.log(userFromGg)
             // axios.get(`https://meet-production-52c7.up.railway.app/api/v1/user/get/${userFromGg.id}`).then(fetchRes => console.log(fetchRes))
             //! If user (check by email) exists, get role
-            const role = "student"; //this role fetch from DB
+            // const role = "student"; //this role fetch from DB
 
-            // Login successfully
-            //user with role
-            const finalUser = { ...userFromGg, role };
+            // // Login successfully
+            // //user with role
+            // const finalUser = { ...userFromGg, role };
 
-            // Set Internal state
-            setUser(finalUser);
-            setRole(role);
+            // // Set Internal state
+            // setUser(finalUser);
+            // setRole(role);
 
-            //encode user
-            const encodedUser = btoa(JSON.stringify(finalUser));
-            //! Save to session storage
-            sessionStorage.setItem("user", encodedUser);
+            // //encode user
+            // const encodedUser = btoa(JSON.stringify(finalUser));
+            // //! Save to session storage
+            // sessionStorage.setItem("user", encodedUser);
+
+            message.error("This feature have been disabled")
           } else {
             setCheckMailErr(true);
           }
@@ -114,19 +118,12 @@ export const Login = () => {
             status: userData.status,
           };
           //check account if disabled
-          if (finalUser.status === false) {
-            message.error("Your account have been disabled");
-          } else {
-            setUser(finalUser);
-            setRole(finalUser.role);
-            const encodedUser = btoa(JSON.stringify(finalUser));
-            sessionStorage.setItem("user", encodedUser);
-          }
+          validStatus(finalUser, setUser, setRole)
         } else {
           message.error("Invalid username or password!");
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => message.error('Invalid username or password!'))
       .finally(() => setLoading(false))
   };
 

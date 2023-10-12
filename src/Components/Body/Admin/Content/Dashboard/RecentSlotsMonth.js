@@ -15,7 +15,7 @@ export const RecentSlotsMonth = () => {
   
   return (
     <div className="Chart">
-      <Title level={4}>Number of slots & users in recent months</Title>
+      <Title level={5}>Number of slots & users in recent months</Title>
       <Bar
         className="displayGraph"
         data={{
