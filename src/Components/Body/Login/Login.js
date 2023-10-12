@@ -56,7 +56,7 @@ export const Login = () => {
                 const finalUser = {
                   id: userData.id,
                   name: userData.name,
-                  picture: userFromGg.img,
+                  picture: userFromGg.picture,
                   email: userData.email,
                   role: getRole(userData.role),
                   status: userData.status,
@@ -91,7 +91,7 @@ export const Login = () => {
                       const finalUser = {
                         id: userData.id,
                         name: userData.name,
-                        picture: userFromGg.img,
+                        picture: userFromGg.picture,
                         email: userData.email,
                         role: getRole(userData.role),
                         status: userData.status,
