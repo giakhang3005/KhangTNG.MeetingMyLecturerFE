@@ -6,6 +6,9 @@ import { FormOutlined, CloseOutlined, LeftOutlined } from "@ant-design/icons";
 
 export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
   const { Title } = Typography;
+  // Email check
+  const fptEmail = "@fpt.edu.vn",
+    feEmail = "@fe.edu.vn";
 
   const reverseRole = (role) => {
     switch (role) {
@@ -113,6 +116,12 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 style={{ fontWeight: "400" }}
               >
                 <Input
+                  disabled={
+                    userEdit.email.includes(fptEmail) ||
+                    userEdit.email.includes(feEmail)
+                      ? true
+                      : false
+                  }
                   className="editInput"
                   defaultValue={userEdit.email}
                 ></Input>
