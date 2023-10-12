@@ -224,7 +224,7 @@ export const Login = () => {
             { margin: "0 0 10px 0" },
             { height: "40px" }
           )}
-          loading={isLoading}
+          loading={isLoading || ggLoading}
           icon={<GoogleOutlined />}
           onClick={() => handleSignin()}
         >
