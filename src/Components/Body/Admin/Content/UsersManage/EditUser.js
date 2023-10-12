@@ -33,12 +33,14 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
       status: infoText[11].textContent === "Active" ? true : false,
     };
 
-    await axios
-      .put(
-        `https://meet-production-52c7.up.railway.app/api/v1/account/put/${newUser.id}`,
-        newUser
-      )
-      .then(message.success("Updated successfully"));
+    newUser.email.includes(fptEmail) || newUser.email.includes(feEmail)
+      ? message.error("Custom email cannot be FPT & FE email")
+      : await axios
+          .put(
+            `https://meet-production-52c7.up.railway.app/api/v1/account/put/${newUser.id}`,
+            newUser
+          )
+          .then(message.success("Updated successfully"));
   };
 
   return (

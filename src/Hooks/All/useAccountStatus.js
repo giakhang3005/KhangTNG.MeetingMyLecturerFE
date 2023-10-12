@@ -1,9 +1,9 @@
 import { message } from "antd";
 
 export const useAccountStatus = () => {
-  const validStatus = (finalUser, setUser, setRole) => {
+  const validStatus = (finalUser, setUser, setRole, setDisableAccount) => {
     if (finalUser.status === false) {
-      message.error("Your account have been disabled");
+      setDisableAccount(true)
     } else {
       setUser(finalUser);
       setRole(finalUser.role);

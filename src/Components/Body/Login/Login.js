@@ -11,14 +11,14 @@ export const Login = () => {
   const { Title } = Typography;
   // User -> user.name, email, picture, id, role...
   const { user, setUser, setRole } = useContext(Data);
-  const { isErr, setIsErr } = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isErr, setIsErr] = useState(false);
   const validStatus = useAccountStatus();
 
   // Email check
   const fptEmail = "@fpt.edu.vn",
     feEmail = "@fe.edu.vn";
   const [checkMailErr, setCheckMailErr] = useState(false);
+  const [disableAccount, setDisableAccount] = useState(false);
 
   const [ggLoading, setGgLoading] = useState(false);
   //Handle login by gmail
@@ -62,7 +62,8 @@ export const Login = () => {
                   status: userData.status,
                 };
                 //check account if disabled
-                validStatus(finalUser, setUser, setRole);
+                validStatus(finalUser, setUser, setRole, setDisableAccount);
+                setGgLoading(false);
               })
               //! account not exist
               .catch((err) => {
@@ -97,9 +98,15 @@ export const Login = () => {
                         status: userData.status,
                       };
                       //check account if disabled
-                      validStatus(finalUser, setUser, setRole);
+                      validStatus(
+                        finalUser,
+                        setUser,
+                        setRole,
+                        setDisableAccount
+                      );
+                      setGgLoading(false);
                     })
-                    .finally(() => setGgLoading(false))
+                    .finally(() => setGgLoading(false));
                 } else {
                   message.error(`There is an internal error: ${statusMsg}`);
                   setGgLoading(false);
@@ -160,7 +167,7 @@ export const Login = () => {
             status: userData.status,
           };
           //check account if disabled
-          validStatus(finalUser, setUser, setRole);
+          validStatus(finalUser, setUser, setRole, setDisableAccount);
         } else {
           message.error("Invalid username or password!");
         }
@@ -224,7 +231,7 @@ export const Login = () => {
             { margin: "0 0 10px 0" },
             { height: "40px" }
           )}
-          loading={isLoading || ggLoading}
+          loading={ggLoading}
           icon={<GoogleOutlined />}
           onClick={() => handleSignin()}
         >
@@ -232,19 +239,38 @@ export const Login = () => {
         </Button>
         {/* Email notification */}
         {checkMailErr && (
-          <Alert
-            message="Your email doesn't have permission to sign in!"
-            type="error"
-            banner
-          />
+          <>
+            <Alert
+              message="Your account doesn't have permission to sign in!"
+              type="error"
+              banner
+            />
+            {() => setIsErr(false)}
+            {() => setDisableAccount(false)}
+          </>
         )}
         {/* Error notification */}
         {isErr && (
-          <Alert
-            message="There is an error, please try again!"
-            type="error"
-            banner
-          />
+          <>
+            <Alert
+              message="There is an error, please try again!"
+              type="error"
+              banner
+            />
+            {() => setCheckMailErr(false)}
+            {() => setDisableAccount(false)}
+          </>
+        )}
+        {disableAccount && (
+          <>
+            <Alert
+              message="Your account have been disabled!"
+              type="error"
+              banner
+            />
+            {() => setCheckMailErr(false)}
+            {() => setIsErr(false)}
+          </>
         )}
       </Form>
       <ul className="background">
