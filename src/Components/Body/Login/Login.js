@@ -13,13 +13,14 @@ export const Login = () => {
   const { user, setUser, setRole } = useContext(Data);
   const { isErr, setIsErr } = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const validStatus = useAccountStatus()
+  const validStatus = useAccountStatus();
 
   // Email check
   const fptEmail = "@fpt.edu.vn",
     feEmail = "@fe.edu.vn";
   const [checkMailErr, setCheckMailErr] = useState(false);
 
+  const [ggLoading, setGgLoading] = useState(false);
   //Handle login by gmail
   const loginWithGG = useGoogleLogin({
     // Succes
@@ -44,25 +45,66 @@ export const Login = () => {
             setCheckMailErr(false);
             const userFromGg = res.data;
             //! call database, if database does not exist -> add data to database (default role: student)
-            // console.log(userFromGg)
-            // axios.get(`https://meet-production-52c7.up.railway.app/api/v1/user/get/${userFromGg.id}`).then(fetchRes => console.log(fetchRes))
-            //! If user (check by email) exists, get role
-            // const role = "student"; //this role fetch from DB
-
-            // // Login successfully
-            // //user with role
-            // const finalUser = { ...userFromGg, role };
-
-            // // Set Internal state
-            // setUser(finalUser);
-            // setRole(role);
-
-            // //encode user
-            // const encodedUser = btoa(JSON.stringify(finalUser));
-            // //! Save to session storage
-            // sessionStorage.setItem("user", encodedUser);
-
-            message.error("This feature have been disabled")
+            setGgLoading(true);
+            axios
+              .get(
+                `https://meet-production-52c7.up.railway.app/api/v1/account/get/${userFromGg.id}`
+              )
+              //! account exist
+              .then((response) => response.data.data)
+              .then((userData) => {
+                const finalUser = {
+                  id: userData.id,
+                  name: userData.name,
+                  picture: userFromGg.img,
+                  email: userData.email,
+                  role: getRole(userData.role),
+                  status: userData.status,
+                };
+                //check account if disabled
+                validStatus(finalUser, setUser, setRole);
+              })
+              //! account not exist
+              .catch((err) => {
+                //get status error
+                const statusMsg = err.response.data.status;
+                //account not found
+                if (statusMsg === "NOT_FOUND") {
+                  //requests body
+                  const createUser = {
+                    id: userFromGg.id,
+                    name: userFromGg.name,
+                    email: userFromGg.email,
+                    password: null,
+                    // role: 2,
+                    status: true,
+                  };
+                  //!start create account
+                  axios
+                    .post(
+                      "https://meet-production-52c7.up.railway.app/api/v1/account/post",
+                      createUser
+                    )
+                    //!get api response with new user data
+                    .then((response) => response.data.data)
+                    .then((userData) => {
+                      const finalUser = {
+                        id: userData.id,
+                        name: userData.name,
+                        picture: userFromGg.img,
+                        email: userData.email,
+                        role: getRole(userData.role),
+                        status: userData.status,
+                      };
+                      //check account if disabled
+                      validStatus(finalUser, setUser, setRole);
+                    })
+                    .finally(() => setGgLoading(false))
+                } else {
+                  message.error(`There is an internal error: ${statusMsg}`);
+                  setGgLoading(false);
+                }
+              });
           } else {
             setCheckMailErr(true);
           }
@@ -99,12 +141,12 @@ export const Login = () => {
     }
   };
   // Handle login by username & password
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const handleLoginByUsernameFinish = (data) => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get(
-        `https://meet-production-52c7.up.railway.app/api/v1/user/get/${data.userId}`
+        `https://meet-production-52c7.up.railway.app/api/v1/account/get/${data.userId}`
       )
       .then((response) => response.data.data)
       .then((userData) => {
@@ -118,13 +160,13 @@ export const Login = () => {
             status: userData.status,
           };
           //check account if disabled
-          validStatus(finalUser, setUser, setRole)
+          validStatus(finalUser, setUser, setRole);
         } else {
           message.error("Invalid username or password!");
         }
       })
-      .catch((err) => message.error('Invalid username or password!'))
-      .finally(() => setLoading(false))
+      .catch((err) => message.error("Invalid username or password!"))
+      .finally(() => setLoading(false));
   };
 
   //submit antispam
@@ -165,7 +207,12 @@ export const Login = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item>
-          <Button loading={loading} className="loginBtn" type="primary" htmlType="submit">
+          <Button
+            loading={loading}
+            className="loginBtn"
+            type="primary"
+            htmlType="submit"
+          >
             Login
           </Button>
         </Form.Item>

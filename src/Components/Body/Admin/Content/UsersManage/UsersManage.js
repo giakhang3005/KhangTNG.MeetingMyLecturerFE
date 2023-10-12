@@ -10,18 +10,19 @@ import {
   Col,
   Row,
   message,
-  Spin,
 } from "antd";
 import {
   PoweroffOutlined,
   SearchOutlined,
   MailFilled,
+  EditOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import { AdvancePopover } from "./AdvancePopover";
 import { UserResultDisplay } from "./UserResultDisplay";
 import axios from "axios";
 
-export const UsersManage = () => {
+export const UsersManage = ({setMenuOpt, setUserEdit}) => {
   const { Title } = Typography;
   // State
   const [finalSearch, setFinalSearch] = useState({
@@ -41,7 +42,7 @@ export const UsersManage = () => {
     refetch,
   } = useQuery(["user"], () => {
     return axios
-      .get("https://meet-production-52c7.up.railway.app/api/v1/user/get")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/account/get")
       .then((response) => response.data.data)
       .then((responseData) => setUsers(responseData))
       .finally(() => {
@@ -79,104 +80,30 @@ export const UsersManage = () => {
   };
   getName();
 
-  //columns of table
-  const columns = [
-    {
-      key: "1",
-      title: "ID",
-      //location.id
-      dataIndex: "id",
-    },
-    {
-      key: "2",
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      key: "3",
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      key: "4",
-      title: "Role",
-      render: (user) => {
-        return checkRole(user.role);
-      },
-    },
-    {
-      key: "5",
-      title: "Password",
-      dataIndex: "password",
-    },
-    {
-      key: "6",
-      title: "Status",
-      render: (user) => {
-        return user.status ? (
-          <Tag color="green">Active</Tag>
-        ) : (
-          <Tag color="red">Disabled</Tag>
-        );
-      },
-    },
-    {
-      key: "7",
-      title: "",
-      render: (user) => {
-        return (
-          <>
-            {toggleLoading === true ? (
-              <Popover content="Please wait for the Update finish">
-                <PoweroffOutlined
-                  style={Object.assign(
-                    { fontSize: "18px" },
-                    { color: "black" },
-                    { opacity: "0.1" }
-                  )}
-                />
-              </Popover>
-            ) : user.status ? (
-              <Popover content={`Click to disable ${user.name}'s account`}>
-                <PoweroffOutlined
-                  onClick={() => toggleUser(user)}
-                  style={Object.assign(
-                    { fontSize: "18px" },
-                    { color: "green" }
-                  )}
-                />
-              </Popover>
-            ) : (
-              <Popover content={`Click to active ${user.name}'s account`}>
-                <PoweroffOutlined
-                  onClick={() => toggleUser(user)}
-                  style={Object.assign({ fontSize: "18px" }, { color: "red" })}
-                />
-              </Popover>
-            )}
-          </>
-        );
-      },
-    },
-  ];
-
   //toggle user
   const [toggleLoading, setToggleLoading] = useState(false);
   const toggleUser = async (user) => {
     setToggleLoading(true);
     const data = { ...user, status: !user.status };
     await axios.put(
-      `https://meet-production-52c7.up.railway.app/api/v1/user/put/${user.id}`,
+      `https://meet-production-52c7.up.railway.app/api/v1/account/put/${user.id}`,
       data
     );
     refetch();
     setToggleLoading(false);
+    message.success("Toggled successfully");
   };
 
   //handle search user
   const handleUserInput = (name) => {
     setFinalSearch({ ...finalSearch, name: name });
   };
+
+  //handle edit user
+  const handleEditUser = (user) => {
+    setMenuOpt("editUser")
+    setUserEdit(user);
+  }
 
   //handle search
   const [usersList, setUsersList] = useState([]);
@@ -229,18 +156,132 @@ export const UsersManage = () => {
     setUsersList([]);
   };
 
+  //columns of table
+  const columns = [
+    {
+      key: "1",
+      title: "ID",
+      //location.id
+      dataIndex: "id",
+    },
+    {
+      key: "2",
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      key: "3",
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      key: "4",
+      title: "Role",
+      render: (user) => {
+        return checkRole(user.role);
+      },
+    },
+    {
+      key: "5",
+      title: "Password",
+      dataIndex: "password",
+    },
+    {
+      key: "6",
+      title: "Status",
+      render: (user) => {
+        return user.status ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Disabled</Tag>
+        );
+      },
+    },
+    {
+      key: "7",
+      title: "",
+      render: (user) => {
+        return (
+          <>
+            {/* Loading */}
+            {toggleLoading ? (
+              <Popover content="Please wait for the Update finish">
+                <EditOutlined
+                  style={Object.assign(
+                    { fontSize: "18px" },
+                    { color: "black" },
+                    { opacity: "0.1" },
+                    { margin: "0 12px 0 0" }
+                  )}
+                />
+                <PoweroffOutlined
+                  style={Object.assign(
+                    { fontSize: "18px" },
+                    { color: "black" },
+                    { opacity: "0.1" }
+                  )}
+                />
+              </Popover>
+            ) : (
+              <>
+                {/* Edit Button */}
+                <Popover content={`Click to edit ${user.name}'s account`}>
+                  <EditOutlined
+                    onClick={() => handleEditUser(user)}
+                    style={Object.assign(
+                      { fontSize: "18px" },
+                      { color: "black" },
+                      { margin: "0 12px 0 0" }
+                    )}
+                  />
+                </Popover>
+
+                {user.status ? (
+                  //! Active
+                  <Popover content={`Click to disable ${user.name}'s account`}>
+                    <PoweroffOutlined
+                      onClick={() => toggleUser(user)}
+                      style={Object.assign(
+                        { fontSize: "18px" },
+                        { color: "green" }
+                      )}
+                    />
+                  </Popover>
+                ) : (
+                  //! Disable
+                  <Popover content={`Click to active ${user.name}'s account`}>
+                    <PoweroffOutlined
+                      onClick={() => toggleUser(user)}
+                      style={Object.assign(
+                        { fontSize: "18px" },
+                        { color: "red" }
+                      )}
+                    />
+                  </Popover>
+                )}
+              </>
+            )}
+          </>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <Title className="sectionTitle" level={3}>
         USERS MANAGEMENT
-        <Button
-          style={{ margin: "0 0 0 5px" }}
-          type="primary"
-          onClick={() => handleRefetch()}
-          loading={toggleLoading || isLoading}
-        >
-          Refresh
-        </Button>
+        <span>
+          <Button
+            style={{ margin: "0 5px 0 5px" }}
+            type="primary"
+            onClick={() => handleRefetch()}
+            loading={toggleLoading || isLoading}
+          >
+            Refresh
+          </Button>
+          <Button icon={<UserAddOutlined />} loading={toggleLoading || isLoading}></Button>
+        </span>
       </Title>
 
       {/* Search user */}
@@ -286,7 +327,7 @@ export const UsersManage = () => {
       <UserResultDisplay recentSearch={recentSearch} />
 
       {/* Table of result */}
-      <Row style={{overflow: 'scroll'}}>
+      <Row style={{ overflow: "scroll" }}>
         <Col xs={24}>
           <Table
             className="tableOfLocations"

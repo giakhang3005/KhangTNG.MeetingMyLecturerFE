@@ -19,7 +19,7 @@
   text-align: center;
   border-radius: 8px;
   box-shadow: 3px 3px 10px grey;
-  animation: fade 0.5s linear;
+  animation: fade 0.3s linear;
 }
 .input {
   display: block;

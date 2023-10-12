@@ -18,13 +18,13 @@ export const Body = (props) => {
   const { getCurrentDate, GetWeek } = useDate();
 
   //!Kick user when account is disable
-  //check 5 minutes
+  //check 10 minutes
   const [currentNoti, setCurrentNoti] = useState(false);
   setTimeout(() => {
     if (user !== null && user !== undefined) {
       axios
         .get(
-          `https://meet-production-52c7.up.railway.app/api/v1/user/get/${user.id}`
+          `https://meet-production-52c7.up.railway.app/api/v1/account/get/${user.id}`
         )
         .then((response) => response.data.data)
         .then((fetchUser) => {
@@ -41,7 +41,7 @@ export const Body = (props) => {
         })
         .catch((error) => {});
     }
-  }, 1000 * 60 * 5);
+  }, 1000 * 60 * 10);
 
   //Create new client
   const client = new QueryClient({

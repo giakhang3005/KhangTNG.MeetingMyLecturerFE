@@ -1,22 +1,24 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Data } from "../../Body";
-import {AdminDashboard} from "./Dashboard/AdminDashboard"
-import { UsersManage } from "./UsersManage/UsersManage"
-import { SlotsManage } from "./SlotsManage/SlotsManage"
-import {BookingManage} from "./BookingManage/BookingManage"
-import { LecturersManage } from "./UsersManage/LecturersManage"
-import { StudentsManage } from "./UsersManage/StudentsManage"
+import { AdminDashboard } from "./Dashboard/AdminDashboard";
+import { UsersManage } from "./UsersManage/UsersManage";
+import { SlotsManage } from "./SlotsManage/SlotsManage";
+import { BookingManage } from "./BookingManage/BookingManage";
+import { LecturersManage } from "./UsersManage/LecturersManage";
+import { StudentsManage } from "./UsersManage/StudentsManage";
+import { EditUser } from "./UsersManage/EditUser";
 
 export const AdminContent = () => {
-  const { menuOpt} = useContext(Data);
+  const { menuOpt, setMenuOpt } = useContext(Data);
+  const [userEdit, setUserEdit] = useState({});
   return (
     <div className="LecturerContent">
       <div className="LecturerShow">
         {/* CreatedSlot */}
         {menuOpt === "adminDashboard" ? (
-           <AdminDashboard />
+          <AdminDashboard />
         ) : menuOpt === "usersManage" ? (
-          <UsersManage />
+          <UsersManage setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} />
         ) : menuOpt === "lecturersManage" ? (
           <LecturersManage />
         ) : menuOpt === "studentsManage" ? (
@@ -26,11 +28,12 @@ export const AdminContent = () => {
           <SlotsManage />
         ) : menuOpt === "bookingsManage" ? (
           <BookingManage />
+        ) : menuOpt === "editUser" ? (
+          <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
         ) : (
           <></>
         )}
       </div>
-      
     </div>
   );
 };
