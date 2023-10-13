@@ -73,12 +73,12 @@ export const Login = () => {
                 if (statusMsg === "NOT_FOUND") {
                   //requests body
                   const createUser = {
-                    id: userFromGg.id,
                     name: userFromGg.name,
                     email: userFromGg.email,
-                    // password: null,
-                    // role: 2,
+                    password: "",
+                    role: 2,
                     status: true,
+                    id: userFromGg.id,
                   };
                   //!start create account
                   axios
