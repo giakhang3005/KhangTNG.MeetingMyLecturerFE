@@ -76,7 +76,7 @@ export const Login = () => {
                     id: userFromGg.id,
                     name: userFromGg.name,
                     email: userFromGg.email,
-                    password: null,
+                    // password: null,
                     // role: 2,
                     status: true,
                   };
@@ -106,6 +106,7 @@ export const Login = () => {
                       );
                       setGgLoading(false);
                     })
+                    .catch((err) => console.log(err))
                     .finally(() => setGgLoading(false));
                 } else {
                   message.error(`There is an internal error: ${statusMsg}`);
