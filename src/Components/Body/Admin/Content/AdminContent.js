@@ -8,6 +8,8 @@ import { LecturersManage } from "./UsersManage/LecturersManage";
 import { StudentsManage } from "./UsersManage/StudentsManage";
 import { EditUser } from "./UsersManage/EditUser";
 import { AddUser } from "./UsersManage/AddUser";
+import { Subjects } from "./Subjects/Subjects";
+import { PublicLocations } from "./PublicLocations/PublicLocations";
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
@@ -29,6 +31,10 @@ export const AdminContent = () => {
           <SlotsManage />
         ) : menuOpt === "bookingsManage" ? (
           <BookingManage />
+        ) : menuOpt === "subjectsManage" ? (
+          <Subjects />
+        ) :menuOpt === "publicLocationsManage" ? (
+          <PublicLocations />
         ) : menuOpt === "editUser" ? (
           <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
         ) : menuOpt === "addUser" ? (

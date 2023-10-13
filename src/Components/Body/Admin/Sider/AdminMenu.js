@@ -8,13 +8,15 @@ import {
   UserOutlined,
   NotificationOutlined,
   TeamOutlined,
+  BookOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import { useLogOut } from "../../../../Hooks/All/useLogout";
 
 export const AdminMenu = () => {
   //Get data from app.js
   const { menuOpt, setMenuOpt } = useContext(Data);
-  const LogOutBtn = useLogOut()
+  const LogOutBtn = useLogOut();
   //Item for menu
   const menuItems = [
     { label: "Home", icon: <HomeFilled />, key: "adminDashboard" },
@@ -24,12 +26,22 @@ export const AdminMenu = () => {
       icon: <SnippetsOutlined />,
       key: "bookingsManage",
     },
+    { label: "Subjects", icon: <BookOutlined />, key: "subjectsManage" },
+    {
+      label: "Public Locations",
+      icon: <GlobalOutlined />,
+      key: "publicLocationsManage",
+    },
     {
       label: "Users",
       key: null,
       children: [
         { label: "All", icon: <TeamOutlined />, key: "usersManage" },
-        { label: "Lecturers", icon: <SolutionOutlined />, key: "lecturersManage" },
+        {
+          label: "Lecturers",
+          icon: <SolutionOutlined />,
+          key: "lecturersManage",
+        },
         { label: "Students", icon: <UserOutlined />, key: "studentsManage" },
       ],
       type: "group",

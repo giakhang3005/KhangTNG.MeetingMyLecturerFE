@@ -168,8 +168,6 @@ export const CreatingSlot = (props) => {
     return axios
       .get("https://meet-production-52c7.up.railway.app/api/subject")
       .then((response) => setSubjects(response.data));
-    // .finally(() => {
-    // });
   });
   // const subjects = ["SWP391", "SWT301", "SWR302"];
 
