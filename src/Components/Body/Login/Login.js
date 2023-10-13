@@ -76,7 +76,7 @@ export const Login = () => {
                     name: userFromGg.name,
                     email: userFromGg.email,
                     password: "",
-                    role: 2,
+                    role: -1,
                     status: true,
                     id: userFromGg.id,
                   };

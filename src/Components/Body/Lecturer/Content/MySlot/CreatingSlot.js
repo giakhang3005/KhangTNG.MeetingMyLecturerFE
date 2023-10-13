@@ -8,10 +8,13 @@ import {
   TimePicker,
   DatePicker,
   Radio,
+  Spin,
 } from "antd";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const CreatingSlot = (props) => {
   const { Option } = Select;
@@ -147,7 +150,7 @@ export const CreatingSlot = (props) => {
   }, 3000);
   //checker
   const handleSubmitAntispam = (data) => {
-    clickSubmit === 2 && message.error('Please try again in 3 seconds');
+    clickSubmit === 2 && message.error("Please try again in 3 seconds");
     clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
     if (clickSubmit < 2) {
       handleSubmit(data);
@@ -156,7 +159,19 @@ export const CreatingSlot = (props) => {
 
   //Handle Subject
   //! subject from API
-  const subjects = ["SWP391", "SWT301", "SWR302"];
+  const [subjects, setSubjects] = useState([]);
+  const {
+    // data: subjects,
+    isLoading: subjectsLoading,
+    refetch,
+  } = useQuery(["subj"], () => {
+    return axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject")
+      .then((response) => setSubjects(response.data));
+    // .finally(() => {
+    // });
+  });
+  // const subjects = ["SWP391", "SWT301", "SWR302"];
 
   //Handle location
   //! location from API
@@ -177,132 +192,134 @@ export const CreatingSlot = (props) => {
       <Title className="sectionTitle" level={3}>
         CREATING SLOT
       </Title>
-      
-      <div className="editLocationForm">
-        <Form onFinish={handleSubmitAntispam}>
-          {/*  ID */}
-          <Form.Item name="id" label="ID" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
 
-          {/* Date */}
-          <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-            <DatePicker />
-          </Form.Item>
+      <Spin spinning={subjectsLoading} size="large" tip="Preparing your data...">
+        <div className="editLocationForm">
+          <Form onFinish={handleSubmitAntispam}>
+            {/*  ID */}
+            <Form.Item name="id" label="ID" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
 
-          {/* Start time */}
-          <Form.Item
-            name="startTime"
-            label="Start Time"
-            rules={[{ required: true }]}
-          >
-            <TimePicker format="HH:mm" />
-          </Form.Item>
+            {/* Date */}
+            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
+              <DatePicker />
+            </Form.Item>
 
-          {/* End time */}
-          <Form.Item
-            name="endTime"
-            label="End Time"
-            rules={[{ required: true }]}
-          >
-            <TimePicker format="HH:mm" />
-          </Form.Item>
-
-          {/* Mode */}
-          {/* <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
-            <Select allowClear>
-              <Option key={1}>Manual approve (in requests section)</Option>
-              <Option key={2}>Accept the first Booker</Option>
-              <Option key={3}>Assign student</Option>
-            </Select>
-          </Form.Item> */}
-          <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
-            <Radio.Group>
-              <Radio.Button
-                value="Manual approve"
-                onClick={() => setIsAssignMode(false)}
-              >
-                Manual approve
-              </Radio.Button>
-              <Radio.Button
-                value="Accept the first Booker"
-                onClick={() => setIsAssignMode(false)}
-              >
-                Accept the first Booker
-              </Radio.Button>
-              <Radio.Button
-                value="Assign student"
-                onClick={() => setIsAssignMode(true)}
-              >
-                Assign student
-              </Radio.Button>
-            </Radio.Group>
-          </Form.Item>
-
-          {/* Student email */}
-          {isAssignMode && (
+            {/* Start time */}
             <Form.Item
-              name="studentemail"
-              label="Student Email"
-              rules={[{ required: isAssignMode ? true : false }]}
+              name="startTime"
+              label="Start Time"
+              rules={[{ required: true }]}
             >
-              <Select showSearch allowClear={true}>
-                {allStudentsEmail.map((student) => {
-                  return <Option value={student}>{student}</Option>;
+              <TimePicker format="HH:mm" />
+            </Form.Item>
+
+            {/* End time */}
+            <Form.Item
+              name="endTime"
+              label="End Time"
+              rules={[{ required: true }]}
+            >
+              <TimePicker format="HH:mm" />
+            </Form.Item>
+
+            {/* Mode */}
+            {/* <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
+              <Select allowClear>
+                <Option key={1}>Manual approve (in requests section)</Option>
+                <Option key={2}>Accept the first Booker</Option>
+                <Option key={3}>Assign student</Option>
+              </Select> */}
+            {/* </Form.Item> */}
+            <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
+              <Radio.Group>
+                <Radio.Button
+                  value="Manual approve"
+                  onClick={() => setIsAssignMode(false)}
+                >
+                  Manual approve
+                </Radio.Button>
+                <Radio.Button
+                  value="Accept the first Booker"
+                  onClick={() => setIsAssignMode(false)}
+                >
+                  Accept the first Booker
+                </Radio.Button>
+                <Radio.Button
+                  value="Assign student"
+                  onClick={() => setIsAssignMode(true)}
+                >
+                  Assign student
+                </Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+
+            {/* Student email */}
+            {isAssignMode && (
+              <Form.Item
+                name="studentemail"
+                label="Student Email"
+                rules={[{ required: isAssignMode ? true : false }]}
+              >
+                <Select showSearch allowClear={true}>
+                  {allStudentsEmail.map((student) => {
+                    return <Option value={student}>{student}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            )}
+
+            {/* Location */}
+            <Form.Item
+              name="location"
+              label="Location"
+              rules={[{ required: true }]}
+            >
+              <Select>
+                {locations.map((location) => {
+                  return <Option key={location.key}>{location.name}</Option>;
                 })}
               </Select>
             </Form.Item>
-          )}
 
-          {/* Location */}
-          <Form.Item
-            name="location"
-            label="Location"
-            rules={[{ required: true }]}
-          >
-            <Select>
-              {locations.map((location) => {
-                return <Option key={location.key}>{location.name}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-          {/* Subject */}
-
-          <Form.Item
-            name="subject"
-            label="Subject"
-            rules={[{ required: true }]}
-          >
-            <Select mode="multiple" allowClear={true}>
-              {subjects.map((subject) => {
-                return <Option key={subject}>{subject}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: false }]}
-          >
-            <Input />
-          </Form.Item>
-          {/* Cancel */}
-          <Form.Item>
-            <Button
-              onClick={handleCancel}
-              style={{ margin: "0 8px 0 0" }}
-              type="default"
-              danger
+            {/* Subject */}
+            <Form.Item
+              name="subject"
+              label="Subject"
+              rules={[{ required: true }]}
             >
-              Cancel
-            </Button>
-            {/* Save */}
-            <Button type="primary" htmlType="submit">
-              Save
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <Select mode="multiple" allowClear={true}>
+                {subjects.map((subject) => {
+                  return <Option key={subject.code}>{subject.code}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[{ required: false }]}
+            >
+              <Input />
+            </Form.Item>
+            {/* Cancel */}
+            <Form.Item>
+              <Button
+                onClick={handleCancel}
+                style={{ margin: "0 8px 0 0" }}
+                type="default"
+                danger
+              >
+                Cancel
+              </Button>
+              {/* Save */}
+              <Button type="primary" htmlType="submit">
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Spin>
     </>
   );
 };

@@ -1,12 +1,13 @@
 import { React, useState } from "react";
-import { Select, Row, Col, Button, Modal, message, Popover } from "antd";
+import { Select, Row, Col, Button, Modal, message, Popover, Spin } from "antd";
 import {
   SearchOutlined,
   CalendarFilled,
   CarryOutFilled,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
-
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { PickDate } from "./PickDate";
 
 export function SearchBar(props) {
@@ -15,7 +16,9 @@ export function SearchBar(props) {
     startDate = props.startDate,
     setStartDate = props.setStartDate,
     toDate = props.toDate,
-    setToDate = props.setToDate;
+    setToDate = props.setToDate,
+    setRecentSearch = props.setRecentSearch,
+    isSearchingSubject = props.isSearchingSubject;
 
   const [fromDatePicker, setFromDatePicker] = useState(null);
   const [toDatePicker, setToDatePicker] = useState(null);
@@ -57,8 +60,7 @@ export function SearchBar(props) {
   };
 
   //Handle search
-  const handleSearch = (subject) => {
-    setIsSearchingSubject(subject);
+  const handleSearch = () => {
     //fetch subject, startDate, toDate
     const startDateString =
       startDate !== null
@@ -67,11 +69,27 @@ export function SearchBar(props) {
 
     const toDateString =
       toDate !== null ? `${toDate.$D}/${toDate.$M + 1}/${toDate.$y}` : null;
+
+      const searchValue = {
+        subject: isSearchingSubject,
+        start: startDateString,
+        to: toDateString,
+      }
+      setRecentSearch(searchValue)
+      //!Call API search here
   };
 
   //! subjectsget from API
-  const subjects = ["SWP391", "SWT301", "SWR302"];
-  
+  const [subjects, setSubjects] = useState([]);
+  const {
+    // data: subjects,
+    isLoading: subjectsLoading,
+    refetch,
+  } = useQuery(["subj"], () => {
+    return axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject")
+      .then((response) => setSubjects(response.data));
+  });
   return (
     <>
       <Modal
@@ -94,23 +112,29 @@ export function SearchBar(props) {
         {/* <Col xs={2} md={6}></Col> */}
         <Col xs={17} md={9}>
           {/* Search box */}
-          <Select
-            suffixIcon={<SearchOutlined />}
-            placeholder="Ex: SWP391,..."
-            showSearch
-            allowClear
-            onSelect={(value) => handleSearch(value)}
-            options={subjects.map((subject) => ({
-              value: subject,
-              label: subject,
-            }))}
-            style={{
-              width: "100%",
-            }}
-          ></Select>
+          <Spin
+            spinning={subjectsLoading}
+            size="medium"
+            tip="Preparing Subjects..."
+          >
+            <Select
+              suffixIcon={<SearchOutlined />}
+              placeholder="Ex: SWP391,..."
+              showSearch
+              allowClear
+              onSelect={(subject) =>  setIsSearchingSubject(subject)}
+              options={subjects.map((subject) => ({
+                value: subject.code,
+                label: subject.code,
+              }))}
+              style={{
+                width: "100%",
+              }}
+            ></Select>
+          </Spin>
         </Col>
         {/* Advance option */}
-        <Col xs={4} md={3}>
+        <Col xs={2} md={1}>
           <Popover
             content={
               startDate === null
@@ -131,7 +155,7 @@ export function SearchBar(props) {
             ></Button>
           </Popover>
         </Col>
-        {/* <Col xs={3} md={15}></Col> */}
+        <Col xs={2}><Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}></Button></Col>
       </Row>
     </>
   );

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Table,
@@ -22,7 +22,7 @@ import { AdvancePopover } from "./AdvancePopover";
 import { UserResultDisplay } from "./UserResultDisplay";
 import axios from "axios";
 
-export const UsersManage = ({setMenuOpt, setUserEdit}) => {
+export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
   const { Title } = Typography;
   // State
   const [finalSearch, setFinalSearch] = useState({
@@ -34,6 +34,7 @@ export const UsersManage = ({setMenuOpt, setUserEdit}) => {
 
   //test data
   const [users, setUsers] = useState([]);
+  
   //! fetching data
   const {
     // data, //assign name for the data
@@ -101,9 +102,9 @@ export const UsersManage = ({setMenuOpt, setUserEdit}) => {
 
   //handle edit user
   const handleEditUser = (user) => {
-    setMenuOpt("editUser")
+    setMenuOpt("editUser");
     setUserEdit(user);
-  }
+  };
 
   //handle search
   const [usersList, setUsersList] = useState([]);
@@ -280,7 +281,11 @@ export const UsersManage = ({setMenuOpt, setUserEdit}) => {
           >
             Refresh
           </Button>
-          <Button icon={<UserAddOutlined />} loading={toggleLoading || isLoading} onClick={() => setMenuOpt("addUser")}></Button>
+          <Button
+            icon={<UserAddOutlined />}
+            loading={toggleLoading || isLoading}
+            onClick={() => setMenuOpt("addUser")}
+          ></Button>
         </span>
       </Title>
 

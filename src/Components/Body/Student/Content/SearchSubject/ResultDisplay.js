@@ -15,7 +15,8 @@ export const ResultDisplay = (props) => {
     setIsSelectedSlot = props.setIsSelectedSlot,
     isSearchingSubject = props.isSearchingSubject,
     startDate = props.startDate,
-    toDate = props.toDate;
+    toDate = props.toDate,
+    recentSearch = props.recentSearch;
 
   const ArrayToString = useArray();
 
@@ -169,15 +170,15 @@ export const ResultDisplay = (props) => {
 
   return (
     <>
-      {isSearchingSubject !== "" && (
+      {(recentSearch.subject !== null ||
+        recentSearch.start !== null ||
+        recentSearch.to !== null) && (
         <Alert
-          message={`Found ${
-            BookingList.length
-          } slots for subject ${isSearchingSubject} ${
-            startDate !== null
-              ? `(${startDate.$D}/${startDate.$M + 1}/${startDate.$y} - ${
-                  toDate.$D
-                }/${toDate.$M + 1}/${toDate.$y})`
+          message={`Found ${BookingList.length} slots for ${
+            (recentSearch.subject === null || recentSearch.subject === "" )? "All" : recentSearch.subject
+          } ${
+            recentSearch.start !== null
+              ? `from ${recentSearch.start} to ${recentSearch.to}`
               : ""
           }`}
           type="info"
