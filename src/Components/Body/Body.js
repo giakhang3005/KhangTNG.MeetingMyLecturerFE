@@ -21,7 +21,7 @@ export const Body = (props) => {
   //check 10 minutes
   const [currentNoti, setCurrentNoti] = useState(false);
   setTimeout(() => {
-    if (user !== null && user !== undefined) {
+    if (user !== null && user !== undefined && user != {}) {
       axios
         .get(
           `https://meet-production-52c7.up.railway.app/api/v1/account/get/${user.id}`
@@ -67,11 +67,9 @@ export const Body = (props) => {
   //default MenuOpt
   const [menuOpt, setMenuOpt] = useState("default");
 
-  //TODO: for backend
-  const [input, setInput] = useState();
-
   return (
     //pass value to all component inside
+
     <QueryClientProvider client={client}>
       <Data.Provider
         value={{

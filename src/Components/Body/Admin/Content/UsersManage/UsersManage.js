@@ -280,7 +280,7 @@ export const UsersManage = ({setMenuOpt, setUserEdit}) => {
           >
             Refresh
           </Button>
-          <Button icon={<UserAddOutlined />} loading={toggleLoading || isLoading}></Button>
+          <Button icon={<UserAddOutlined />} loading={toggleLoading || isLoading} onClick={() => setMenuOpt("addUser")}></Button>
         </span>
       </Title>
 

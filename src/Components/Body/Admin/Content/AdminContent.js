@@ -7,6 +7,7 @@ import { BookingManage } from "./BookingManage/BookingManage";
 import { LecturersManage } from "./UsersManage/LecturersManage";
 import { StudentsManage } from "./UsersManage/StudentsManage";
 import { EditUser } from "./UsersManage/EditUser";
+import { AddUser } from "./UsersManage/AddUser";
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
@@ -30,6 +31,8 @@ export const AdminContent = () => {
           <BookingManage />
         ) : menuOpt === "editUser" ? (
           <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
+        ) : menuOpt === "addUser" ? (
+          <AddUser setMenuOpt={setMenuOpt} />
         ) : (
           <></>
         )}

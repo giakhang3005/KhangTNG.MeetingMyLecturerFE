@@ -1,16 +1,14 @@
 import { React, useState } from "react";
 import axios from "axios";
 import { Col, Row, Typography, Button, Select, Input, message } from "antd";
-import { FormOutlined, LeftOutlined } from "@ant-design/icons";
-import { Login } from "../../../Login/Login";
+import { UserAddOutlined, LeftOutlined } from "@ant-design/icons";
 
-export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
+export function AddUser({ setMenuOpt }) {
   const { Title } = Typography;
+  const [loading, setLoading] = useState(false);
   // Email check
   const fptEmail = "@fpt.edu.vn",
     feEmail = "@fe.edu.vn";
-
-  const [loading, setLoading] = useState(false);
 
   const reverseRole = (role) => {
     switch (role) {
@@ -30,14 +28,11 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
       id: editInput[0].value,
       name: editInput[1].value,
       email: editInput[2].value,
-      password:
-        editInput[2].value.includes(fptEmail) ||
-        editInput[2].value.includes(feEmail)
-          ? null
-          : editInput[3].value,
+      password: editInput[3].value,
       role: reverseRole(infoText[9].textContent),
       status: infoText[11].textContent === "Active" ? true : false,
     };
+    console.log(newUser);
 
     let emailCheck = false,
       stringCheck = false;
@@ -48,31 +43,39 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
     } else {
       //check for fpt @ fe
       if (newUser.email.includes(fptEmail) || newUser.email.includes(feEmail)) {
-        if (!(newUser.email === userEdit.email)) {
-          message.error("you can not use FPT or FE email address")
-          emailCheck = true;
-        }
+        message.error("You can not use FPT & FE email");
+        emailCheck = true;
       }
     }
 
     //check for password
-    if (newUser.password === "" || newUser.name === "") {
+    if (newUser.password === "" || newUser.id === "" || newUser.name === "") {
       stringCheck = true;
-      message.error("Name, Password can not be empty");
+      message.error("Id, Name, Password can not be empty");
     }
-    
+
     if (!emailCheck && !stringCheck) {
       setLoading(true);
       await axios
-        .put(
-          `https://meet-production-52c7.up.railway.app/api/v1/account/put/${newUser.id}`,
-          newUser
+        .get(
+          `https://meet-production-52c7.up.railway.app/api/v1/account/get/${newUser.id}`
         )
         .then(() => {
-          message.success("Updated successfully");
-        })
-        .finally(() => {
           setLoading(false);
+          message.error("User aldready exist");
+        })
+        .catch(() => {
+          axios
+            .post(
+              "https://meet-production-52c7.up.railway.app/api/v1/account/post",
+              newUser
+            )
+            .then((response) => {
+              response.status === 200
+                ? message.success("Created successfully")
+                : message.error("Failed to create user");
+            })
+            .finally(() => setLoading(false));
         });
     }
   };
@@ -80,7 +83,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        UPDATE USER
+        CREATE USER
       </Title>
 
       {/* Back button */}
@@ -99,7 +102,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
-                ID:
+                User ID:
               </Title>
             </Col>
             <Col xs={15} md={10}>
@@ -108,11 +111,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Input
-                  disabled
-                  className="editInput"
-                  defaultValue={userEdit.id}
-                ></Input>
+                <Input className="editInput"></Input>
               </Title>
             </Col>
           </Row>
@@ -130,10 +129,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Input
-                  className="editInput"
-                  defaultValue={userEdit.name}
-                ></Input>
+                <Input className="editInput"></Input>
               </Title>
             </Col>
           </Row>
@@ -151,16 +147,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Input
-                  disabled={
-                    userEdit.email.includes(fptEmail) ||
-                    userEdit.email.includes(feEmail)
-                      ? true
-                      : false
-                  }
-                  className="editInput"
-                  defaultValue={userEdit.email}
-                ></Input>
+                <Input className="editInput"></Input>
               </Title>
             </Col>
           </Row>
@@ -178,16 +165,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Input
-                  disabled={
-                    userEdit.email.includes(fptEmail) ||
-                    userEdit.email.includes(feEmail)
-                      ? true
-                      : false
-                  }
-                  className="editInput"
-                  defaultValue={userEdit.password}
-                ></Input>
+                <Input className="editInput"></Input>
               </Title>
             </Col>
           </Row>
@@ -206,7 +184,8 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 style={{ fontWeight: "400" }}
               >
                 <Select
-                  defaultValue={userEdit.role}
+                  required
+                  defaultValue={2}
                   options={[
                     {
                       label: "Admin",
@@ -226,7 +205,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
             </Col>
           </Row>
 
-          {/* Role */}
+          {/* Status */}
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText" level={5}>
@@ -240,7 +219,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 style={{ fontWeight: "400" }}
               >
                 <Select
-                  defaultValue={userEdit.status}
+                  defaultValue={true}
                   options={[
                     {
                       label: "Disabled",
@@ -267,10 +246,10 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 loading={loading}
                 type="primary"
                 style={{ margin: "12px 8px 0 0" }}
-                icon={<FormOutlined />}
+                icon={<UserAddOutlined />}
                 onClick={handleUpdate}
               >
-                Update
+                Create
               </Button>
             </Col>
           </Row>
