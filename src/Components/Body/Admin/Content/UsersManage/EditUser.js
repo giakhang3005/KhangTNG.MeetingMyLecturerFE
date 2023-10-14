@@ -2,7 +2,6 @@ import { React, useState } from "react";
 import axios from "axios";
 import { Col, Row, Typography, Button, Select, Input, message } from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
-import { Login } from "../../../Login/Login";
 
 export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
   const { Title } = Typography;

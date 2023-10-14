@@ -11,6 +11,7 @@ import { AddUser } from "./UsersManage/AddUser";
 import { Subjects } from "./Subjects/Subjects";
 import { PublicLocations } from "./PublicLocations/PublicLocations";
 import { EditSubjects } from "./Subjects/EditSubjects";
+import { AddLocations } from "./PublicLocations/AddLocations";
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
@@ -39,7 +40,9 @@ export const AdminContent = () => {
         ) : menuOpt === "editSubjects" ? (
           <EditSubjects setMenuOpt={setMenuOpt} subjectEdit={subjectEdit}/>
         ) : menuOpt === "publicLocationsManage" ? (
-          <PublicLocations />
+          <PublicLocations setMenuOpt={setMenuOpt} />
+        ) : menuOpt === "addLocationsManage" ? (
+          <AddLocations setMenuOpt={setMenuOpt} />
         ) : menuOpt === "editUser" ? (
           <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
         ) : menuOpt === "addUser" ? (

@@ -28,7 +28,7 @@ export const AdminMenu = () => {
     },
     { label: "Subjects", icon: <BookOutlined />, key: "subjectsManage" },
     {
-      label: "Public Locations",
+      label: "Locations",
       icon: <GlobalOutlined />,
       key: "publicLocationsManage",
     },

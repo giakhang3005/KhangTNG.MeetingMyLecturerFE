@@ -1,10 +1,10 @@
 import { React, useState } from "react";
-import { Typography, Table, Row, Col, Button, message } from "antd";
+import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export function PublicLocations() {
+export function PublicLocations({setMenuOpt}) {
   const { Title, Text } = Typography;
   const [otherLoading, setOtherLoading] = useState(false);
 
@@ -16,13 +16,14 @@ export function PublicLocations() {
     refetch,
   } = useQuery(["loc"], () => {
     return axios
-      .get("https://meet-production-52c7.up.railway.app/api/location/public")
+      .get("https://meet-production-52c7.up.railway.app/api/location")
       .then((response) => setLocations(response.data.data));
   });
 
   //! Delete
   const handleDelete = (location) => {
     setOtherLoading(true);
+    console.log(location)
     axios
       .delete(
         `https://meet-production-52c7.up.railway.app/api/location/delete?id=${location.id}`
@@ -31,7 +32,7 @@ export function PublicLocations() {
         message.success("Deleted successfully");
         refetch();
       })
-      .catch(message.error("Deleted failed"))
+      .catch((err) => console.log(err))
       .finally(setOtherLoading(false));
   };
 
@@ -54,13 +55,20 @@ export function PublicLocations() {
     },
     {
       key: "4",
+      title: "",
+      render: (location) => {
+        return location.status ? <Tag color="green">PUBLIC</Tag> : <Tag color="orange">PERSONAL</Tag>
+      }
+    },
+    {
+      key: "5",
       label: "",
       render: (location) => {
         return (
           <>
             <Button type="text" icon={<EditOutlined />}></Button>
             <Button
-              onClick={(location) => handleDelete(location)}
+              onClick={() => handleDelete(location)}
               type="text"
               icon={<DeleteOutlined />}
               danger
@@ -73,10 +81,10 @@ export function PublicLocations() {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        PUBLIC LOCATIONS
+        LOCATIONS
         <Button
           icon={<PlusOutlined />}
-          // onClick={() => handleRefetch()}
+          onClick={() => setMenuOpt("addLocationsManage")}
           loading={isLoading || otherLoading}
         >
           Add Location
