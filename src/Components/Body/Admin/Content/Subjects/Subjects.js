@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export function Subjects() {
+export function Subjects({setSubjectEdit, setMenuOpt}) {
   const { Title, Text } = Typography;
   const [otherLoading, setOtherLoading] = useState(false);
 
@@ -24,13 +24,13 @@ export function Subjects() {
       .then((response) => setSubjects(response.data));
   });
 
-  //! Delete
-  const handleDelete = (subject) => {
+  //! TOGGLE
+  const handleToggle = (subject) => {
     const newSubject = { ...subject, status: !subject.status };
     setOtherLoading(true);
     axios
       .put(
-        `https://meet-production-52c7.up.railway.app/api/subject/${subject.id}`,
+        `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
         newSubject
       )
       .then(() => {
@@ -40,6 +40,13 @@ export function Subjects() {
       })
       .catch((err) => err.status === "BAD_REQUEST" && message.error("Toggled failed"))
   };
+
+  // Handle Edit Click
+  const handleEdit = (subject) => {
+    setSubjectEdit(subject)
+    setMenuOpt('editSubjects')
+  }
+
 
   //table columns
   const columns = [
@@ -92,9 +99,9 @@ export function Subjects() {
       render: (subject) => {
         return (
           <>
-            <Button type="text" icon={<EditOutlined />}></Button>
+            <Button type="text" icon={<EditOutlined />} onClick={() => handleEdit(subject)}></Button>
             <Button
-              onClick={() => handleDelete(subject)}
+              onClick={() => handleToggle(subject)}
               type="text"
               style={subject.status ? { color: "green" } : { color: "red" }}
               icon={<PoweroffOutlined />}

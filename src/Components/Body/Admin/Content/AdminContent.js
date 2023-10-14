@@ -10,10 +10,13 @@ import { EditUser } from "./UsersManage/EditUser";
 import { AddUser } from "./UsersManage/AddUser";
 import { Subjects } from "./Subjects/Subjects";
 import { PublicLocations } from "./PublicLocations/PublicLocations";
+import { EditSubjects } from "./Subjects/EditSubjects";
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
   const [userEdit, setUserEdit] = useState({});
+  const [subjectEdit, setSubjectEdit] = useState({});
+
   return (
     <div className="LecturerContent">
       <div className="LecturerShow">
@@ -32,8 +35,10 @@ export const AdminContent = () => {
         ) : menuOpt === "bookingsManage" ? (
           <BookingManage />
         ) : menuOpt === "subjectsManage" ? (
-          <Subjects />
-        ) :menuOpt === "publicLocationsManage" ? (
+          <Subjects setSubjectEdit={setSubjectEdit} setMenuOpt={setMenuOpt} />
+        ) : menuOpt === "editSubjects" ? (
+          <EditSubjects setMenuOpt={setMenuOpt} subjectEdit={subjectEdit}/>
+        ) : menuOpt === "publicLocationsManage" ? (
           <PublicLocations />
         ) : menuOpt === "editUser" ? (
           <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
