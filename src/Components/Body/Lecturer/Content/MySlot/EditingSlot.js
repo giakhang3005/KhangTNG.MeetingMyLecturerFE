@@ -11,11 +11,22 @@ import {
 } from "antd";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 
 export const EditingSlot = (props) => {
+  //Handle Subject
+  //! subject from API
+  const [subjects, setSubjects] = useState([]);
+  const [subjectsLoading, setSubjectsLoading] = useState(false);
+  useEffect(() => {
+    setSubjectsLoading(true)
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+      .then((response) => setSubjects(response.data))
+      .finally(() => setSubjectsLoading(false))
+  }, [])
+  
   const { Option } = Select;
   const { Title } = Typography;
 
@@ -149,18 +160,6 @@ export const EditingSlot = (props) => {
     }
   };
 
-  //Handle Subject
-  //! subject from API
-  const [subjects, setSubjects] = useState([]);
-  const {
-    // data: subjects,
-    isLoading: subjectsLoading,
-    refetch,
-  } = useQuery(["subj"], () => {
-    return axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject")
-      .then((response) => setSubjects(response.data));
-  });
 
   //Handle location
   //! location from API

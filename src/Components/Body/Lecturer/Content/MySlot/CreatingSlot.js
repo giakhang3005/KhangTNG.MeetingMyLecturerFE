@@ -12,8 +12,7 @@ import {
 } from "antd";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const CreatingSlot = (props) => {
@@ -160,16 +159,14 @@ export const CreatingSlot = (props) => {
   //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
-  const {
-    // data: subjects,
-    isLoading: subjectsLoading,
-    refetch,
-  } = useQuery(["subj"], () => {
-    return axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject")
-      .then((response) => setSubjects(response.data));
-  });
-  // const subjects = ["SWP391", "SWT301", "SWR302"];
+  const [subjectsLoading, setSubjectsLoading] = useState(false);
+  useEffect(() => {
+    setSubjectsLoading(true)
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+      .then((response) => setSubjects(response.data))
+      .finally(() => setSubjectsLoading(false))
+  }, [])
 
   //Handle location
   //! location from API

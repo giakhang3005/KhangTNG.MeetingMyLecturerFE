@@ -90,7 +90,7 @@ export function Subjects({setSubjectEdit, setMenuOpt}) {
       key: "6",
       title: "Major",
       render: (subject) => {
-        return <>{subject.major.name}</>;
+        return <>{subject.major?.name}</>;
       },
     },
     {

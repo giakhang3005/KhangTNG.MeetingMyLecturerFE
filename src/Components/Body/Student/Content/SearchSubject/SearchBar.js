@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Select, Row, Col, Button, Modal, message, Popover, Spin } from "antd";
 import {
   SearchOutlined,
@@ -7,7 +7,6 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { PickDate } from "./PickDate";
 
 export function SearchBar(props) {
@@ -19,6 +18,18 @@ export function SearchBar(props) {
     setToDate = props.setToDate,
     setRecentSearch = props.setRecentSearch,
     isSearchingSubject = props.isSearchingSubject;
+
+    //Handle Subject
+  //! subject from API
+  const [subjects, setSubjects] = useState([]);
+  const [subjectsLoading, setSubjectsLoading] = useState(false);
+  useEffect(() => {
+    setSubjectsLoading(true)
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+      .then((response) => setSubjects(response.data))
+      .finally(() => setSubjectsLoading(false))
+  }, [])
 
   const [fromDatePicker, setFromDatePicker] = useState(null);
   const [toDatePicker, setToDatePicker] = useState(null);
@@ -79,17 +90,6 @@ export function SearchBar(props) {
       //!Call API search here
   };
 
-  //! subjectsget from API
-  const [subjects, setSubjects] = useState([]);
-  const {
-    // data: subjects,
-    isLoading: subjectsLoading,
-    refetch,
-  } = useQuery(["subj"], () => {
-    return axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject")
-      .then((response) => setSubjects(response.data));
-  });
   return (
     <>
       <Modal

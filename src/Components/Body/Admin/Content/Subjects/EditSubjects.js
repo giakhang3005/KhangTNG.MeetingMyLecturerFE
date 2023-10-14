@@ -57,7 +57,12 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
       code: editInput[1].value,
       name: editInput[2].value,
       semester: semester,
-      major: selectedMajors.length === 0 ? subjectEdit.major : selectedMajors,
+      major:
+        selectedMajors === null
+          ? ""
+          : selectedMajors.length === 0
+          ? subjectEdit.major
+          : selectedMajors,
     };
     if (
       newMajor.code.length === 0 ||
@@ -233,7 +238,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
                     style={{ minWidth: "220px" }}
                     mode="multiple"
                     className="editInput"
-                    defaultValue={subjectEdit.major.id}
+                    defaultValue={subjectEdit.major?.id}
                     options={marjList}
                     onChange={(maj) => handleMajorChange(maj)}
                   ></Select>
