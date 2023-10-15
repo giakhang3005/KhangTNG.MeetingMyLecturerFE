@@ -104,7 +104,7 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
         <Button
           icon={<PlusOutlined />}
           onClick={() => setMenuOpt("addLocationsManage")}
-          loading={isLoading || otherLoading}
+          disabled={isLoading || otherLoading}
         >
           Add Location
         </Button>

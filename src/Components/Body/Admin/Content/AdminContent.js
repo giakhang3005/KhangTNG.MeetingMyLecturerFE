@@ -15,6 +15,7 @@ import { AddLocations } from "./PublicLocations/AddLocations";
 import { EditLocations } from "./PublicLocations/EditLocations";
 import { AddSubjects } from "./Subjects/AddSubjects";
 import { EditLecturers } from "./UsersManage/Lecturers/EditLecturers";
+import { EditStudent } from "./UsersManage/Student/EditStudent";
 
 
 export const AdminContent = () => {
@@ -23,6 +24,7 @@ export const AdminContent = () => {
   const [subjectEdit, setSubjectEdit] = useState({});
   const [locationEdit, setLocationEdit] = useState({});
   const [lecturerEdit, setlecturerEdit] = useState({});
+  const [studentEdit, setStudentEdit] = useState({});
 
   return (
     <div className="LecturerContent">
@@ -37,7 +39,9 @@ export const AdminContent = () => {
         ) : menuOpt === "editLecturers" ? (
           <EditLecturers lecturerEdit={lecturerEdit} setMenuOpt={setMenuOpt}/>
         ) : menuOpt === "studentsManage" ? (
-          <StudentsManage />
+          <StudentsManage setMenuOpt={setMenuOpt} setStudentEdit={setStudentEdit} />
+        ) : menuOpt === "editStudent" ? (
+          <EditStudent studentEdit={studentEdit} setMenuOpt={setMenuOpt} />
         ) : // request
         menuOpt === "slotsManage" ? (
           <SlotsManage />

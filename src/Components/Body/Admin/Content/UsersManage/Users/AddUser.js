@@ -88,6 +88,7 @@ export function AddUser({ setMenuOpt }) {
 
       {/* Back button */}
       <Button
+        disabled={loading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("usersManage")}

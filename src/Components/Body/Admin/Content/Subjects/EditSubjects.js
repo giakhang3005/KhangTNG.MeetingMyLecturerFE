@@ -19,6 +19,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
   const [selectedMajors, setSelectedMajors] = useState([]);
   useEffect(() => {
     setMajorLoading(true);
+    setSelectedMajors(subjectEdit.majorList);
     axios
       .get("https://meet-production-52c7.up.railway.app/api/major")
       .then((response) => setMajors(response.data))
@@ -34,17 +35,23 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
   });
 
   //handle Major change
-  const handleMajorChange = (major) => {
+  const handleMajorChange = (majorId) => {
+    console.log(majorId);
     //return to id, name format
     const majorSelected = [];
-    major.map((majId) => {
+    majorId.map((majId) => {
       majorSelected.push({
-        id: majId,
-        name: marjList[majId - 1].label,
+        majorId: majId,
+        majorName: marjList[majId - 1].label,
       });
     });
     setSelectedMajors(majorSelected);
   };
+
+  //push all major id in an array
+  const defaultMajor = subjectEdit.majorList.map((major) => {
+    return major.majorId;
+  });
 
   //handle Update
   const handleUpdate = () => {
@@ -57,17 +64,14 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
       code: editInput[1].value,
       name: editInput[2].value,
       semester: semester,
-      major:
-        selectedMajors === null
-          ? ""
-          : selectedMajors.length === 0
-          ? subjectEdit.major
-          : selectedMajors,
+      majorList: selectedMajors,
     };
     if (
       newMajor.code.length === 0 ||
       newMajor.name.length === 0 ||
-      newMajor.major.length === 0
+      newMajor.majorList?.length === 0 ||
+      newMajor.majorList === null ||
+      newMajor.majorList === undefined
     ) {
       message.error("Code, Major, Name can not be empty");
     } else {
@@ -77,7 +81,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
           `https://meet-production-52c7.up.railway.app/api/subject/${newMajor.id}`,
           newMajor
         )
-        .then(() => message.success("Updated successfully"))
+        .then((res) => message.success("Updated successfully"))
         .catch(() => message.error("Failed to update, please try again"))
         .finally(() => setUpdateLoading(false));
     }
@@ -93,6 +97,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
 
       {/* Back button */}
       <Button
+        disabled={updateLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("subjectsManage")}
@@ -238,7 +243,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
                     style={{ minWidth: "220px" }}
                     mode="multiple"
                     className="editInput"
-                    defaultValue={subjectEdit.major?.id}
+                    defaultValue={defaultMajor}
                     options={marjList}
                     onChange={(maj) => handleMajorChange(maj)}
                   ></Select>

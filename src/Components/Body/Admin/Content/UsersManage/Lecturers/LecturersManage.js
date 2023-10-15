@@ -15,7 +15,8 @@ export function LecturersManage({setlecturerEdit, setMenuOpt}) {
     setLoading(true);
     axios
       .get("https://meet-production-52c7.up.railway.app/api/lecturer")
-      .then((response) => (setLecturerList(response.data), setLoading(false)));
+      .then((response) => (setLecturerList(response.data), setLoading(false)))
+      .catch((error) => console.error(error))
   }
   useEffect(() => {
     getData();

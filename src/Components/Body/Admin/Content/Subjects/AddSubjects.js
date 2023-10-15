@@ -57,7 +57,7 @@ export function AddSubjects({ setMenuOpt }) {
       name: editInput[1].value,
       semester: selectedOptions[0].textContent,
       status: selectedOptions[1].textContent === "ACTIVE" ? true : false,
-      major: selectedMajors,
+      majorList: selectedMajors,
     };
 
     //Error validation
@@ -76,7 +76,17 @@ export function AddSubjects({ setMenuOpt }) {
       ? message.error("You must assign at least 1 major")
       : (majErr = false);
 
-    
+    if (!codeErr && !nameErr && !majErr) {
+      setMajorLoading(true);
+      axios
+        .post("https://meet-production-52c7.up.railway.app/api/subject/", newMajor)
+        .then(
+          (res) => (
+            message.success("Created successfully"), setMajorLoading(false)
+          )
+        )
+        .catch((err) => console.error(err));
+    }
   };
 
   const { Title } = Typography;
@@ -88,6 +98,7 @@ export function AddSubjects({ setMenuOpt }) {
 
       {/* Back button */}
       <Button
+
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("subjectsManage")}

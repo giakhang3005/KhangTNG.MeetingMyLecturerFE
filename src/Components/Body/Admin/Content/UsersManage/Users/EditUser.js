@@ -48,7 +48,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
       //check for fpt @ fe
       if (newUser.email.includes(fptEmail) || newUser.email.includes(feEmail)) {
         if (!(newUser.email === userEdit.email)) {
-          message.error("you can not use FPT or FE email address")
+          message.error("you can not use FPT or FE email address");
           emailCheck = true;
         }
       }
@@ -59,7 +59,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
       stringCheck = true;
       message.error("Name, Password can not be empty");
     }
-    
+
     if (!emailCheck && !stringCheck) {
       setLoading(true);
       await axios
@@ -85,6 +85,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
 
       {/* Back button */}
       <Button
+        disabled={loading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("usersManage")}

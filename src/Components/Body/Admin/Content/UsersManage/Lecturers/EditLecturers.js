@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function EditLecturers() {
+export function EditLecturers({setMenuOpt, lecturerEdit}) {
   return (
     <div>EditLecturers</div>
   )

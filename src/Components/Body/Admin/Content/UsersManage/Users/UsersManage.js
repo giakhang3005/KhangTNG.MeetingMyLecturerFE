@@ -41,6 +41,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
       .get("https://meet-production-52c7.up.railway.app/api/v1/account/get")
       .then((response) => response.data.data)
       .then((responseData) => (setUsers(responseData), setLoading(false)))
+      .catch((error) => console.error(error))
       .finally(() => {
         setRecentlSearch({
           name: null,
@@ -265,13 +266,13 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
             style={{ margin: "0 5px 0 5px" }}
             type="primary"
             onClick={() => handleRefetch()}
-            loading={toggleLoading || isLoading}
+            disabled={toggleLoading || isLoading}
           >
             Refresh
           </Button>
           <Button
             icon={<UserAddOutlined />}
-            loading={toggleLoading || isLoading}
+            disabled={toggleLoading || isLoading}
             onClick={() => setMenuOpt("addUser")}
           ></Button>
         </span>

@@ -23,7 +23,7 @@ export function AddLocations({ setMenuOpt }) {
           newLocation
         )
         .then(() => {
-          message.success('Created new location')
+          message.success("Created new location");
           setIsLoading(false);
         })
         .catch((err) => console.error(err));
@@ -41,6 +41,7 @@ export function AddLocations({ setMenuOpt }) {
 
       {/* Back button */}
       <Button
+        disabled={isLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("publicLocationsManage")}

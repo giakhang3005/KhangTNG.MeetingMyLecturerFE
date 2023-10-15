@@ -30,12 +30,15 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
 
   //! TOGGLE
   const handleToggle = (subject) => {
-    const newSubject = { ...subject, status: !subject.status };
     setOtherLoading(true);
+    const subSubject = {
+      name: subject.name === null ? subject.id : subject.name,
+      status: !subject.status
+    }
     axios
       .put(
         `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
-        newSubject
+        subSubject
       )
       .then(() => {
         setOtherLoading(false);
@@ -95,7 +98,9 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
       key: "6",
       title: "Major",
       render: (subject) => {
-        return <>{subject.major?.name}</>;
+        return subject.majorList.map((major, i) => {
+          return <Tag key={i} color="orange">{major.majorName}</Tag>
+        })
       },
     },
     {
@@ -127,7 +132,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
         <Button
           icon={<PlusOutlined />}
           onClick={() => setMenuOpt("addSubjects")}
-          loading={isLoading || otherLoading}
+          disabled={isLoading || otherLoading}
         >
           Add Subject
         </Button>

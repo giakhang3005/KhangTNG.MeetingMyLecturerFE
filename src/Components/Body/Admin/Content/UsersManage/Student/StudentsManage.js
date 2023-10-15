@@ -1,8 +1,9 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Tag } from "antd";
+import { Table, Typography, Button } from "antd";
+import {EditOutlined} from '@ant-design/icons'
 import axios from "axios";
 
-export function StudentsManage() {
+export function StudentsManage({setStudentEdit, setMenuOpt}) {
   const { Title } = Typography;
 
   const [lecturerList, setLecturerList] = useState([]);
@@ -14,6 +15,13 @@ export function StudentsManage() {
     .catch((error) => console.error(error))
     .finally(() =>setLoading(false))
   }, [])
+
+  //Handle Edit
+  const handleEdit = (student) => {
+    setStudentEdit(setStudentEdit)
+    setMenuOpt('editStudent')
+  }
+
   const columns = [
     // {
     //   key: "1",
@@ -55,13 +63,21 @@ export function StudentsManage() {
       title: "Address",
       dataIndex: "address",
     },
-    // {
-    //   key: "9",
-    //   title: "Status",
-    //   render: (student) => {
-    //     return student.status ? <Tag color="green">ACTIVE</Tag> : <Tag color="red">DISABLED</Tag>
-    //   }
-    // },
+    {
+      key: "9",
+      label: "",
+      render: (student) => {
+        return (
+          <>
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => handleEdit(student)}
+            ></Button>
+          </>
+        );
+      },
+    },
   ];
   return (
     <>

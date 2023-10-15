@@ -56,6 +56,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
 
       {/* Back button */}
       <Button
+        disabled={isLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("publicLocationsManage")}
