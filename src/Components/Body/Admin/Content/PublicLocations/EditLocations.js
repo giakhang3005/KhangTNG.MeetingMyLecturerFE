@@ -3,27 +3,41 @@ import axios from "axios";
 import { Col, Row, Typography, Button, Input, message, Spin } from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 
-export function AddLocations({ setMenuOpt }) {
+export function EditLocations({ setMenuOpt, locationEdit }) {
   const { Title } = Typography;
 
   const [isLoading, setIsLoading] = useState(false);
-  const handleAdd = () => {
+  const [lecturerName, setLecturerName] = useState("");
+  useEffect(() => {
+    locationEdit.lecturerId !== null &&  
+      axios
+        .get(
+          `https://meet-production-52c7.up.railway.app/api/v1/account/get/${locationEdit.lecturerId}`
+        )
+        .then((response) => setLecturerName(response.data.data.name))
+        .then(setIsLoading(false))
+  }, []);
+
+  const handleSubmit = () => {
     const userInput = document.querySelectorAll(".editInput");
+
     const newLocation = {
+      id: locationEdit.id,
       name: userInput[0].value,
       address: userInput[1].value,
-      status: true,
-      lecturerId: null,
+      status: locationEdit.status,
+      lecturerId: locationEdit.lecturerId,
     };
+
     if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
       setIsLoading(true);
       axios
         .post(
-          "https://meet-production-52c7.up.railway.app/api/location/new-location",
+          `https://meet-production-52c7.up.railway.app/api/location/update/${newLocation.id}`,
           newLocation
         )
         .then(() => {
-          message.success('Created new location')
+          message.success("Updated location");
           setIsLoading(false);
         })
         .catch((err) => console.error(err));
@@ -36,7 +50,7 @@ export function AddLocations({ setMenuOpt }) {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        ADD PUBLIC LOCATIONS
+        EDIT LOCATIONS
       </Title>
 
       {/* Back button */}
@@ -48,7 +62,7 @@ export function AddLocations({ setMenuOpt }) {
         Back
       </Button>
 
-      <Spin spinning={false}>
+      <Spin spinning={isLoading}>
         <Row className="requestsInfo">
           <Col xs={1}></Col>
           <Col xs={23}>
@@ -65,7 +79,10 @@ export function AddLocations({ setMenuOpt }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Input className="editInput"></Input>
+                  <Input
+                    className="editInput"
+                    defaultValue={locationEdit.name}
+                  ></Input>
                 </Title>
               </Col>
             </Row>
@@ -83,7 +100,10 @@ export function AddLocations({ setMenuOpt }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Input className="editInput"></Input>
+                  <Input
+                    className="editInput"
+                    defaultValue={locationEdit.address}
+                  ></Input>
                 </Title>
               </Col>
             </Row>
@@ -101,7 +121,33 @@ export function AddLocations({ setMenuOpt }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Input disabled className="editInput" value="PUBLIC"></Input>
+                  <Input
+                    disabled
+                    className="editInput"
+                    value={locationEdit.status ? "PUBLIC" : "PERSONAL"}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* lecturer */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Lecturer:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    disabled
+                    className="editInput"
+                    value={lecturerName}
+                  ></Input>
                 </Title>
               </Col>
             </Row>
@@ -118,9 +164,9 @@ export function AddLocations({ setMenuOpt }) {
                   type="primary"
                   style={{ margin: "12px 8px 0 0" }}
                   icon={<FormOutlined />}
-                  onClick={handleAdd}
+                  onClick={handleSubmit}
                 >
-                  Add
+                  Update
                 </Button>
               </Col>
             </Row>

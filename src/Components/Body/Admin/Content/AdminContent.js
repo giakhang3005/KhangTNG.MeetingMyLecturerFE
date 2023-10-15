@@ -12,11 +12,14 @@ import { Subjects } from "./Subjects/Subjects";
 import { PublicLocations } from "./PublicLocations/PublicLocations";
 import { EditSubjects } from "./Subjects/EditSubjects";
 import { AddLocations } from "./PublicLocations/AddLocations";
+import { EditLocations } from "./PublicLocations/EditLocations";
+import { AddSubjects } from "./Subjects/AddSubjects";
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
   const [userEdit, setUserEdit] = useState({});
   const [subjectEdit, setSubjectEdit] = useState({});
+  const [locationEdit, setLocationEdit] = useState({});
 
   return (
     <div className="LecturerContent">
@@ -37,12 +40,16 @@ export const AdminContent = () => {
           <BookingManage />
         ) : menuOpt === "subjectsManage" ? (
           <Subjects setSubjectEdit={setSubjectEdit} setMenuOpt={setMenuOpt} />
+        ) : menuOpt === "addSubjects" ? (
+          <AddSubjects setMenuOpt={setMenuOpt}/>
         ) : menuOpt === "editSubjects" ? (
           <EditSubjects setMenuOpt={setMenuOpt} subjectEdit={subjectEdit}/>
         ) : menuOpt === "publicLocationsManage" ? (
-          <PublicLocations setMenuOpt={setMenuOpt} />
+          <PublicLocations setMenuOpt={setMenuOpt} setLocationEdit={setLocationEdit} />
         ) : menuOpt === "addLocationsManage" ? (
           <AddLocations setMenuOpt={setMenuOpt} />
+        ) : menuOpt === "editLocationsManage" ? (
+          <EditLocations setMenuOpt={setMenuOpt} locationEdit={locationEdit}/>
         ) : menuOpt === "editUser" ? (
           <EditUser setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} userEdit={userEdit} />
         ) : menuOpt === "addUser" ? (

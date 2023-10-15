@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export function PublicLocations({setMenuOpt}) {
+export function PublicLocations({setMenuOpt, setLocationEdit}) {
   const { Title, Text } = Typography;
   const [otherLoading, setOtherLoading] = useState(false);
 
@@ -23,18 +23,26 @@ export function PublicLocations({setMenuOpt}) {
   //! Delete
   const handleDelete = (location) => {
     setOtherLoading(true);
-    console.log(location)
     axios
       .delete(
         `https://meet-production-52c7.up.railway.app/api/location/delete?id=${location.id}`
       )
       .then(() => {
         message.success("Deleted successfully");
+        setOtherLoading(false)
         refetch();
       })
-      .catch((err) => console.log(err))
-      .finally(setOtherLoading(false));
+      .catch((err) => {
+        console.error(err);
+        setOtherLoading(false)
+      })
   };
+
+  //! Edit
+  const handleEdit = (location) => {
+    setLocationEdit(location)
+    setMenuOpt("editLocationsManage")
+  }
 
   //table columns
   const columns = [
@@ -66,7 +74,7 @@ export function PublicLocations({setMenuOpt}) {
       render: (location) => {
         return (
           <>
-            <Button type="text" icon={<EditOutlined />}></Button>
+            <Button onClick={() => handleEdit(location)} type="text" icon={<EditOutlined />}></Button>
             <Button
               onClick={() => handleDelete(location)}
               type="text"

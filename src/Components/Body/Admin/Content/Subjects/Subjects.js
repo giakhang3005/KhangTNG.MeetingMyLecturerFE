@@ -117,7 +117,7 @@ export function Subjects({setSubjectEdit, setMenuOpt}) {
         SUBJECTS
         <Button
           icon={<PlusOutlined />}
-          // onClick={() => handleRefetch()}
+          onClick={() => setMenuOpt('addSubjects')}
           loading={isLoading || otherLoading}
         >
           Add Subject
