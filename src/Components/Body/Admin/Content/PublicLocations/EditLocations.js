@@ -9,13 +9,14 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lecturerName, setLecturerName] = useState("");
   useEffect(() => {
-    locationEdit.lecturerId !== null &&  
+    locationEdit.lecturerId !== null &&
       axios
         .get(
           `https://meet-production-52c7.up.railway.app/api/v1/account/get/${locationEdit.lecturerId}`
         )
         .then((response) => setLecturerName(response.data.data.name))
         .then(setIsLoading(false))
+        .catch((err) => console.error(err));
   }, []);
 
   const handleSubmit = () => {

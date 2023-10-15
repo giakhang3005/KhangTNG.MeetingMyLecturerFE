@@ -1,24 +1,28 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export function PublicLocations({setMenuOpt, setLocationEdit}) {
+export function PublicLocations({ setMenuOpt, setLocationEdit }) {
   const { Title, Text } = Typography;
   const [otherLoading, setOtherLoading] = useState(false);
 
   //! Get
   const [locations, setLocations] = useState([]);
-  const {
-    // data: subjects,
-    isLoading,
-    refetch,
-  } = useQuery(["loc"], () => {
-    return axios
+  const [isLoading, setLoading] = useState(false);
+
+  const getData = () => {
+    setLoading(true);
+    axios
       .get("https://meet-production-52c7.up.railway.app/api/location")
-      .then((response) => setLocations(response.data.data));
-  });
+      .then((response) => (setLocations(response.data.data), setLoading(false)))
+      .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   //! Delete
   const handleDelete = (location) => {
@@ -29,20 +33,20 @@ export function PublicLocations({setMenuOpt, setLocationEdit}) {
       )
       .then(() => {
         message.success("Deleted successfully");
-        setOtherLoading(false)
-        refetch();
+        setOtherLoading(false);
+        getData();
       })
       .catch((err) => {
         console.error(err);
-        setOtherLoading(false)
-      })
+        setOtherLoading(false);
+      });
   };
 
   //! Edit
   const handleEdit = (location) => {
-    setLocationEdit(location)
-    setMenuOpt("editLocationsManage")
-  }
+    setLocationEdit(location);
+    setMenuOpt("editLocationsManage");
+  };
 
   //table columns
   const columns = [
@@ -65,8 +69,12 @@ export function PublicLocations({setMenuOpt, setLocationEdit}) {
       key: "4",
       title: "",
       render: (location) => {
-        return location.status ? <Tag color="green">PUBLIC</Tag> : <Tag color="orange">PERSONAL</Tag>
-      }
+        return location.status ? (
+          <Tag color="green">PUBLIC</Tag>
+        ) : (
+          <Tag color="orange">PERSONAL</Tag>
+        );
+      },
     },
     {
       key: "5",
@@ -74,7 +82,11 @@ export function PublicLocations({setMenuOpt, setLocationEdit}) {
       render: (location) => {
         return (
           <>
-            <Button onClick={() => handleEdit(location)} type="text" icon={<EditOutlined />}></Button>
+            <Button
+              onClick={() => handleEdit(location)}
+              type="text"
+              icon={<EditOutlined />}
+            ></Button>
             <Button
               onClick={() => handleDelete(location)}
               type="text"

@@ -22,7 +22,7 @@ export function RequestsViewAll(props) {
       endTime: "15:00",
       subject: ["SWP391"],
       note: "test",
-      status: "pending",
+      status: 1,
       location: {
         name: "FPT",
         address: "Khu cong nghe cao, quan 9, TP Thu Duc",
@@ -36,7 +36,7 @@ export function RequestsViewAll(props) {
       endTime: "15:00",
       subject: ["SWT301", "SWP391"],
       note: null,
-      status: "decline",
+      status: 0,
       location: {
         name: "FPT",
         address: "Khu cong nghe cao, quan 9, TP Thu Duc",
@@ -50,7 +50,7 @@ export function RequestsViewAll(props) {
       endTime: "15:00",
       subject: ["SWT301"],
       note: "hello teacher",
-      status: "accept",
+      status: 1,
       location: {
         name: "FPT",
         address: "Khu cong nghe cao, quan 9, TP Thu Duc",

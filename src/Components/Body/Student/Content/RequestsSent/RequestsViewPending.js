@@ -22,7 +22,7 @@ export function RequestsViewPending(props) {
       endTime: "15:00",
       subject: ["SWP391"],
       note: "test",
-      status: "pending",
+      status: 1,
       location: {
         name: "FPT",
         address: "Khu cong nghe cao, quan 9, TP Thu Duc",

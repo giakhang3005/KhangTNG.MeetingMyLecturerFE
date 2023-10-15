@@ -70,6 +70,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
         .then(() => {
           message.success("Updated successfully");
         })
+        .catch((err) => console.log(err))
         .finally(() => {
           setLoading(false);
         });

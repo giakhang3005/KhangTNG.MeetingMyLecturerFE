@@ -21,7 +21,7 @@ export function RequestsViewAccepted(props) {
       endTime: "15:00",
       subject: ["SWT301"],
       note: "hello teacher",
-      status: "accept",
+      status: 2,
       location: {
         name: "FPT",
         address: "Khu cong nghe cao, quan 9, TP Thu Duc",

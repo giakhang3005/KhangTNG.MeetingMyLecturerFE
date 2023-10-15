@@ -31,21 +31,17 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
     status: null,
   });
   const [recentSearch, setRecentlSearch] = useState(finalSearch);
-
-  //test data
-  const [users, setUsers] = useState([]);
   
   //! fetching data
-  const {
-    // data, //assign name for the data
-    isLoading,
-    // isError,
-    refetch,
-  } = useQuery(["user"], () => {
-    return axios
+  const [users, setUsers] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
+  const getData = () => {
+    setLoading(true)
+    axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/account/get")
       .then((response) => response.data.data)
-      .then((responseData) => setUsers(responseData))
+      .then((responseData) => (setUsers(responseData), setLoading(false)))
       .finally(() => {
         setRecentlSearch({
           name: null,
@@ -59,7 +55,11 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
         });
         setUsersList([]);
       });
-  });
+  }
+
+  useEffect(() => {
+    getData()
+  },[])
 
   const checkRole = (role) => {
     switch (role) {
@@ -90,7 +90,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
       `https://meet-production-52c7.up.railway.app/api/v1/account/put/${user.id}`,
       data
     );
-    refetch();
+    getData();
     setToggleLoading(false);
     message.success("Toggled successfully");
   };
@@ -143,18 +143,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
   };
 
   const handleRefetch = () => {
-    refetch();
-    setRecentlSearch({
-      name: null,
-      role: null,
-      status: null,
-    });
-    setFinalSearch({
-      name: null,
-      role: null,
-      status: null,
-    });
-    setUsersList([]);
+    getData()
   };
 
   //columns of table

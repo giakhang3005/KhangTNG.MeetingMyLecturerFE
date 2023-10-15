@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
 import {
   EditOutlined,
@@ -8,21 +8,25 @@ import {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export function Subjects({setSubjectEdit, setMenuOpt}) {
+export function Subjects({ setSubjectEdit, setMenuOpt }) {
   const { Title, Text } = Typography;
   const [otherLoading, setOtherLoading] = useState(false);
 
   //! Get
   const [subjects, setSubjects] = useState([]);
-  const {
-    // data: subjects,
-    isLoading,
-    refetch,
-  } = useQuery(["loc"], () => {
-    return axios
+  const [isLoading, setLoading] = useState(false);
+
+  const getData = () => {
+    setLoading(true);
+    axios
       .get("https://meet-production-52c7.up.railway.app/api/subject")
-      .then((response) => setSubjects(response.data));
-  });
+      .then((response) => (setSubjects(response.data), setLoading(false)))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   //! TOGGLE
   const handleToggle = (subject) => {
@@ -34,19 +38,20 @@ export function Subjects({setSubjectEdit, setMenuOpt}) {
         newSubject
       )
       .then(() => {
-        setOtherLoading(false)
+        setOtherLoading(false);
         message.success("Toggled successfully");
-        refetch();
+        getData();
       })
-      .catch((err) => err.status === "BAD_REQUEST" && message.error("Toggled failed"))
+      .catch(
+        (err) => err.status === "BAD_REQUEST" && message.error("Toggled failed")
+      );
   };
 
   // Handle Edit Click
   const handleEdit = (subject) => {
-    setSubjectEdit(subject)
-    setMenuOpt('editSubjects')
-  }
-
+    setSubjectEdit(subject);
+    setMenuOpt("editSubjects");
+  };
 
   //table columns
   const columns = [
@@ -99,7 +104,11 @@ export function Subjects({setSubjectEdit, setMenuOpt}) {
       render: (subject) => {
         return (
           <>
-            <Button type="text" icon={<EditOutlined />} onClick={() => handleEdit(subject)}></Button>
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => handleEdit(subject)}
+            ></Button>
             <Button
               onClick={() => handleToggle(subject)}
               type="text"
@@ -117,7 +126,7 @@ export function Subjects({setSubjectEdit, setMenuOpt}) {
         SUBJECTS
         <Button
           icon={<PlusOutlined />}
-          onClick={() => setMenuOpt('addSubjects')}
+          onClick={() => setMenuOpt("addSubjects")}
           loading={isLoading || otherLoading}
         >
           Add Subject

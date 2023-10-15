@@ -99,13 +99,10 @@ export const useStudentRequests = () => {
         key: "7",
         title: "Status",
         render: (booking) => {
-          switch (booking.status.toLowerCase()) {
-            case "accept":
-              return <Accept />;
-            case "decline":
-              return <Decline />;
-            default:
-              return <Pending />;
+          switch (booking.status) {
+            case 0: return <Decline />;
+            case 1: return <Pending />;
+            case 2: return <Accept />;
           }
         },
       },

@@ -22,7 +22,7 @@ export function RequestsViewDeclined(props) {
       endTime: "15:00",
       subject: ["SWT301", "SWP391"],
       note: null,
-      status: "decline",
+      status: 0,
       location: {name: "FPT", address: "Khu cong nghe cao, quan 9, TP Thu Duc"}
     },
   ];
