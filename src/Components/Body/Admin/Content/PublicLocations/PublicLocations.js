@@ -2,7 +2,6 @@ import { React, useState, useEffect } from "react";
 import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 
 export function PublicLocations({ setMenuOpt, setLocationEdit }) {
   const { Title, Text } = Typography;

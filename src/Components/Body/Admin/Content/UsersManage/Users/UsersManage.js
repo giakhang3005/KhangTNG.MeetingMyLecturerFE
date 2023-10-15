@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   Typography,

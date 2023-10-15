@@ -1,25 +1,28 @@
 import { useContext, useState } from "react";
 import { Data } from "../../Body";
 import { AdminDashboard } from "./Dashboard/AdminDashboard";
-import { UsersManage } from "./UsersManage/UsersManage";
+import { UsersManage } from "./UsersManage/Users/UsersManage";
 import { SlotsManage } from "./SlotsManage/SlotsManage";
 import { BookingManage } from "./BookingManage/BookingManage";
-import { LecturersManage } from "./UsersManage/LecturersManage";
-import { StudentsManage } from "./UsersManage/StudentsManage";
-import { EditUser } from "./UsersManage/EditUser";
-import { AddUser } from "./UsersManage/AddUser";
+import { LecturersManage } from "./UsersManage/Lecturers/LecturersManage";
+import { StudentsManage } from "./UsersManage/Student/StudentsManage";
+import { EditUser } from "./UsersManage/Users/EditUser";
+import { AddUser } from "./UsersManage/Users/AddUser";
 import { Subjects } from "./Subjects/Subjects";
 import { PublicLocations } from "./PublicLocations/PublicLocations";
 import { EditSubjects } from "./Subjects/EditSubjects";
 import { AddLocations } from "./PublicLocations/AddLocations";
 import { EditLocations } from "./PublicLocations/EditLocations";
 import { AddSubjects } from "./Subjects/AddSubjects";
+import { EditLecturers } from "./UsersManage/Lecturers/EditLecturers";
+
 
 export const AdminContent = () => {
   const { menuOpt, setMenuOpt } = useContext(Data);
   const [userEdit, setUserEdit] = useState({});
   const [subjectEdit, setSubjectEdit] = useState({});
   const [locationEdit, setLocationEdit] = useState({});
+  const [lecturerEdit, setlecturerEdit] = useState({});
 
   return (
     <div className="LecturerContent">
@@ -30,7 +33,9 @@ export const AdminContent = () => {
         ) : menuOpt === "usersManage" ? (
           <UsersManage setMenuOpt={setMenuOpt} setUserEdit={setUserEdit} />
         ) : menuOpt === "lecturersManage" ? (
-          <LecturersManage />
+          <LecturersManage setlecturerEdit={setlecturerEdit} setMenuOpt={setMenuOpt}/>
+        ) : menuOpt === "editLecturers" ? (
+          <EditLecturers lecturerEdit={lecturerEdit} setMenuOpt={setMenuOpt}/>
         ) : menuOpt === "studentsManage" ? (
           <StudentsManage />
         ) : // request

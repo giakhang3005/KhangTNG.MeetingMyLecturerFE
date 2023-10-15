@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Tag } from "antd";
+import { Table, Typography } from "antd";
 import axios from "axios";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
@@ -18,8 +18,6 @@ export function BookingManage() {
     .catch((error) => console.error(error))
     .finally(() => setLoading(false))
   }, [])
-
-  
 
   const columns = [
     {
