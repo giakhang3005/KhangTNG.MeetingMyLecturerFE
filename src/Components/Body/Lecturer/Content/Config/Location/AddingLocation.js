@@ -1,12 +1,15 @@
-import { Form, Input, Button, Typography, message } from "antd";
+import { Form, Input, Button, Typography, message, Spin } from "antd";
 import "../../../Lecturer.css";
+import { Data } from "../../../../Body";
+import { useContext, useState } from "react";
+import axios from "axios";
 
 export const AddingLocation = (props) => {
   const { Title } = Typography;
+  const { user } = useContext(Data);
 
   //get props
-  const setLocationSectionView = props.setLocationSectionView,
-    finalIdOfTheList = props.finalIdOfTheList;
+  const setLocationSectionView = props.setLocationSectionView;
 
   //handle cancel
   const handleCancel = () => {
@@ -15,20 +18,33 @@ export const AddingLocation = (props) => {
   };
 
   //handle submit
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (data) => {
     //TODO: For Backend
-    const result = { name: data.name, address: data.address, lecturer: null };
-    console.log(result);
-
-    //! Place fetching ADD API here
-
-    message.success(`Added location ${data.name}`);
-    setLocationSectionView("");
-  };
-
-  //form values
-  const formValues = {
-    ["id"]: finalIdOfTheList + 1,
+    const newLocation = {
+      name: data.name,
+      address: data.address,
+      status: false,
+      lecturerId: user.id,
+    };
+    if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
+      setIsLoading(true);
+      axios
+        .post(
+          "https://meet-production-52c7.up.railway.app/api/location/new-location",
+          newLocation
+        )
+        .then(() => {
+          message.success("Created new location");
+          setIsLoading(false);
+          setLocationSectionView("");
+        })
+        .catch((err) => console.error(err));
+    } else {
+      message.error(
+        "Name must be at least 3 characters & Address must be at least 5 characters long"
+      );
+    }
   };
 
   return (
@@ -38,36 +54,35 @@ export const AddingLocation = (props) => {
       </Title>
 
       {/* Form */}
-      <div className="editLocationForm">
-        <Form initialValues={formValues} onFinish={handleSubmit}>
-          <Form.Item name="id" label="ID" rules={[{ required: true }]}>
-            <Input disabled />
-          </Form.Item>
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="address"
-            label="Address"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              onClick={handleCancel}
-              style={{ margin: "0 8px 0 0" }}
-              type="default"
-              danger
+      <Spin spinning={isLoading}>
+        <div className="editLocationForm">
+          <Form onFinish={handleSubmit}>
+            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="address"
+              label="Address"
+              rules={[{ required: true }]}
             >
-              Cancel
-            </Button>
-            <Button type="primary" htmlType="submit">
-              Save
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                onClick={handleCancel}
+                style={{ margin: "0 8px 0 0" }}
+                type="default"
+                danger
+              >
+                Cancel
+              </Button>
+              <Button type="primary" htmlType="submit">
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Spin>
     </>
   );
 };

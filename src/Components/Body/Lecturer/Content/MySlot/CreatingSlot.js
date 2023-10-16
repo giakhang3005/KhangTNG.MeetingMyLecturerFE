@@ -12,14 +12,16 @@ import {
 } from "antd";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { Data } from "../../../Body";
 
 export const CreatingSlot = (props) => {
   const { Option } = Select;
   const { Title } = Typography;
 
   const setCreatedSlotView = props.setCreatedSlotView;
+  const { user } = useContext(Data);
 
   //check mode
   const [isAssignMode, setIsAssignMode] = useState(false);
@@ -160,27 +162,51 @@ export const CreatingSlot = (props) => {
   //! subject from API
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
-  useEffect(() => {
-    setSubjectsLoading(true)
+  const getSubjects = () => {
+    setSubjectsLoading(true);
     axios
       .get("https://meet-production-52c7.up.railway.app/api/subject/status")
       .then((response) => setSubjects(response.data))
-      .finally(() => setSubjectsLoading(false))
-  }, [])
+      .catch((error) => console.error(error))
+      .finally(() => setSubjectsLoading(false));
+  };
 
-  //Handle location
-  //! location from API
-  const locations = [
-    { key: "jjj", name: "FPT" },
-    { key: "aaa", name: "NVH" },
-  ];
+  const [emails, setEmails] = useState([]);
+  const [emailsLoading, setEmailsLoading] = useState(false);
+  const getEmails = () => {
+    setEmailsLoading(true);
+    axios
+      .get(
+        "https://meet-production-52c7.up.railway.app/api/v1/student/get/emails"
+      )
+      .then((response) => setEmails(response.data.data))
+      .catch((error) =>
+        console.error(error).finally(() => setEmailsLoading(false))
+      );
+  };
 
-  const allStudentsEmail = [
-    "khangtngse171927@fpt.edu.vn",
-    "lamtcse173603@fpt.edu.vn",
-    "thanhvtse173589@fpt.edu.vn",
-    "minhmndse173605@fpt.edu.vn",
-  ];
+  const [locationsList, setLocationsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const getLocations = () => {
+    setIsLoading(true);
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
+      )
+      .then(
+        (response) => (
+          setLocationsList(response.data.data), setIsLoading(false)
+        )
+      )
+      .catch((err) => console.log(err))
+  };
+
+  useEffect(() => {
+    getSubjects();
+    getEmails();
+    getLocations();
+  }, []);
+
 
   return (
     <>
@@ -188,7 +214,11 @@ export const CreatingSlot = (props) => {
         CREATING SLOT
       </Title>
 
-      <Spin spinning={subjectsLoading} size="large" tip="Preparing your data...">
+      <Spin
+        spinning={subjectsLoading}
+        size="large"
+        tip="Preparing your data..."
+      >
         <div className="editLocationForm">
           <Form onFinish={handleSubmitAntispam}>
             {/*  ID */}
@@ -219,13 +249,6 @@ export const CreatingSlot = (props) => {
               <TimePicker format="HH:mm" />
             </Form.Item>
 
-            {/* Mode */}
-            {/* <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
-              <Select allowClear>
-                <Option key={1}>Manual approve (in requests section)</Option>
-                <Option key={2}>Accept the first Booker</Option>
-                <Option key={3}>Assign student</Option>
-              </Select> */}
             {/* </Form.Item> */}
             <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
               <Radio.Group>
@@ -257,9 +280,9 @@ export const CreatingSlot = (props) => {
                 label="Student Email"
                 rules={[{ required: isAssignMode ? true : false }]}
               >
-                <Select showSearch allowClear={true}>
-                  {allStudentsEmail.map((student) => {
-                    return <Option value={student}>{student}</Option>;
+                <Select allowClear={true} showSearch>
+                  {emails?.map((email) => {
+                    return <Option key={email}>{email}</Option>;
                   })}
                 </Select>
               </Form.Item>
@@ -272,8 +295,8 @@ export const CreatingSlot = (props) => {
               rules={[{ required: true }]}
             >
               <Select>
-                {locations.map((location) => {
-                  return <Option key={location.key}>{location.name}</Option>;
+                {locationsList?.map((location) => {
+                  return <Option key={location.id}>{location.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -285,8 +308,8 @@ export const CreatingSlot = (props) => {
               rules={[{ required: true }]}
             >
               <Select mode="multiple" allowClear={true}>
-                {subjects.map((subject) => {
-                  return <Option key={subject.code}>{subject.code}</Option>;
+                {subjects?.map((subject) => {
+                  return <Option key={subject?.code}>{subject?.code}</Option>;
                 })}
               </Select>
             </Form.Item>

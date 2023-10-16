@@ -33,7 +33,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
     if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
       setIsLoading(true);
       axios
-        .post(
+        .put(
           `https://meet-production-52c7.up.railway.app/api/location/update/${newLocation.id}`,
           newLocation
         )

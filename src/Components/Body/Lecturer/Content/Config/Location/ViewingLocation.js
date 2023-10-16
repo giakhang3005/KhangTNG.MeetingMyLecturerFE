@@ -1,11 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { Typography, Table } from "antd";
+import { useEffect, useContext } from "react";
+import { Typography, Table, Spin, message, Tag } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import axios from "axios";
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { Data } from "../../../../Body";
 
 export const ViewingLocation = (props) => {
   //get function from LecturerLocation
@@ -13,17 +12,30 @@ export const ViewingLocation = (props) => {
     setEditLocation = props.setEditLocation,
     setFinalIdOfTheList = props.setFinalIdOfTheList;
 
+  const { user } = useContext(Data);
+
   const { Title } = Typography;
-  
+
   //! fetching data -> LocationsList
-  const {
-    data: LocationsList, //assign name for the data
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery(["locations"], () => {
-    return axios.get("https://retoolapi.dev/xGHy24/data").then((response) =>  response.data); //fetching and turn it into json
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [LocationsList, setLocationsList] = useState([]);
+  const getLocations = () => {
+    setIsLoading(true);
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
+      )
+      .then(
+        (response) => (
+          setLocationsList(response.data.data), setIsLoading(false)
+        )
+      );
+  };
+
+  useEffect(() => {
+    getLocations();
+  }, []);
+
   //columns of table
   const columns = [
     {
@@ -35,24 +47,57 @@ export const ViewingLocation = (props) => {
     {
       key: "2",
       title: "Name",
-      dataIndex: "Location name",
+      dataIndex: "name",
     },
     {
       key: "3",
       title: "Address",
-      dataIndex: "Location address",
+      dataIndex: "address",
     },
     {
       key: "4",
+      title: "Created by",
+      render: (location) => {
+        return location.status ? (
+          <Tag color="orange">Admin</Tag>
+        ) : (
+          <Tag color="green">You</Tag>
+        );
+      },
+    },
+    {
+      key: "5",
       title: "",
       render: (location) => {
         return (
           <>
-            <EditOutlined onClick={() => editLocation(location)} />
-            <DeleteOutlined
-              className="locationDeleteBtn"
-              onClick={() => deleteLocation(location)}
-            />
+            {location.status ? (
+              <>
+                <EditOutlined
+                  style={Object.assign(
+                    { color: "#7a7a7a" },
+                    { opacity: 0.35 },
+                    { cursor: "not-allowed" }
+                  )}
+                />
+                <DeleteOutlined
+                  className="locationDeleteBtn"
+                  style={Object.assign(
+                    { color: "#7a7a7a" },
+                    { opacity: 0.35 },
+                    { cursor: "not-allowed" }
+                  )}
+                />
+              </>
+            ) : (
+              <>
+                <EditOutlined onClick={() => editLocation(location)} />
+                <DeleteOutlined
+                  className="locationDeleteBtn"
+                  onClick={() => deleteLocation(location)}
+                />
+              </>
+            )}
           </>
         );
       },
@@ -67,18 +112,31 @@ export const ViewingLocation = (props) => {
   //handle delete click
   const deleteLocation = (location) => {
     //! Place fetching DELETE API here
-
-    refetch();
+    setIsLoading(true);
+    axios
+      .delete(
+        `https://meet-production-52c7.up.railway.app/api/location/delete?id=${location.id}`
+      )
+      .then(
+        () => (
+          message.success("Deleted successfully"),
+          setIsLoading(false),
+          getLocations()
+        )
+      )
+      .catch((err) => (message.error("Deleted Failed"), setIsLoading(false)));
   };
   return (
     <div className="viewingLecturerLocations">
       <Title className="sectionTitle" level={3}>
         MY LOCATIONS
-        <AddLocationBtn
-          setLocationSectionView={setLocationSectionView}
-          LocationsList={LocationsList}
-          setFinalIdOfTheList={setFinalIdOfTheList}
-        />
+        <Spin spinning={isLoading}>
+          <AddLocationBtn
+            setLocationSectionView={setLocationSectionView}
+            LocationsList={LocationsList}
+            setFinalIdOfTheList={setFinalIdOfTheList}
+          />
+        </Spin>
       </Title>
 
       {/* Table of locations */}

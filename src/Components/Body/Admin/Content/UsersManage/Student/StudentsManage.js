@@ -10,7 +10,7 @@ export function StudentsManage({setStudentEdit, setMenuOpt}) {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true)
-    axios.get('https://meet-production-52c7.up.railway.app/api/v1/student/get')
+    axios.get('https://meet-production-52c7.up.railway.app/api/v1/student/get/all')
     .then((response) => setLecturerList(response.data.data))
     .catch((error) => console.error(error))
     .finally(() =>setLoading(false))
