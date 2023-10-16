@@ -18,20 +18,20 @@ export function StudentsManage({setStudentEdit, setMenuOpt}) {
 
   //Handle Edit
   const handleEdit = (student) => {
-    setStudentEdit(setStudentEdit)
+    setStudentEdit(student)
     setMenuOpt('editStudent')
   }
 
   const columns = [
-    // {
-    //   key: "1",
-    //   title: "ID",
-    //   dataIndex: "id",
-    // },
     {
-      key: "2",
+      key: "1",
       title: "Name",
       dataIndex: "name",
+    },
+    {
+      key: "2",
+      title: "MSSV",
+      dataIndex: "code",
     },
     {
       key: "3",

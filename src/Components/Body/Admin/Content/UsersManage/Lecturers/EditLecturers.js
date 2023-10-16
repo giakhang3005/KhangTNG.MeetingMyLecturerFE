@@ -1,7 +1,271 @@
-import React from 'react'
+import { React, useState, useEffect } from "react";
+import {
+  Col,
+  Row,
+  Typography,
+  Button,
+  Select,
+  Input,
+  message,
+  Tag,
+  Spin,
+  Popover,
+} from "antd";
+import { FormOutlined, LeftOutlined } from "@ant-design/icons";
+import axios from "axios";
 
-export function EditLecturers({setMenuOpt, lecturerEdit}) {
+export function EditLecturers({ setMenuOpt, lecturerEdit }) {
+  const { Title } = Typography;
+  const [loading, setLoading] = useState(false);
+
+  //! getting all subjectlist
+  const [subjectsList, setSubjectsList] = useState([]);
+  const [selectSubjectsList, setSelectSubjectsList] = useState([]);
+  const [convertSubjectList, setConvertSubjectList] = useState([]);
+  //fetching subjects
+  const getSubjectList = () => {
+    setLoading(true);
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+      .then(
+        (response) => (
+          setSubjectsList(response.data),
+          setSelectSubjectsList(pushSubjectList(response.data)),
+          setLoading(false)
+        )
+      );
+  };
+  //push in to select format
+  const pushSubjectList = (inputSubjects) => {
+    const selectSubjects = inputSubjects.map((subject) => {
+      return { value: subject.code, name: subject.code };
+    });
+    return selectSubjects;
+  };
+
+  useEffect(() => {
+    getSubjectList();
+  }, []);
+
+  //! handle submit
+  const handleSubmit = () => {
+    setLoading(true);
+    const UInput = document.querySelectorAll(".editInput");
+
+    const newLecturer = {
+      id: lecturerEdit.id,
+      name: lecturerEdit.name,
+      phone: UInput[1].value,
+      email: lecturerEdit.email,
+      note: UInput[4].value,
+      subjectList: convertSubjectList,
+    };
+
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
+        newLecturer
+      )
+      .then(
+        (res) => (message.success("Updated successfully"), setLoading(false))
+      )
+      .catch((err) => console.error(err));
+  };
+
+  //! handle subject change
+  const handleSubjectChange = (subjects) => {
+    let subjectsFilteredList = [];
+    subjects.map((subject) => {
+      subjectsList.filter((oriSubject) => {
+        subject === oriSubject.code &&
+          subjectsFilteredList.push({
+            subjectId: oriSubject.id,
+            subjectCode: oriSubject.code,
+          });
+      });
+    });
+    setConvertSubjectList(subjectsFilteredList);
+  };
+
   return (
-    <div>EditLecturers</div>
-  )
+    <>
+      <Title className="sectionTitle" level={3}>
+        UPDATE LECTURERS
+      </Title>
+
+      {/* Back button */}
+      <Button
+        disabled={loading}
+        icon={<LeftOutlined />}
+        type="text"
+        onClick={() => setMenuOpt("lecturersManage")}
+      >
+        Back
+      </Button>
+
+      <Spin spinning={loading}>
+        <Row className="requestsInfo">
+          <Col xs={1}></Col>
+          <Col xs={23}>
+            {/* NAME */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Name:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    disabled
+                    className="editInput"
+                    defaultValue={lecturerEdit.name}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* PHONE */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Phone:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    className="editInput"
+                    defaultValue={lecturerEdit.phone}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* EMAIL */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Email:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    disabled
+                    className="editInput"
+                    defaultValue={lecturerEdit.email}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* Subjects */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText" level={5}>
+                  Teaching:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Select
+                    style={{ minWidth: "150px" }}
+                    mode="multiple"
+                    className="editInput"
+                    defaultValue={lecturerEdit.subjectList.map((subject) => {
+                      const code = subject.subjectCode;
+                      return code;
+                    })}
+                    options={selectSubjectsList}
+                    onChange={(subjects) => handleSubjectChange(subjects)}
+                  ></Select>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* Locations */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Locations:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  {lecturerEdit.locationList.map((location, i) => {
+                    return (
+                      <Popover key={i} content={location.locationAddress}>
+                        <Tag color="orange">{location.locationName}</Tag>
+                      </Popover>
+                    );
+                  })}
+                </Title>
+              </Col>
+            </Row>
+
+            {/* NOTE */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Note:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    className="editInput"
+                    defaultValue={lecturerEdit.note}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+
+            {/* Buttons */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText" level={5}></Title>
+              </Col>
+              <Col xs={15} md={10}>
+                {/* Update note */}
+                <Button
+                  loading={loading}
+                  type="primary"
+                  style={{ margin: "12px 8px 0 0" }}
+                  icon={<FormOutlined />}
+                  onClick={handleSubmit}
+                >
+                  Update
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Spin>
+    </>
+  );
 }

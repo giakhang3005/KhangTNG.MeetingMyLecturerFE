@@ -36,7 +36,6 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
 
   //handle Major change
   const handleMajorChange = (majorId) => {
-    console.log(majorId);
     //return to id, name format
     const majorSelected = [];
     majorId.map((majId) => {

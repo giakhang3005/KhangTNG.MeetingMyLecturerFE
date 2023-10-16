@@ -1,10 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { Table, Typography, Tag, Popover, Button } from "antd";
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined } from "@ant-design/icons";
 import { useArray } from "../../../../../../Hooks/All/useArray";
 import axios from "axios";
 
-export function LecturersManage({setlecturerEdit, setMenuOpt}) {
+export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
   const { Title } = Typography;
   const ArrayToString = useArray();
 
@@ -16,17 +16,17 @@ export function LecturersManage({setlecturerEdit, setMenuOpt}) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/lecturer")
       .then((response) => (setLecturerList(response.data), setLoading(false)))
-      .catch((error) => console.error(error))
-  }
+      .catch((error) => console.error(error));
+  };
   useEffect(() => {
     getData();
   }, []);
 
   //handle Edit
   const handleEdit = (lecturer) => {
-    setlecturerEdit(lecturer)
-    setMenuOpt("editLecturers")
-  }
+    setlecturerEdit(lecturer);
+    setMenuOpt("editLecturers");
+  };
 
   //table columns
   const columns = [
@@ -57,7 +57,11 @@ export function LecturersManage({setlecturerEdit, setMenuOpt}) {
         const subjectCodeList = lecturer.subjectList.map((subject) => {
           return subject.subjectCode;
         });
-        return ArrayToString(subjectCodeList);
+        return (
+          <Popover content={ArrayToString(subjectCodeList)}>
+            <Tag color="volcano">{`${subjectCodeList.length} subjects`}</Tag>
+          </Popover>
+        );
       },
     },
     {

@@ -79,7 +79,11 @@ export function AddSubjects({ setMenuOpt }) {
     if (!codeErr && !nameErr && !majErr) {
       setMajorLoading(true);
       axios
-        .post("https://meet-production-52c7.up.railway.app/api/subject/", newMajor)
+        .post("https://meet-production-52c7.up.railway.app/api/subject/", newMajor, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          }
+        })
         .then(
           (res) => (
             message.success("Created successfully"), setMajorLoading(false)
