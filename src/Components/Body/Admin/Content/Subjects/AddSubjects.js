@@ -21,7 +21,7 @@ export function AddSubjects({ setMenuOpt }) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/major")
       .then((response) => setMajors(response.data))
-      .finally(() => setMajorLoading(false));
+      .finally(() => (setMajorLoading(false), setMajorLoading(false)));
   }, []);
 
   //set options format
@@ -33,13 +33,13 @@ export function AddSubjects({ setMenuOpt }) {
   });
 
   //handle Major change
-  const handleMajorChange = (major) => {
+  const handleMajorChange = (majorId) => {
     //return to id, name format
     const majorSelected = [];
-    major.map((majId) => {
+    majorId.map((majId) => {
       majorSelected.push({
-        id: majId,
-        name: marjList[majId - 1].label,
+        majorId: majId,
+        majorName: marjList[majId - 1].label,
       });
     });
     setSelectedMajors(majorSelected);
@@ -79,17 +79,22 @@ export function AddSubjects({ setMenuOpt }) {
     if (!codeErr && !nameErr && !majErr) {
       setMajorLoading(true);
       axios
-        .post("https://meet-production-52c7.up.railway.app/api/subject/", newMajor, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          }
-        })
+        .post(
+          "https://meet-production-52c7.up.railway.app/api/subject/create",
+          newMajor
+        )
         .then(
           (res) => (
             message.success("Created successfully"), setMajorLoading(false)
           )
         )
-        .catch((err) => console.error(err));
+        .catch(
+          (err) => (
+            console.error(err),
+            message.error("Failed to create"),
+            setMajorLoading(false)
+          )
+        );
     }
   };
 
@@ -102,7 +107,7 @@ export function AddSubjects({ setMenuOpt }) {
 
       {/* Back button */}
       <Button
-
+        disabled={majorLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("subjectsManage")}

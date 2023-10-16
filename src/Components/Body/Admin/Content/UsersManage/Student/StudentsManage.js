@@ -55,11 +55,6 @@ export function StudentsManage({setStudentEdit, setMenuOpt}) {
     },
     {
       key: "8",
-      title: "Semester",
-      dataIndex: "semester",
-    },
-    {
-      key: "8",
       title: "Address",
       dataIndex: "address",
     },

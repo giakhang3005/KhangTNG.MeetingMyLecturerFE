@@ -33,6 +33,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
           setSelectSubjectsList(pushSubjectList(response.data)),
           setLoading(false)
         )
+        .catch((error) => (console.error(error), setLoading(false)))
       );
   };
   //push in to select format

@@ -16,7 +16,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/lecturer")
       .then((response) => (setLecturerList(response.data), setLoading(false)))
-      .catch((error) => console.error(error));
+      .catch((error) => (console.error(error), setLoading(false)));
   };
   useEffect(() => {
     getData();
@@ -59,7 +59,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
         });
         return (
           <Popover content={ArrayToString(subjectCodeList)}>
-            <Tag color="volcano">{`${subjectCodeList.length} subjects`}</Tag>
+            <Tag color="volcanog">{`${subjectCodeList.length} subjects`}</Tag>
           </Popover>
         );
       },

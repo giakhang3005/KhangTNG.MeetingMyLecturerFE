@@ -75,6 +75,7 @@ export function AddUser({ setMenuOpt }) {
                 ? message.success("Created successfully")
                 : message.error("Failed to create user");
             })
+            .catch((error) => console.log(error))
             .finally(() => setLoading(false));
         });
     }

@@ -18,7 +18,6 @@ export function EditStudent({ setMenuOpt, studentEdit }) {
   const handleSubmit = () => {
     setLoading(true)
     const UInput = document.querySelectorAll('.editInput')
-    const Semester = document.querySelector('.ant-select-selection-item').textContent
 
     const newStudent = {
       id: studentEdit.id,
@@ -29,7 +28,6 @@ export function EditStudent({ setMenuOpt, studentEdit }) {
       address: studentEdit.address,
       email: studentEdit.email,
       curriculum: studentEdit.curriculum,
-      semester: Semester,
       status: studentEdit.status,
     }
 
@@ -181,38 +179,6 @@ export function EditStudent({ setMenuOpt, studentEdit }) {
                     className="editInput"
                     defaultValue={studentEdit.curriculum}
                   ></Input>
-                </Title>
-              </Col>
-            </Row>
-
-            {/* SEMESTER */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText" level={5}>
-                  Semester:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Select
-                    className="editInput"
-                    defaultValue={studentEdit.semester}
-                    options={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
-                      { value: 4, label: 4 },
-                      { value: 5, label: 5 },
-                      { value: 6, label: 6 },
-                      { value: 7, label: 7 },
-                      { value: 8, label: 8 },
-                      { value: 9, label: 9 },
-                    ]}
-                  ></Select>
                 </Title>
               </Col>
             </Row>

@@ -16,7 +16,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
         )
         .then((response) => setLecturerName(response.data.data.name))
         .then(setIsLoading(false))
-        .catch((err) => console.error(err));
+        .catch((err) => (console.error(err), setIsLoading(false)));
   }, []);
 
   const handleSubmit = () => {
@@ -41,7 +41,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
           message.success("Updated location");
           setIsLoading(false);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => (console.error(err), setIsLoading(false)));
     } else {
       message.error(
         "Name must be at least 3 characters & Address must be at least 5 characters long"

@@ -23,6 +23,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/major")
       .then((response) => setMajors(response.data))
+      .catch((err) => console.error(err))
       .finally(() => setMajorLoading(false));
   }, []);
 

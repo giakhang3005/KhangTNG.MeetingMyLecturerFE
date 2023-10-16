@@ -6,7 +6,6 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 
 export function Subjects({ setSubjectEdit, setMenuOpt }) {
   const { Title, Text } = Typography;
