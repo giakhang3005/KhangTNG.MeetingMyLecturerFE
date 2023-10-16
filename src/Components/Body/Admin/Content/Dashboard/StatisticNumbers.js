@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Col, Row, Statistic } from "antd";
-import {TeamOutlined, SnippetsOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons'
+import {TeamOutlined, SolutionOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons'
 
 export const StatisticNumber = () => {
   return (
@@ -16,14 +16,14 @@ export const StatisticNumber = () => {
       {/* Total Hours */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
-          <Statistic prefix={<SnippetsOutlined />} title="Total Bookings" value={20} />
+          <Statistic prefix={<SolutionOutlined />} title="Total Lecturers" value={20} />
         </Card>
       </Col>
 
       {/* Total Locations */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
-          <Statistic prefix={<UserOutlined />} title="Total Users" value={3} />
+          <Statistic prefix={<UserOutlined />} title="Total Students" value={3} />
         </Card>
       </Col>
 

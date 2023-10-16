@@ -16,6 +16,7 @@ import { EditLocations } from "./PublicLocations/EditLocations";
 import { AddSubjects } from "./Subjects/AddSubjects";
 import { EditLecturers } from "./UsersManage/Lecturers/EditLecturers";
 import { EditStudent } from "./UsersManage/Student/EditStudent";
+import { MajorsManage } from "./Major/MajorsManage";
 
 
 export const AdminContent = () => {
@@ -47,6 +48,8 @@ export const AdminContent = () => {
           <SlotsManage />
         ) : menuOpt === "bookingsManage" ? (
           <BookingManage />
+        ) : menuOpt === "majorsManage" ? (
+          <MajorsManage setMenuOpt={setMenuOpt} />
         ) : menuOpt === "subjectsManage" ? (
           <Subjects setSubjectEdit={setSubjectEdit} setMenuOpt={setMenuOpt} />
         ) : menuOpt === "addSubjects" ? (

@@ -59,7 +59,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
         });
         return (
           <Popover content={ArrayToString(subjectCodeList)}>
-            <Tag color="volcanog">{`${subjectCodeList.length} subjects`}</Tag>
+            <Tag color="volcano">{`${subjectCodeList.length} subjects`}</Tag>
           </Popover>
         );
       },

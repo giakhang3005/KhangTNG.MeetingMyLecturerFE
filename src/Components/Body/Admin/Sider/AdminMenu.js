@@ -10,6 +10,7 @@ import {
   TeamOutlined,
   BookOutlined,
   GlobalOutlined,
+  ProfileOutlined,
 } from "@ant-design/icons";
 import { useLogOut } from "../../../../Hooks/All/useLogout";
 
@@ -26,6 +27,7 @@ export const AdminMenu = () => {
       icon: <SnippetsOutlined />,
       key: "bookingsManage",
     },
+    { label: "Majors", icon: <ProfileOutlined />, key: "majorsManage" },
     { label: "Subjects", icon: <BookOutlined />, key: "subjectsManage" },
     {
       label: "Locations",

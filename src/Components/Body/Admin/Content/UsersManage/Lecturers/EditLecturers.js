@@ -33,9 +33,14 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
           setSelectSubjectsList(pushSubjectList(response.data)),
           setLoading(false)
         )
-        .catch((error) => (console.error(error), setLoading(false)))
-      );
+      )
+      .catch((error) => (console.error(error), setLoading(false)));
   };
+
+  //check phone number/text contain only digits
+  const checkOnlyDigits = (string) =>
+    [...string].every((c) => "0123456789".includes(c));
+
   //push in to select format
   const pushSubjectList = (inputSubjects) => {
     const selectSubjects = inputSubjects.map((subject) => {
@@ -62,15 +67,34 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
       subjectList: convertSubjectList,
     };
 
-    axios
-      .put(
-        `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
-        newLecturer
-      )
-      .then(
-        (res) => (message.success("Updated successfully"), setLoading(false))
-      )
-      .catch((err) => console.error(err));
+    let phoneErr = true;
+    newLecturer.phone.length > 9 &&
+    newLecturer.phone.length < 12 &&
+    checkOnlyDigits(newLecturer.phone)
+      ? (phoneErr = false)
+      : (phoneErr = true);
+    !phoneErr ? (
+      axios
+        .put(
+          `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
+          newLecturer
+        )
+        .then(
+          (res) => (message.success("Updated successfully"), setLoading(false))
+        )
+        .catch(
+          (err) => (
+            console.error(err),
+            setLoading(false),
+            message.error("Failed to update")
+          )
+        )
+    ) : (
+      <>
+        {message.error("Phone number must contain 10 or 11 numbers")}
+        {setLoading(false)}
+      </>
+    );
   };
 
   //! handle subject change
