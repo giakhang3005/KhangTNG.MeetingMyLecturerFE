@@ -15,8 +15,7 @@ export const Login = () => {
   const validStatus = useAccountStatus();
 
   // Email check
-  const fptEmail = "@fpt.edu.vn",
-    feEmail = "@fe.edu.vn";
+  const fptEmail = "@fpt.edu.vn";
   const [checkMailErr, setCheckMailErr] = useState(false);
   const [disableAccount, setDisableAccount] = useState(false);
 
@@ -37,10 +36,9 @@ export const Login = () => {
           }
         )
         .then((res) => {
-          //! validate @fpt.edu.vn and @fe.edu.vn
+          //! validate @fpt.edu.vn 
           if (
-            res.data.email.includes(fptEmail) ||
-            res.data.email.includes(feEmail)
+            res.data.email.includes(fptEmail)
           ) {
             setCheckMailErr(false);
             const userFromGg = res.data;
@@ -236,7 +234,7 @@ export const Login = () => {
           icon={<GoogleOutlined />}
           onClick={() => handleSignin()}
         >
-          Sign in with Google
+          Sign in with FPT Email
         </Button>
         {/* Email notification */}
         {checkMailErr && (

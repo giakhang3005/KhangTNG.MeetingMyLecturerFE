@@ -6,7 +6,11 @@ import { CreatedSlotTableView } from "./CreatedSlotTableView";
 import "../../Lecturer.css";
 import { EditingSlot } from "./EditingSlot";
 import { CreatingSlot } from "./CreatingSlot";
-import { Typography, Tabs } from "antd";
+import { Typography, Tabs, Button } from "antd";
+import {
+  DownloadOutlined,
+  RedoOutlined,
+} from "@ant-design/icons";
 
 export const LecturerCreatedSlot = () => {
   // Get state
@@ -64,7 +68,7 @@ export const LecturerCreatedSlot = () => {
         <>
           {/* Title */}
           <Title className="sectionTitle" level={3}>
-            MY SLOTS{" "}
+            MY SLOTS
             <LecturerCreateSlotBtn setCreatedSlotView={setCreatedSlotView} />
           </Title>
           {/* Tabs */}

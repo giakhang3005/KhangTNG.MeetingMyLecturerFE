@@ -9,12 +9,15 @@ import {
   DatePicker,
   Radio,
   Spin,
+  Row,
+  Col,
 } from "antd";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Data } from "../../../Body";
+import { UploadExcel } from "./UploadExcel";
 
 export const CreatingSlot = (props) => {
   const { Option } = Select;
@@ -198,7 +201,7 @@ export const CreatingSlot = (props) => {
           setLocationsList(response.data.data), setIsLoading(false)
         )
       )
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -207,137 +210,168 @@ export const CreatingSlot = (props) => {
     getLocations();
   }, []);
 
-
   return (
     <>
       <Title className="sectionTitle" level={3}>
         CREATING SLOT
       </Title>
 
-      <Spin
-        spinning={subjectsLoading}
-        size="large"
-        tip="Preparing your data..."
-      >
-        <div className="editLocationForm">
-          <Form onFinish={handleSubmitAntispam}>
-            {/*  ID */}
-            <Form.Item name="id" label="ID" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
+      <Row>
+        <Col sm={1}></Col>
+        <Col sm={10}>
+          <Spin
+            spinning={subjectsLoading}
+            size="large"
+            tip="Preparing your data..."
+          >
+            <span>
+              <Form onFinish={handleSubmitAntispam}>
+                {/*  ID */}
+                <Form.Item name="id" label="ID" rules={[{ required: true }]}>
+                  <Input />
+                </Form.Item>
 
-            {/* Date */}
-            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-              <DatePicker />
-            </Form.Item>
-
-            {/* Start time */}
-            <Form.Item
-              name="startTime"
-              label="Start Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-
-            {/* End time */}
-            <Form.Item
-              name="endTime"
-              label="End Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-
-            {/* </Form.Item> */}
-            <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
-              <Radio.Group>
-                <Radio.Button
-                  value="Manual approve"
-                  onClick={() => setIsAssignMode(false)}
+                {/* Date */}
+                <Form.Item
+                  name="date"
+                  label="Date"
+                  rules={[{ required: true }]}
                 >
-                  Manual approve
-                </Radio.Button>
-                <Radio.Button
-                  value="Accept the first Booker"
-                  onClick={() => setIsAssignMode(false)}
-                >
-                  Accept the first Booker
-                </Radio.Button>
-                <Radio.Button
-                  value="Assign student"
-                  onClick={() => setIsAssignMode(true)}
-                >
-                  Assign student
-                </Radio.Button>
-              </Radio.Group>
-            </Form.Item>
+                  <DatePicker />
+                </Form.Item>
 
-            {/* Student email */}
-            {isAssignMode && (
-              <Form.Item
-                name="studentemail"
-                label="Student Email"
-                rules={[{ required: isAssignMode ? true : false }]}
-              >
-                <Select allowClear={true} showSearch>
-                  {emails?.map((email) => {
-                    return <Option key={email}>{email}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
+                {/* Start time */}
+                <Form.Item
+                  name="startTime"
+                  label="Start Time"
+                  rules={[{ required: true }]}
+                >
+                  <TimePicker format="HH:mm" />
+                </Form.Item>
+
+                {/* End time */}
+                <Form.Item
+                  name="endTime"
+                  label="End Time"
+                  rules={[{ required: true }]}
+                >
+                  <TimePicker format="HH:mm" />
+                </Form.Item>
+
+                {/* </Form.Item> */}
+                <Form.Item
+                  name="mode"
+                  label="Mode"
+                  rules={[{ required: true }]}
+                >
+                  <Radio.Group>
+                    <Radio.Button
+                      value="Manual approve"
+                      onClick={() => setIsAssignMode(false)}
+                    >
+                      Manual approve
+                    </Radio.Button>
+                    <Radio.Button
+                      value="Accept the first Booker"
+                      onClick={() => setIsAssignMode(false)}
+                    >
+                      Accept the first Booker
+                    </Radio.Button>
+                    <Radio.Button
+                      value="Assign student"
+                      onClick={() => setIsAssignMode(true)}
+                    >
+                      Assign student
+                    </Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
+
+                {/* Student email */}
+                {isAssignMode && (
+                  <Form.Item
+                    name="studentemail"
+                    label="Student Email"
+                    rules={[{ required: isAssignMode ? true : false }]}
+                  >
+                    <Select allowClear={true} showSearch>
+                      {emails?.map((email) => {
+                        return <Option key={email}>{email}</Option>;
+                      })}
+                    </Select>
+                  </Form.Item>
+                )}
+
+                {/* Location */}
+                <Form.Item
+                  name="location"
+                  label="Location"
+                  rules={[{ required: true }]}
+                >
+                  <Select>
+                    {locationsList?.map((location) => {
+                      return <Option key={location.id}>{location.name}</Option>;
+                    })}
+                  </Select>
+                </Form.Item>
+
+                {/* Subject */}
+                <Form.Item
+                  name="subject"
+                  label="Subject"
+                  rules={[{ required: true }]}
+                >
+                  <Select mode="multiple" allowClear={true}>
+                    {subjects?.map((subject) => {
+                      return (
+                        <Option key={subject?.code}>{subject?.code}</Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[{ required: false }]}
+                >
+                  <Input />
+                </Form.Item>
+                {/* Cancel */}
+                <Form.Item>
+                  <Button
+                    onClick={handleCancel}
+                    style={{ margin: "0 8px 0 0" }}
+                    type="default"
+                    danger
+                  >
+                    Cancel
+                  </Button>
+                  {/* Save */}
+                  <Button type="primary" htmlType="submit">
+                    Save
+                  </Button>
+                </Form.Item>
+              </Form>
+            </span>
+          </Spin>
+        </Col>
+        <Col sm={1}></Col>
+        <Col sm={1}>
+          <span
+            style={Object.assign(
+              { height: "50vh" },
+              { display: "flex" },
+              { alignItems: "center" },
+              { justifyContent: "center" },
+              { fontWeight: 600 },
+              { fontSize: "16px" }
             )}
-
-            {/* Location */}
-            <Form.Item
-              name="location"
-              label="Location"
-              rules={[{ required: true }]}
-            >
-              <Select>
-                {locationsList?.map((location) => {
-                  return <Option key={location.id}>{location.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-
-            {/* Subject */}
-            <Form.Item
-              name="subject"
-              label="Subject"
-              rules={[{ required: true }]}
-            >
-              <Select mode="multiple" allowClear={true}>
-                {subjects?.map((subject) => {
-                  return <Option key={subject?.code}>{subject?.code}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[{ required: false }]}
-            >
-              <Input />
-            </Form.Item>
-            {/* Cancel */}
-            <Form.Item>
-              <Button
-                onClick={handleCancel}
-                style={{ margin: "0 8px 0 0" }}
-                type="default"
-                danger
-              >
-                Cancel
-              </Button>
-              {/* Save */}
-              <Button type="primary" htmlType="submit">
-                Save
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      </Spin>
+          >
+            OR
+          </span>
+        </Col>
+        <Col sm={1}></Col>
+        <Col sm={10}><UploadExcel /></Col>
+      </Row>
     </>
   );
 };

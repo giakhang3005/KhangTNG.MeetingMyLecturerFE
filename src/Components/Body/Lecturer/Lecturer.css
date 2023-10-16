@@ -97,10 +97,6 @@
   margin-left: 20px;
 }
 .editLocationForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   animation: fade 0.2s linear;
 }
 .CalenderViewContainer  {
