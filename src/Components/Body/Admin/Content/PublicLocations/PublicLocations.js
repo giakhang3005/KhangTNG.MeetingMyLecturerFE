@@ -1,5 +1,14 @@
 import { React, useState, useEffect } from "react";
-import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
+import {
+  Typography,
+  Table,
+  Row,
+  Col,
+  Button,
+  message,
+  Tag,
+  Popconfirm,
+} from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -86,12 +95,12 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
               type="text"
               icon={<EditOutlined />}
             ></Button>
-            <Button
-              onClick={() => handleDelete(location)}
-              type="text"
-              icon={<DeleteOutlined />}
-              danger
-            ></Button>
+            <Popconfirm
+              description="Are you sure want to delete this major?"
+              onConfirm={() => handleDelete(location)}
+            >
+              <Button type="text" icon={<DeleteOutlined />} danger></Button>
+            </Popconfirm>
           </>
         );
       },

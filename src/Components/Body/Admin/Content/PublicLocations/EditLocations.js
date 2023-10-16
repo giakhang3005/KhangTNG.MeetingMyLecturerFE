@@ -20,7 +20,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
   }, []);
 
   const handleSubmit = () => {
-    const userInput = document.querySelectorAll(".editInput");
+    const userInput = document.querySelectorAll(".ant-input");
 
     const newLocation = {
       id: locationEdit.id,
@@ -29,8 +29,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
       status: locationEdit.status,
       lecturerId: locationEdit.lecturerId,
     };
-
-    if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
+    if (newLocation.name.length >= 5 && newLocation.address.length >= 8) {
       setIsLoading(true);
       axios
         .put(
@@ -44,7 +43,7 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
         .catch((err) => (console.error(err), setIsLoading(false)));
     } else {
       message.error(
-        "Name must be at least 3 characters & Address must be at least 5 characters long"
+        "Name must be at least 5 characters & Address must be at least 8 characters long"
       );
     }
   };
@@ -82,6 +81,8 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
                   style={{ fontWeight: "400" }}
                 >
                   <Input
+                    maxLength={30}
+                    showCount
                     className="editInput"
                     defaultValue={locationEdit.name}
                   ></Input>
@@ -103,6 +104,8 @@ export function EditLocations({ setMenuOpt, locationEdit }) {
                   style={{ fontWeight: "400" }}
                 >
                   <Input
+                    maxLength={200}
+                    showCount
                     className="editInput"
                     defaultValue={locationEdit.address}
                   ></Input>

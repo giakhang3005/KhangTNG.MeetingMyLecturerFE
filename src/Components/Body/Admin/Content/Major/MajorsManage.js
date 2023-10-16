@@ -1,22 +1,23 @@
 import { React, useState, useEffect } from "react";
-import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
+import { Typography, Table, Row, Col, Button, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-export function MajorsManage({setMenuOpt}) {
+export function MajorsManage({ setMenuOpt, setEditMajor }) {
   const { Title, Text } = Typography;
 
-  const [loading, setLoading] = useState(false)
-  const [majors, setMajors] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [majors, setMajors] = useState([]);
   const getData = () => {
-    setLoading(true)
-    axios.get('https://meet-production-52c7.up.railway.app/api/major')
-    .then((res) => (setMajors(res.data), setLoading(false)))
-  }
+    setLoading(true);
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/major")
+      .then((res) => (setMajors(res.data), setLoading(false)));
+  };
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   //table columns
   const columns = [
@@ -37,21 +38,45 @@ export function MajorsManage({setMenuOpt}) {
         return (
           <>
             <Button
-            //   onClick={() => handleEdit(major)}
+              onClick={() => handleEdit(major)}
               type="text"
               icon={<EditOutlined />}
             ></Button>
-            <Button
-            //   onClick={() => handleDelete(major)}
-              type="text"
-              icon={<DeleteOutlined />}
-              danger
-            ></Button>
+            <Popconfirm
+              description="Are you sure want to delete this major?"
+              onConfirm={() => handleDelete(major)}
+            >
+              <Button type="text" icon={<DeleteOutlined />} danger></Button>
+            </Popconfirm>
           </>
         );
       },
     },
   ];
+
+  //! Handle delete
+  const handleDelete = (major) => {
+    setLoading(true);
+    axios
+      .delete(
+        `https://meet-production-52c7.up.railway.app/api/major/${major.id}`
+      )
+      .then(() => {
+        message.success("Deleted major successfully");
+        getData();
+      })
+      .catch((err) => {
+        console.log(err);
+        message.error("Failed to delete major");
+        setLoading(false);
+      });
+  };
+
+  //!Handle edit
+  const handleEdit = (major) => {
+    setEditMajor(major);
+    setMenuOpt('editMajor');
+  };
   return (
     <>
       <Title className="sectionTitle" level={3}>
@@ -59,7 +84,7 @@ export function MajorsManage({setMenuOpt}) {
         <Button
           icon={<PlusOutlined />}
           onClick={() => setMenuOpt("addMajor")}
-            disabled={loading }
+          disabled={loading}
         >
           Add Major
         </Button>

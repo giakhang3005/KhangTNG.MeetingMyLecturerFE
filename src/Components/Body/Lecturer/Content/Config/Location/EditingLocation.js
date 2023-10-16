@@ -35,7 +35,7 @@ export const EditingLocation = (props) => {
       lecturerId: user.id,
     };
     //! Place fetching UPDATE API here
-    if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
+    if (newLocation.name.length >= 5 && newLocation.address.length >= 8) {
       setIsLoading(true);
       axios
         .put(
@@ -50,7 +50,7 @@ export const EditingLocation = (props) => {
         .catch((err) => (console.error(err), setIsLoading(false)));
     } else {
       message.error(
-        "Name must be at least 3 characters & Address must be at least 5 characters long"
+        "Name must be at least 5 characters & Address must be at least 8 characters long"
       );
     }
   };
@@ -66,14 +66,14 @@ export const EditingLocation = (props) => {
               <Input disabled />
             </Form.Item>
             <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-              <Input />
+              <Input maxLength={30} showCount/>
             </Form.Item>
             <Form.Item
               name="address"
               label="Address"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input maxLength={200} showCount/>
             </Form.Item>
             <Form.Item>
               <Button

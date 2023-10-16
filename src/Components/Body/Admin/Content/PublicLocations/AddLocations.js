@@ -8,14 +8,15 @@ export function AddLocations({ setMenuOpt }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const handleAdd = () => {
-    const userInput = document.querySelectorAll(".editInput");
+    const userInput = document.querySelectorAll(".ant-input");
     const newLocation = {
       name: userInput[0].value,
       address: userInput[1].value,
       status: true,
       lecturerId: null,
     };
-    if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
+
+    if (newLocation.name.length >= 5 && newLocation.address.length >= 8) {
       setIsLoading(true);
       axios
         .post(
@@ -25,11 +26,12 @@ export function AddLocations({ setMenuOpt }) {
         .then(() => {
           message.success("Created new location");
           setIsLoading(false);
+          setMenuOpt('publicLocationsManage')
         })
         .catch((err) => console.error(err));
     } else {
       message.error(
-        "Name must be at least 3 characters & Address must be at least 5 characters long"
+        "Name must be at least 5 characters & Address must be at least 8 characters long"
       );
     }
   };
@@ -66,7 +68,7 @@ export function AddLocations({ setMenuOpt }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Input className="editInput"></Input>
+                  <Input className="editInput" maxLength={30} showCount></Input>
                 </Title>
               </Col>
             </Row>
@@ -84,7 +86,7 @@ export function AddLocations({ setMenuOpt }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Input className="editInput"></Input>
+                  <Input className="editInput" maxLength={200} showCount></Input>
                 </Title>
               </Col>
             </Row>

@@ -17,6 +17,8 @@ import { AddSubjects } from "./Subjects/AddSubjects";
 import { EditLecturers } from "./UsersManage/Lecturers/EditLecturers";
 import { EditStudent } from "./UsersManage/Student/EditStudent";
 import { MajorsManage } from "./Major/MajorsManage";
+import { CreateMajor } from "./Major/CreateMajor";
+import { EditMajor } from "./Major/EditMajor";
 
 
 export const AdminContent = () => {
@@ -26,6 +28,7 @@ export const AdminContent = () => {
   const [locationEdit, setLocationEdit] = useState({});
   const [lecturerEdit, setlecturerEdit] = useState({});
   const [studentEdit, setStudentEdit] = useState({});
+  const [editMajor, setEditMajor] = useState({});
 
   return (
     <div className="LecturerContent">
@@ -49,7 +52,11 @@ export const AdminContent = () => {
         ) : menuOpt === "bookingsManage" ? (
           <BookingManage />
         ) : menuOpt === "majorsManage" ? (
-          <MajorsManage setMenuOpt={setMenuOpt} />
+          <MajorsManage setMenuOpt={setMenuOpt} setEditMajor={setEditMajor} />
+        ) : menuOpt === "addMajor" ? (
+          <CreateMajor setMenuOpt={setMenuOpt} />
+        ) : menuOpt === "editMajor" ? (
+          <EditMajor setMenuOpt={setMenuOpt} editMajor={editMajor} />
         ) : menuOpt === "subjectsManage" ? (
           <Subjects setSubjectEdit={setSubjectEdit} setMenuOpt={setMenuOpt} />
         ) : menuOpt === "addSubjects" ? (

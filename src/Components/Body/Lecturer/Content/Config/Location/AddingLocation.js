@@ -27,7 +27,7 @@ export const AddingLocation = (props) => {
       status: false,
       lecturerId: user.id,
     };
-    if (newLocation.address.length >= 5 && newLocation.address.length >= 3) {
+    if (newLocation.name.length >= 5 && newLocation.address.length >= 8) {
       setIsLoading(true);
       axios
         .post(
@@ -42,7 +42,7 @@ export const AddingLocation = (props) => {
         .catch((err) => console.error(err));
     } else {
       message.error(
-        "Name must be at least 3 characters & Address must be at least 5 characters long"
+        "Name must be at least 5 characters & Address must be at least 8 characters long"
       );
     }
   };
@@ -58,14 +58,14 @@ export const AddingLocation = (props) => {
         <div className="editLocationForm">
           <Form onFinish={handleSubmit}>
             <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-              <Input />
+              <Input maxLength={30} showCount/>
             </Form.Item>
             <Form.Item
               name="address"
               label="Address"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input maxLength={200} showCount/>
             </Form.Item>
             <Form.Item>
               <Button

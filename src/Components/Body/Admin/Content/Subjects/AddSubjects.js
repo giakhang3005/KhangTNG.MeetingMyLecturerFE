@@ -85,7 +85,9 @@ export function AddSubjects({ setMenuOpt }) {
         )
         .then(
           (res) => (
-            message.success("Created successfully"), setMajorLoading(false)
+            message.success("Created successfully"),
+            setMajorLoading(false),
+            setMenuOpt("subjectsManage")
           )
         )
         .catch(
