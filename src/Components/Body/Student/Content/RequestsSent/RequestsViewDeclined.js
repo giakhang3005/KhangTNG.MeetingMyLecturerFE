@@ -1,39 +1,28 @@
-import React from "react";
-import { Typography, Table} from "antd";
+import {React, useEffect, useState} from "react";
+import { Table} from "antd";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 export function RequestsViewDeclined(props) {
   const setIsSelectedBooking = props.setIsSelectedBooking,
-    setRequestsView = props.setRequestsView;
-  const { Title } = Typography;
+    setRequestsView = props.setRequestsView,
+    requestsList = props.requestsList;
 
-  const { tableColumn } = useStudentRequests()
+  const { tableColumn, FilterList } = useStudentRequests()
+  const [declineList, setDeclineList] = useState([])
+  useEffect(() => {
+    FilterList(requestsList, 0, setDeclineList)
+  }, [])
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);
 
-  //test data
-  const RequestsSent = [
-    {
-      id: 2,
-      lecturer: "Truong Nguyen Gia Khang",
-      date: "01/10/2023",
-      startTime: "13:30",
-      endTime: "15:00",
-      subject: ["SWT301", "SWP391"],
-      note: null,
-      status: 0,
-      location: {name: "FPT", address: "Khu cong nghe cao, quan 9, TP Thu Duc"}
-    },
-  ];
   return (
     <>
       {/* Table of result */}
       <Table
         className="tableOfLocations"
         columns={columns}
-        dataSource={RequestsSent}
-        // loading={isLoading}
+        dataSource={declineList}
         rowKey="id"
         key="key"
       ></Table>

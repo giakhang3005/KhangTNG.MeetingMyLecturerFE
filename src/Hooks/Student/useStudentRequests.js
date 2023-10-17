@@ -43,12 +43,6 @@ export const useStudentRequests = () => {
     setRequestsView("info");
   };
 
-  const updateBooking = (updateData, setRequestsView) => {
-    message.success("Updated successfully");
-    console.log(updateData);
-    setRequestsView("view");
-  };
-
   const cancelBooking = (id, setRequestsView) => {
     console.log(id);
     message.success("Deleted successfully");
@@ -60,49 +54,70 @@ export const useStudentRequests = () => {
       {
         key: "1",
         title: "ID",
-        //location.id
         dataIndex: "id",
       },
       {
         key: "2",
-        title: "Lecturer",
-        dataIndex: "lecturer",
+        title: "Date",
+        render: (booking) => {
+          return <>{booking.slotInfo.meetingDate}</>;
+        },
       },
       {
         key: "3",
-        title: "Date",
-        dataIndex: "date",
+        title: "Start",
+        render: (booking) => {
+          return <>{booking.slotInfo.startTime}</>;
+        },
       },
       {
         key: "4",
-        title: "Start Time",
-        dataIndex: "startTime",
+        title: "End",
+        render: (booking) => {
+          return <>{booking.slotInfo.endTime}</>;
+        },
       },
       {
         key: "5",
-        title: "End Time",
-        dataIndex: "endTime",
+        title: "Lecturer",
+        render: (booking) => {
+          return <>{booking.slotInfo.lecturerName}</>;
+        },
       },
       {
         key: "6",
         title: "Subject",
         render: (booking) => {
-          return ArrayToString(booking.subject);
+          let subjectList = [];
+          booking.subjectSlot.map((subject) => {
+            subjectList.push(subject.subjectCode);
+          });
+
+          return ArrayToString(subjectList);
         },
       },
-      // {
-      //   key: "7",
-      //   title: "Note",
-      //   dataIndex: "note",
-      // },
       {
         key: "7",
+        title: "Location",
+        render: (booking) => {
+          return (
+            <Popover content={booking.slotInfo.locationAddress}>
+              <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
+            </Popover>
+          );
+        },
+      },
+      {
+        key: "8",
         title: "Status",
         render: (booking) => {
           switch (booking.status) {
-            case 0: return <Decline />;
-            case 1: return <Pending />;
-            case 2: return <Accept />;
+            case 0:
+              return <Decline />;
+            case 1:
+              return <Pending />;
+            case 2:
+              return <Accept />;
           }
         },
       },
@@ -112,11 +127,6 @@ export const useStudentRequests = () => {
         render: (booking) => {
           return (
             <>
-              {/* <EditOutlined onClick={() => editBooking(booking)} />
-                <DeleteOutlined
-                  className="locationDeleteBtn"
-                  onClick={() => deleteBooking(booking)}
-                /> */}
               <Popover content="Click to view more booking info">
                 <InfoCircleFilled
                   style={Object.assign(
@@ -135,13 +145,20 @@ export const useStudentRequests = () => {
     ];
   };
 
+  const FilterList = (requestsList, status, setList) => {
+    const list = requestsList.filter((request) => {
+      return request.status === status && request;
+    });
+    setList(list);
+  };
+
   return {
     Accept,
     Decline,
     Pending,
     viewInfo,
-    updateBooking,
     cancelBooking,
     tableColumn,
+    FilterList,
   };
 };

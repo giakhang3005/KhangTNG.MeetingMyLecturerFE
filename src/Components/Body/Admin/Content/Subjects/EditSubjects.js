@@ -81,7 +81,11 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
           `https://meet-production-52c7.up.railway.app/api/subject/${newMajor.id}`,
           newMajor
         )
-        .then((res) => message.success("Updated successfully"))
+        .then((res) =>
+          res.data.message === "This Subject code already exists"
+            ? message.error(`Subject code ${newMajor.code} aldready exists`)
+            : message.success("Updated successfully")
+        )
         .catch(() => message.error("Failed to update, please try again"))
         .finally(() => setUpdateLoading(false));
     }

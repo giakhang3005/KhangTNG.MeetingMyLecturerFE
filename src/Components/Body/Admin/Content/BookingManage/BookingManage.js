@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography } from "antd";
+import { Table, Typography, Popover, Tag } from "antd";
 import axios from "axios";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
@@ -56,11 +56,24 @@ export function BookingManage() {
     {
       key: "6",
       title: "Lecturer",
-      dataIndex: "lecturerName",
+      render: (booking) => {
+        return <>{booking.slotInfo.lecturerName}</>
+      }
     },
     {
       key: "7",
-      title: "Booker",
+      title: "Location",
+      render: (booking) => {
+        return (
+          <Popover content={booking.slotInfo.locationAddress}>
+            <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
+          </Popover>
+        );
+      },
+    },
+    {
+      key: "8",
+      title: "Subject",
       render: (booking) => {
         let subjectList = []
         booking.subjectSlot.map((subject) => {
@@ -71,7 +84,7 @@ export function BookingManage() {
       }
     },
     {
-      key: "8",
+      key: "9",
       title: "Status",
       render: (booking) => {
         switch (booking.status) {
@@ -82,7 +95,7 @@ export function BookingManage() {
       }
     },
     {
-      key: "9",
+      key: "10",
       title: "Note",
       dataIndex: "note",
     },

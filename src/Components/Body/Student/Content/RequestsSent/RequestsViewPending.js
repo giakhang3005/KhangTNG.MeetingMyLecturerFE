@@ -1,42 +1,30 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 import { Typography, Table} from "antd";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 export function RequestsViewPending(props) {
   const setIsSelectedBooking = props.setIsSelectedBooking,
-    setRequestsView = props.setRequestsView;
+    setRequestsView = props.setRequestsView,
+    requestsList = props.requestsList;
+
   const { Title } = Typography;
 
-  const { tableColumn } = useStudentRequests()
+  const { tableColumn, FilterList } = useStudentRequests()
+  const [pendingList, setPendingList] = useState([])
+  useEffect(() => {
+    FilterList(requestsList, 1, setPendingList)
+  }, [])
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);
 
-  //test data
-  const RequestsSent = [
-    {
-      id: 1,
-      lecturer: "Truong Nguyen Gia Khang",
-      date: "01/10/2023",
-      startTime: "13:30",
-      endTime: "15:00",
-      subject: ["SWP391"],
-      note: "test",
-      status: 1,
-      location: {
-        name: "FPT",
-        address: "Khu cong nghe cao, quan 9, TP Thu Duc",
-      },
-    },
-  ];
   return (
     <>
       {/* Table of result */}
       <Table
         className="tableOfLocations"
         columns={columns}
-        dataSource={RequestsSent}
-        // loading={isLoading}
+        dataSource={pendingList}
         rowKey="id"
         key="key"
       ></Table>

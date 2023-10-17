@@ -84,19 +84,19 @@ export function AddSubjects({ setMenuOpt }) {
           newMajor
         )
         .then(
-          (res) => (
-            message.success("Created successfully"),
-            setMajorLoading(false),
-            setMenuOpt("subjectsManage")
-          )
+          (res) =>
+            res.data.message === "This Subject code already exists"
+              ? message.error(`Subject code ${newMajor.code} aldready exists`)
+              : (message.success("Created successfully"),
+                setMenuOpt("subjectsManage")),
         )
         .catch(
           (err) => (
             console.error(err),
-            message.error("Failed to create"),
-            setMajorLoading(false)
+            message.error("Failed to create")
           )
-        );
+        )
+        .finally(() => setMajorLoading(false))
     }
   };
 
