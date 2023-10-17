@@ -9,7 +9,7 @@ import {
   Tag,
   Popconfirm,
 } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 export function PublicLocations({ setMenuOpt, setLocationEdit }) {
@@ -110,13 +110,18 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
     <>
       <Title className="sectionTitle" level={3}>
         LOCATIONS
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => setMenuOpt("addLocationsManage")}
-          disabled={isLoading || otherLoading}
-        >
-          Add Location
+        <span>
+        <Button style={{margin: '0 5px 0 0'}} disabled={isLoading || otherLoading} icon={<ReloadOutlined />} onClick={getData}>
+          Refresh
         </Button>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => setMenuOpt("addLocationsManage")}
+            disabled={isLoading || otherLoading}
+          >
+            Add Location
+          </Button>
+        </span>
       </Title>
       {/* Table of result */}
       <Row style={{ overflow: "scroll" }}>

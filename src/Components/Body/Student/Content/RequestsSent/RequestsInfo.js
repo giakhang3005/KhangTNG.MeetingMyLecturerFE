@@ -22,7 +22,7 @@ export function RequestsInfo(props) {
 
   const noteRef = useRef(null);
 
-  const { cancelBooking, Accept, Decline, Pending } = useStudentRequests();
+  const { Accept, Decline, Pending } = useStudentRequests();
 
   const { Title, Text } = Typography;
   const { TextArea } = Input;
@@ -90,8 +90,12 @@ export function RequestsInfo(props) {
   };
 
   const handleDeleteBooking = () => {
-    if (isSelectedBooking.status === "pending") {
-      cancelBooking(isSelectedBooking.id, setRequestsView);
+    if (isSelectedBooking.status === 1) {
+      setLoading(true);
+      axios.delete(`https://meet-production-52c7.up.railway.app/api/booking/${isSelectedBooking.id}`)
+      .then(message.success('Deleted successfully'), setRequestsView('sentRequests'))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(true))
     } else {
       message.error("You can only delete pending booking requests");
     }

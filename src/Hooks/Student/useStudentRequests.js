@@ -43,11 +43,6 @@ export const useStudentRequests = () => {
     setRequestsView("info");
   };
 
-  const cancelBooking = (id, setRequestsView) => {
-    console.log(id);
-    message.success("Deleted successfully");
-    setRequestsView("view");
-  };
 
   const tableColumn = (setRequestsView, setIsSelectedBooking) => {
     return [
@@ -157,7 +152,6 @@ export const useStudentRequests = () => {
     Decline,
     Pending,
     viewInfo,
-    cancelBooking,
     tableColumn,
     FilterList,
   };

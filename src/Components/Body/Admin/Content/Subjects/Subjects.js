@@ -4,6 +4,7 @@ import {
   EditOutlined,
   PoweroffOutlined,
   PlusOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
 
@@ -32,8 +33,8 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
     setOtherLoading(true);
     const subSubject = {
       name: subject.name === null ? subject.id : subject.name,
-      status: !subject.status
-    }
+      status: !subject.status,
+    };
     axios
       .put(
         `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
@@ -98,8 +99,12 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
       title: "Major",
       render: (subject) => {
         return subject.majorList.map((major, i) => {
-          return <Tag key={i} color="orange">{major.majorName}</Tag>
-        })
+          return (
+            <Tag key={i} color="orange">
+              {major.majorName}
+            </Tag>
+          );
+        });
       },
     },
     {
@@ -128,13 +133,23 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
     <>
       <Title className="sectionTitle" level={3}>
         SUBJECTS
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => setMenuOpt("addSubjects")}
-          disabled={isLoading || otherLoading}
-        >
-          Add Subject
-        </Button>
+        <span>
+          <Button
+            disabled={isLoading || otherLoading}
+            icon={<ReloadOutlined />}
+            onClick={getData}
+            style={{ margin: "0 5px 0 0" }}
+          >
+            Refresh
+          </Button>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => setMenuOpt("addSubjects")}
+            disabled={isLoading || otherLoading}
+          >
+            Add Subject
+          </Button>
+        </span>
       </Title>
       {/* Table of result */}
       <Row style={{ overflow: "scroll" }}>

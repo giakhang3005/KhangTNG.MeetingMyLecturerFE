@@ -1,26 +1,30 @@
 import { React, useState, useEffect } from "react";
 import { Table, Typography, Button } from "antd";
-import {EditOutlined} from '@ant-design/icons'
+import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-export function StudentsManage({setStudentEdit, setMenuOpt}) {
+export function StudentsManage({ setStudentEdit, setMenuOpt }) {
   const { Title } = Typography;
 
   const [lecturerList, setLecturerList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const getData = () => {
+    setLoading(true);
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/v1/student/get/all")
+      .then((response) => setLecturerList(response.data.data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
   useEffect(() => {
-    setLoading(true)
-    axios.get('https://meet-production-52c7.up.railway.app/api/v1/student/get/all')
-    .then((response) => setLecturerList(response.data.data))
-    .catch((error) => console.error(error))
-    .finally(() =>setLoading(false))
-  }, [])
+    getData();
+  }, []);
 
   //Handle Edit
   const handleEdit = (student) => {
-    setStudentEdit(student)
-    setMenuOpt('editStudent')
-  }
+    setStudentEdit(student);
+    setMenuOpt("editStudent");
+  };
 
   const columns = [
     {
@@ -78,6 +82,14 @@ export function StudentsManage({setStudentEdit, setMenuOpt}) {
     <>
       <Title className="sectionTitle" level={3}>
         STUDENTS
+        <Button
+          disabled={loading}
+          icon={<ReloadOutlined />}
+          onClick={getData}
+          style={{ margin: "0 5px 0 0" }}
+        >
+          Refresh
+        </Button>
       </Title>
       <Table
         className="tableOfLocations"

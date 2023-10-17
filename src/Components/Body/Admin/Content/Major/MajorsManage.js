@@ -1,6 +1,11 @@
 import { React, useState, useEffect } from "react";
 import { Typography, Table, Row, Col, Button, message, Popconfirm } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import axios from "axios";
 
 export function MajorsManage({ setMenuOpt, setEditMajor }) {
@@ -75,19 +80,29 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
   //!Handle edit
   const handleEdit = (major) => {
     setEditMajor(major);
-    setMenuOpt('editMajor');
+    setMenuOpt("editMajor");
   };
   return (
     <>
       <Title className="sectionTitle" level={3}>
         MAJORS
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => setMenuOpt("addMajor")}
-          disabled={loading}
-        >
-          Add Major
-        </Button>
+        <span>
+          <Button
+            disabled={loading}
+            icon={<ReloadOutlined />}
+            onClick={getData}
+            style={{ margin: "0 5px 0 0" }}
+          >
+            Refresh
+          </Button>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => setMenuOpt("addMajor")}
+            disabled={loading}
+          >
+            Add Major
+          </Button>
+        </span>
       </Title>
       {/* Table of result */}
       <Row style={{ overflow: "scroll" }}>

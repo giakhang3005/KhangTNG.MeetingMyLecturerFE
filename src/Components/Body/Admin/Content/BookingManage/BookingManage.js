@@ -1,23 +1,28 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Popover, Tag } from "antd";
+import { Table, Typography, Popover, Tag, Button } from "antd";
+import { ReloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 
 export function BookingManage() {
-  const ArrayToString = useArray()
-  const {Accept, Decline, Pending} = useStudentRequests()
+  const ArrayToString = useArray();
+  const { Accept, Decline, Pending } = useStudentRequests();
   const { Title } = Typography;
 
   const [bookingList, setBookingList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const getData = () => {
+    setLoading(true);
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/booking")
+      .then((response) => setBookingList(response.data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
   useEffect(() => {
-    setLoading(true)
-    axios.get('https://meet-production-52c7.up.railway.app/api/booking')
-    .then((response) => setBookingList(response.data))
-    .catch((error) => console.error(error))
-    .finally(() => setLoading(false))
-  }, [])
+    getData();
+  }, []);
 
   const columns = [
     {
@@ -29,36 +34,36 @@ export function BookingManage() {
       key: "2",
       title: "Date",
       render: (booking) => {
-        return <>{booking.slotInfo.meetingDate}</>
-      }
+        return <>{booking.slotInfo.meetingDate}</>;
+      },
     },
     {
       key: "3",
       title: "Start",
       render: (booking) => {
-        return <>{booking.slotInfo.startTime}</>
-      }
+        return <>{booking.slotInfo.startTime}</>;
+      },
     },
     {
       key: "4",
       title: "End",
       render: (booking) => {
-        return <>{booking.slotInfo.endTime}</>
-      }
+        return <>{booking.slotInfo.endTime}</>;
+      },
     },
     {
       key: "5",
       title: "Booker",
       render: (booking) => {
-        return <>{booking.studentInfo.studentName}</>
-      }
+        return <>{booking.studentInfo.studentName}</>;
+      },
     },
     {
       key: "6",
       title: "Lecturer",
       render: (booking) => {
-        return <>{booking.slotInfo.lecturerName}</>
-      }
+        return <>{booking.slotInfo.lecturerName}</>;
+      },
     },
     {
       key: "7",
@@ -75,24 +80,31 @@ export function BookingManage() {
       key: "8",
       title: "Subject",
       render: (booking) => {
-        let subjectList = []
+        let subjectList = [];
         booking.subjectSlot.map((subject) => {
-          subjectList.push(subject.subjectCode)
-        })
+          subjectList.push(subject.subjectCode);
+        });
 
-        return ArrayToString(subjectList)
-      }
+        return ArrayToString(subjectList);
+      },
     },
     {
       key: "9",
       title: "Status",
       render: (booking) => {
-        switch (booking.status) {
-          case 0: return <Decline />;
-          case 1: return <Pending />;
-          case 2: return <Accept />;
+        if (booking.toggle) {
+          switch (booking.status) {
+            case 0:
+              return <Decline />;
+            case 1:
+              return <Pending />;
+            case 2:
+              return <Accept />;
+          }
+        } else {
+          return <Tag color="red">Deleted</Tag>
         }
-      }
+      },
     },
     {
       key: "10",
@@ -104,6 +116,9 @@ export function BookingManage() {
     <>
       <Title className="sectionTitle" level={3}>
         BOOKINGS
+        <Button disabled={loading} icon={<ReloadOutlined />} onClick={getData}>
+          Refresh
+        </Button>
       </Title>
       <Table
         className="tableOfLocations"
@@ -113,5 +128,5 @@ export function BookingManage() {
         rowKey="id"
       ></Table>
     </>
-  )
+  );
 }

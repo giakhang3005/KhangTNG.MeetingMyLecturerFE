@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Table, Typography, Tag, Popover, Button } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useArray } from "../../../../../../Hooks/All/useArray";
 import axios from "axios";
 
@@ -98,6 +98,14 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
     <>
       <Title className="sectionTitle" level={3}>
         LECTURERS
+        <Button
+          disabled={loading}
+          icon={<ReloadOutlined />}
+          onClick={getData}
+          style={{ margin: "0 5px 0 0" }}
+        >
+          Refresh
+        </Button>
       </Title>
       <Table
         className="tableOfLocations"
