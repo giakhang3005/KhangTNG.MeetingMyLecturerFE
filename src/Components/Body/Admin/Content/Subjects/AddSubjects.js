@@ -52,8 +52,11 @@ export function AddSubjects({ setMenuOpt }) {
       ".ant-select-selection-item"
     );
 
+    const CodeFirst = editInput[0].value.substring(0, 3).toUpperCase();
+    const CodeSecond = editInput[0].value.slice(3);
+
     const newMajor = {
-      code: editInput[0].value,
+      code: `${CodeFirst}${CodeSecond}`,
       name: editInput[1].value,
       semester: selectedOptions[0].textContent,
       status: selectedOptions[1].textContent === "ACTIVE" ? true : false,
@@ -83,20 +86,16 @@ export function AddSubjects({ setMenuOpt }) {
           "https://meet-production-52c7.up.railway.app/api/subject/create",
           newMajor
         )
-        .then(
-          (res) =>
-            res.data.message === "This Subject code already exists"
-              ? message.error(`Subject code ${newMajor.code} aldready exists`)
-              : (message.success("Created successfully"),
-                setMenuOpt("subjectsManage")),
-        )
-        .catch(
-          (err) => (
-            console.error(err),
-            message.error("Failed to create")
-          )
-        )
-        .finally(() => setMajorLoading(false))
+        .then((res) => {
+          if (res.data.data === "") {
+            message.success("Created successfully");
+            setMenuOpt("subjectsManage");
+          } else {
+            message.error(res.data.message);
+          }
+        })
+        .catch((err) => (console.error(err), message.error("Failed to create")))
+        .finally(() => setMajorLoading(false));
     }
   };
 

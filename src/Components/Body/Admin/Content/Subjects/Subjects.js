@@ -21,7 +21,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/subject")
       .then((response) => (setSubjects(response.data), setLoading(false)))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
   };
 
   useEffect(() => {
@@ -32,22 +32,21 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
   const handleToggle = (subject) => {
     setOtherLoading(true);
     const subSubject = {
+      code: subject.code,
       name: subject.name === null ? subject.id : subject.name,
       status: !subject.status,
     };
-    axios
+     axios
       .put(
         `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
         subSubject
       )
-      .then(() => {
+      .then((res) => {
         setOtherLoading(false);
-        message.success("Toggled successfully");
-        getData();
+          message.success("Toggled successfully");
+          getData();
       })
-      .catch(
-        (err) => err.status === "BAD_REQUEST" && message.error("Toggled failed")
-      );
+      .catch((err) => message.error("Toggled failed"));
   };
 
   // Handle Edit Click

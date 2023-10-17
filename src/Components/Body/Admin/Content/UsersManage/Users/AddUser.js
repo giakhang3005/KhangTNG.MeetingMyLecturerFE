@@ -71,9 +71,12 @@ export function AddUser({ setMenuOpt }) {
               newUser
             )
             .then((response) => {
-              response.status === 200
-                ? message.success("Created successfully")
-                : message.error("Failed to create user");
+              if (response.status === 200) {
+                message.success("Created successfully");
+                setMenuOpt("usersManage");
+              } else {
+                message.error("Failed to create user");
+              }
             })
             .catch((error) => console.log(error))
             .finally(() => setLoading(false));

@@ -38,7 +38,7 @@ export const Login = () => {
         .then((res) => {
           //! validate @fpt.edu.vn 
           if (
-            res.data.email.includes(fptEmail)
+            res.data.email?.includes(fptEmail)
           ) {
             setCheckMailErr(false);
             const userFromGg = res.data;

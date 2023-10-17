@@ -59,13 +59,18 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
     const semester = document.querySelector(
       ".ant-select-selection-item"
     ).textContent;
+
+    const CodeFirst =editInput[1].value.substring(0, 3).toUpperCase();
+    const CodeSecond = editInput[1].value.slice(3)
+
     const newMajor = {
       id: editInput[0].value,
-      code: editInput[1].value,
+      code: `${CodeFirst}${CodeSecond}`,
       name: editInput[2].value,
       semester: semester,
       majorList: selectedMajors,
     };
+    
     if (
       newMajor.code.length === 0 ||
       newMajor.name.length === 0 ||
@@ -81,11 +86,13 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
           `https://meet-production-52c7.up.railway.app/api/subject/${newMajor.id}`,
           newMajor
         )
-        .then((res) =>
-          res.data.message === "This Subject code already exists"
-            ? message.error(`Subject code ${newMajor.code} aldready exists`)
-            : message.success("Updated successfully")
-        )
+        .then((res) => {
+          if(res.data.data === "") {
+            message.success("Updated successfully")
+          } else {
+            message.error(res.data.message)
+          }
+        })
         .catch(() => message.error("Failed to update, please try again"))
         .finally(() => setUpdateLoading(false));
     }
