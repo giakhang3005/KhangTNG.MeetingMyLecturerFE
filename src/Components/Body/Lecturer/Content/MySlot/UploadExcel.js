@@ -49,7 +49,7 @@ export function UploadExcel() {
         { justifyContent: "center" },
         { alignItems: "center" },
         { flexWrap: "wrap" },
-        { transform: "translateY(5vh)" }
+        { transform: "translateY(2vh)" }
       )}
     >
       <Dragger
@@ -84,7 +84,7 @@ export function UploadExcel() {
           { width: "100%" },
           { margin: "0 0 0 0" },
           { padding: 0 },
-          { transform: "translateY(-7vh)" }
+          { transform: "translateY(-30px)" }
         )}
       >
         {uploading ? "Uploading" : "Start Upload"}

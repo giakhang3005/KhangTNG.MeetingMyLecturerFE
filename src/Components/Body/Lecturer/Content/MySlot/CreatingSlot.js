@@ -217,8 +217,8 @@ export const CreatingSlot = (props) => {
       </Title>
 
       <Row>
-        <Col sm={1}></Col>
-        <Col sm={10}>
+        <Col xs={0} md={1}></Col>
+        <Col xs={24} md={10}>
           <Spin
             spinning={subjectsLoading}
             size="large"
@@ -354,11 +354,11 @@ export const CreatingSlot = (props) => {
             </span>
           </Spin>
         </Col>
-        <Col sm={1}></Col>
-        <Col sm={1}>
+        <Col xs={0} md={1}></Col>
+        <Col xs={24} md={1}>
           <span
+            className="heightOfOr"
             style={Object.assign(
-              { height: "50vh" },
               { display: "flex" },
               { alignItems: "center" },
               { justifyContent: "center" },
@@ -369,8 +369,8 @@ export const CreatingSlot = (props) => {
             OR
           </span>
         </Col>
-        <Col sm={1}></Col>
-        <Col sm={10}><UploadExcel /></Col>
+        <Col xs={0} md={1}></Col>
+        <Col xs={24} md={10}><UploadExcel /></Col>
       </Row>
     </>
   );

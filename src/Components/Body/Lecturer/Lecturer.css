@@ -187,7 +187,16 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
+.heightOfOr {
+  height: 50vh;
+}
 @media only screen and (max-width: 576px) {
+  .heightOfOr {
+    height: 30px;
+  }
+  .btnContainer {
+    max-width: 120px;
+  }
   .LecturerShow {
     height: 100vh;
     width: 100%;
@@ -201,9 +210,9 @@
   .menuAnimation ul{
     animation: menu 0.3s ease-out;
   }
-  .logOutBtn {
+  /* .logOutBtn {
     animation: logout 0.3s ease-out;
-  }
+  } */
   .Sider {
     margin: 0;
     border-bottom: 1px solid rgb(212, 212, 212);

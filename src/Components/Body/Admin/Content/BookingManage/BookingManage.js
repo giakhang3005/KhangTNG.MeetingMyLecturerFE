@@ -28,22 +28,30 @@ export function BookingManage() {
     {
       key: "2",
       title: "Date",
-      dataIndex: "meetingDate",
+      render: (booking) => {
+        return <>{booking.slotInfo.meetingDate}</>
+      }
     },
     {
       key: "3",
       title: "Start",
-      dataIndex: "startTime",
+      render: (booking) => {
+        return <>{booking.slotInfo.startTime}</>
+      }
     },
     {
       key: "4",
       title: "End",
-      dataIndex: "endTime",
+      render: (booking) => {
+        return <>{booking.slotInfo.endTime}</>
+      }
     },
     {
       key: "5",
       title: "Booker",
-      dataIndex: "studentName",
+      render: (booking) => {
+        return <>{booking.studentInfo.studentName}</>
+      }
     },
     {
       key: "6",
@@ -52,6 +60,18 @@ export function BookingManage() {
     },
     {
       key: "7",
+      title: "Booker",
+      render: (booking) => {
+        let subjectList = []
+        booking.subjectSlot.map((subject) => {
+          subjectList.push(subject.subjectCode)
+        })
+
+        return ArrayToString(subjectList)
+      }
+    },
+    {
+      key: "8",
       title: "Status",
       render: (booking) => {
         switch (booking.status) {
@@ -62,7 +82,7 @@ export function BookingManage() {
       }
     },
     {
-      key: "8",
+      key: "9",
       title: "Note",
       dataIndex: "note",
     },
