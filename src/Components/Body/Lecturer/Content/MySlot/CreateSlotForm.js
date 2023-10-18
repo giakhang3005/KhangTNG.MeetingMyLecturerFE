@@ -12,7 +12,7 @@ import {
   Switch,
   Checkbox,
 } from "antd";
-import { FormOutlined } from "@ant-design/icons";
+import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../Body";
 
@@ -52,10 +52,10 @@ export function CreateSlotForm({
   };
 
   //! STATE
-  const today = new dayjs();
+  const [today, setToday] = useState(new dayjs());
   const [date, setDate] = useState(today);
   const [start, setStart] = useState(date.add(6, "hour"));
-  const [end, setEnd] = useState(date.add(15, "minute"));
+  const [end, setEnd] = useState(start.add(15, "minute"));
   const [mode, setMode] = useState(0);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [locationId, setLocationId] = useState({});
@@ -160,9 +160,20 @@ export function CreateSlotForm({
     if (newSlot.mode === 2 && newSlot.studentEmail === null) {
       message.error("You can not let student email empty in Assign Mode");
     } else {
-        console.log(newSlot);
-    }
+      //validation empty
+      let locErr = false,
+        SubjErr = false;
+      newSlot.locationId.length === {} && (locErr = true);
+      newSlot.subjectCode.length === 0 && (SubjErr = true);
 
+      if (!SubjErr && !locErr) {
+        console.log(newSlot);
+        message.success("Created slot successfully");
+        setCreatedSlotView("");
+      } else {
+        message.error("Location and Subject are required");
+      }
+    }
   };
   return (
     <>

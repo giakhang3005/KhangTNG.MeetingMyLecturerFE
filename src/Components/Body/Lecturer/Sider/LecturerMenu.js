@@ -25,7 +25,7 @@ export const LecturerMenu = () => {
       label: "",
       icon: (
         <>
-          <Badge
+          {/* <Badge
             size="small"
             count={9}
             style={Object.assign(
@@ -33,7 +33,7 @@ export const LecturerMenu = () => {
               { bottom: 0 },
               { right: "-20px" }
             )}
-          />
+          /> */}
           <BellFilled />
           <span style={Object.assign({ padding: "0 7px 0 0" })}>
             Booking requests
@@ -52,15 +52,7 @@ export const LecturerMenu = () => {
     },
     // { label: "Configurations", icon: <ControlFilled />, null, [getItem('Locations', 'location')], "group" },
   ];
-  const originalTitle = "Meeting my Lecturers";
-  const updateTitle = () => {
-    titleUpdate
-      ? (document.title = "(9) Pending requests")
-      : (document.title = originalTitle);
-    setTitleUpdate(!titleUpdate);
-  };
 
-  setInterval(() => updateTitle(), 2000);
   return (
     <>
       <Menu

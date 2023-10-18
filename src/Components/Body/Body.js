@@ -17,8 +17,8 @@ export const Body = (props) => {
 
   const { getCurrentDate, GetWeek } = useDate();
 
-  //!Kick user when account is disable
-  //check 10 minutes
+  //!Kick user when account is disabled
+  //check 15 minutes
   const [currentNoti, setCurrentNoti] = useState(false);
   setTimeout(() => {
     if (user !== null && user !== undefined && user != {}) {
@@ -39,9 +39,9 @@ export const Body = (props) => {
             setCurrentNoti(true);
           }
         })
-        .catch((error) => {});
+        .catch((error) => console.log(error));
     }
-  }, 1000 * 60 * 10);
+  }, 1000 * 60 * 15);
 
   //Create new client
   const client = new QueryClient({
