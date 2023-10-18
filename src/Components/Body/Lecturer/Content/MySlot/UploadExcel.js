@@ -43,6 +43,7 @@ export function UploadExcel() {
   };
   return (
     <div
+      className="requestsInfo"
       style={Object.assign(
         { height: "50vh" },
         { display: "flex" },
@@ -81,7 +82,7 @@ export function UploadExcel() {
         disabled={file.length === 0}
         loading={uploading}
         style={Object.assign(
-          { width: "100%" },
+          { width: "65%" },
           { margin: "0 0 0 0" },
           { padding: 0 },
           { transform: "translateY(-30px)" }

@@ -1,29 +1,36 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Tag } from "antd";
+import { Table, Typography, Tag, Popover } from "antd";
 import axios from "axios";
 import { useArray } from "../../../../../Hooks/All/useArray";
 
 export function SlotsManage() {
   const { Title } = Typography;
-  const ArrayToString = useArray()
+  const ArrayToString = useArray();
 
   const [slotList, setSlotList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const getData = () => {
+    setLoading(true);
+    axios
+      .get("https://meet-production-52c7.up.railway.app/api/v1/slot")
+      .then((response) => setSlotList(response.data.data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
   useEffect(() => {
-    setLoading(true)
-    axios.get('https://meet-production-52c7.up.railway.app/api/v1/slot/get')
-    .then((response) => setSlotList(response.data.data))
-    .catch((error) => console.error(error))
-    .finally(() => setLoading(false))
-  }, [])
+    getData();
+  }, []);
 
   const convertMode = (mode) => {
     switch (mode) {
-      case 0: return 'Manual Approve'
-      case 1: return 'Accept the first booker'
-      case 2: return 'Assign Student'
+      case 0:
+        return "Manual Approve";
+      case 1:
+        return "Accept the first booker";
+      case 2:
+        return "Assign Student";
     }
-  }
+  };
 
   const columns = [
     {
@@ -34,7 +41,7 @@ export function SlotsManage() {
     {
       key: "2",
       title: "Date",
-      dataIndex: "meetingDate",
+      dataIndex: "meetingDay",
     },
     {
       key: "3",
@@ -48,52 +55,53 @@ export function SlotsManage() {
     },
     {
       key: "5",
-      title: "Mode",
-      render: (slot) => {
-        return convertMode(slot.mode)
-      }
+      title: "Location",
+      // dataIndex: "startTime",
     },
     {
       key: "6",
-      title: "Status",
+      title: "Mode",
       render: (slot) => {
-        return slot.status ? <Tag color="green">Avaiable</Tag> : <Tag color="red">Unavaiable</Tag>
-      }
+        return convertMode(slot.mode);
+      },
     },
     {
       key: "7",
+      title: "Status",
+      render: (slot) => {
+        return slot.status ? (
+          <Tag color="green">Avaiable</Tag>
+        ) : (
+          <Tag color="red">Unavaiable</Tag>
+        );
+      },
+    },
+    {
+      key: "8",
       title: "Lecturer",
       dataIndex: "lecturerName",
     },
     {
-      key: "8",
+      key: "9",
+      title: "Student",
+      dataIndex: "studentEmail",
+    },
+    {
+      key: "10",
       title: "Subject",
       render: (slot) => {
-        return ArrayToString(slot.subjectCode)
-      }
+        return (
+          <Popover content={ArrayToString(slot.subjectCode)}>
+            <Tag color="volcano">{slot.subjectCode.length} Subjects</Tag>
+          </Popover>
+        );
+      },
     },
-    // {
-    //   key: "7",
-    //   title: "Curriculum",
-    //   dataIndex: "curriculum",
-    // },
-    // {
-    //   key: "8",
-    //   title: "Semester",
-    //   dataIndex: "semester",
-    // },
-    // {
-    //   key: "8",
-    //   title: "Address",
-    //   dataIndex: "address",
-    // },
-    // {
-    //   key: "9",
-    //   title: "Status",
-    //   render: (student) => {
-    //     return student.status ? <Tag color="green">ACTIVE</Tag> : <Tag color="red">DISABLED</Tag>
-    //   }
-    // },
+    {
+      key: "11",
+      title: "Password",
+      dataIndex: "password",
+    },
   ];
   return (
     <>
