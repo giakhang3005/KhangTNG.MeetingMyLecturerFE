@@ -5,6 +5,7 @@ import { SearchSubject } from "./SearchSubject/SearchSubject";
 import { RequestsSent } from "./RequestsSent/RequestsSent";
 import { Upcomming } from "./MyMeetings/Upcomming";
 import { Past } from "./MyMeetings/Past";
+import { StudentInformations } from "./Settings/Informations/StudentInformations";
 
 export const StudentContent = () => {
   const { menuOpt } = useContext(Data);
@@ -21,6 +22,8 @@ export const StudentContent = () => {
           <RequestsSent />
         ) : menuOpt === "upcommingMeetings" ? (
           <Upcomming />
+        ) : menuOpt === "studentInformations" ? (
+          <StudentInformations />
         ) : menuOpt === "pastMeetings" ? (
           <Past />
         ) : (

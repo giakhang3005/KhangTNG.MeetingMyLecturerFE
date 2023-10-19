@@ -8,6 +8,8 @@ import {
   TeamOutlined,
   HourglassFilled,
   ClockCircleFilled,
+  SettingFilled,
+  UserOutlined
 } from "@ant-design/icons";
 import { useLogOut } from "../../../../Hooks/All/useLogout";
 
@@ -42,6 +44,19 @@ export const StudentMenu = () => {
           key: "upcommingMeetings",
         },
         { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
+      ],
+      type: "group",
+    },
+    {
+      label: "Settings",
+      icon: <SettingFilled />,
+      key: null,
+      children: [
+        {
+          label: "Informations",
+          icon: <UserOutlined />,
+          key: "studentInformations",
+        },
       ],
       type: "group",
     },

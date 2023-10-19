@@ -84,7 +84,7 @@ export function SlotsManage() {
     {
       key: "9",
       title: "Student",
-      dataIndex: "studentEmail",
+      dataIndex: "studentName",
     },
     {
       key: "10",

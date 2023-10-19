@@ -134,14 +134,14 @@ export function LecturerInfo() {
       note: lecturer.note,
     };
 
+    const validEmail = validateEmail(newLecturer.email)
+
     let phoneErr = false;
     newLecturer.phone.length > 9 &&
     newLecturer.phone.length < 12 &&
     checkOnlyDigits(newLecturer.phone)
       ? (phoneErr = true)
       : (phoneErr = false);
-
-    const validEmail = validateEmail(newLecturer.email)
 
     if (phoneErr && validEmail) {
       setLoading(true);
@@ -213,7 +213,7 @@ export function LecturerInfo() {
                     className="editInput"
                     value={lecturer.email}
                     onChange={(e) => handleEmailChange(e)}
-                    disabled={lecturer.email.includes(fptEmail)}
+                    disabled={lecturer.email?.includes(fptEmail)}
                   ></Input>
                 </Title>
               </Col>

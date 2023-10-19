@@ -17,6 +17,7 @@ import axios from "axios";
 export function EditLecturers({ setMenuOpt, lecturerEdit }) {
   const { Title } = Typography;
   const [loading, setLoading] = useState(false);
+  const fptEmail = "@fpt.edu.vn";
 
   //! getting all subjectlist
   const [subjectsList, setSubjectsList] = useState([]);
@@ -53,6 +54,15 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
     getSubjectList();
   }, []);
 
+  //check email
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   //! handle submit
   const handleSubmit = () => {
     setLoading(true);
@@ -62,7 +72,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
       id: lecturerEdit.id,
       name: lecturerEdit.name,
       phone: UInput[1].value,
-      email: lecturerEdit.email,
+      email: UInput[2].value,
       note: UInput[4].value,
       subjectList: convertSubjectList,
     };
@@ -73,7 +83,10 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
     checkOnlyDigits(newLecturer.phone)
       ? (phoneErr = false)
       : (phoneErr = true);
-    !phoneErr ? (
+
+    const validEmail = validateEmail(newLecturer.email) && !newLecturer.email?.includes(fptEmail);
+
+    !phoneErr && validEmail ? (
       axios
         .put(
           `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
@@ -91,7 +104,9 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
         )
     ) : (
       <>
-        {message.error("Phone number must contain 10 or 11 numbers")}
+        {phoneErr &&
+          message.error("Phone number must contain 10 or 11 numbers")}
+        {!validEmail && message.error("You must enter a valid email address and not FPT Email")}
         {setLoading(false)}
       </>
     );
@@ -189,7 +204,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                   style={{ fontWeight: "400" }}
                 >
                   <Input
-                    disabled
+                    disabled={lecturerEdit.email.includes(fptEmail)}
                     className="editInput"
                     defaultValue={lecturerEdit.email}
                   ></Input>
@@ -211,7 +226,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                   style={{ fontWeight: "400" }}
                 >
                   <Select
-                    style={{ minWidth: "150px" }}
+                    style={{ width: "100%" }}
                     mode="multiple"
                     className="editInput"
                     defaultValue={lecturerEdit.subjectList.map((subject) => {
@@ -238,13 +253,17 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  {lecturerEdit.locationList.map((location, i) => {
-                    return (
-                      <Popover key={i} content={location.locationAddress}>
-                        <Tag color="orange">{location.locationName}</Tag>
-                      </Popover>
-                    );
-                  })}
+                  {lecturerEdit.locationList?.length === 0 ? (
+                    <>No location</>
+                  ) : (
+                    lecturerEdit.locationList.map((location, i) => {
+                      return (
+                        <Popover key={i} content={location.locationAddress}>
+                          <Tag color="orange">{location.locationName}</Tag>
+                        </Popover>
+                      );
+                    })
+                  )}
                 </Title>
               </Col>
             </Row>
@@ -260,7 +279,10 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                 <Title
                   className="InfoText id"
                   level={5}
-                  style={Object.assign({ fontWeight: "400" }, {minHeight: '44px'})}
+                  style={Object.assign(
+                    { fontWeight: "400" },
+                    { minHeight: "70px" }
+                  )}
                 >
                   <Input.TextArea
                     maxLength={200}
