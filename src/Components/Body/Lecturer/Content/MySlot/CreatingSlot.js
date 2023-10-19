@@ -39,8 +39,9 @@ export const CreatingSlot = (props) => {
       )
       .then((response) => setEmails(response.data.data))
       .catch((error) =>
-        console.error(error).finally(() => setEmailsLoading(false))
-      );
+        console.error(error)
+      )
+      .finally(() => setIsLoading(false))
   };
 
   const [locationsList, setLocationsList] = useState([]);
@@ -89,7 +90,7 @@ export const CreatingSlot = (props) => {
 
       <Spin spinning={subjectsLoading || isLoading}>
         {isUploadMode ? (
-          <UploadExcel />
+          <UploadExcel subjects={subjects} locationsList={locationsList} />
         ) : (
           <CreateSlotForm
             isLoading={isLoading}

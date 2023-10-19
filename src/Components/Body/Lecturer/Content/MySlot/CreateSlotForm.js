@@ -114,18 +114,11 @@ export function CreateSlotForm({
   };
 
   //handle Password change
-  const [errMsgShown, setErrMsgShown] = useState(false);
-  setInterval(() => {
-    errMsgShown && setErrMsgShown(false);
-  }, 4500);
   const handlePasswordChange = (e) => {
     if (e.target.value.indexOf(" ") === -1) {
       setPassword(e.target.value);
     } else {
-      if (!errMsgShown) {
-        message.error("Password can not contain space");
-        setErrMsgShown(true);
-      }
+      message.error("Password can not contain space");
     }
   };
 
@@ -142,6 +135,9 @@ export function CreateSlotForm({
       end.$m < 10 ? `0${end.$m}` : end.$m
     }:00`;
 
+    const returnSubjectsList = selectedSubjects.map((subject) => {
+      return {subjectCode: subject}
+    })
     const newSlot = {
       lecturerId: user.id,
       meetingDay: dateString,
@@ -150,7 +146,7 @@ export function CreateSlotForm({
       mode: mode,
       studentEmail: mode === 2 ? studentEmail : null,
       locationId: locationId,
-      subjectCode: selectedSubjects,
+      slotSubjectDTOS: returnSubjectsList,
       password: password === "" ? null : password,
       // status: ,
     };
@@ -161,13 +157,13 @@ export function CreateSlotForm({
       //validation empty
       let locErr = false,
         SubjErr = false;
-    console.log(newSlot.locationId === {})
+      console.log(newSlot.locationId === {});
       newSlot.locationId === null && (locErr = true);
-      newSlot.subjectCode.length === 0 && (SubjErr = true);
+      newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
 
       if (!SubjErr && !locErr) {
         console.log(newSlot);
-        console.log(JSON.stringify(newSlot))
+        console.log(JSON.stringify(newSlot));
         message.success("Created slot successfully");
         setCreatedSlotView("");
       } else {
@@ -374,7 +370,6 @@ export function CreateSlotForm({
                 <Input
                   className="editInput"
                   placeholder="Leave it empty if no password"
-                  maxLength={25}
                   style={{ width: "320px" }}
                   showCount
                   value={password}
