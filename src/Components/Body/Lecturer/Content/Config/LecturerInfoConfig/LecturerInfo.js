@@ -121,11 +121,12 @@ export function LecturerInfo() {
       setLoading(true);
       axios
         .put(
-          `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`, newLecturer
+          `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
+          newLecturer
         )
         .then(() => message.success("Updated successfully"))
         .catch((error) => console.error(error))
-        .finally(() => setLoading(false))
+        .finally(() => setLoading(false));
     } else {
       message.error("Phone number must from 10 to 11 numbers");
     }
@@ -246,21 +247,25 @@ export function LecturerInfo() {
           </Col>
         </Row>
         {/* Buttons */}
-        <Row>
-          <Col xs={9} md={3}>
-            <Title className="InfoText" level={5}></Title>
-          </Col>
-          <Col xs={15} md={10}>
-            {/* Update note */}
-            <Button
-              loading={loading}
-              type="primary"
-              style={{ margin: "12px 8px 0 0" }}
-              icon={<FormOutlined />}
-              onClick={handleSubmit}
-            >
-              Update
-            </Button>
+        <Row className="requestsInfo">
+          <Col xs={1}></Col>
+          <Col xs={23}>
+            {/* subjects */}
+            <Row>
+              <Col xs={9} md={3}></Col>
+              <Col xs={15} md={10}>
+                <Title className="InfoText id" level={5}>
+                  <Button
+                    loading={loading}
+                    type="primary"
+                    icon={<FormOutlined />}
+                    onClick={handleSubmit}
+                  >
+                    Update
+                  </Button>
+                </Title>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Spin>
