@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { Typography, Table, Spin, message, Tag } from "antd";
+import { Typography, Table, Spin, message, Tag, Popconfirm } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import axios from "axios";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -92,10 +92,15 @@ export const ViewingLocation = (props) => {
             ) : (
               <>
                 <EditOutlined onClick={() => editLocation(location)} />
-                <DeleteOutlined
-                  className="locationDeleteBtn"
+                <Popconfirm
+                  placement="left"
+                  description="Are you sure want to delete this location?"
                   onClick={() => deleteLocation(location)}
-                />
+                >
+                  <DeleteOutlined
+                    className="locationDeleteBtn"
+                  />
+                </Popconfirm>
               </>
             )}
           </>

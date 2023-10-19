@@ -7,6 +7,7 @@ import {
   HomeFilled,
   SettingFilled,
   EnvironmentFilled,
+  UserOutlined
 } from "@ant-design/icons";
 import { useLogOut } from "../../../../Hooks/All/useLogout";
 
@@ -48,6 +49,7 @@ export const LecturerMenu = () => {
       key: null,
       children: [
         { label: "Locations", icon: <EnvironmentFilled />, key: "locations" },
+        { label: "Informations", icon: <UserOutlined />, key: "lecturerInformations" },
       ],
     },
     // { label: "Configurations", icon: <ControlFilled />, null, [getItem('Locations', 'location')], "group" },

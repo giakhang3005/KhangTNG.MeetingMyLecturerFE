@@ -9,7 +9,12 @@ import {
   Tag,
   Popconfirm,
 } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import axios from "axios";
 
 export function PublicLocations({ setMenuOpt, setLocationEdit }) {
@@ -96,7 +101,8 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
               icon={<EditOutlined />}
             ></Button>
             <Popconfirm
-              description="Are you sure want to delete this major?"
+              placement="left"
+              description="Are you sure want to delete this location?"
               onConfirm={() => handleDelete(location)}
             >
               <Button type="text" icon={<DeleteOutlined />} danger></Button>
@@ -111,9 +117,14 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
       <Title className="sectionTitle" level={3}>
         LOCATIONS
         <span>
-        <Button style={{margin: '0 5px 0 0'}} disabled={isLoading || otherLoading} icon={<ReloadOutlined />} onClick={getData}>
-          Refresh
-        </Button>
+          <Button
+            style={{ margin: "0 5px 0 0" }}
+            disabled={isLoading || otherLoading}
+            icon={<ReloadOutlined />}
+            onClick={getData}
+          >
+            Refresh
+          </Button>
           <Button
             icon={<PlusOutlined />}
             onClick={() => setMenuOpt("addLocationsManage")}

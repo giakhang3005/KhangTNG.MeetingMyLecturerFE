@@ -48,6 +48,7 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
               icon={<EditOutlined />}
             ></Button>
             <Popconfirm
+              placement="left"
               description="Are you sure want to delete this major?"
               onConfirm={() => handleDelete(major)}
             >

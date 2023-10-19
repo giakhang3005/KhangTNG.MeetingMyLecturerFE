@@ -155,7 +155,7 @@ export function SearchBar(props) {
             ></Button>
           </Popover>
         </Col>
-        <Col xs={2}><Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}></Button></Col>
+        <Col xs={2} style={{margin: '0 0 0 8px'}}><Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}></Button></Col>
       </Row>
     </>
   );

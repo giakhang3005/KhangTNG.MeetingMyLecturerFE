@@ -1,20 +1,26 @@
 import { Button, Typography, Table, message, Popover } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
+import {useState, useEffect, useContext} from 'react'
+import { Data } from "../../../Body";
+import axios from "axios";
 
 export const LecturerRequests = () => {
   const { Title } = Typography;
   const ArrayToString = useArray()
+  const {user} = useContext(Data)
 
-  //fetching data
-  //   const {
-  //     data: SlotList, //assign name for the data
-  //     isLoading,
-  //     isError,
-  //     refetch,
-  //   } = useQuery(["locations"], () => {
-  //     return fetch("").then((res) => res.json()); //fetching and turn it into json
-  //   });
+  const [numOfRequests, setNumOfRequests] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const getNumberOfRequests = () => {
+    axios.get(`https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`)
+    .then((response) => setNumOfRequests(response.data.bookingCount))
+    .catch((error) => console.error(error))
+  }
+
+  useEffect(() => {
+    getNumberOfRequests();
+  }, [])
 
   const columns = [
     {
@@ -150,7 +156,7 @@ export const LecturerRequests = () => {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        BOOKING REQUESTS
+        BOOKING REQUESTS ({numOfRequests})
       </Title>
 
       <Table

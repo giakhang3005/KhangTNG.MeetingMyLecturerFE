@@ -4,6 +4,7 @@ import {LecturerDashboard} from "./Home/LecturerDashboard";
 import { LecturerLocation } from "./Config/Location/LecturerLocation";
 import { useContext } from "react";
 import { Data } from "../../Body";
+import { LecturerInfo } from "./Config/LecturerInfoConfig/LecturerInfo";
 
 export const LecturerContent = () => {
   const { menuOpt} = useContext(Data);
@@ -15,6 +16,8 @@ export const LecturerContent = () => {
           <LecturerDashboard />
         ) : menuOpt === "createdSlot" ? (
           <LecturerCreatedSlot />
+        ) : menuOpt === "lecturerInformations" ? (
+         <LecturerInfo />
         ) : // request
         menuOpt === "request" ? (
           <LecturerRequests/>

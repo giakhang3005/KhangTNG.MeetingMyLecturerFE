@@ -9,8 +9,6 @@ import {
   DatePicker,
   TimePicker,
   Select,
-  Switch,
-  Checkbox,
 } from "antd";
 import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -58,7 +56,7 @@ export function CreateSlotForm({
   const [end, setEnd] = useState(start.add(15, "minute"));
   const [mode, setMode] = useState(0);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const [locationId, setLocationId] = useState({});
+  const [locationId, setLocationId] = useState(null);
   const [studentEmail, setStudentEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -163,11 +161,13 @@ export function CreateSlotForm({
       //validation empty
       let locErr = false,
         SubjErr = false;
-      newSlot.locationId.length === {} && (locErr = true);
+    console.log(newSlot.locationId === {})
+      newSlot.locationId === null && (locErr = true);
       newSlot.subjectCode.length === 0 && (SubjErr = true);
 
       if (!SubjErr && !locErr) {
         console.log(newSlot);
+        console.log(JSON.stringify(newSlot))
         message.success("Created slot successfully");
         setCreatedSlotView("");
       } else {
