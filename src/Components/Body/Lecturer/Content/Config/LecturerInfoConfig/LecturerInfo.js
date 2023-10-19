@@ -17,6 +17,7 @@ import axios from "axios";
 export function LecturerInfo() {
   const { Title } = Typography;
   const { user } = useContext(Data);
+  const fptEmail = "@fpt.edu.vn";
 
   //! subject from API
   const [subjects, setSubjects] = useState([]);
@@ -96,8 +97,30 @@ export function LecturerInfo() {
     setLecturer({ ...lecturer, phone: e.target.value });
   };
 
+  //handle note change
+  const handleNoteChange = (e) => {
+    setLecturer({ ...lecturer, note: e.target.value });
+  };
+
+  //handle email change
+  const handleEmailChange = (e) => {
+    e.target.value.includes("@fpt")
+      ? message.error("Custom email cannot be FPT Email")
+      : setLecturer({ ...lecturer, email: e.target.value });
+  };
+
+  //check phone
   const checkOnlyDigits = (string) =>
     [...string].every((c) => "0123456789".includes(c));
+
+  //check email
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
 
   //handle submit
   const [loading, setLoading] = useState(false);
@@ -108,6 +131,7 @@ export function LecturerInfo() {
       email: lecturer.email,
       phone: lecturer.phone,
       subjectList: convertSubject(),
+      note: lecturer.note,
     };
 
     let phoneErr = false;
@@ -117,7 +141,9 @@ export function LecturerInfo() {
       ? (phoneErr = true)
       : (phoneErr = false);
 
-    if (phoneErr) {
+    const validEmail = validateEmail(newLecturer.email)
+
+    if (phoneErr && validEmail) {
       setLoading(true);
       axios
         .put(
@@ -128,7 +154,10 @@ export function LecturerInfo() {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     } else {
-      message.error("Phone number must from 10 to 11 numbers");
+        //phone error = true -> execute
+        !phoneErr && message.error("Phone number must from 10 to 11 numbers");
+        //validEmail = false -> execute
+        !validEmail && message.error("Invalid Email address");
     }
   };
   return (
@@ -183,7 +212,8 @@ export function LecturerInfo() {
                   <Input
                     className="editInput"
                     value={lecturer.email}
-                    disabled
+                    onChange={(e) => handleEmailChange(e)}
+                    disabled={lecturer.email.includes(fptEmail)}
                   ></Input>
                 </Title>
               </Col>
@@ -208,6 +238,8 @@ export function LecturerInfo() {
                   style={{ fontWeight: "400" }}
                 >
                   <Input
+                    placeholder="Required"
+                    disabled={loading}
                     className="editInput"
                     value={lecturer.phone}
                     maxLength={11}
@@ -233,9 +265,14 @@ export function LecturerInfo() {
               <Col xs={15} md={10}>
                 <Title className="InfoText id" level={5}>
                   <Select
+                    placeholder="Not required"
+                    disabled={loading}
                     value={selectedSubjects}
                     mode="multiple"
-                    style={Object.assign({ width: "100%" })}
+                    style={Object.assign(
+                      { width: "100%" },
+                      { fontWeight: 400 }
+                    )}
                     options={pushSubjectList(subjects)}
                     onChange={(subjectsList) =>
                       handleSubjectChange(subjectsList)
@@ -246,6 +283,39 @@ export function LecturerInfo() {
             </Row>
           </Col>
         </Row>
+
+        <Row className="requestsInfo">
+          <Col xs={1}></Col>
+          <Col xs={23}>
+            {/* Note */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Note:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={Object.assign({ minHeight: "65px" })}
+                >
+                  <Input.TextArea
+                    style={{ fontWeight: 400 }}
+                    placeholder="Introduce about yourself (Not required)"
+                    disabled={loading}
+                    className="editInput"
+                    value={lecturer.note}
+                    maxLength={200}
+                    showCount
+                    onChange={(e) => handleNoteChange(e)}
+                  ></Input.TextArea>
+                </Title>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+
         {/* Buttons */}
         <Row className="requestsInfo">
           <Col xs={1}></Col>

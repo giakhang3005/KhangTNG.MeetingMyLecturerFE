@@ -260,12 +260,14 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                 <Title
                   className="InfoText id"
                   level={5}
-                  style={{ fontWeight: "400" }}
+                  style={Object.assign({ fontWeight: "400" }, {minHeight: '44px'})}
                 >
-                  <Input
+                  <Input.TextArea
+                    maxLength={200}
+                    showCount
                     className="editInput"
                     defaultValue={lecturerEdit.note}
-                  ></Input>
+                  ></Input.TextArea>
                 </Title>
               </Col>
             </Row>
