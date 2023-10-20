@@ -19,7 +19,7 @@ export function AddSubjects({ setMenuOpt }) {
   useEffect(() => {
     setMajorLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/major")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/major")
       .then((response) => setMajors(response.data))
       .finally(() => (setMajorLoading(false), setMajorLoading(false)));
   }, []);
@@ -83,7 +83,7 @@ export function AddSubjects({ setMenuOpt }) {
       setMajorLoading(true);
       axios
         .post(
-          "https://meet-production-52c7.up.railway.app/api/subject/create",
+          "https://meet-production-52c7.up.railway.app/api/v1/subject/create",
           newMajor
         )
         .then((res) => {
