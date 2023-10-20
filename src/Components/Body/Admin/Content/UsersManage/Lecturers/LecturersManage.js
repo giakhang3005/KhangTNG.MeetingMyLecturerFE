@@ -14,7 +14,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
   const getData = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/lecturer")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/lecturer")
       .then((response) => (setLecturerList(response.data), setLoading(false)))
       .catch((error) => (console.error(error), setLoading(false)));
   };

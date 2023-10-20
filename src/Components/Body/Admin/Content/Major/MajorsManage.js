@@ -16,7 +16,7 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
   const getData = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/major")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/major")
       .then((res) => (setMajors(res.data), setLoading(false)));
   };
 
@@ -65,7 +65,7 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
     setLoading(true);
     axios
       .delete(
-        `https://meet-production-52c7.up.railway.app/api/major/${major.id}`
+        `https://meet-production-52c7.up.railway.app/api/v1/major/${major.id}`
       )
       .then(() => {
         message.success("Deleted major successfully");

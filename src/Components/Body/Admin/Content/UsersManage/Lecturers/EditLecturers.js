@@ -27,7 +27,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
   const getSubjectList = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/subject/status")
       .then(
         (response) => (
           setSubjectsList(response.data),
@@ -89,7 +89,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
     !phoneErr && validEmail ? (
       axios
         .put(
-          `https://meet-production-52c7.up.railway.app/api/lecturer/${newLecturer.id}`,
+          `https://meet-production-52c7.up.railway.app/api/v1/lecturer/${newLecturer.id}`,
           newLecturer
         )
         .then(

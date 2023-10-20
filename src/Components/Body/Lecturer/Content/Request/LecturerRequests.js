@@ -13,7 +13,7 @@ export const LecturerRequests = () => {
   const [numOfRequests, setNumOfRequests] = useState(0)
   const [loading, setLoading] = useState(false)
   const getNumberOfRequests = () => {
-    axios.get(`https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`)
+    axios.get(`https://meet-production-52c7.up.railway.app/api/v1/booking/count/${user.id}`)
     .then((response) => setNumOfRequests(response.data.bookingCount))
     .catch((error) => console.error(error))
   }

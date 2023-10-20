@@ -19,7 +19,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
   const getData = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/subject")
       .then((response) => (setSubjects(response.data), setLoading(false)))
       .catch((err) => console.error(err))
   };
@@ -38,7 +38,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
     };
      axios
       .put(
-        `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
+        `https://meet-production-52c7.up.railway.app/api/v1/subject/status/${subject.id}`,
         subSubject
       )
       .then((res) => {

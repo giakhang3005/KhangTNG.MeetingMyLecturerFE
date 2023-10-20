@@ -15,7 +15,7 @@ export function BookingManage() {
   const getData = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/booking")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/booking")
       .then((response) => setBookingList(response.data))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
