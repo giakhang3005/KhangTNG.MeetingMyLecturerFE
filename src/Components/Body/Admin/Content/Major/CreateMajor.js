@@ -13,7 +13,7 @@ export function CreateMajor({ setMenuOpt }) {
     const newMajor = {name: name}
     if (name.length >= 8) {
       axios
-        .post("https://meet-production-52c7.up.railway.app/api/major", newMajor)
+        .post("https://meet-production-52c7.up.railway.app/api/v1/major", newMajor)
         .then(() => {
           message.success("Created major successfully");
           setLoading(false);
