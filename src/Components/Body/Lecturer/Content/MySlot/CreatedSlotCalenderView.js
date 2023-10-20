@@ -1,4 +1,4 @@
-import { Empty, Button, Modal, message, Popover } from "antd";
+import { Empty, Button, Modal, message, Popover, Tag} from "antd";
 import { useState } from "react";
 import {
   CaretLeftFilled,
@@ -13,9 +13,6 @@ import { useDate } from "../../../../../Hooks/All/useDate.js";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const LectuerCalenderView = (props) => {
-  //API
-  const [SlotList, setSlotList] = useState([]);
-  //! Fetching API slot from date to date of user here
 
   //receive function
   const selectedDate = props.selectedDate,
@@ -23,7 +20,8 @@ export const LectuerCalenderView = (props) => {
     selectedWeek = props.selectedWeek,
     setSelectedWeek = props.setSelectedWeek,
     setCreatedSlotView = props.setCreatedSlotView,
-    setEditingSlot = props.setEditingSlot;
+    setEditingSlot = props.setEditingSlot,
+    slots = props.slots;
 
   const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } = useSlotLecturer(); 
 
@@ -76,42 +74,6 @@ export const LectuerCalenderView = (props) => {
     message.success(`Updated week view to ${mergeDateOK}`);
   };
 
-  //test data
-  const slotList = [
-    {
-      id: 1,
-      date: "30/09/2023",
-      startTime: "10:00",
-      endTime: "11:00",
-      mode: "Manual approve",
-      location: "FPT",
-      student: null,
-      subject: ["SWP391", "SWT301"],
-      password: null,
-    },
-    {
-      id: 2,
-      date: "27/09/2023",
-      startTime: "14:00",
-      endTime: "16:30",
-      mode: "Assign student",
-      location: "FPT",
-      student: "Tran Cong Lam (K17 HCM)",
-      subject: ["SWP391", "SWT301"],
-      password: "12345",
-    },
-    {
-      id: 3,
-      date: "12/12/2023",
-      startTime: "15:00",
-      endTime: "17:30",
-      mode: "Accept the first Booker",
-      location: "FPT",
-      student: "",
-      subject: ["SWT301"],
-      password: "12345",
-    },
-  ];
 
   //* Antispam handler
   //count click
@@ -185,9 +147,9 @@ export const LectuerCalenderView = (props) => {
               </li>
 
               {/* display created slot */}
-              {slotList.map((slot, key) => {
+              {slots?.map((slot, key) => {
                 return (
-                  slot.date === weekDate.date && (
+                  weekDate.date === slot.meetingDay && (
                     // PopOver -> Appear when user hover
                     <Popover
                       key={key}
@@ -216,14 +178,14 @@ export const LectuerCalenderView = (props) => {
                       // Body of PopOver
                       content={
                         <>
-                          <div>
-                            <b>ID:</b> {slot.id}
+                          {/* <div>
+                            <b>ID:</b> <Tag color="volcano">{slot.id}</Tag>
                           </div>
                           <div>
-                            <b>Date:</b> {slot.date}
+                            <b>Date:</b> <Tag color="volcano">{slot.meetingDay} </Tag>
                           </div>
                           <div>
-                            <b>Time:</b> {slot.startTime} - {slot.endTime}
+                            <b>Time:</b> <Tag color="volcano">{slot.startTime.slice(0,5)} - {slot.endTime.slice(0,5)}</Tag>
                           </div>
                           <div>
                             <b>Mode:</b> {slot.mode}
@@ -236,17 +198,16 @@ export const LectuerCalenderView = (props) => {
                           </div>
                           <div>
                             <b>Subject: </b>
-                            {ArrayToString(slot.subject)}
                           </div>
                           <div>
                             <b>Password:</b> {slot.password}
-                          </div>
+                          </div> */}
                         </>
                       }
                     >
                       {/* Slot box appear in Week Calender */}
                       <li className="slotDisplay" key={key}>
-                        {slot.startTime} - {slot.endTime}
+                        {slot.startTime.slice(0, 5)} - {slot.endTime.slice(0, 5)}
                       </li>
                     </Popover>
                   )
@@ -258,7 +219,7 @@ export const LectuerCalenderView = (props) => {
       </div>
 
       {/* No Slot display */}
-      {slotList.length === 0 && <Empty description="No slot found" />}
+      {slots.length === 0 && <Empty description="No slot found" />}
     </div>
   );
 };

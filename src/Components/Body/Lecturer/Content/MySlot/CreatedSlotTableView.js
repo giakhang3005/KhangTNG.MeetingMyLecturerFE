@@ -1,4 +1,4 @@
-import { message, Table } from "antd";
+import { message, Table, Tag } from "antd";
 import { useState } from "react";
 import {
   PlusCircleFilled,
@@ -10,25 +10,13 @@ import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const CreatedSlotTableView = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView,
-    setEditingSlot = props.setEditingSlot;
+    setEditingSlot = props.setEditingSlot,
+    slots = props.slots;
 
   const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } =
     useSlotLecturer();
 
   const ArrayToString = useArray();
-  //fetching data
-  //   const {
-  //     data: SlotList, //assign name for the data
-  //     isLoading,
-  //     isError,
-  //     refetch,
-  //   } = useQuery(["locations"], () => {
-  //     return fetch("").then((res) => res.json()); //fetching and turn it into json
-  //   });
-
-  //API
-  const [SlotList, setSlotList] = useState([]);
-  //! Fetching API slot from date to date of user here
 
   const columns = [
     {
@@ -41,7 +29,7 @@ export const CreatedSlotTableView = (props) => {
       key: "2",
       title: "Date",
       //location.id
-      dataIndex: "date",
+      dataIndex: "meetingDay",
     },
     {
       key: "3",
@@ -69,7 +57,9 @@ export const CreatedSlotTableView = (props) => {
       title: "Subject",
       // dataIndex: 'subject',
       render: (slot) => {
-        return <>{ArrayToString(slot.subject)}</>;
+        return slot.slotSubjectDTOS.map((subject) => {
+          return <Tag color="volcano">{subject.subjectCode}</Tag>;
+        });
       },
     },
     {
@@ -169,8 +159,7 @@ export const CreatedSlotTableView = (props) => {
       <Table
         className="tableOfLocations"
         columns={columns}
-        dataSource={slotList}
-        // loading={isLoading}
+        dataSource={slots}
         rowKey="id"
       ></Table>
     </div>

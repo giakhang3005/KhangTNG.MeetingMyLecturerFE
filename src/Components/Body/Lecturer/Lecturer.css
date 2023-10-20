@@ -142,7 +142,7 @@
   animation: fade 0.3s linear;
 }
 .slotDisplay {
-  margin: 12.9px 0 22px 0;
+  margin: 12.9px 3px 22px 0;
   padding: 10px 0 10px 0;
   border: 1px solid rgb(225, 225, 225);
   border-radius: 8px;

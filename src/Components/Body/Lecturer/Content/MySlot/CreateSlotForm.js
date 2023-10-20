@@ -13,6 +13,7 @@ import {
 import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../Body";
+import axios from "axios";
 
 export function CreateSlotForm({
   isLoading,
@@ -21,6 +22,7 @@ export function CreateSlotForm({
   emails,
   locationsList,
   setCreatedSlotView,
+  setIsLoading,
 }) {
   const { Title } = Typography;
   const { user } = useContext(Data);
@@ -71,7 +73,7 @@ export function CreateSlotForm({
         newDate.date(newDate.date()).month(newDate.month()).year(newDate.year())
       );
       setEnd(
-        newDate.date(newDate.date()).month(newDate.month()).year(newDate.year())
+        newDate.date(newDate.date()).month(newDate.month()).year(newDate.year()).hour(end.hour()).minute(end.minute())
       );
     }
   };
@@ -136,8 +138,8 @@ export function CreateSlotForm({
     }:00`;
 
     const returnSubjectsList = selectedSubjects.map((subject) => {
-      return {subjectCode: subject}
-    })
+      return { subjectCode: subject };
+    });
     const newSlot = {
       lecturerId: user.id,
       meetingDay: dateString,
@@ -148,7 +150,8 @@ export function CreateSlotForm({
       locationId: locationId,
       slotSubjectDTOS: returnSubjectsList,
       password: password === "" ? null : password,
-      // status: ,
+      // toggle: true,
+      // status: true,
     };
 
     if (newSlot.mode === 2 && newSlot.studentEmail === null) {
@@ -162,10 +165,14 @@ export function CreateSlotForm({
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
 
       if (!SubjErr && !locErr) {
+        setIsLoading(true)
         console.log(newSlot);
-        console.log(JSON.stringify(newSlot));
-        message.success("Created slot successfully");
-        setCreatedSlotView("");
+        // console.log(JSON.stringify(newSlot));
+        axios
+          .post('https://meet-production-52c7.up.railway.app/api/v1/slot', newSlot)
+          .then((res) => (message.success("Created successfully"), setCreatedSlotView('')))
+          .catch((err) => console.error(err))
+          .finally(() => setIsLoading(false))
       } else {
         message.error("Location and Subject are required");
       }

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Data } from "../../../Body";
 import { LecturerCreateSlotBtn } from "./LecturerCreateSlotBtn";
 import { LectuerCalenderView } from "./CreatedSlotCalenderView";
@@ -6,15 +6,13 @@ import { CreatedSlotTableView } from "./CreatedSlotTableView";
 import "../../Lecturer.css";
 import { EditingSlot } from "./EditingSlot";
 import { CreatingSlot } from "./CreatingSlot";
-import { Typography, Tabs, Button } from "antd";
-import {
-  DownloadOutlined,
-  RedoOutlined,
-} from "@ant-design/icons";
+import { Typography, Tabs, Spin, Button } from "antd";
+import {RedoOutlined} from '@ant-design/icons'
+import axios from "axios";
 
 export const LecturerCreatedSlot = () => {
   // Get state
-  const { selectedDate, setSelectedDate, selectedWeek, setSelectedWeek } =
+  const { selectedDate, setSelectedDate, selectedWeek, setSelectedWeek, user } =
     useContext(Data);
   const { Title, Text } = Typography;
 
@@ -23,6 +21,24 @@ export const LecturerCreatedSlot = () => {
 
   //slot is being edit
   const [editingSlot, setEditingSlot] = useState([]);
+
+  //!Fetching
+  const [slots, setSlots] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getData = () => {
+    setLoading(true);
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/v1/slot/lecturer?id=${user.id}`
+      )
+      .then((response) => setSlots(response.data.data))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   //Tab of Views
   const tabsObj = [
@@ -37,6 +53,7 @@ export const LecturerCreatedSlot = () => {
           setSelectedWeek={setSelectedWeek}
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
+          slots={slots}
         />
       ),
     },
@@ -47,6 +64,7 @@ export const LecturerCreatedSlot = () => {
         <CreatedSlotTableView
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
+          slots={slots}
         />
       ),
     },
@@ -69,12 +87,26 @@ export const LecturerCreatedSlot = () => {
           {/* Title */}
           <Title className="sectionTitle" level={3}>
             MY SLOTS
-            <LecturerCreateSlotBtn setCreatedSlotView={setCreatedSlotView} />
+            <div>
+              <Button
+                onClick={getData}
+                icon={<RedoOutlined />}
+                style={{ margin: "0 7px 0 0" }}
+              >
+                Refresh
+              </Button>
+              <LecturerCreateSlotBtn
+                getData={getData}
+                setCreatedSlotView={setCreatedSlotView}
+              />
+            </div>
           </Title>
           {/* Tabs */}
-          <div className="createdSlotTabs">
-            <Tabs defaultActiveKey="1" items={tabsObj} />
-          </div>
+          <Spin spinning={loading} tip="Preparing Data...">
+            <div className="createdSlotTabs">
+              <Tabs defaultActiveKey="1" items={tabsObj} />
+            </div>
+          </Spin>
         </>
       )}
     </div>

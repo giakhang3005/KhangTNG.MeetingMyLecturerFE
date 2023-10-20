@@ -7,13 +7,12 @@ import {
 } from "@ant-design/icons";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
-export const LecturerCreateSlotBtn = (props) => {
-  const setCreatedSlotView = props.setCreatedSlotView;
+export const LecturerCreateSlotBtn = ({setCreatedSlotView}) => {
+
   const { LecturerCreateSlotFunction } = useSlotLecturer();
   return (
     <span className="btnContainer">
       {/* <FloatButton icon={<PlusCircleFilled />} tooltip={<div>Tạo slot</div>} onClick={onClickCreateBtn}/> */}
-      <Button icon={<RedoOutlined />} style={{margin: '0 7px 0 0'}}>Refresh</Button>
       <Button
         className="createSlotBtn"
         icon={<PlusCircleFilled />}

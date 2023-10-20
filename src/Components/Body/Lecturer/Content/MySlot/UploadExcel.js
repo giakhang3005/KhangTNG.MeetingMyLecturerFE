@@ -26,14 +26,11 @@ export function UploadExcel({ subjects, locationsList }) {
   };
 
   //onChange
-  const [excelFile, setExcelFile] = useState(null);
-  const [typeError, setTypeError] = useState(null);
   const handleChange = (file) => {
     console.log(file)
   };
 
   //Submit
-  const [excelData, setExcelData] = useState(null);
   const handleUpload = () => {
     // setUploading(true);
     // axios.post('XXXXX', file)
@@ -53,7 +50,7 @@ export function UploadExcel({ subjects, locationsList }) {
 
   const handleExportMaterials = () => {
     const today = new dayjs();
-    const todayString = `[MML] Materials ${today.$D}_${today.$M}_${today.$y}`;
+    const todayString = `[MML] Materials ${today.$D}_${today.$M+1}_${today.$y}`;
 
     //data
     const downloadSubjectsList = subjects.map((subject) => {
