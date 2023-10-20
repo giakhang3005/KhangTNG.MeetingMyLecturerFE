@@ -15,7 +15,7 @@ export function EditMajor({ setMenuOpt, editMajor }) {
     //check length
     if (name.length >= 8) {
       axios
-        .put(`https://meet-production-52c7.up.railway.app/api/major/${newMajor.id}`, newMajor)
+        .put(`https://meet-production-52c7.up.railway.app/api/v1/major/${newMajor.id}`, newMajor)
         .then(() => {
           message.success("Updated major successfully");
           setLoading(false);
