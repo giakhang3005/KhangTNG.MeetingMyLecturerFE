@@ -35,7 +35,7 @@ export const CreatingSlot = (props) => {
     setEmailsLoading(true);
     axios
       .get(
-        "https://meet-production-52c7.up.railway.app/api/v1/student/get/emails"
+        "https://meet-production-52c7.up.railway.app/api/v1/student/emails"
       )
       .then((response) => setEmails(response.data.data))
       .catch((error) =>

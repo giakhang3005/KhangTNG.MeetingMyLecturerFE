@@ -91,8 +91,10 @@ export function SlotsManage() {
       title: "Subject",
       render: (slot) => {
         return (
-          <Popover content={ArrayToString(slot.subjectCode)}>
-            <Tag color="volcano">{slot.subjectCode.length} Subjects</Tag>
+          <Popover content={slot.slotSubjectDTOS.map((subject, i) => {
+            return i === slot.slotSubjectDTOS.length - 1 ? subject.subjectCode : <>{subject.subjectCode},{" "}</>
+          })}>
+            <Tag color="volcano">{slot.slotSubjectDTOS.length} Subjects</Tag>
           </Popover>
         );
       },

@@ -1,7 +1,14 @@
 import * as XLSX from "xlsx/xlsx.mjs";
 
 export const useExcel = () => {
-  const getBase64 = (file) => {};
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
 
   const exportExcel = (data, nameSheet, nameFile, data2, nameSheet2, data3, nameSheet3) => {
     return new Promise((resolve, reject) => {
@@ -20,5 +27,5 @@ export const useExcel = () => {
     });
   };
 
-  return exportExcel;
+  return {exportExcel, getBase64};
 };

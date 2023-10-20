@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 
 export function UploadExcel({ subjects, locationsList }) {
   const { Dragger } = Upload;
-  const exportExcel = useExcel();
+  const { exportExcel } = useExcel();
 
   const [file, setFile] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -24,16 +24,18 @@ export function UploadExcel({ subjects, locationsList }) {
     },
     file,
   };
-  const handleChange = (fileIn) => {
-    setFile(fileIn);
-    // console.log(file)
+
+  //onChange
+  const [excelFile, setExcelFile] = useState(null);
+  const [typeError, setTypeError] = useState(null);
+  const handleChange = (file) => {
+    console.log(file)
   };
 
+  //Submit
+  const [excelData, setExcelData] = useState(null);
   const handleUpload = () => {
-    //file to pass
-    console.log(file);
-
-    setUploading(true);
+    // setUploading(true);
     // axios.post('XXXXX', file)
     //   .then((res) => res.json())
     //   .then(() => {
@@ -114,7 +116,7 @@ export function UploadExcel({ subjects, locationsList }) {
         password: "12345",
       },
     ];
-    exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template")
+    exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template");
   };
   return (
     <div className="requestsInfo">
@@ -126,7 +128,7 @@ export function UploadExcel({ subjects, locationsList }) {
             type="file"
             accept=".xlsx"
             maxCount={1}
-            onChange={(fileIn) => handleChange(fileIn)}
+            onChange={(file) => handleChange(file)}
             style={Object.assign({ width: "100%" })}
           >
             <p className="ant-upload-drag-icon">

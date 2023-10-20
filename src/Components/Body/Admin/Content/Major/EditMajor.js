@@ -32,7 +32,7 @@ export function EditMajor({ setMenuOpt, editMajor }) {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        CREATE MAJORS
+        EDIT MAJORS
       </Title>
 
       {/* Back button */}
@@ -86,7 +86,7 @@ export function EditMajor({ setMenuOpt, editMajor }) {
                   icon={<FormOutlined />}
                   onClick={handleUpdate}
                 >
-                  Create
+                  Update
                 </Button>
               </Col>
             </Row>
