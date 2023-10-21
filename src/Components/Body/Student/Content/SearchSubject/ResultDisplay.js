@@ -1,6 +1,8 @@
-import { Button, Table, message, Popover, Alert } from "antd";
+import { Button, Table, message, Popover, Alert, Tag } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
+import { useState } from "react";
+import axios from "axios";
 
 //Handle success -> Book -> export for popup input password
 export const BookingSuccess = (booking) => {
@@ -16,9 +18,9 @@ export const ResultDisplay = (props) => {
     isSearchingSubject = props.isSearchingSubject,
     startDate = props.startDate,
     toDate = props.toDate,
-    recentSearch = props.recentSearch;
-
-  const ArrayToString = useArray();
+    recentSearch = props.recentSearch,
+    BookingList = props.BookingList,
+    loading = props.loading;
 
   //table variables
   const columns = [
@@ -31,32 +33,57 @@ export const ResultDisplay = (props) => {
     {
       key: "2",
       title: "Lecturer",
-      dataIndex: "lecturer",
+      dataIndex: "lecturerName",
     },
     {
       key: "3",
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "meetingDay",
     },
     {
       key: "4",
       title: "Start Time",
-      dataIndex: "startTime",
+      render: (slot) => {
+        return slot.startTime.slice(0, 5);
+      },
     },
     {
       key: "5",
       title: "End Time",
-      dataIndex: "endTime",
+      render: (slot) => {
+        return slot.endTime.slice(0, 5);
+      },
     },
+    // {
+    //   key: "3",
+    //   title: "Status",
+    //   render: (slot) => {
+    //     return slot.status ? "true" : "false"
+    //   }
+    // },
     {
       key: "6",
-      title: "Subject",
+      title: "Location",
       render: (booking) => {
-        return ArrayToString(booking.subject);
+        return <Popover content={booking.locationAddress}> <Tag color="green">{booking.locationName}</Tag></Popover>;
       },
     },
     {
       key: "7",
+      title: "Location",
+      render: (booking) => {
+        return booking.slotSubjectDTOS.map((subj, i) => {
+          return (
+            <Tag color="volcano" key={i}>
+              {subj.subjectCode}
+            </Tag>
+          );
+        });
+      },
+    },
+
+    {
+      key: "8",
       title: "",
       render: (booking) => {
         return (
@@ -107,91 +134,34 @@ export const ResultDisplay = (props) => {
     }
   };
 
-  //test data (ACC101)
-  //! Fetch API here -> BookingList by Subject ID
-  const BookingList = [];
-
-  //fetch...... {isSearchingSubject}
-  //after fetch: (demo)
-  if (isSearchingSubject === "SWP391") {
-    BookingList.push({
-      id: 1,
-      slotId: "b",
-      lecturer: "Test có pass",
-      date: "01/10/2023",
-      startTime: "13:30",
-      endTime: "15:00",
-      subject: ["SWP391", "SWT301"],
-      password: "abc",
-    });
-    BookingList.push({
-      id: 2,
-      slotId: "a",
-      lecturer: "Test không có pass",
-      date: "01/10/2023",
-      startTime: "16:30",
-      endTime: "17:00",
-      subject: ["SWP391"],
-      password: null,
-    });
-    BookingList.push({
-      id: 3,
-      slotId: "c",
-      lecturer: "test đã book",
-      date: "01/10/2023",
-      startTime: "16:30",
-      endTime: "17:00",
-      subject: ["SWP391"],
-      password: null,
-    });
-  }
-  if (isSearchingSubject === "SWT301") {
-    BookingList.push({
-      id: 1,
-      slotId: "c",
-      lecturer: "Truong Nguyen Gia Khang (K17 HCM)",
-      date: "01/10/2023",
-      startTime: "13:30",
-      endTime: "15:00",
-      subject: ["SWP391"],
-      password: "abc",
-    });
-    BookingList.push({
-      id: 2,
-      slotId: "c",
-      lecturer: "Tran Cong Lam (K17 HCM)",
-      date: "01/10/2023",
-      startTime: "16:30",
-      endTime: "17:00",
-      subject: ["SWP391"],
-      password: null,
-    });
-  }
-
   return (
     <>
-      {(recentSearch.subject !== null ||
-        recentSearch.start !== null ||
-        recentSearch.to !== null) && (
-        <Alert
-          message={`Found ${BookingList.length} slots for ${
-            (recentSearch.subject === null || recentSearch.subject === "" )? "All" : recentSearch.subject
-          } ${
-            recentSearch.start !== null
-              ? `from ${recentSearch.start} to ${recentSearch.to}`
-              : ""
-          }`}
-          type="info"
-          showIcon
-        />
-      )}
+      {!loading &&
+        (recentSearch.subject !== null ||
+          recentSearch.start !== null ||
+          recentSearch.to !== null) && (
+          <Alert
+            style={{ margin: "8px 0 0 0" }}
+            message={`Found ${BookingList.length} slots for ${
+              recentSearch.subject === null || recentSearch.subject === ""
+                ? "All"
+                : recentSearch.subject
+            } ${
+              recentSearch.start !== null
+                ? `from ${recentSearch.start} to ${recentSearch.to}`
+                : ""
+            }`}
+            type="info"
+            showIcon
+          />
+        )}
 
       {/* Table of result */}
       <Table
         className="tableOfLocations"
         columns={columns}
         dataSource={BookingList}
-        // loading={isLoading}
+        loading={loading}
         rowKey="id"
         key="key"
       ></Table>

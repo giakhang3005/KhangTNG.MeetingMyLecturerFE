@@ -8,7 +8,7 @@ export const SearchSubject = () => {
   const { Title } = Typography;
 
   //handle subject search
-  const [isSearchingSubject, setIsSearchingSubject] = useState("");
+  const [isSearchingSubject, setIsSearchingSubject] = useState(null);
   const [isSelectedSlot, setIsSelectedSlot] = useState([]);
 
   //handle date search
@@ -20,6 +20,9 @@ export const SearchSubject = () => {
     start: null,
     to: null,
   });
+
+  const [BookingList, setBookingList] = useState([])
+  const [loading, setLoading] = useState(false)
 
   return (
     <div className="searchSubject">
@@ -39,6 +42,8 @@ export const SearchSubject = () => {
               setToDate={setToDate}
               setRecentSearch={setRecentSearch}
               isSearchingSubject={isSearchingSubject}
+              setBookingList={setBookingList}
+              setLoading={setLoading}
             />
             <ResultDisplay
               setIsSelectedSlot={setIsSelectedSlot}
@@ -46,6 +51,8 @@ export const SearchSubject = () => {
               startDate={startDate}
               toDate={toDate}
               recentSearch={recentSearch}
+              BookingList={BookingList}
+              loading={loading}
             />
           </Space>
         </>

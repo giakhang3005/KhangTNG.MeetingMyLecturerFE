@@ -17,19 +17,21 @@ export function SearchBar(props) {
     toDate = props.toDate,
     setToDate = props.setToDate,
     setRecentSearch = props.setRecentSearch,
-    isSearchingSubject = props.isSearchingSubject;
+    isSearchingSubject = props.isSearchingSubject,
+    setBookingList = props.setBookingList,
+    setLoading = props.setLoading;
 
-    //Handle Subject
+  //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   useEffect(() => {
-    setSubjectsLoading(true)
+    setSubjectsLoading(true);
     axios
       .get("https://meet-production-52c7.up.railway.app/api/subject/status")
       .then((response) => setSubjects(response.data))
-      .finally(() => setSubjectsLoading(false))
-  }, [])
+      .finally(() => setSubjectsLoading(false));
+  }, []);
 
   const [fromDatePicker, setFromDatePicker] = useState(null);
   const [toDatePicker, setToDatePicker] = useState(null);
@@ -72,6 +74,7 @@ export function SearchBar(props) {
 
   //Handle search
   const handleSearch = () => {
+    //! handle show recent
     //fetch subject, startDate, toDate
     const startDateString =
       startDate !== null
@@ -81,13 +84,52 @@ export function SearchBar(props) {
     const toDateString =
       toDate !== null ? `${toDate.$D}/${toDate.$M + 1}/${toDate.$y}` : null;
 
-      const searchValue = {
-        subject: isSearchingSubject,
-        start: startDateString,
-        to: toDateString,
-      }
-      setRecentSearch(searchValue)
-      //!Call API search here
+    const recentSearchValue = {
+      subject: isSearchingSubject,
+      start: startDateString,
+      to: toDateString,
+    };
+    setRecentSearch(recentSearchValue);
+
+    //! handle search
+    const startSearch =
+      startDate !== null
+        ? `${startDate.$y}-${
+            startDate.$M + 1 < 10 ? `0${startDate.$M + 1}` : startDate.$M + 1
+          }-${startDate.$D < 10 ? `0${startDate.$D}` : startDate.$D}`
+        : null;
+
+    const toSearch =
+      toDate !== null
+        ? `${toDate.$y}-${
+            toDate.$M + 1 < 10 ? `0${toDate.$M + 1}` : toDate.$M + 1
+          }-${toDate.$D < 10 ? `0${toDate.$D}` : toDate.$D}`
+        : null;
+
+    const searchValue = {
+      subject: isSearchingSubject,
+      start: startSearch,
+      to: toSearch,
+    };
+
+    let queryString =
+      "https://meet-production-52c7.up.railway.app/api/v1/slot/student?";
+    //subject
+    queryString +=
+      searchValue.subject !== null ? `subject=${searchValue.subject}&` : "";
+    //start
+    queryString +=
+      searchValue.start !== null ? `startDay=${searchValue.start}&` : "";
+    //end
+    queryString +=
+      searchValue.to !== null ? `endDay=${searchValue.to}` : "";
+
+    //!Fetching
+    setLoading(true)
+    axios.get(queryString)
+    .then((res)=> setBookingList(res.data.data))
+    .catch((err)=> console.error(err))
+    .finally(()=> setLoading(false))
   };
 
   return (
@@ -122,7 +164,8 @@ export function SearchBar(props) {
               placeholder="Ex: SWP391,..."
               showSearch
               allowClear
-              onSelect={(subject) =>  setIsSearchingSubject(subject)}
+              onClear={() => setIsSearchingSubject(null)}
+              onSelect={(subject) => setIsSearchingSubject(subject)}
               options={subjects.map((subject) => ({
                 value: subject.code,
                 label: subject.code,
@@ -155,7 +198,13 @@ export function SearchBar(props) {
             ></Button>
           </Popover>
         </Col>
-        <Col xs={2} style={{margin: '0 0 0 8px'}}><Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}></Button></Col>
+        <Col xs={2} style={{ margin: "0 0 0 8px" }}>
+          <Button
+            type="primary"
+            icon={<SearchOutlined />}
+            onClick={handleSearch}
+          ></Button>
+        </Col>
       </Row>
     </>
   );

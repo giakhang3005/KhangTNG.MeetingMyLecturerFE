@@ -43,7 +43,8 @@ export function LecturerInfo() {
       .then(
         (response) => (
           setLecturer(response.data.data),
-          pushSubjectToValue(response.data.data.subjectList)
+          pushSubjectToValue(response.data.data?.subjectList),
+          console.log(response.data)
         )
       );
   };
@@ -60,7 +61,7 @@ export function LecturerInfo() {
   const pushSubjectToValue = (inputSubj) => {
     let array = [];
     inputSubj?.map((subject) => {
-      array.push(subject.subjectCode);
+      array.push(subject?.subjectCode);
     });
 
     setSelectedSubjects(array);
@@ -68,7 +69,7 @@ export function LecturerInfo() {
 
   //push in to select format
   const pushSubjectList = (inputSubjects) => {
-    const selectSubjects = inputSubjects.map((subject) => {
+    const selectSubjects = inputSubjects?.map((subject) => {
       return { value: subject.code, label: subject.code };
     });
     return selectSubjects;
@@ -134,7 +135,7 @@ export function LecturerInfo() {
       note: lecturer.note,
     };
 
-    const validEmail = validateEmail(newLecturer.email)
+    const validEmail = validateEmail(newLecturer.email);
 
     let phoneErr = false;
     newLecturer.phone.length > 9 &&
@@ -154,10 +155,10 @@ export function LecturerInfo() {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     } else {
-        //phone error = true -> execute
-        !phoneErr && message.error("Phone number must from 10 to 11 numbers");
-        //validEmail = false -> execute
-        !validEmail && message.error("Invalid Email address");
+      //phone error = true -> execute
+      !phoneErr && message.error("Phone number must from 10 to 11 numbers");
+      //validEmail = false -> execute
+      !validEmail && message.error("Invalid Email address");
     }
   };
   return (
@@ -165,105 +166,106 @@ export function LecturerInfo() {
       <Title className="sectionTitle" level={3}>
         PERSONAL INFORMATIONS
       </Title>
-      <Spin spinning={subjectsLoading} tip="Prepairing your Data...">
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* NAME */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Name:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    className="editInput"
-                    value={lecturer.name}
-                    disabled
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
 
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* NAME */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Email:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    className="editInput"
-                    value={lecturer.email}
-                    onChange={(e) => handleEmailChange(e)}
-                    disabled={lecturer.email?.includes(fptEmail)}
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* NAME */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Name:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  className="editInput"
+                  value={lecturer?.name}
+                  disabled
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
 
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* PHONE */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Phone:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    placeholder="Required"
-                    disabled={loading}
-                    className="editInput"
-                    value={lecturer.phone}
-                    maxLength={11}
-                    showCount
-                    onChange={(e) => handlePhoneChange(e)}
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* NAME */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Email:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  className="editInput"
+                  value={lecturer?.email}
+                  onChange={(e) => handleEmailChange(e)}
+                  disabled={lecturer?.email?.includes(fptEmail)}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
 
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* subjects */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Teaching:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title className="InfoText id" level={5}>
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* PHONE */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Phone:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  placeholder="Required"
+                  disabled={loading}
+                  className="editInput"
+                  value={lecturer?.phone}
+                  maxLength={11}
+                  showCount
+                  onChange={(e) => handlePhoneChange(e)}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* subjects */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Teaching:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title className="InfoText id" level={5}>
+                <Spin spinning={subjectsLoading} tip="Preparing Subjects...">
                   <Select
                     placeholder="Not required"
                     disabled={loading}
@@ -278,67 +280,66 @@ export function LecturerInfo() {
                       handleSubjectChange(subjectsList)
                     }
                   ></Select>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+                </Spin>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
 
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* Note */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Note:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={Object.assign({ minHeight: "65px" })}
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* Note */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Note:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={Object.assign({ minHeight: "65px" })}
+              >
+                <Input.TextArea
+                  style={{ fontWeight: 400 }}
+                  placeholder="Introduce about yourself (Not required)"
+                  disabled={loading}
+                  className="editInput"
+                  value={lecturer?.note}
+                  maxLength={200}
+                  showCount
+                  onChange={(e) => handleNoteChange(e)}
+                ></Input.TextArea>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      {/* Buttons */}
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          <Row>
+            <Col xs={9} md={3}></Col>
+            <Col xs={15} md={10}>
+              <Title className="InfoText id" level={5}>
+                <Button
+                  loading={loading}
+                  type="primary"
+                  icon={<FormOutlined />}
+                  onClick={handleSubmit}
                 >
-                  <Input.TextArea
-                    style={{ fontWeight: 400 }}
-                    placeholder="Introduce about yourself (Not required)"
-                    disabled={loading}
-                    className="editInput"
-                    value={lecturer.note}
-                    maxLength={200}
-                    showCount
-                    onChange={(e) => handleNoteChange(e)}
-                  ></Input.TextArea>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-
-        {/* Buttons */}
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* subjects */}
-            <Row>
-              <Col xs={9} md={3}></Col>
-              <Col xs={15} md={10}>
-                <Title className="InfoText id" level={5}>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    icon={<FormOutlined />}
-                    onClick={handleSubmit}
-                  >
-                    Update
-                  </Button>
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Spin>
+                  Update
+                </Button>
+              </Title>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </>
   );
 }
