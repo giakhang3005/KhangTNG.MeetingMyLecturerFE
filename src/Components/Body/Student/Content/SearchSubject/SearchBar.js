@@ -116,7 +116,7 @@ export function SearchBar(props) {
       "https://meet-production-52c7.up.railway.app/api/v1/slot/student?";
     //subject
     queryString +=
-      searchValue.subject !== null ? `subject=${searchValue.subject}&` : "";
+      searchValue.subject !== null ? `subjectCode=${searchValue.subject}&` : "";
     //start
     queryString +=
       searchValue.start !== null ? `startDay=${searchValue.start}&` : "";
@@ -124,6 +124,7 @@ export function SearchBar(props) {
     queryString +=
       searchValue.to !== null ? `endDay=${searchValue.to}` : "";
 
+    console.log(queryString);
     //!Fetching
     setLoading(true)
     axios.get(queryString)
