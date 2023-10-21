@@ -11,7 +11,7 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
   const getData = () => {
     setLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/v1/student/get/all")
+      .get("https://meet-production-52c7.up.railway.app/api/v1/student/all")
       .then((response) => setLecturerList(response.data.data))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));

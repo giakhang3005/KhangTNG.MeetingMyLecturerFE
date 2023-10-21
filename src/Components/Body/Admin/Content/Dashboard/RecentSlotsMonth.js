@@ -1,6 +1,8 @@
 import { Bar } from "react-chartjs-2";
- import { Chart as ChartJS } from "chart.js/auto";
- import { Typography } from "antd";
+import { Chart as ChartJS } from "chart.js/auto";
+import { Typography } from "antd";
+import axios from "axios";
+import {useState, useEffect} from 'react'
 
 export const RecentSlotsMonth = () => {
   const { Title } = Typography;
@@ -12,7 +14,17 @@ export const RecentSlotsMonth = () => {
     { month: "May", meetings: 0, users: 60 },
     { month: "June", meetings: 15, users: 70 },
   ];
-  
+
+  // const [meetings, setMeetings] = useState([])
+
+  // const getData = () => {
+  //   axios.get('https://meet-production-52c7.up.railway.app/api/dashboard/admin/graph')
+  //   .then((response) => setMeetings(response.data))
+  // }
+
+  // useEffect(() => {
+  //   getData()
+  // }, [])
   return (
     <div className="Chart">
       <Title level={5}>Number of slots & users in recent months</Title>
@@ -25,11 +37,6 @@ export const RecentSlotsMonth = () => {
               label: "Meetings",
               data: meetings.map((data) => data.meetings),
               backgroundColor: "#fa541c",
-            },
-            {
-              label: "Users",
-              data: meetings.map((data) => data.users),
-              backgroundColor: "#fa8c16",
             },
           ],
         }}
