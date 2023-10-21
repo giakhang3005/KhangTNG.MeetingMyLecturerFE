@@ -9,6 +9,7 @@ import {
   DatePicker,
   TimePicker,
   Select,
+  Spin,
 } from "antd";
 import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -73,7 +74,12 @@ export function CreateSlotForm({
         newDate.date(newDate.date()).month(newDate.month()).year(newDate.year())
       );
       setEnd(
-        newDate.date(newDate.date()).month(newDate.month()).year(newDate.year()).hour(end.hour()).minute(end.minute())
+        newDate
+          .date(newDate.date())
+          .month(newDate.month())
+          .year(newDate.year())
+          .hour(end.hour())
+          .minute(end.minute())
       );
     }
   };
@@ -165,14 +171,21 @@ export function CreateSlotForm({
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
 
       if (!SubjErr && !locErr) {
-        setIsLoading(true)
+        setIsLoading(true);
         console.log(newSlot);
         // console.log(JSON.stringify(newSlot));
         axios
-          .post('https://meet-production-52c7.up.railway.app/api/v1/slot', newSlot)
-          .then((res) => (message.success("Created successfully"), setCreatedSlotView('')))
+          .post(
+            "https://meet-production-52c7.up.railway.app/api/v1/slot",
+            newSlot
+          )
+          .then(
+            (res) => (
+              message.success("Created successfully"), setCreatedSlotView("")
+            )
+          )
           .catch((err) => console.error(err))
-          .finally(() => setIsLoading(false))
+          .finally(() => setIsLoading(false));
       } else {
         message.error("Location and Subject are required");
       }
@@ -329,6 +342,7 @@ export function CreateSlotForm({
           </Row>
 
           {/* Subject */}
+
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
@@ -336,22 +350,26 @@ export function CreateSlotForm({
               </Title>
             </Col>
             <Col xs={15} md={10}>
-              <Title
-                className="InfoText"
-                level={5}
-                style={{ fontWeight: "400" }}
-              >
-                <Select
-                  style={Object.assign(
-                    { minWidth: "320px" },
-                    { maxWidth: "320px" }
-                  )}
-                  mode="multiple"
-                  className="editInput"
-                  options={pushSubjectList(subjects)}
-                  onChange={(subjectsList) => handleSubjectChange(subjectsList)}
-                ></Select>
-              </Title>
+              <Spin spinning={subjectsLoading}>
+                <Title
+                  className="InfoText"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Select
+                    style={Object.assign(
+                      { minWidth: "320px" },
+                      { maxWidth: "320px" }
+                    )}
+                    mode="multiple"
+                    className="editInput"
+                    options={pushSubjectList(subjects)}
+                    onChange={(subjectsList) =>
+                      handleSubjectChange(subjectsList)
+                    }
+                  ></Select>
+                </Title>
+              </Spin>
             </Col>
           </Row>
 
@@ -394,7 +412,7 @@ export function CreateSlotForm({
             <Col xs={15} md={10}>
               {/* Create */}
               <Button
-                loading={subjectsLoading || isLoading}
+                disabled={subjectsLoading || isLoading}
                 type="primary"
                 style={{ margin: "12px 8px 0 0" }}
                 icon={<FormOutlined />}

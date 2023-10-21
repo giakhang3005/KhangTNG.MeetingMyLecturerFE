@@ -1,5 +1,5 @@
-import { Empty, Button, Modal, message, Popover, Row, Col, Tag } from "antd";
-import { useState } from "react";
+import { Empty, Button, Modal, message, Popover, Row, Col, Tag, Popconfirm } from "antd";
+import { useEffect, useState } from "react";
 import {
   CaretLeftFilled,
   CaretRightFilled,
@@ -24,7 +24,9 @@ export const LectuerCalenderView = (props) => {
     slots = props.slots;
 
   const day = new dayjs();
-  const todayString = `${day.$D < 10 ? `0${day.$D}` : day.$D}/${day.$M + 1< 10 ? `0${day.$M + 1}` : day.$M + 1}/${day.$y}`;
+  const todayString = `${day.$D < 10 ? `0${day.$D}` : day.$D}/${
+    day.$M + 1 < 10 ? `0${day.$M + 1}` : day.$M + 1
+  }/${day.$y}`;
 
   const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } =
     useSlotLecturer();
@@ -189,13 +191,19 @@ export const LectuerCalenderView = (props) => {
                                 onClick={() => handleClickEdit(slot)}
                               />
                               {/* Delete Button */}
-                              <DeleteOutlined
-                                style={Object.assign(
-                                  { color: "red" },
-                                  { margin: "0 0 0 14px" }
-                                )}
-                                onClick={() => handleClickDelete(slot)}
-                              />
+                              <Popconfirm
+                                placement="left"
+                                title="Are you sure want to delete this slot?"
+                                onConfirm={() => handleClickDelete(slot)}
+                              >
+                                <DeleteOutlined
+                                  style={Object.assign(
+                                    { color: "red" },
+                                    { margin: "0 0 0 14px" }
+                                  )}
+                                  onClick={() => handleClickDelete(slot)}
+                                />
+                              </Popconfirm>
                             </div>
                           </div>
                         </>

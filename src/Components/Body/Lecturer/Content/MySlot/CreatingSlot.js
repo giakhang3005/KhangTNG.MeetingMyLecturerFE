@@ -88,7 +88,6 @@ export const CreatingSlot = (props) => {
         Back
       </Button>
 
-      <Spin spinning={subjectsLoading} tip="Preparing Data...">
         {isUploadMode ? (
           <UploadExcel subjects={subjects} locationsList={locationsList} />
         ) : (
@@ -102,7 +101,6 @@ export const CreatingSlot = (props) => {
             setIsLoading={setIsLoading}
           />
         )}
-      </Spin>
     </>
   );
 };

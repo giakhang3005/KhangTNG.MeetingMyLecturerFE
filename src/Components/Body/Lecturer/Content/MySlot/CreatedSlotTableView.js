@@ -1,4 +1,4 @@
-import { message, Table, Tag } from "antd";
+import { message, Popconfirm, Popover, Table, Tag } from "antd";
 import { useState } from "react";
 import {
   PlusCircleFilled,
@@ -19,12 +19,12 @@ export const CreatedSlotTableView = (props) => {
   const ArrayToString = useArray();
 
   const columns = [
-    {
-      key: "1",
-      title: "ID",
-      //location.id
-      dataIndex: "id",
-    },
+    // {
+    //   key: "1",
+    //   title: "ID",
+    //   //location.id
+    //   dataIndex: "id",
+    // },
     {
       key: "2",
       title: "Date",
@@ -45,48 +45,84 @@ export const CreatedSlotTableView = (props) => {
     {
       key: "5",
       title: "Location",
-      dataIndex: "location",
-    },
-    {
-      key: "6",
-      title: "Student",
-      dataIndex: "student",
-    },
-    {
-      key: "7",
-      title: "Subject",
-      // dataIndex: 'subject',
       render: (slot) => {
-        return slot.slotSubjectDTOS.map((subject) => {
-          return <Tag color="volcano">{subject.subjectCode}</Tag>;
-        });
+        return (
+          <Popover content={slot.locationAddress}>{slot.locationName}</Popover>
+        );
       },
     },
     {
+      key: "6",
+      title: "Mode",
+      render: (slot) => {
+        return convertMode(slot.mode);
+      },
+    },
+    {
+      key: "7",
+      title: "Student",
+      dataIndex: "studentName",
+    },
+    {
       key: "8",
+      title: "Subject",
+      // dataIndex: 'subject',
+      render: (slot) => {
+        return (
+          <Popover
+            content={slot.slotSubjectDTOS.map((subject) => {
+              return <Tag color="volcano">{subject.subjectCode}</Tag>;
+            })}
+          >
+            <Tag color="volcano">{slot.slotSubjectDTOS?.length} Subjects </Tag>
+          </Popover>
+        );
+      },
+    },
+    {
+      key: "9",
       title: "Password",
       dataIndex: "password",
     },
     {
-      key: "9",
+      key: "10",
       title: "",
       render: (slot) => {
         return (
           <>
             <EditOutlined
+              style={{ margin: "0 5px 0 0" }}
               onClick={() =>
                 handleClickEdit(slot, setCreatedSlotView, setEditingSlot)
               }
             />
-            <DeleteOutlined
-              className="locationDeleteBtn"
-              onClick={() => handleClickDelete(slot)}
-            />
+            <Popconfirm
+              placement="left"
+              title="Are you sure want to delete this slot?"
+              onConfirm={() => handleClickDelete(slot)}
+            >
+              <DeleteOutlined
+                className="locationDeleteBtn"
+                style={{ margin: 0 }}
+              />
+            </Popconfirm>
           </>
         );
       },
     },
   ];
+
+  //conver mode
+  const convertMode = (mode) => {
+    switch (mode) {
+      case 0:
+        return "Manual Approve";
+      case 1:
+        return "Accept the first booker";
+      case 2:
+        return "Assign Student";
+    }
+  };
 
   //* Antispam handler
   //count click

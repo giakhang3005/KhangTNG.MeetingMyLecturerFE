@@ -34,7 +34,7 @@ export const EditingSlot = (props) => {
     setCreatedSlotView = props.setCreatedSlotView;
 
   //Time format
-  const dateSplit = editingSlot.date.split("/");
+  const dateSplit = editingSlot.meetingDay.split("/");
   const timeFormat = "HH:mm";
   const startTimeDayjs = new dayjs(editingSlot.startTime, timeFormat)
     .date(dateSplit[0])
@@ -48,7 +48,7 @@ export const EditingSlot = (props) => {
   //set form values
   const formValues = {
     ["id"]: editingSlot.id,
-    ["date"]: editingSlot.date,
+    ["date"]: editingSlot.meetingDay,
     ["startTime"]: startTimeDayjs,
     ["endTime"]: endTimeDayjs,
     ["mode"]: editingSlot.mode,

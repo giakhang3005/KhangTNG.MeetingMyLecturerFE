@@ -7,7 +7,7 @@ import "../../Lecturer.css";
 import { EditingSlot } from "./EditingSlot";
 import { CreatingSlot } from "./CreatingSlot";
 import { Typography, Tabs, Spin, Button } from "antd";
-import {RedoOutlined} from '@ant-design/icons'
+import { RedoOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 export const LecturerCreatedSlot = () => {
@@ -25,15 +25,21 @@ export const LecturerCreatedSlot = () => {
   //!Fetching
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false)
   const getData = () => {
-    setLoading(true);
+    if(sessionStorage.getItem('slots') !== null && sessionStorage.getItem('slots') !== undefined) {
+      setSlots(JSON.parse(sessionStorage.getItem('slots')))
+      setHideLoading(true)
+    } else {
+      setLoading(true);
+    }
     axios
       .get(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/lecturer?id=${user.id}`
       )
-      .then((response) => setSlots(response.data.data))
+      .then((response) => (setSlots(response.data.data), sessionStorage.setItem('slots', JSON.stringify(response.data.data))))
       .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
 
   useEffect(() => {
@@ -92,8 +98,9 @@ export const LecturerCreatedSlot = () => {
                 onClick={getData}
                 icon={<RedoOutlined />}
                 style={{ margin: "0 7px 0 0" }}
+                loading={hideLoading}
               >
-                Refresh
+                {hideLoading ? "Checking for new slots" : "Refresh"}
               </Button>
               <LecturerCreateSlotBtn
                 getData={getData}

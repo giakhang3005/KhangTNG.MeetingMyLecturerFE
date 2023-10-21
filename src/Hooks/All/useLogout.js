@@ -18,6 +18,7 @@ export const useLogOut = () => {
 
       //! Delete user & role in session storage
       sessionStorage.removeItem("user");
+      sessionStorage.removeItem("slots")
 
       //message
       message.error({
