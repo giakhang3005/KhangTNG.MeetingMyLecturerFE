@@ -1,4 +1,4 @@
-import { Empty, Button, Modal, message, Popover, Tag} from "antd";
+import { Empty, Button, Modal, message, Popover, Row, Col, Tag } from "antd";
 import { useState } from "react";
 import {
   CaretLeftFilled,
@@ -11,9 +11,9 @@ import { LecturerCalender } from "./LecturerCalender";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useDate } from "../../../../../Hooks/All/useDate.js";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
+import dayjs from "dayjs";
 
 export const LectuerCalenderView = (props) => {
-
   //receive function
   const selectedDate = props.selectedDate,
     setSelectedDate = props.setSelectedDate,
@@ -23,7 +23,11 @@ export const LectuerCalenderView = (props) => {
     setEditingSlot = props.setEditingSlot,
     slots = props.slots;
 
-  const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } = useSlotLecturer(); 
+  const day = new dayjs();
+  const todayString = `${day.$D < 10 ? `0${day.$D}` : day.$D}/${day.$M + 1< 10 ? `0${day.$M + 1}` : day.$M + 1}/${day.$y}`;
+
+  const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } =
+    useSlotLecturer();
 
   //modal state
   const [open, setOpen] = useState(false);
@@ -74,7 +78,6 @@ export const LectuerCalenderView = (props) => {
     message.success(`Updated week view to ${mergeDateOK}`);
   };
 
-
   //* Antispam handler
   //count click
   const [clickEdit, setClickEdit] = useState(0);
@@ -101,6 +104,28 @@ export const LectuerCalenderView = (props) => {
     clickDelete < 3 && setClickDelete(clickDelete + 1);
     if (clickDelete < 2) {
       LecturerDeleteSlotFunction(slot);
+    }
+  };
+
+  //conver mode
+  const convertMode = (mode) => {
+    switch (mode) {
+      case 0:
+        return "Manual Approve";
+      case 1:
+        return "Accept the first booker";
+      case 2:
+        return "Assign Student";
+    }
+  };
+
+  //convert status
+  const convertStatus = (status) => {
+    switch (status) {
+      case true:
+        return <Tag color="green">Avaiable</Tag>;
+      case false:
+        return <Tag color="red">Not Avaiable</Tag>;
     }
   };
 
@@ -140,7 +165,7 @@ export const LectuerCalenderView = (props) => {
               <li>{weekDate.day}</li>
               <li
                 className={
-                  selectedDate === weekDate.date ? "LecturerSelectedDates" : ""
+                  weekDate.date === todayString ? "LecturerSelectedDates" : ""
                 }
               >
                 {weekDate.date}
@@ -157,7 +182,7 @@ export const LectuerCalenderView = (props) => {
                       title={
                         <>
                           <div className="hoverSlotInfo">
-                            SLOT INFO
+                            <>SLOT INFO {convertStatus(slot.status)}</>
                             <div>
                               {/* Edit Button */}
                               <EditOutlined
@@ -177,37 +202,80 @@ export const LectuerCalenderView = (props) => {
                       }
                       // Body of PopOver
                       content={
-                        <>
-                          {/* <div>
-                            <b>ID:</b> <Tag color="volcano">{slot.id}</Tag>
-                          </div>
-                          <div>
-                            <b>Date:</b> <Tag color="volcano">{slot.meetingDay} </Tag>
-                          </div>
-                          <div>
-                            <b>Time:</b> <Tag color="volcano">{slot.startTime.slice(0,5)} - {slot.endTime.slice(0,5)}</Tag>
-                          </div>
-                          <div>
-                            <b>Mode:</b> {slot.mode}
-                          </div>
-                          <div>
-                            <b>Location:</b> {slot.location}
-                          </div>
-                          <div>
-                            <b>Student:</b> {slot.student}
-                          </div>
-                          <div>
-                            <b>Subject: </b>
-                          </div>
-                          <div>
-                            <b>Password:</b> {slot.password}
-                          </div> */}
-                        </>
+                        <span
+                          style={Object.assign(
+                            { lineHeight: "30px" },
+                            { minWidth: "300px" }
+                          )}
+                        >
+                          <Row style={{ width: "300px" }}>
+                            <Col xs={7}>
+                              <b>ID:</b>
+                            </Col>
+                            <Col xs={17}>{slot.id}</Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Date:</b>
+                            </Col>
+                            <Col xs={17}> {slot.meetingDay} </Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Time:</b>
+                            </Col>
+                            <Col xs={17}>
+                              {slot.startTime.slice(0, 5)} -{" "}
+                              {slot.endTime.slice(0, 5)}
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Mode:</b>
+                            </Col>
+                            <Col xs={17}>{convertMode(slot.mode)}</Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Location:</b>
+                            </Col>
+                            <Col xs={17}> {slot.locationName}</Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Student:</b>
+                            </Col>
+                            <Col xs={17}>
+                              {slot.studentName === null
+                                ? "None"
+                                : slot.studentName}
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Subject:</b>
+                            </Col>
+                            <Col xs={17}>
+                              {ArrayToString(
+                                slot.slotSubjectDTOS.map((subj) => {
+                                  return subj.subjectCode;
+                                })
+                              )}
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col xs={7}>
+                              <b>Password:</b>{" "}
+                            </Col>{" "}
+                            <Col xs={17}>{slot.password}</Col>
+                          </Row>
+                        </span>
                       }
                     >
                       {/* Slot box appear in Week Calender */}
                       <li className="slotDisplay" key={key}>
-                        {slot.startTime.slice(0, 5)} - {slot.endTime.slice(0, 5)}
+                        {slot.startTime.slice(0, 5)} -{" "}
+                        {slot.endTime.slice(0, 5)}
                       </li>
                     </Popover>
                   )

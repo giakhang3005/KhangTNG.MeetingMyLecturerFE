@@ -34,35 +34,35 @@ export function BookingManage() {
       key: "2",
       title: "Date",
       render: (booking) => {
-        return <>{booking.slotInfo.meetingDate}</>;
+        return <>{booking.slotInfo?.meetingDate}</>;
       },
     },
     {
       key: "3",
       title: "Start",
       render: (booking) => {
-        return <>{booking.slotInfo.startTime}</>;
+        return <>{booking.slotInfo?.startTime}</>;
       },
     },
     {
       key: "4",
       title: "End",
       render: (booking) => {
-        return <>{booking.slotInfo.endTime}</>;
+        return <>{booking.slotInfo?.endTime}</>;
       },
     },
     {
       key: "5",
       title: "Booker",
       render: (booking) => {
-        return <>{booking.studentInfo.studentName}</>;
+        return <>{booking.studentInfo?.studentName}</>;
       },
     },
     {
       key: "6",
       title: "Lecturer",
       render: (booking) => {
-        return <>{booking.slotInfo.lecturerName}</>;
+        return <>{booking.slotInfo?.lecturerName}</>;
       },
     },
     {
@@ -70,8 +70,8 @@ export function BookingManage() {
       title: "Location",
       render: (booking) => {
         return (
-          <Popover content={booking.slotInfo.locationAddress}>
-            <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
+          <Popover content={booking.slotInfo?.locationAddress}>
+            <Tag color="volcano">{booking.slotInfo?.locationName}</Tag>
           </Popover>
         );
       },
@@ -81,7 +81,7 @@ export function BookingManage() {
       title: "Subject",
       render: (booking) => {
         let subjectList = [];
-        booking.subjectSlot.map((subject) => {
+        booking.subjectSlot?.map((subject) => {
           subjectList.push(subject.subjectCode);
         });
 
