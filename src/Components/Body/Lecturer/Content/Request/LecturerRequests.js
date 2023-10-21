@@ -1,92 +1,133 @@
-import { Button, Typography, Table, message, Popover } from "antd";
+import { Button, Typography, Table, message, Popover, Tag } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from "react";
 import { Data } from "../../../Body";
 import axios from "axios";
 
 export const LecturerRequests = () => {
   const { Title } = Typography;
-  const ArrayToString = useArray()
-  const {user} = useContext(Data)
+  const ArrayToString = useArray();
+  const { user } = useContext(Data);
 
-  const [numOfRequests, setNumOfRequests] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [numOfRequests, setNumOfRequests] = useState(0);
+  const [loading, setLoading] = useState(false);
   const getNumberOfRequests = () => {
-    axios.get(`https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`)
-    .then((response) => setNumOfRequests(response.data.bookingCount))
-    .catch((error) => console.error(error))
-  }
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`
+      )
+      .then((response) => setNumOfRequests(response.data.bookingCount))
+      .catch((error) => console.error(error));
+  };
+
+  const [BookingList, setBookingList] = useState([]);
+  const getData = () => {
+    setLoading(true);
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/booking/pending/${user.id}`
+      )
+      .then((response) => setBookingList(response.data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
+    getData();
     getNumberOfRequests();
-  }, [])
+  }, []);
 
   const columns = [
-    {
-      key: "1",
-      title: "ID",
-      //location.id
-      dataIndex: "id",
-    },
+    // {
+    //   key: "1",
+    //   title: "ID",
+    //   //location.id
+    //   dataIndex: "id",
+    // },
     {
       key: "2",
       title: "Booker Name",
-      dataIndex: "username",
+      render: (booking) => {
+        return booking.studentInfo.studentName;
+      },
     },
     {
       key: "3",
       title: "Date",
-      dataIndex: "date",
+      render: (booking) => {
+        return booking.slotInfo.meetingDate;
+      },
     },
     {
       key: "4",
       title: "Start Time",
-      dataIndex: "startTime",
+      render: (booking) => {
+        return booking.slotInfo.startTime;
+      },
     },
     {
       key: "5",
       title: "End Time",
-      dataIndex: "endTime",
+      render: (booking) => {
+        return booking.slotInfo.endTime;
+      },
     },
     {
       key: "6",
       title: "Subject",
       render: (booking) => {
         return (
-            ArrayToString(booking.subject)
-        )
-      }
-    },
-    {
-      key: "7",
-      title: "This slot Bookers",
-      render: (booking) => {
-        return (
-          <>
-            <Popover
-              title="Students also book this slot"
-              content={
-                <ol>
-                  {booking.alsoBookThisSlot.name.map((studentName) => {
-                    return <li key={studentName}>{studentName}</li>;
-                  })}
-                </ol>
-              }
-            >
-              {booking.alsoBookThisSlot.amount} (Hover to view)
-            </Popover>
-          </>
+          <Popover
+            content={booking.subjectSlot.map((subj) => {
+              return <Tag color="volcano">{subj.subjectCode}</Tag>;
+            })}
+          >
+            <Tag color="volcano">{booking.subjectSlot.length} Subjects</Tag>
+          </Popover>
         );
       },
     },
     {
-      key: "8",
+      key: "7",
+      title: "Location",
+      render: (booking) => {
+        return (
+          <Popover content={booking.slotInfo.locationAddress}>
+            {booking.slotInfo.locationName}
+          </Popover>
+        );
+      },
+    },
+    // {
+    //   key: "7",
+    //   title: "This slot Bookers",
+    //   render: (booking) => {
+    //     return (
+    //       <>
+    //         <Popover
+    //           title="Students also book this slot"
+    //           content={
+    //             <ol>
+    //               {booking.alsoBookThisSlot.name.map((studentName) => {
+    //                 return <li key={studentName}>{studentName}</li>;
+    //               })}
+    //             </ol>
+    //           }
+    //         >
+    //           {booking.alsoBookThisSlot.amount} (Hover to view)
+    //         </Popover>
+    //       </>
+    //     );
+    //   },
+    // },
+    {
+      key: "9",
       title: "Note",
       dataIndex: "note",
     },
     {
-      key: "9",
+      key: "10",
       title: "",
       render: (booking) => {
         return (
@@ -111,47 +152,37 @@ export const LecturerRequests = () => {
 
   //handle edit slot
   const acceptBooking = (booking) => {
-    //TODO: For Backend
     const result = {
       id: booking.id,
-      status: "accepted",
+      slotInfo: {
+        id: booking.slotInfo.id,
+      },
+      status: 2,
     };
-
-    console.log(result);
-
-    //! Place API here
-
-    message.success(`Accepted ${booking.username}'s Booking`);
+    
+    setLoading(true)
+    axios.put(`https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`, result)
+    .then((response) => (message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`), getData()))
+    .catch((error) => (console.error(error)))
+    .finally(() => setLoading(false));
   };
 
   //handle delete click
   const declineBooking = (booking) => {
     const result = {
       id: booking.id,
-      status: "accepted",
-    };
-
-    //! Place API here
-
-    message.error(`Declined ${booking.username}'s Booking`);
-  };
-
-  //test data
-  //! Fetch API here -> BookingList
-  const BookingList = [
-    {
-      id: 1,
-      username: "Truong Nguyen Gia Khang (K17 HCM)",
-      date: "01/10/2023",
-      startTime: "13:30",
-      endTime: "15:00",
-      subject: ["ACC101"],
-      alsoBookThisSlot: {
-        amount: 2,
-        name: ["Tran Cong Lam (K17 HCM)", "Truong Nguyen Gia Khang (K17 HCM)"],
+      slotInfo: {
+        id: booking.slotInfo.id,
       },
-    },
-  ];
+      status: 0,
+    };
+    
+    setLoading(true)
+    axios.put(`https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`, result)
+    .then((response) => (message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`), getData()))
+    .catch((error) => (console.error(error)))
+    .finally(() => setLoading(false));
+  };
 
   return (
     <>
@@ -163,7 +194,7 @@ export const LecturerRequests = () => {
         className="tableOfLocations"
         columns={columns}
         dataSource={BookingList}
-        // loading={isLoading}
+        loading={loading}
         rowKey="id"
         key="key"
       ></Table>

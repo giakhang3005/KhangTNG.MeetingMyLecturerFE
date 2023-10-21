@@ -1,5 +1,6 @@
 import { message } from "antd";
 import dayjs from "dayjs";
+import axios from "axios";
 
 export const useSlotLecturer = () => {
   const LecturerEditSlotFunction = (
@@ -59,6 +60,7 @@ export const useSlotLecturer = () => {
       } else {
         //delete success
         message.success(
+          axios.put
           `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
         );
       }

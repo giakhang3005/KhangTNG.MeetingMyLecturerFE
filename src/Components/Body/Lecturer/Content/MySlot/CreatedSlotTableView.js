@@ -11,7 +11,8 @@ import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 export const CreatedSlotTableView = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot,
-    slots = props.slots;
+    slots = props.slots,
+    getData = props.getData;
 
   const { LecturerEditSlotFunction, LecturerDeleteSlotFunction } =
     useSlotLecturer();

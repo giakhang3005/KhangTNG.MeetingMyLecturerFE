@@ -13,7 +13,8 @@ export const CreatingSlot = (props) => {
   const { Title } = Typography;
   const [isUploadMode, setIsUploadMode] = useState(false);
 
-  const setCreatedSlotView = props.setCreatedSlotView;
+  const setCreatedSlotView = props.setCreatedSlotView,
+  getData = props.getData;
   const { user } = useContext(Data);
 
   //Handle Subject
@@ -34,27 +35,22 @@ export const CreatingSlot = (props) => {
   const getEmails = () => {
     setEmailsLoading(true);
     axios
-      .get(
-        "https://meet-production-52c7.up.railway.app/api/v1/student/emails"
-      )
+      .get("https://meet-production-52c7.up.railway.app/api/v1/student/emails")
       .then((response) => setEmails(response.data.data))
-      .catch((error) =>
-        console.error(error)
-      )
-      .finally(() => setIsLoading(false))
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
   };
 
   const [locationsList, setLocationsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const getLocations = () => {
-    setIsLoading(true);
     axios
       .get(
         `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
       )
       .then(
         (response) => (
-          setLocationsList(response.data.data), setIsLoading(false)
+          setLocationsList(response.data.data)
         )
       )
       .catch((err) => console.log(err));
@@ -80,7 +76,7 @@ export const CreatingSlot = (props) => {
 
       {/* Back button */}
       <Button
-        disabled={subjectsLoading || isLoading}
+        disabled={isLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setCreatedSlotView("")}
@@ -88,9 +84,10 @@ export const CreatingSlot = (props) => {
         Back
       </Button>
 
-        {isUploadMode ? (
-          <UploadExcel subjects={subjects} locationsList={locationsList} />
-        ) : (
+      {isUploadMode ? (
+        <UploadExcel subjects={subjects} locationsList={locationsList} />
+      ) : (
+        <Spin spinning={isLoading}>
           <CreateSlotForm
             isLoading={isLoading}
             subjectsLoading={subjectsLoading}
@@ -99,8 +96,10 @@ export const CreatingSlot = (props) => {
             locationsList={locationsList}
             setCreatedSlotView={setCreatedSlotView}
             setIsLoading={setIsLoading}
+            getData={getData}
           />
-        )}
+        </Spin>
+      )}
     </>
   );
 };

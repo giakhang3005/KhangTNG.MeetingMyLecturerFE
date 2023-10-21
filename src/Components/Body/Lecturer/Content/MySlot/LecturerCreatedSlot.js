@@ -25,11 +25,11 @@ export const LecturerCreatedSlot = () => {
   //!Fetching
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [hideLoading, setHideLoading] = useState(false)
+  const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
     if(sessionStorage.getItem('slots') !== null && sessionStorage.getItem('slots') !== undefined) {
-      setSlots(JSON.parse(sessionStorage.getItem('slots')))
-      setHideLoading(true)
+      setSlots(JSON.parse(sessionStorage.getItem("slots")));
+      setHideLoading(true);
     } else {
       setLoading(true);
     }
@@ -37,7 +37,12 @@ export const LecturerCreatedSlot = () => {
       .get(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/lecturer?id=${user.id}`
       )
-      .then((response) => (setSlots(response.data.data), sessionStorage.setItem('slots', JSON.stringify(response.data.data))))
+      .then(
+        (response) => (
+          setSlots(response.data.data),
+          sessionStorage.setItem("slots", JSON.stringify(response.data.data))
+        )
+      )
       .catch((error) => console.log(error))
       .finally(() => (setLoading(false), setHideLoading(false)));
   };
@@ -81,11 +86,15 @@ export const LecturerCreatedSlot = () => {
       {/* <CreatingSlot setCreatedSlotView={setCreatedSlotView} /> */}
       {/* Edit view */}
       {createdSlotView === "create" ? (
-        <CreatingSlot setCreatedSlotView={setCreatedSlotView} />
+        <CreatingSlot
+          setCreatedSlotView={setCreatedSlotView}
+          getData={getData}
+        />
       ) : createdSlotView === "edit" ? (
         <EditingSlot
           editingSlot={editingSlot}
           setCreatedSlotView={setCreatedSlotView}
+          getData={getData}
         />
       ) : (
         // Default view

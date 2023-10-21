@@ -24,6 +24,7 @@ export function CreateSlotForm({
   locationsList,
   setCreatedSlotView,
   setIsLoading,
+  getData
 }) {
   const { Title } = Typography;
   const { user } = useContext(Data);
@@ -181,7 +182,7 @@ export function CreateSlotForm({
           )
           .then(
             (res) => (
-              message.success("Created successfully"), setCreatedSlotView("")
+              message.success("Created successfully"), getData(), setCreatedSlotView("")
             )
           )
           .catch((err) => console.error(err))
@@ -350,7 +351,7 @@ export function CreateSlotForm({
               </Title>
             </Col>
             <Col xs={15} md={10}>
-              <Spin spinning={subjectsLoading}>
+              <Spin spinning={subjectsLoading} tip="Preparing Subjects...">
                 <Title
                   className="InfoText"
                   level={5}

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 
-export const LecturerCreateSlotBtn = ({setCreatedSlotView}) => {
+export const LecturerCreateSlotBtn = ({setCreatedSlotView, getData}) => {
 
   const { LecturerCreateSlotFunction } = useSlotLecturer();
   return (

@@ -8,17 +8,21 @@ import { useContext } from "react";
 export const useLogOut = () => {
   const LogOutBtn = () => {
     // User
-    const { setUser, setRole } = useContext(Data);
+    const { setUser, setRole, user } = useContext(Data);
     //handle log out on click function
     //logout
     const handleLogout = () => {
+      //!Delete cache content
+      if(user.role === 'lecturer') {
+        sessionStorage.removeItem("slots")
+      }
+
       googleLogout();
       setUser(null);
       setRole(null);
 
       //! Delete user & role in session storage
       sessionStorage.removeItem("user");
-      sessionStorage.removeItem("slots")
 
       //message
       message.error({
