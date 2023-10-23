@@ -24,13 +24,28 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
   //! Get
   const [locations, setLocations] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false);
 
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Alocations") !== null &&
+      localStorage.getItem("Alocations") !== undefined
+    ) {
+      setHideLoading(true);
+      setLocations(JSON.parse(localStorage.getItem("Alocations")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/location")
-      .then((response) => (setLocations(response.data.data), setLoading(false)))
-      .catch((error) => console.error(error));
+      .then(
+        (response) => (
+          setLocations(response.data.data),
+          localStorage.setItem("Alocations", JSON.stringify(response.data.data))
+        )
+      )
+      .catch((error) => console.error(error))
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
 
   useEffect(() => {
@@ -120,10 +135,11 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
           <Button
             style={{ margin: "0 5px 0 0" }}
             disabled={isLoading || otherLoading}
+            loading={hideLoading}
             icon={<ReloadOutlined />}
             onClick={getData}
           >
-            Refresh
+            {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
             icon={<PlusOutlined />}

@@ -11,12 +11,27 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
   //Fetching
   const [loading, setLoading] = useState(false);
   const [lecturerList, setLecturerList] = useState([]);
+  const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Alecturers") !== null &&
+      localStorage.getItem("Alecturers") !== undefined
+    ) {
+      setHideLoading(true);
+      setLecturerList(JSON.parse(localStorage.getItem("Alecturers")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/lecturer")
-      .then((response) => (setLecturerList(response.data), setLoading(false)))
-      .catch((error) => (console.error(error), setLoading(false)));
+      .then(
+        (response) => (
+          setLecturerList(response.data),
+          localStorage.setItem("Alecturers", JSON.stringify(response.data))
+        )
+      )
+      .catch((error) => (console.error(error), setLoading(false)))
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
   useEffect(() => {
     getData();
@@ -103,8 +118,9 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
           icon={<ReloadOutlined />}
           onClick={getData}
           style={{ margin: "0 5px 0 0" }}
+          loading={hideLoading}
         >
-          Refresh
+          {hideLoading ? "Checking for updates..." : "Refresh"}
         </Button>
       </Title>
       <Table

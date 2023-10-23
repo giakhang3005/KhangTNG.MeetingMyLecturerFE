@@ -12,12 +12,29 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
   const { Title, Text } = Typography;
 
   const [loading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false);
   const [majors, setMajors] = useState([]);
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Amajors") !== null &&
+      localStorage.getItem("Amajors") !== undefined
+    ) {
+      setHideLoading(true);
+      setMajors(JSON.parse(localStorage.getItem("Amajors")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/major")
-      .then((res) => (setMajors(res.data), setLoading(false)));
+      .then(
+        (res) => (
+          setMajors(res.data),
+          setLoading(false),
+          setHideLoading(false),
+          localStorage.setItem("Amajors", JSON.stringify(res.data))
+        )
+      )
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {
@@ -90,11 +107,12 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
         <span>
           <Button
             disabled={loading}
+            loading={hideLoading}
             icon={<ReloadOutlined />}
             onClick={getData}
             style={{ margin: "0 5px 0 0" }}
           >
-            Refresh
+            {hideLoading ? "Checking for updates...": "Refresh"}
           </Button>
           <Button
             icon={<PlusOutlined />}

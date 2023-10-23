@@ -12,13 +12,27 @@ export function BookingManage() {
 
   const [bookingList, setBookingList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Abooking") !== null &&
+      localStorage.getItem("Abooking") !== undefined
+    ) {
+      setHideLoading(true);
+      setBookingList(JSON.parse(localStorage.getItem("Abooking")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/booking")
-      .then((response) => setBookingList(response.data))
+      .then(
+        (response) => (
+          setBookingList(response.data),
+          localStorage.setItem("Abooking", JSON.stringify(response.data))
+        )
+      )
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
   useEffect(() => {
     getData();
@@ -102,7 +116,7 @@ export function BookingManage() {
               return <Accept />;
           }
         } else {
-          return <Tag color="red">Deleted</Tag>
+          return <Tag color="red">Deleted</Tag>;
         }
       },
     },
@@ -116,8 +130,13 @@ export function BookingManage() {
     <>
       <Title className="sectionTitle" level={3}>
         BOOKINGS
-        <Button disabled={loading} icon={<ReloadOutlined />} onClick={getData}>
-          Refresh
+        <Button
+          disabled={loading}
+          loading={hideLoading}
+          icon={<ReloadOutlined />}
+          onClick={getData}
+        >
+          {hideLoading ? "Checking for updates..." : "Refresh"}
         </Button>
       </Title>
       <Table

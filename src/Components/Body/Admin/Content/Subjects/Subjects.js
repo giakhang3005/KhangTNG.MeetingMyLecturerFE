@@ -15,13 +15,28 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
   //! Get
   const [subjects, setSubjects] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false);
 
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Asubjects") !== null &&
+      localStorage.getItem("Asubjects") !== undefined
+    ) {
+      setHideLoading(true);
+      setSubjects(JSON.parse(localStorage.getItem("Asubjects")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/subject")
-      .then((response) => (setSubjects(response.data), setLoading(false)))
+      .then(
+        (response) => (
+          setSubjects(response.data),
+          localStorage.setItem("Asubjects", JSON.stringify(response.data))
+        )
+      )
       .catch((err) => console.error(err))
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
 
   useEffect(() => {
@@ -36,15 +51,15 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
       name: subject.name === null ? subject.id : subject.name,
       status: !subject.status,
     };
-     axios
+    axios
       .put(
         `https://meet-production-52c7.up.railway.app/api/subject/status/${subject.id}`,
         subSubject
       )
       .then((res) => {
         setOtherLoading(false);
-          message.success("Toggled successfully");
-          getData();
+        message.success("Toggled successfully");
+        getData();
       })
       .catch((err) => message.error("Toggled failed"));
   };
@@ -135,11 +150,12 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
         <span>
           <Button
             disabled={isLoading || otherLoading}
+            loading={hideLoading}
             icon={<ReloadOutlined />}
             onClick={getData}
             style={{ margin: "0 5px 0 0" }}
           >
-            Refresh
+            {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
             icon={<PlusOutlined />}

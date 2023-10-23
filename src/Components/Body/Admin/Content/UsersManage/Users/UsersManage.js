@@ -30,19 +30,34 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
     status: null,
   });
   const [recentSearch, setRecentlSearch] = useState(finalSearch);
-  
+
   //! fetching data
   const [users, setUsers] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
+  const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    setLoading(true)
+    if (
+      localStorage.getItem("Ausers") !== null &&
+      localStorage.getItem("Ausers") !== undefined
+    ) {
+      setHideLoading(true);
+      setUsers(JSON.parse(localStorage.getItem("Ausers")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/account/get")
       .then((response) => response.data.data)
-      .then((responseData) => (setUsers(responseData), setLoading(false)))
+      .then(
+        (responseData) => (
+          setUsers(responseData),
+          localStorage.setItem("Ausers", JSON.stringify(responseData))
+        )
+      )
       .catch((error) => console.error(error))
       .finally(() => {
+        setLoading(false);
+        setHideLoading(false);
         setRecentlSearch({
           name: null,
           role: null,
@@ -55,11 +70,11 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
         });
         setUsersList([]);
       });
-  }
+  };
 
   useEffect(() => {
-    getData()
-  },[])
+    getData();
+  }, []);
 
   const checkRole = (role) => {
     switch (role) {
@@ -143,7 +158,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
   };
 
   const handleRefetch = () => {
-    getData()
+    getData();
   };
 
   //columns of table
@@ -267,8 +282,9 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
             type="primary"
             onClick={() => handleRefetch()}
             disabled={toggleLoading || isLoading}
+            loading={hideLoading}
           >
-            Refresh
+            {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
             icon={<UserAddOutlined />}

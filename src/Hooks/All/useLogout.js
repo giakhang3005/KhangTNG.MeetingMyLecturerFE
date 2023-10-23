@@ -13,11 +13,22 @@ export const useLogOut = () => {
     //logout
     const handleLogout = () => {
       //!Delete cache content
-      if(user.role === 'lecturer') {
-        localStorage.removeItem("slots")
+      if (user.role === "lecturer") {
+        localStorage.removeItem("slots");
+        localStorage.removeItem("subjects");
       }
-      if(user.role === 'student') {
-        localStorage.removeItem("subjects")
+      if (user.role === "student") {
+        localStorage.removeItem("subjects");
+      }
+      if (user.role === "admin") {
+        localStorage.removeItem("Aslots");
+        localStorage.removeItem("Abooking");
+        localStorage.removeItem("Amajors");
+        localStorage.removeItem("Asubjects");
+        localStorage.removeItem("Alocations");
+        localStorage.removeItem("Ausers");
+        localStorage.removeItem("Alecturers");
+        localStorage.removeItem("Astudents");
       }
 
       googleLogout();

@@ -6,15 +6,27 @@ import axios from "axios";
 export function StudentsManage({ setStudentEdit, setMenuOpt }) {
   const { Title } = Typography;
 
-  const [lecturerList, setLecturerList] = useState([]);
+  const [studentList, setStudentList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    setLoading(true);
+    if (
+      localStorage.getItem("Astudents") !== null &&
+      localStorage.getItem("Astudents") !== undefined
+    ) {
+      setHideLoading(true);
+      setStudentList(JSON.parse(localStorage.getItem("Astudents")));
+    } else {
+      setLoading(true);
+    }
     axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/student/all")
-      .then((response) => setLecturerList(response.data.data))
+      .then(
+        (response) => (setStudentList(response.data.data),
+        localStorage.setItem("Astudents", JSON.stringify(response.data.data)))
+      )
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => (setLoading(false), setHideLoading(false)));
   };
   useEffect(() => {
     getData();
@@ -87,14 +99,15 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
           icon={<ReloadOutlined />}
           onClick={getData}
           style={{ margin: "0 5px 0 0" }}
+          loading={hideLoading}
         >
-          Refresh
+          {hideLoading ? "Checking for updates..." : "Refresh"}
         </Button>
       </Title>
       <Table
         className="tableOfLocations"
         columns={columns}
-        dataSource={lecturerList}
+        dataSource={studentList}
         loading={loading}
         rowKey="id"
       ></Table>
