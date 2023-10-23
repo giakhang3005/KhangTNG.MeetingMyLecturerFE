@@ -71,11 +71,16 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
     },
     {
       key: "8",
+      title: "Major",
+      dataIndex: "majorName",
+    },
+    {
+      key: "9",
       title: "Address",
       dataIndex: "address",
     },
     {
-      key: "9",
+      key: "10",
       label: "",
       render: (student) => {
         return (

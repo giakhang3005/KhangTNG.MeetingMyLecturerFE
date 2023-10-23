@@ -24,12 +24,12 @@ export const ResultDisplay = (props) => {
 
   //table variables
   const columns = [
-    {
-      key: "1",
-      title: "ID",
-      //location.id
-      dataIndex: "id",
-    },
+    // {
+    //   key: "1",
+    //   title: "ID",
+    //   //location.id
+    //   dataIndex: "id",
+    // },
     {
       key: "2",
       title: "Lecturer",

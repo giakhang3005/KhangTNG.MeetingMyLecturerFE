@@ -204,7 +204,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                   style={{ fontWeight: "400" }}
                 >
                   <Input
-                    disabled={lecturerEdit.email.includes(fptEmail)}
+                    disabled
                     className="editInput"
                     defaultValue={lecturerEdit.email}
                   ></Input>
