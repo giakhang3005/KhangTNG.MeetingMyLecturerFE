@@ -25,8 +25,12 @@ export const useSlotLecturer = () => {
       if (slotBeginningTime < now) {
         message.error(`You can not edit slot in the past`);
       } else {
-        setCreatedSlotView("edit");
-        setEditingSlot(slot);
+        if (slot.status === false) {
+          message.error(`You can not edit Not Avaiable slot`);
+        } else {
+          setCreatedSlotView("edit");
+          setEditingSlot(slot);
+        }
       }
     } else {
       //aldready accept someone
@@ -59,10 +63,13 @@ export const useSlotLecturer = () => {
         message.error(`You can not delete slot in the past`);
       } else {
         //delete success
-        message.success(
-          axios.put
-          `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
-        );
+        if (slot.status === false) {
+          message.error(`You can not delete Not Avaiable slot`);
+        } else {
+          message.success(
+            `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
+          );
+        }
       }
     } else {
       //aldready accept someone
@@ -72,5 +79,9 @@ export const useSlotLecturer = () => {
     }
   };
 
-  return {LecturerEditSlotFunction, LecturerCreateSlotFunction, LecturerDeleteSlotFunction}
+  return {
+    LecturerEditSlotFunction,
+    LecturerCreateSlotFunction,
+    LecturerDeleteSlotFunction,
+  };
 };

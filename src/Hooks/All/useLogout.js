@@ -14,7 +14,10 @@ export const useLogOut = () => {
     const handleLogout = () => {
       //!Delete cache content
       if(user.role === 'lecturer') {
-        sessionStorage.removeItem("slots")
+        localStorage.removeItem("slots")
+      }
+      if(user.role === 'student') {
+        localStorage.removeItem("subjects")
       }
 
       googleLogout();

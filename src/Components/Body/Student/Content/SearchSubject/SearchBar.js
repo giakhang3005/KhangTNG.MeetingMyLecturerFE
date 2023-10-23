@@ -26,10 +26,23 @@ export function SearchBar(props) {
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   useEffect(() => {
-    setSubjectsLoading(true);
+    if (
+      localStorage.getItem("subjects") !== null &&
+      localStorage.getItem("subjects") !== undefined
+    ) {
+      setSubjects(JSON.parse(localStorage.getItem("subjects")));
+    } else {
+      setSubjectsLoading(true);
+    }
+
     axios
       .get("https://meet-production-52c7.up.railway.app/api/subject/status")
-      .then((response) => setSubjects(response.data))
+      .then(
+        (response) => (
+          setSubjects(response.data),
+          localStorage.setItem("subjects", JSON.stringify(response.data))
+        )
+      )
       .finally(() => setSubjectsLoading(false));
   }, []);
 
@@ -121,16 +134,16 @@ export function SearchBar(props) {
     queryString +=
       searchValue.start !== null ? `startDay=${searchValue.start}&` : "";
     //end
-    queryString +=
-      searchValue.to !== null ? `endDay=${searchValue.to}` : "";
+    queryString += searchValue.to !== null ? `endDay=${searchValue.to}` : "";
 
-    console.log(queryString);
+    // console.log(queryString);
     //!Fetching
-    setLoading(true)
-    axios.get(queryString)
-    .then((res)=> setBookingList(res.data.data))
-    .catch((err)=> console.error(err))
-    .finally(()=> setLoading(false))
+    setLoading(true);
+    axios
+      .get(queryString)
+      .then((res) => setBookingList(res.data.data))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   };
 
   return (

@@ -14,7 +14,7 @@ export const CreatingSlot = (props) => {
   const [isUploadMode, setIsUploadMode] = useState(false);
 
   const setCreatedSlotView = props.setCreatedSlotView,
-  getData = props.getData;
+    getData = props.getData;
   const { user } = useContext(Data);
 
   //Handle Subject
@@ -22,12 +22,23 @@ export const CreatingSlot = (props) => {
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   const getSubjects = () => {
-    setSubjectsLoading(true);
-    axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
-      .then((response) => setSubjects(response.data))
-      .catch((error) => console.error(error))
-      .finally(() => setSubjectsLoading(false));
+    if (
+      localStorage.getItem("subjects") !== null &&
+      localStorage.getItem("subjects") !== undefined
+    ) {
+      setSubjects(JSON.parse(localStorage.getItem("subjects")));
+    } else {
+      setSubjectsLoading(true);
+      axios
+        .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+        .then(
+          (response) => (
+            setSubjects(response.data),
+            localStorage.setItem("subjects", JSON.stringify(response.data))
+          )
+        )
+        .finally(() => setSubjectsLoading(false));
+    }
   };
 
   const [emails, setEmails] = useState([]);
@@ -48,11 +59,7 @@ export const CreatingSlot = (props) => {
       .get(
         `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
       )
-      .then(
-        (response) => (
-          setLocationsList(response.data.data)
-        )
-      )
+      .then((response) => setLocationsList(response.data.data))
       .catch((err) => console.log(err));
   };
 

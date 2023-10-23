@@ -201,7 +201,6 @@ export const LectuerCalenderView = (props) => {
                                     { color: "red" },
                                     { margin: "0 0 0 14px" }
                                   )}
-                                  onClick={() => handleClickDelete(slot)}
                                 />
                               </Popconfirm>
                             </div>

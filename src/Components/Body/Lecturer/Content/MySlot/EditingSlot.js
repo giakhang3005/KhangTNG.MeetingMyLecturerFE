@@ -1,40 +1,88 @@
+import { React, useState, useContext, useEffect } from "react";
 import {
-  Select,
-  Form,
   Input,
   Button,
-  Typography,
   message,
+  Row,
+  Col,
+  DatePicker,
   TimePicker,
-  Radio,
+  Select,
   Spin,
+  Typography,
 } from "antd";
-import "../../Lecturer.css";
+import { LeftOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { useState, useEffect } from "react";
+import { Data } from "../../../Body";
 import axios from "axios";
 
-export const EditingSlot = (props) => {
+export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
+  const { user } = useContext(Data);
   //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
-  useEffect(() => {
-    setSubjectsLoading(true)
+  const getData = () => {
+    if (
+      localStorage.getItem("subjects") !== null &&
+      localStorage.getItem("subjects") !== undefined
+    ) {
+      setSubjects(JSON.parse(localStorage.getItem("subjects")));
+    } else {
+      axios
+        .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+        .then(
+          (response) => (
+            setSubjects(response.data),
+            localStorage.setItem("subjects", JSON.stringify(response.data))
+          )
+        )
+        .finally(() => setSubjectsLoading(false));
+    }
+  };
+
+  //!Locations
+  const [locationsList, setLocationsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const getLocations = () => {
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
-      .then((response) => setSubjects(response.data))
-      .finally(() => setSubjectsLoading(false))
-  }, [])
-  
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
+      )
+      .then((response) => setLocationsList(response.data.data))
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getData();
+    getLocations();
+  }, []);
+
+  //push in to select format
+  const pushSubjectList = (inputSubjects) => {
+    const selectSubjects = inputSubjects.map((subject) => {
+      return { value: subject.code, label: subject.code };
+    });
+    return selectSubjects;
+  };
+
+  //push in to select format
+  const pushLocationList = (inputLocations) => {
+    const selectLocations = inputLocations.map((loc) => {
+      return { value: loc.id, label: loc.name };
+    });
+    return selectLocations;
+  };
+
   const { Option } = Select;
   const { Title } = Typography;
 
-  const editingSlot = props.editingSlot,
-    setCreatedSlotView = props.setCreatedSlotView;
-
   //Time format
+  const [today, setToday] = useState(new dayjs());
   const dateSplit = editingSlot.meetingDay.split("/");
+  const slotDate = new dayjs()
+    .set("date", dateSplit[0])
+    .set("month", dateSplit[1] - 1)
+    .set("year", dateSplit[2]);
   const timeFormat = "HH:mm";
   const startTimeDayjs = new dayjs(editingSlot.startTime, timeFormat)
     .date(dateSplit[0])
@@ -45,230 +93,334 @@ export const EditingSlot = (props) => {
     .month(dateSplit[1] - 1)
     .year(dateSplit[2]);
 
-  //set form values
-  const formValues = {
-    ["id"]: editingSlot.id,
-    ["date"]: editingSlot.meetingDay,
-    ["startTime"]: startTimeDayjs,
-    ["endTime"]: endTimeDayjs,
-    ["mode"]: editingSlot.mode,
-    ["location"]: editingSlot.location, //Show many options
-    ["subject"]: editingSlot.subject, //can select many options
-    ["password"]: editingSlot.password,
+  //! state
+  const [date, setDate] = useState(slotDate);
+  const [start, setStart] = useState(startTimeDayjs);
+  const [end, setEnd] = useState(endTimeDayjs);
+  const [locationId, setLocationId] = useState(editingSlot.locationId);
+  const [password, setPassword] = useState(editingSlot.password);
+  const [selectedSubjects, setSelectedSubjects] = useState(
+    editingSlot.slotSubjectDTOS.map((subj) => subj.subjectCode)
+  );
+
+  //handle Date Change
+  const handleDateChange = (newDate) => {
+    console.log(today);
+    if (newDate < today) {
+      message.error("You can not set slot with past date");
+    } else {
+      setDate(newDate);
+      //set new date/month/year for start time & end time
+      setStart(
+        newDate.date(newDate.date()).month(newDate.month()).year(newDate.year())
+      );
+      setEnd(
+        newDate
+          .date(newDate.date())
+          .month(newDate.month())
+          .year(newDate.year())
+          .hour(end.hour())
+          .minute(end.minute())
+      );
+    }
   };
 
-  //handle cancel
-  const handleCancel = () => {
-    message.error("Canceled update slot");
-    setCreatedSlotView("");
+  //handle State time change
+  const handleStartChange = (newStart) => {
+    if (newStart < today.add(6, "hour")) {
+      message.error("Your changed time must be 6 hours from now");
+    } else {
+      setStart(newStart);
+      if (end.diff(newStart) < 900000) {
+        setEnd(newStart.add(15, "minute"));
+      }
+    }
   };
+
+  //handle End time change
+  const handleEndChange = (newEnd) => {
+    if (newEnd < start.add(15, "minute")) {
+      message.error("Slot must be at least 15 minutes");
+    } else {
+      setEnd(newEnd);
+    }
+  };
+
+  //handle Location change
+  const handleLocationChange = (newLoc) => {
+    setLocationId(newLoc);
+  };
+
+  //handle Password change
+  const handlePasswordChange = (e) => {
+    if (e.target.value.indexOf(" ") === -1) {
+      setPassword(e.target.value);
+    } else {
+      message.error("Password can not contain space");
+    }
+  };
+
+  //handle subject change
+  const handleSubjectChange = (newSubjectList) => {
+    setSelectedSubjects(newSubjectList);
+  };
+
+  
 
   //handle submit update
-  const handleSubmit = (data) => {
-    const now = new dayjs();
-    const mustCreateAfter = now.add(4, "hour");
+  const handleSubmit = () => {
+    //conver time to string
+    const dateString = `${date.$D < 10 ? `0${date.$D}` : date.$D}/${
+      date.$M + 1 < 10 ? `0${date.$M + 1}` : date.$M + 1
+    }/${date.$y}`;
+    const startString = `${start.$H < 10 ? `0${start.$H}` : start.$H}:${
+      start.$m < 10 ? `0${start.$m}` : start.$m
+    }:00`;
+    const endString = `${end.$H < 10 ? `0${end.$H}` : end.$H}:${
+      end.$m < 10 ? `0${end.$m}` : end.$m
+    }:00`;
 
-    //parse end time and start time from user input
-    const createDate = data.date,
-      startTime = data.startTime.second(0),
-      endTime = data.endTime.second(0);
-    const startTimeString = `${startTime.$H}:${
-      startTime.$m < 10 ? `0${startTime.$m}` : startTime.$m
-    }`;
-    const endTimeString = `${endTime.$H}:${
-      endTime.$m < 10 ? `0${endTime.$m}` : endTime.$m
-    }`;
+    //convert subject to correct syntax
+    const returnSubjectsList = selectedSubjects.map((subject) => {
+      return { subjectCode: subject };
+    });
 
-    //remove all space in password
-    // const passwordWithoutSpace = "";
-    // if (data.password !== null) {
-    //   passwordWithoutSpace = data.password.replace(" ", "");
-    // }
-
-    //check if start time < end time
-    const checkStartEnd = () => {
-      if (endTime > startTime) {
-        //Successful
-        //! Place fetching UPDATE API here
-
-        message.success(
-          `Updated slot ${data.date} ${startTime.$d.getHours()}:${
-            startTime.$d.getMinutes() < 10
-              ? "0" + startTime.$d.getMinutes()
-              : startTime.$d.getMinutes()
-          } - ${endTime.$d.getHours()}:${
-            endTime.$d.getMinutes() < 10
-              ? "0" + endTime.$d.getMinutes()
-              : endTime.$d.getMinutes()
-          }`
-        );
-
-        const result = {
-          id: data.id,
-          mode: data.mode,
-          subject: data.subject,
-          location: data.location,
-          password:
-            data.password === null || data.password === undefined
-              ? null
-              : data.password.trim() === ""
-              ? null
-              : data.password.trim(),
-          startTime: startTimeString,
-          endTime: endTimeString,
-        };
-        //TODO: For Backend
-        console.log(result);
-
-        //change view
-        setCreatedSlotView("");
-      } else {
-        // Error
-        message.error("START TIME must be earlier than END TIME");
-      }
-    };
-    //check if user change start time
-    if (startTime != startTimeDayjs) {
-      if (startTime < mustCreateAfter) {
-        message.error(
-          `START TIME must be AFTER ${mustCreateAfter.$d.getDate()}/${
-            mustCreateAfter.$d.getMonth() + 1
-          }/${
-            mustCreateAfter.$y
-          } ${mustCreateAfter.$d.getHours()}:${mustCreateAfter.$d.getMinutes()}`
-        );
-      } else {
-        checkStartEnd();
-      }
-    } else {
-      checkStartEnd();
+    const newSlot = {
+      id: editingSlot.id,
+      meetingDay: dateString,
+      startTime: startString,
+      endTime: endString,
+      locationId: locationId,
+      slotSubjectDTOS: returnSubjectsList,
+      password: password,
     }
+
+    console.log(newSlot);
   };
 
-  //submit antispam
-  const [clickSubmit, setClickSubmit] = useState(0);
-  //cooldown 3s if users click over 2 times
-  setTimeout(() => {
-    clickSubmit > 0 && setClickSubmit(clickSubmit - 1);
-  }, 3000);
-  //checker
-  const handleSubmitAntispam = (data) => {
-    clickSubmit === 2 && message.error("Please try again in 3 seconds");
-    clickSubmit < 3 && setClickSubmit(clickSubmit + 1);
-    if (clickSubmit < 2) {
-      handleSubmit(data);
-    }
-  };
-
-
-  //Handle location
-  //! location from API
-  const locations = [
-    { key: "jjj", name: "FPT" },
-    { key: "aaa", name: "NVH" },
-  ];
 
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        EDITTING SLOT
+        EDITING SLOT
+        {/* Back button */}
       </Title>
-      <Spin
-        spinning={subjectsLoading}
-        size="large"
-        tip="Preparing your data..."
+      <Button
+        // disabled={isLoading}
+        icon={<LeftOutlined />}
+        type="text"
+        onClick={() => setCreatedSlotView("")}
       >
-        <div className="editLocationForm">
-          <Form initialValues={formValues} onFinish={handleSubmitAntispam}>
-            {/* ID */}
-            <Form.Item name="id" label="ID" rules={[{ required: true }]}>
-              <Input disabled />
-            </Form.Item>
-            {/* Date */}
-            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-              <Input disabled />
-            </Form.Item>
-            {/* Start time */}
-            <Form.Item
-              name="startTime"
-              label="Start Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-            {/* End time */}
-            <Form.Item
-              name="endTime"
-              label="End Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-            <Form.Item name="mode" label="Mode" rules={[{ required: true }]}>
-              <Radio.Group>
-                <Radio.Button value="Manual approve">
-                  Manual approve
-                </Radio.Button>
-                <Radio.Button value="Accept the first Booker">
-                  Accept the first Booker
-                </Radio.Button>
-                <Radio.Button value="Assign student" disabled>
-                  Assign student
-                </Radio.Button>
-              </Radio.Group>
-            </Form.Item>
-
-            {/* Location */}
-            <Form.Item
-              name="location"
-              label="Location"
-              rules={[{ required: true }]}
-            >
-              <Select>
-                {locations.map((location) => {
-                  return <Option key={location.key}>{location.name}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-
-            {/* Subject */}
-            <Form.Item
-              name="subject"
-              label="Subject"
-              rules={[{ required: true }]}
-            >
-              <Select mode="multiple" allowClear>
-                {subjects.map((subject) => {
-                  return <Option key={subject.code}>{subject.code}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[{ required: false }]}
-            >
-              <Input />
-            </Form.Item>
-
-            {/* Cancel */}
-            <Form.Item>
-              <Button
-                onClick={handleCancel}
-                style={{ margin: "0 8px 0 0" }}
-                type="default"
-                danger
+        Back
+      </Button>
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* Date */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Date:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
               >
-                Cancel
+                <DatePicker
+                  style={{ width: "320px" }}
+                  value={date}
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) => handleDateChange(newDate)}
+                />
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Start */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Start:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <TimePicker
+                  style={{ width: "320px" }}
+                  format="HH:mm"
+                  value={start}
+                  onChange={(newStart) => handleStartChange(newStart)}
+                />
+              </Title>
+            </Col>
+          </Row>
+
+          {/* End */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                End:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <TimePicker
+                  style={{ width: "320px" }}
+                  value={end}
+                  format="HH:mm"
+                  onChange={(newEnd) => handleEndChange(newEnd)}
+                />
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Mode */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Mode:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Select
+                  style={Object.assign({ width: "320px" })}
+                  defaultValue={editingSlot.mode}
+                  disabled
+                >
+                  <Select.Option value={0}>Manual Approve</Select.Option>
+                  <Select.Option value={1}>
+                    Accept the first Booker
+                  </Select.Option>
+                  <Select.Option value={2}>Assign Student</Select.Option>
+                </Select>
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Location */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Location:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Select
+                  style={{ minWidth: "320px" }}
+                  className="editInput"
+                  value={locationId}
+                  options={pushLocationList(locationsList)}
+                  onChange={(newLoc) => handleLocationChange(newLoc)}
+                ></Select>
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Subject */}
+
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Subjects:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Spin spinning={subjectsLoading} tip="Preparing Subjects...">
+                <Title
+                  className="InfoText"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Select
+                    style={Object.assign(
+                      { minWidth: "320px" },
+                      { maxWidth: "320px" }
+                    )}
+                    mode="multiple"
+                    className="editInput"
+                    value={selectedSubjects}
+                    options={pushSubjectList(subjects)}
+                    onChange={(subjectsList) =>
+                      handleSubjectChange(subjectsList)
+                    }
+                  ></Select>
+                </Title>
+              </Spin>
+            </Col>
+          </Row>
+
+          {/* Password */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Password{" "}
+                <span style={Object.assign({ fontSize: "9px" })}>
+                  (Optional)
+                </span>
+              </Title>
+            </Col>
+            <Col xs={15} md={10} style={{ height: "25px" }}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={Object.assign(
+                  { fontWeight: "400" },
+                  { animation: "fade 0.2s ease-out" }
+                )}
+              >
+                <Input
+                  className="editInput"
+                  placeholder="Leave it empty if no password"
+                  style={{ width: "320px" }}
+                  showCount
+                  value={password}
+                  onChange={(e) => handlePasswordChange(e)}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
+
+          {/* Buttons */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}></Title>
+            </Col>
+            <Col xs={15} md={10}>
+              {/* Create */}
+              <Button
+                // disabled={subjectsLoading || isLoading}
+                type="primary"
+                style={{ margin: "12px 8px 0 0" }}
+                icon={<FormOutlined />}
+                onClick={handleSubmit}
+              >
+                Update
               </Button>
-              {/* Save */}
-              <Button type="primary" htmlType="submit">
-                Save
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      </Spin>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </>
   );
 };

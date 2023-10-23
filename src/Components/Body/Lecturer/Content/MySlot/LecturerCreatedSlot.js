@@ -27,8 +27,8 @@ export const LecturerCreatedSlot = () => {
   const [loading, setLoading] = useState(false);
   const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    if(sessionStorage.getItem('slots') !== null && sessionStorage.getItem('slots') !== undefined) {
-      setSlots(JSON.parse(sessionStorage.getItem("slots")));
+    if(localStorage.getItem('slots') !== null && localStorage.getItem('slots') !== undefined) {
+      setSlots(JSON.parse(localStorage.getItem("slots")));
       setHideLoading(true);
     } else {
       setLoading(true);
@@ -40,7 +40,7 @@ export const LecturerCreatedSlot = () => {
       .then(
         (response) => (
           setSlots(response.data.data),
-          sessionStorage.setItem("slots", JSON.stringify(response.data.data))
+          localStorage.setItem("slots", JSON.stringify(response.data.data))
         )
       )
       .catch((error) => console.log(error))
@@ -109,7 +109,7 @@ export const LecturerCreatedSlot = () => {
                 style={{ margin: "0 7px 0 0" }}
                 loading={hideLoading}
               >
-                {hideLoading ? "Checking for new slots" : "Refresh"}
+                {hideLoading ? "Checking for updates" : "Refresh"}
               </Button>
               <LecturerCreateSlotBtn
                 getData={getData}
@@ -118,7 +118,7 @@ export const LecturerCreatedSlot = () => {
             </div>
           </Title>
           {/* Tabs */}
-          <Spin spinning={loading} tip="Preparing Data...">
+          <Spin spinning={loading} tip="First loading may take some times...">
             <div className="createdSlotTabs">
               <Tabs defaultActiveKey="1" items={tabsObj} />
             </div>
