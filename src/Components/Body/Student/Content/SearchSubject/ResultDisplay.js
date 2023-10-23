@@ -4,13 +4,6 @@ import { useArray } from "../../../../../Hooks/All/useArray";
 import { useState } from "react";
 import axios from "axios";
 
-//Handle success -> Book -> export for popup input password
-export const BookingSuccess = (booking) => {
-  message.success(`Requets sent to ${booking.lecturer}`);
-  message.info(
-    `Slot Info: ${booking.date} ${booking.startTime} - ${booking.endTime}`
-  );
-};
 
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,

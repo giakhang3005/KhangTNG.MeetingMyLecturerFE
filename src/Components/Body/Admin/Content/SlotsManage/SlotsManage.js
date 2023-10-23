@@ -84,11 +84,11 @@ export function SlotsManage() {
       key: "7",
       title: "Status",
       render: (slot) => {
-        return slot.status ? (
+        return slot.toggle ? slot.status ? (
           <Tag color="green">Avaiable</Tag>
         ) : (
-          <Tag color="red">Unavaiable</Tag>
-        );
+          <Tag color="red">Not Avaiable</Tag>
+        ) : <Tag color="red">Deleted</Tag>
       },
     },
     {

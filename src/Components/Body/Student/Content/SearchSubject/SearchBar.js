@@ -138,7 +138,7 @@ export function SearchBar(props) {
     //end
     queryString += searchValue.to !== null ? `endDay=${searchValue.to}` : "";
 
-    // console.log(queryString);
+    console.log(queryString);
     //!Fetching
     setLoading(true);
     axios
