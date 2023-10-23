@@ -61,13 +61,14 @@ export function SearchBar(props) {
   };
 
   const handleOk = () => {
-    if (startDate === null) {
-      setStartDate(today);
-      setToDate(today);
+    if (fromDatePicker === null && toDatePicker !== null) {
+      setStartDate(new dayjs());
+      setToDate(toDatePicker);
     } else {
       setStartDate(fromDatePicker);
       setToDate(toDatePicker);
     }
+
     message.success("Saved Advanced option (Date)");
     setIsModalOpen(false);
   };
@@ -102,6 +103,7 @@ export function SearchBar(props) {
       start: startDateString,
       to: toDateString,
     };
+    console.log(recentSearchValue);
     setRecentSearch(recentSearchValue);
 
     //! handle search
@@ -202,7 +204,7 @@ export function SearchBar(props) {
             <Button
               style={{ margin: "0 0 0 4px" }}
               icon={
-                startDate === null ? (
+                startDate === null || toDate === null ? (
                   <CalendarFilled />
                 ) : (
                   <CarryOutFilled style={{ color: "green" }} />
@@ -212,7 +214,7 @@ export function SearchBar(props) {
             ></Button>
           </Popover>
         </Col>
-        <Col xs={2} style={{ margin: "0 0 0 8px" }}>
+        <Col xs={2} style={{ margin: "0 0 0 0" }}>
           <Button
             type="primary"
             icon={<SearchOutlined />}

@@ -19,6 +19,15 @@ export const CreatedSlotTableView = (props) => {
 
   const ArrayToString = useArray();
 
+  //convert status
+  const convertStatus = (status) => {
+    switch (status) {
+      case true:
+        return <Tag color="green">Avaiable</Tag>;
+      case false:
+        return <Tag color="red">Not Avaiable</Tag>;
+    }
+  };
   const columns = [
     // {
     //   key: "1",
@@ -87,6 +96,14 @@ export const CreatedSlotTableView = (props) => {
     },
     {
       key: "10",
+      title: "Status",
+      //location.id
+      render: (slot) => {
+        return convertStatus(slot.status)
+      }
+    },
+    {
+      key: "11",
       title: "",
       render: (slot) => {
         return (
