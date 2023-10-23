@@ -197,7 +197,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
     }
 
     setUpdateLoading(true)
-    console.log(JSON.stringify(newSlot));
+    // console.log(JSON.stringify(newSlot));
     axios.put(`https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`, newSlot)
     .then((res) => (message.success('Updated slot successfully'), getData()))
     .catch((err) => (message.error('Updated fail'), console.error(err) ))

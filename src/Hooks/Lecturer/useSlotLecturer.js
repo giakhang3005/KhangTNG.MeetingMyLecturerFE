@@ -44,7 +44,7 @@ export const useSlotLecturer = () => {
     setCreatedSlotView("create");
   };
 
-  const LecturerDeleteSlotFunction = (slot) => {
+  const LecturerDeleteSlotFunction = (slot, setDeleteLoading, getData) => {
     //Time handling
     const now = new dayjs();
     const dateSplit = slot.meetingDay.split("/");
@@ -66,9 +66,21 @@ export const useSlotLecturer = () => {
         if (slot.status === false) {
           message.error(`You can not delete Not Avaiable slot`);
         } else {
-          message.success(
-            `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
-          );
+          setDeleteLoading(true);
+          axios
+            .delete(
+              `https://meet-production-52c7.up.railway.app/api/v1/slot?id=${slot.id}`
+            )
+            .then(
+              (res) => (
+                message.success(
+                  `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
+                ),
+                getData()
+              )
+            )
+            .catch((err) => console.error(err))
+            .finally(() => setDeleteLoading(false));
         }
       }
     } else {

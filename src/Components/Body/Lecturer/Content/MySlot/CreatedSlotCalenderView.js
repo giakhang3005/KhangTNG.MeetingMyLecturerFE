@@ -1,4 +1,15 @@
-import { Empty, Button, Modal, message, Popover, Row, Col, Tag, Popconfirm } from "antd";
+import {
+  Empty,
+  Button,
+  Modal,
+  message,
+  Popover,
+  Row,
+  Col,
+  Tag,
+  Popconfirm,
+  Spin
+} from "antd";
 import { useEffect, useState } from "react";
 import {
   CaretLeftFilled,
@@ -97,16 +108,22 @@ export const LectuerCalenderView = (props) => {
     clickEdit === 2 && message.error("Please try again after 3 seconds");
     clickEdit < 3 && setClickEdit(clickEdit + 1);
     if (clickEdit < 2) {
-      LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot, getData);
+      LecturerEditSlotFunction(
+        slot,
+        setCreatedSlotView,
+        setEditingSlot,
+        getData
+      );
     }
   };
 
   //check spam for delete
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const handleClickDelete = (slot) => {
     clickDelete === 2 && message.error(`Please try again after 3 seconds`);
     clickDelete < 3 && setClickDelete(clickDelete + 1);
     if (clickDelete < 2) {
-      LecturerDeleteSlotFunction(slot);
+      LecturerDeleteSlotFunction(slot, setDeleteLoading, getData);
     }
   };
 
@@ -144,156 +161,157 @@ export const LectuerCalenderView = (props) => {
         <Button icon={<CalendarFilled />} onClick={handleOpenCalendar}></Button>
       </div>
 
-      {/*/ POPUP */}
-      {/* Popup Calender */}
-      <Modal
-        title="Calender"
-        open={open}
-        onOk={handleCalenderOk}
-        onCancel={() => setOpen(false)}
-      >
-        <LecturerCalender
-          onChoosingDate={onChoosingDate}
-          setOnChoosingDate={setOnChoosingDate}
-        />
-      </Modal>
+      <Spin spinning={deleteLoading}>
+        {/*/ POPUP */}
+        {/* Popup Calender */}
+        <Modal
+          title="Calender"
+          open={open}
+          onOk={handleCalenderOk}
+          onCancel={() => setOpen(false)}
+        >
+          <LecturerCalender
+            onChoosingDate={onChoosingDate}
+            setOnChoosingDate={setOnChoosingDate}
+          />
+        </Modal>
 
-      {/* Display week & slot */}
-      <div className="lecturerCreatedSlots">
-        {/* Display dates & days */}
-        {/* LecturerSelectedDates */}
-        {selectedWeek.map((weekDate, i) => {
-          return (
-            <ul key={i}>
-              <li>{weekDate.day}</li>
-              <li
-                className={
-                  weekDate.date === todayString ? "LecturerSelectedDates" : ""
-                }
-              >
-                {weekDate.date}
-              </li>
+        {/* Display week & slot */}
+        <div className="lecturerCreatedSlots">
+          {/* Display dates & days */}
+          {/* LecturerSelectedDates */}
+          {selectedWeek.map((weekDate, i) => {
+            return (
+              <ul key={i}>
+                <li>{weekDate.day}</li>
+                <li
+                  className={
+                    weekDate.date === todayString ? "LecturerSelectedDates" : ""
+                  }
+                >
+                  {weekDate.date}
+                </li>
 
-              {/* display created slot */}
-              {slots?.map((slot, key) => {
-                return (
-                  weekDate.date === slot.meetingDay && (
-                    // PopOver -> Appear when user hover
-                    <Popover
-                      key={key}
-                      // Header of PopOver
-                      title={
-                        <>
-                          <div className="hoverSlotInfo">
-                            <>SLOT INFO {convertStatus(slot.status)}</>
-                            <div>
-                              {/* Edit Button */}
-                              <EditOutlined
-                                onClick={() => handleClickEdit(slot)}
-                              />
-                              {/* Delete Button */}
-                              <Popconfirm
-                                placement="left"
-                                title="Are you sure want to delete this slot?"
-                                onConfirm={() => handleClickDelete(slot)}
-                              >
-                                <DeleteOutlined
-                                  style={Object.assign(
-                                    { color: "red" },
-                                    { margin: "0 0 0 14px" }
-                                  )}
+                {/* display created slot */}
+                {slots?.map((slot, key) => {
+                  return (
+                    weekDate.date === slot.meetingDay && (
+                      // PopOver -> Appear when user hover
+                      <Popover
+                        key={key}
+                        // Header of PopOver
+                        title={
+                          <>
+                            <div className="hoverSlotInfo">
+                              <>SLOT INFO {convertStatus(slot.status)}</>
+                              <div>
+                                {/* Edit Button */}
+                                <EditOutlined
+                                  onClick={() => handleClickEdit(slot)}
                                 />
-                              </Popconfirm>
+                                {/* Delete Button */}
+                                <Popconfirm
+                                  placement="left"
+                                  title="Are you sure want to delete this slot?"
+                                  onConfirm={() => handleClickDelete(slot)}
+                                >
+                                  <DeleteOutlined
+                                    style={Object.assign(
+                                      { color: "red" },
+                                      { margin: "0 0 0 14px" }
+                                    )}
+                                  />
+                                </Popconfirm>
+                              </div>
                             </div>
-                          </div>
-                        </>
-                      }
-                      // Body of PopOver
-                      content={
-                        <span
-                          style={Object.assign(
-                            { lineHeight: "30px" },
-                            { minWidth: "300px" }
-                          )}
-                        >
-                          <Row style={{ width: "300px" }}>
-                            <Col xs={7}>
-                              <b>ID:</b>
-                            </Col>
-                            <Col xs={17}>{slot.id}</Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Date:</b>
-                            </Col>
-                            <Col xs={17}> {slot.meetingDay} </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Time:</b>
-                            </Col>
-                            <Col xs={17}>
-                              {slot.startTime.slice(0, 5)} -{" "}
-                              {slot.endTime.slice(0, 5)}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Mode:</b>
-                            </Col>
-                            <Col xs={17}>{convertMode(slot.mode)}</Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Location:</b>
-                            </Col>
-                            <Col xs={17}> {slot.locationName}</Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Student:</b>
-                            </Col>
-                            <Col xs={17}>
-                              {slot.studentName === null
-                                ? "None"
-                                : slot.studentName}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Subject:</b>
-                            </Col>
-                            <Col xs={17}>
-                              {ArrayToString(
-                                slot.slotSubjectDTOS.map((subj) => {
-                                  return subj.subjectCode;
-                                })
-                              )}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={7}>
-                              <b>Password:</b>{" "}
-                            </Col>{" "}
-                            <Col xs={17}>{slot.password}</Col>
-                          </Row>
-                        </span>
-                      }
-                    >
-                      {/* Slot box appear in Week Calender */}
-                      <li className="slotDisplay" key={key}>
-                        {slot.startTime.slice(0, 5)} -{" "}
-                        {slot.endTime.slice(0, 5)}
-                      </li>
-                    </Popover>
-                  )
-                );
-              })}
-            </ul>
-          );
-        })}
-      </div>
-
+                          </>
+                        }
+                        // Body of PopOver
+                        content={
+                          <span
+                            style={Object.assign(
+                              { lineHeight: "30px" },
+                              { minWidth: "300px" }
+                            )}
+                          >
+                            <Row style={{ width: "300px" }}>
+                              <Col xs={7}>
+                                <b>ID:</b>
+                              </Col>
+                              <Col xs={17}>{slot.id}</Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Date:</b>
+                              </Col>
+                              <Col xs={17}> {slot.meetingDay} </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Time:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {slot.startTime.slice(0, 5)} -{" "}
+                                {slot.endTime.slice(0, 5)}
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Mode:</b>
+                              </Col>
+                              <Col xs={17}>{convertMode(slot.mode)}</Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Location:</b>
+                              </Col>
+                              <Col xs={17}> {slot.locationName}</Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Student:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {slot.studentName === null
+                                  ? "None"
+                                  : slot.studentName}
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Subject:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {ArrayToString(
+                                  slot.slotSubjectDTOS.map((subj) => {
+                                    return subj.subjectCode;
+                                  })
+                                )}
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Password:</b>{" "}
+                              </Col>{" "}
+                              <Col xs={17}>{slot.password}</Col>
+                            </Row>
+                          </span>
+                        }
+                      >
+                        {/* Slot box appear in Week Calender */}
+                        <li className="slotDisplay" key={key}>
+                          {slot.startTime.slice(0, 5)} -{" "}
+                          {slot.endTime.slice(0, 5)}
+                        </li>
+                      </Popover>
+                    )
+                  );
+                })}
+              </ul>
+            );
+          })}
+        </div>
+      </Spin>
       {/* No Slot display */}
       {slots.length === 0 && <Empty description="No slot found" />}
     </div>

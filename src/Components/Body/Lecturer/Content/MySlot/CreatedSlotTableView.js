@@ -146,55 +146,20 @@ export const CreatedSlotTableView = (props) => {
   };
 
   //check spam for delete
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const handleClickDelete = (slot) => {
     clickDelete === 2 && message.error(`Please try again after 3 seconds`);
     clickDelete < 3 && setClickDelete(clickDelete + 1);
     if (clickDelete < 2) {
-      LecturerDeleteSlotFunction(slot);
+      LecturerDeleteSlotFunction(slot, setDeleteLoading, getData);
     }
   };
-
-  //test data
-  const slotList = [
-    {
-      id: 1,
-      date: "30/09/2023",
-      startTime: "10:00",
-      endTime: "11:00",
-      mode: "Manual approve",
-      location: "FPT",
-      student: null,
-      subject: ["SWP391", "SWT301"],
-      password: null,
-    },
-    {
-      id: 2,
-      date: "27/09/2023",
-      startTime: "14:00",
-      endTime: "16:30",
-      mode: "Assign student",
-      location: "FPT",
-      student: "Tran Cong Lam (K17 HCM)",
-      subject: ["SWP391", "SWT301"],
-      password: "12345",
-    },
-    {
-      id: 3,
-      date: "30/09/2023",
-      startTime: "15:00",
-      endTime: "17:30",
-      mode: "Accept the first Booker",
-      location: "FPT",
-      student: "",
-      subject: ["SWT301"],
-      password: "12345",
-    },
-  ];
 
   return (
     <div className="tableviewcontainer">
       <Table
         className="tableOfLocations"
+        loading={deleteLoading}
         columns={columns}
         dataSource={slots}
         rowKey="id"

@@ -65,6 +65,7 @@ export const LecturerCreatedSlot = () => {
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
           slots={slots}
+          getData={getData}
         />
       ),
     },
@@ -76,6 +77,7 @@ export const LecturerCreatedSlot = () => {
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
           slots={slots}
+          getData={getData}
         />
       ),
     },
