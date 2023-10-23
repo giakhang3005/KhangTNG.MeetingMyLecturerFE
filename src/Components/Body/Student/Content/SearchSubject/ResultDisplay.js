@@ -70,7 +70,7 @@ export const ResultDisplay = (props) => {
     },
     {
       key: "7",
-      title: "Location",
+      title: "Subjects",
       render: (booking) => {
         return booking.slotSubjectDTOS.map((subj, i) => {
           return (
@@ -164,6 +164,7 @@ export const ResultDisplay = (props) => {
         loading={loading}
         rowKey="id"
         key="key"
+        style={{textAlign: 'center'}}
       ></Table>
     </>
   );

@@ -21,7 +21,8 @@ export const LectuerCalenderView = (props) => {
     setSelectedWeek = props.setSelectedWeek,
     setCreatedSlotView = props.setCreatedSlotView,
     setEditingSlot = props.setEditingSlot,
-    slots = props.slots;
+    slots = props.slots,
+    getData = props.getData;
 
   const day = new dayjs();
   const todayString = `${day.$D < 10 ? `0${day.$D}` : day.$D}/${
@@ -96,7 +97,7 @@ export const LectuerCalenderView = (props) => {
     clickEdit === 2 && message.error("Please try again after 3 seconds");
     clickEdit < 3 && setClickEdit(clickEdit + 1);
     if (clickEdit < 2) {
-      LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot);
+      LecturerEditSlotFunction(slot, setCreatedSlotView, setEditingSlot, getData);
     }
   };
 

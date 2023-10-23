@@ -24,7 +24,7 @@ export function CreateSlotForm({
   locationsList,
   setCreatedSlotView,
   setIsLoading,
-  getData
+  getData,
 }) {
   const { Title } = Typography;
   const { user } = useContext(Data);
@@ -182,7 +182,11 @@ export function CreateSlotForm({
           )
           .then(
             (res) => (
-              message.success("Created successfully"), getData(), setCreatedSlotView("")
+              console.log(res),
+              res.data.status === "error" && message.error(res.data.message),
+              message.success("Created successfully"),
+              getData(),
+              setCreatedSlotView("")
             )
           )
           .catch((err) => console.error(err))

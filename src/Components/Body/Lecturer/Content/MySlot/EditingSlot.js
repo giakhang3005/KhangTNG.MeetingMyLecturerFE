@@ -16,13 +16,13 @@ import dayjs from "dayjs";
 import { Data } from "../../../Body";
 import axios from "axios";
 
-export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
+export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
   const { user } = useContext(Data);
   //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
-  const getData = () => {
+  const getSubjects = () => {
     if (
       localStorage.getItem("subjects") !== null &&
       localStorage.getItem("subjects") !== undefined
@@ -53,7 +53,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
       .catch((err) => console.log(err));
   };
   useEffect(() => {
-    getData();
+    getSubjects();
     getLocations();
   }, []);
 
@@ -105,7 +105,6 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
 
   //handle Date Change
   const handleDateChange = (newDate) => {
-    console.log(today);
     if (newDate < today) {
       message.error("You can not set slot with past date");
     } else {
@@ -168,6 +167,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
   
 
   //handle submit update
+  const [updateLoading, setUpdateLoading] = useState(false)
   const handleSubmit = () => {
     //conver time to string
     const dateString = `${date.$D < 10 ? `0${date.$D}` : date.$D}/${
@@ -193,9 +193,15 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
       locationId: locationId,
       slotSubjectDTOS: returnSubjectsList,
       password: password,
+      lecturerId: user.id,
     }
 
-    console.log(newSlot);
+    setUpdateLoading(true)
+    console.log(JSON.stringify(newSlot));
+    axios.put(`https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`, newSlot)
+    .then((res) => (message.success('Updated slot successfully'), getData()))
+    .catch((err) => (message.error('Updated fail'), console.error(err) ))
+    .finally(() => setUpdateLoading(false))
   };
 
 
@@ -206,7 +212,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
         {/* Back button */}
       </Title>
       <Button
-        // disabled={isLoading}
+        disabled={updateLoading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setCreatedSlotView("")}
@@ -414,6 +420,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView }) => {
                 style={{ margin: "12px 8px 0 0" }}
                 icon={<FormOutlined />}
                 onClick={handleSubmit}
+                loading={updateLoading}
               >
                 Update
               </Button>

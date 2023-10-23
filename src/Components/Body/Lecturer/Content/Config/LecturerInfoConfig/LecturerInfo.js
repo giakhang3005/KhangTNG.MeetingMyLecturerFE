@@ -23,19 +23,30 @@ export function LecturerInfo() {
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
   const getSubjects = () => {
-    setSubjectsLoading(true);
-    axios
-      .get("https://meet-production-52c7.up.railway.app/api/subject/status")
-      .then((response) => setSubjects(response.data))
-      .catch((error) => console.error(error))
-      .finally(() => setSubjectsLoading(false));
+    if (
+      localStorage.getItem("subjects") !== null &&
+      localStorage.getItem("subjects") !== undefined
+    ) {
+      setSubjects(JSON.parse(localStorage.getItem("subjects")));
+    } else {
+      setSubjectsLoading(true);
+      axios
+        .get("https://meet-production-52c7.up.railway.app/api/subject/status")
+        .then(
+          (response) => (
+            setSubjects(response.data),
+            localStorage.setItem("subjects", JSON.stringify(response.data))
+          )
+        )
+        .finally(() => setSubjectsLoading(false));
+    }
   };
 
   //! users info from API
   const [lecturer, setLecturer] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const getLecturer = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     axios
       .get(
         `https://meet-production-52c7.up.railway.app/api/lecturer/${user.email}`
