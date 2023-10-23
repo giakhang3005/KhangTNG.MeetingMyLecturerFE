@@ -167,28 +167,26 @@ export function CreateSlotForm({
       //validation empty
       let locErr = false,
         SubjErr = false;
-      console.log(newSlot.locationId === {});
       newSlot.locationId === null && (locErr = true);
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
 
       if (!SubjErr && !locErr) {
         setIsLoading(true);
-        console.log(newSlot);
         // console.log(JSON.stringify(newSlot));
         axios
           .post(
             "https://meet-production-52c7.up.railway.app/api/v1/slot",
             newSlot
           )
-          .then(
-            (res) => (
-              console.log(res),
-              res.data.status === "error" && message.error(res.data.message),
-              message.success("Created successfully"),
-              getData(),
-              setCreatedSlotView("")
-            )
-          )
+          .then((res) => {
+            if (res.data.data === "error") {
+              message.error(res.data.message);
+            } else {
+              message.success("Created successfully");
+              getData();
+              setCreatedSlotView("");
+            }
+          })
           .catch((err) => console.error(err))
           .finally(() => setIsLoading(false));
       } else {
