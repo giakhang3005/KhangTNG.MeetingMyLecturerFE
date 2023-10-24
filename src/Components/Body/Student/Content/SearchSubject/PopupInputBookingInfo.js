@@ -20,8 +20,8 @@ export function PopupInputPassword(props) {
         : null;
 
     const bookingDeal = {
-      userId: user.id,
-      slotId: isSelectedSlot.id,
+      studentInfo: {studentId: user.id},
+      slotInfo: { id: isSelectedSlot.id },
       note: note,
     };
 
@@ -39,12 +39,16 @@ export function PopupInputPassword(props) {
       console.log(JSON.stringify(bookingDeal));
       setLoading(true);
       axios
-        .post(`https://meet-production-52c7.up.railway.app/api/booking`, bookingDeal)
-        .then((res) =>
-          (message.success(
-            `Booking successfully, please wait for lecturer ${isSelectedSlot.lecturerName} to respond`
-          ),
-          setIsSelectedSlot([])
+        .post(
+          `https://meet-production-52c7.up.railway.app/api/booking`,
+          bookingDeal
+        )
+        .then(
+          (res) => (
+            message.success(
+              `Booking successfully, please wait for lecturer ${isSelectedSlot.lecturerName} to respond`
+            ),
+            setIsSelectedSlot([])
           )
         )
         .catch((err) => console.error(err))
@@ -262,7 +266,9 @@ export function PopupInputPassword(props) {
                 <Title
                   className="InfoText id"
                   level={5}
-                  style={Object.assign(Object.assign({ fontWeight: "400" }, {minHeight: '65px'}))}
+                  style={Object.assign(
+                    Object.assign({ fontWeight: "400" }, { minHeight: "65px" })
+                  )}
                 >
                   <Input.TextArea
                     placeholder="Questions for lecturer or Introduce about yourself"
