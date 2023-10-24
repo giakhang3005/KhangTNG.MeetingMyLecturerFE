@@ -27,5 +27,25 @@ export const useExcel = () => {
     });
   };
 
-  return {exportExcel, getBase64};
+  const readExcelFile = (file, setFile) => {
+    const reader = new FileReader();
+  
+    reader.onload = e => {
+      const data = e.target.result;
+      const workbook = XLSX.read(data, { type: 'binary' });
+      const sheetName = workbook.SheetNames[0];
+      const excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+      // console.log('Excel Data:', excelData);
+  
+      // Now you have 'excelData' that you can use or further process
+      // message.success('Excel file read successfully');
+
+      setFile(excelData)
+    };
+  
+    reader.readAsBinaryString(file);
+  };
+
+  return {exportExcel, readExcelFile};
 };
+

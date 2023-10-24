@@ -11,46 +11,13 @@ import dayjs from "dayjs";
 
 export function UploadExcel({ subjects, locationsList }) {
   const { Dragger } = Upload;
-  const { exportExcel } = useExcel();
-
-  const [file, setFile] = useState([]);
-  const [uploading, setUploading] = useState(false);
-
-  //dragger props
-  const props = {
-    beforeUpload: (fileIn) => {
-      setFile(fileIn);
-      return false;
-    },
-    file,
-  };
-
-  //onChange
-  const handleChange = (file) => {
-    console.log(file)
-  };
-
-  //Submit
-  const handleUpload = () => {
-    // setUploading(true);
-    // axios.post('XXXXX', file)
-    //   .then((res) => res.json())
-    //   .then(() => {
-    //     setFile({});
-    //     message.success('upload successfully.');
-    //   })
-    //   .catch((err) => {
-    //     message.error('upload failed.');
-    //     console.log
-    //   })
-    //   .finally(() => {
-    //     setUploading(false);
-    //   });
-  };
+  const { exportExcel, readExcelFile } = useExcel();
 
   const handleExportMaterials = () => {
     const today = new dayjs();
-    const todayString = `[MML] Materials ${today.$D}_${today.$M+1}_${today.$y}`;
+    const todayString = `[MML] Materials ${today.$D}_${today.$M + 1}_${
+      today.$y
+    }`;
 
     //data
     const downloadSubjectsList = subjects.map((subject) => {
@@ -115,6 +82,25 @@ export function UploadExcel({ subjects, locationsList }) {
     ];
     exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template");
   };
+
+  
+
+  const [uploadedData, setUploadedData] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const props = {
+    onRemove: () => {
+      setUploadedData([])
+    },
+    beforeUpload: (file) => {
+     readExcelFile(file, setUploadedData);
+      return false;
+    },
+  };
+
+
+  const handleUpload = () => {
+    console.log(uploadedData)
+  };
   return (
     <div className="requestsInfo">
       <Row style={{ margin: "15px 0 40px 0" }}>
@@ -125,7 +111,7 @@ export function UploadExcel({ subjects, locationsList }) {
             type="file"
             accept=".xlsx"
             maxCount={1}
-            onChange={(file) => handleChange(file)}
+            // onChange={(file) => handleChange(file)}
             style={Object.assign({ width: "100%" })}
           >
             <p className="ant-upload-drag-icon">
@@ -180,7 +166,7 @@ export function UploadExcel({ subjects, locationsList }) {
           <Button
             type="primary"
             onClick={handleUpload}
-            disabled={file.length === 0}
+            disabled={uploadedData?.length === 0}
             loading={uploading}
             style={Object.assign(
               { width: "100%" },
@@ -188,7 +174,7 @@ export function UploadExcel({ subjects, locationsList }) {
               { margin: "0 0 0 5px" }
             )}
           >
-            {uploading ? "Uploading" : "Start Upload"}
+            {uploading ? "Uploading..." : "Start Upload"}
           </Button>
         </Col>
       </Row>
