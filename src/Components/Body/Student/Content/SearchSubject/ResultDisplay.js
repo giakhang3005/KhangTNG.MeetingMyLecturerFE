@@ -1,9 +1,9 @@
 import { Button, Table, message, Popover, Alert, Tag } from "antd";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-
+import { Data } from "../../../Body";
 
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,
@@ -14,6 +14,8 @@ export const ResultDisplay = (props) => {
     recentSearch = props.recentSearch,
     BookingList = props.BookingList,
     loading = props.loading;
+
+  const { user } = useContext(Data);
 
   //table variables
   const columns = [
@@ -58,7 +60,12 @@ export const ResultDisplay = (props) => {
       key: "6",
       title: "Location",
       render: (booking) => {
-        return <Popover content={booking.locationAddress}> <Tag color="green">{booking.locationName}</Tag></Popover>;
+        return (
+          <Popover content={booking.locationAddress}>
+            {" "}
+            <Tag color="green">{booking.locationName}</Tag>
+          </Popover>
+        );
       },
     },
     {
@@ -113,18 +120,22 @@ export const ResultDisplay = (props) => {
   ];
 
   //handle book action
+  const [checkingLoading, setCheckingLoading] = useState(false)
   const Book = (booking) => {
-    //!fetch...... -> return true/false (1)
-    const bookAldreadyID = 3;
-    //check if user booked aldredy or not
-    //if (1) return true -> show aldready booked message
-    if (booking.id === bookAldreadyID) {
-      message.error(
-        "You have booked this slot aldready, please check the 'Requests sent' category to view booking status!"
-      );
-    } else {
-      setIsSelectedSlot(booking);
-    }
+    setCheckingLoading(true)
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/booking/exists?studentId=${user.id}&slotId=${booking.id}`
+      )
+      .then((res) =>
+        res.data.exists
+          ? message.error(
+              "You have booked this slot aldready, please check the 'Requests sent' category to view booking status!"
+            )
+          : setIsSelectedSlot(booking)
+      )
+      .catch((err) => console.error(err))
+      .finally(() => setCheckingLoading(false))
   };
 
   return (
@@ -154,10 +165,10 @@ export const ResultDisplay = (props) => {
         className="tableOfLocations"
         columns={columns}
         dataSource={BookingList}
-        loading={loading}
+        loading={loading || checkingLoading}
         rowKey="id"
         key="key"
-        style={{textAlign: 'center'}}
+        style={{ textAlign: "center" }}
       ></Table>
     </>
   );

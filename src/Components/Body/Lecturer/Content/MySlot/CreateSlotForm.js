@@ -172,7 +172,7 @@ export function CreateSlotForm({
 
       if (!SubjErr && !locErr) {
         setIsLoading(true);
-        // console.log(JSON.stringify(newSlot));
+        console.log(JSON.stringify(newSlot));
         axios
           .post(
             "https://meet-production-52c7.up.railway.app/api/v1/slot",

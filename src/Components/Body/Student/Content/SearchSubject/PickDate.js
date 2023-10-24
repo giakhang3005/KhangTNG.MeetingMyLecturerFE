@@ -82,7 +82,7 @@ export function PickDate(props) {
           <DatePicker
             format="DD/MM/YYYY"
             onChange={onChangeFromDate}
-            value={fromDatePicker === null ? today : fromDatePicker}
+            value={fromDatePicker === null ? null : fromDatePicker}
           />
         </Col>
 
@@ -104,7 +104,7 @@ export function PickDate(props) {
           <DatePicker
             format="DD/MM/YYYY"
             onChange={onChangeToDate}
-            value={toDatePicker === null ? today : toDatePicker}
+            value={toDatePicker === null ? null : toDatePicker}
           />
         </Col>
 

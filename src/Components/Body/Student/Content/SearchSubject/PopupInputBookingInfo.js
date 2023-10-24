@@ -36,13 +36,15 @@ export function PopupInputPassword(props) {
 
     //! Fetch
     if (!passwordErr && !noteErr) {
-      console.log(bookingDeal);
+      console.log(JSON.stringify(bookingDeal));
       setLoading(true);
       axios
-        .post(``)
+        .post(`https://meet-production-52c7.up.railway.app/api/booking`, bookingDeal)
         .then((res) =>
-          message.success(
+          (message.success(
             `Booking successfully, please wait for lecturer ${isSelectedSlot.lecturerName} to respond`
+          ),
+          setIsSelectedSlot([])
           )
         )
         .catch((err) => console.error(err))
@@ -260,13 +262,14 @@ export function PopupInputPassword(props) {
                 <Title
                   className="InfoText id"
                   level={5}
-                  style={Object.assign({ fontWeight: "400" })}
+                  style={Object.assign(Object.assign({ fontWeight: "400" }, {minHeight: '65px'}))}
                 >
                   <Input.TextArea
                     placeholder="Questions for lecturer or Introduce about yourself"
                     className="editInput"
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
+                    showCount
                   ></Input.TextArea>
                 </Title>
               </Col>
@@ -283,7 +286,7 @@ export function PopupInputPassword(props) {
               <Col xs={15} md={10}>
                 <Title className="InfoText id" level={5}>
                   <Button
-                    // loading={loading}
+                    loading={loading}
                     type="primary"
                     icon={<FormOutlined />}
                     onClick={handleSubmit}
