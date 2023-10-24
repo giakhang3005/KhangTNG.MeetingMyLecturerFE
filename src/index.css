@@ -10,6 +10,11 @@ body {
   text-align: center !important;
 } */
 
+*::selection {
+  background: #ff946d;
+  color: white;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -39,7 +39,7 @@ export const StatisticNumber = () => {
       {/* Total booking */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
-          <Statistic prefix={<SnippetsOutlined />} title="Total Bookings" value={loading ? "-" : statisticNum.totalBookings} />
+          <Statistic prefix={<SnippetsOutlined />} title="Total Bookings" value={loading ? "-" : statisticNum.totalBooking} />
         </Card>
       </Col>
 

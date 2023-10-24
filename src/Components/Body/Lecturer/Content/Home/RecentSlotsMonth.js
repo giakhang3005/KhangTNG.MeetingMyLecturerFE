@@ -23,14 +23,6 @@ export const RecentSlotsMonth = () => {
   useEffect(() => {
     getData();
   }, []);
-  const data = [
-    { month: "January", slots: 3 },
-    { month: "Febuary", slots: 2 },
-    { month: "March", slots: 5 },
-    { month: "April", slots: 9 },
-    { month: "May", slots: 0 },
-    { month: "June", slots: 15 },
-  ];
   return (
     <div className="Chart">
       <Title level={4}>Number of slots in recent months</Title>

@@ -11,7 +11,7 @@ export const RecentMeetingMonth = () => {
   const getData = () => {
     axios
       .get(
-        `https://meet-production-52c7.up.railway.app/api/lecturer/graph/${user.id}`
+        `https://meet-production-52c7.up.railway.app/api/v1/student/graph/${user.id}`
       )
       .then((response) => setGraphData(response.data.reverse()))
       .catch((error) => console.error(error));

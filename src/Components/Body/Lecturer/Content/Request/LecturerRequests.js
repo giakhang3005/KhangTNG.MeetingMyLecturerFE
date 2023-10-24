@@ -1,5 +1,9 @@
 import { Button, Typography, Table, message, Popover, Tag } from "antd";
-import { CheckCircleFilled, CloseCircleFilled, RedoOutlined } from "@ant-design/icons";
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  RedoOutlined,
+} from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useState, useEffect, useContext } from "react";
 import { Data } from "../../../Body";
@@ -94,7 +98,7 @@ export const LecturerRequests = () => {
       render: (booking) => {
         return (
           <Popover content={booking.slotInfo.locationAddress}>
-            {booking.slotInfo.locationName}
+            <Tag color="green">{booking.slotInfo.locationName}</Tag>
           </Popover>
         );
       },
@@ -132,18 +136,22 @@ export const LecturerRequests = () => {
       render: (booking) => {
         return (
           <>
-            <CheckCircleFilled
-              style={Object.assign(
-                { color: "green" },
-                { fontSize: "22px" },
-                { margin: "0 7px 0 0" }
-              )}
-              onClick={() => acceptBooking(booking)}
-            />
+            <Popover content="Accept">
+              <CheckCircleFilled
+                style={Object.assign(
+                  { color: "green" },
+                  { fontSize: "22px" },
+                  { margin: "0 7px 0 0" }
+                )}
+                onClick={() => acceptBooking(booking)}
+              />
+            </Popover>
+            <Popover content="Decline">
             <CloseCircleFilled
               style={Object.assign({ color: "red" }, { fontSize: "22px" })}
               onClick={() => declineBooking(booking)}
             />
+            </Popover>
           </>
         );
       },
@@ -209,7 +217,7 @@ export const LecturerRequests = () => {
   const refresh = () => {
     getData();
     getNumberOfRequests();
-  }
+  };
 
   return (
     <>
