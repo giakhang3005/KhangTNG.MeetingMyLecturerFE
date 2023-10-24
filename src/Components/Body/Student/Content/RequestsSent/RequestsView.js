@@ -20,8 +20,8 @@ export const RequestsView = (props) => {
   const getData = () => {
     setLoading(true);
     axios
-      .get(`https://meet-production-52c7.up.railway.app/api/booking/status/${user.id}`)
-      .then((response) => (console.log(response.data), setLoading(false)))
+      .get(`https://meet-production-52c7.up.railway.app/api/booking/${user.id}`)
+      .then((response) => (setRequestsList(response.data), setLoading(false)))
       .catch((err) => (console.error(err), setLoading(false)));
   };
 
@@ -79,7 +79,7 @@ export const RequestsView = (props) => {
     <>
       <Title className="sectionTitle" level={3}>
         REQUESTS SENT
-        <Button icon={<ReloadOutlined />} onClick={getData}>
+        <Button icon={<ReloadOutlined />} onClick={getData} loading={loading}>
           Refresh
         </Button>
       </Title>

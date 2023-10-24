@@ -54,8 +54,8 @@ export function RequestsInfo(props) {
         note: inputNote?.trim(),
       };
 
-      if (updateData.note.length <= 0 || updateData.note === null) {
-        message.error("Note can not be empty");
+      if (updateData.note.length < 20 || updateData.note === null) {
+        message.error("Note must be at least 20 characters long");
       } else {
         setLoading(true);
         axios
@@ -122,7 +122,7 @@ export function RequestsInfo(props) {
           <Col xs={1}></Col>
           <Col xs={23}>
             {/* ID */}
-            <Row>
+            {/* <Row>
               <Col xs={9} md={3}>
                 <Title className="InfoText" level={5}>
                   ID:
@@ -137,7 +137,7 @@ export function RequestsInfo(props) {
                   {isSelectedBooking.id}
                 </Title>
               </Col>
-            </Row>
+            </Row> */}
 
             {/* Lecturer */}
             <Row>
@@ -225,7 +225,8 @@ export function RequestsInfo(props) {
                   style={{ fontWeight: "400" }}
                 >
                   {isSelectedBooking.slotInfo.locationName}{" "}
-                  <i style={{ fontSize: "14px" }}>
+                  <br/>
+                  <i style={{ fontSize: "13px" }}>
                     ({isSelectedBooking.slotInfo.locationAddress})
                   </i>
                 </Title>
@@ -247,7 +248,7 @@ export function RequestsInfo(props) {
                 >
                   {isSelectedBooking.subjectSlot.map((subject, i) => {
                     return (
-                      <Tag color="orange" key={i}>
+                      <Tag color="volcano" key={i}>
                         {subject.subjectCode}
                       </Tag>
                     );
@@ -304,7 +305,7 @@ export function RequestsInfo(props) {
                         "Questions, Notes for lecturer"
                       }
                       disabled={isSelectedBooking.status !== 1}
-                      maxLength={250}
+                      // maxLength={250}
                       showCount
                     />
                   </Popover>

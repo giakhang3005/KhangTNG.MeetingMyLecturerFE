@@ -103,7 +103,7 @@ export function SearchBar(props) {
       start: startDateString,
       to: toDateString,
     };
-    console.log(recentSearchValue);
+    // console.log(recentSearchValue);
     setRecentSearch(recentSearchValue);
 
     //! handle search
@@ -138,7 +138,7 @@ export function SearchBar(props) {
     //end
     queryString += searchValue.to !== null ? `endDay=${searchValue.to}` : "";
 
-    console.log(queryString);
+    // console.log(queryString);
     //!Fetching
     setLoading(true);
     axios

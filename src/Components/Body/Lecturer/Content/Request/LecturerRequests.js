@@ -1,5 +1,5 @@
 import { Button, Typography, Table, message, Popover, Tag } from "antd";
-import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, RedoOutlined } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useState, useEffect, useContext } from "react";
 import { Data } from "../../../Body";
@@ -159,12 +159,23 @@ export const LecturerRequests = () => {
       },
       status: 2,
     };
-    
-    setLoading(true)
-    axios.put(`https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`, result)
-    .then((response) => (message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`), getData()))
-    .catch((error) => (console.error(error)))
-    .finally(() => setLoading(false));
+
+    setLoading(true);
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`,
+        result
+      )
+      .then(
+        (response) => (
+          message.success(
+            `Accepted ${booking.studentInfo.studentName}'s Booking`
+          ),
+          getData()
+        )
+      )
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   };
 
   //handle delete click
@@ -176,20 +187,43 @@ export const LecturerRequests = () => {
       },
       status: 0,
     };
-    
-    setLoading(true)
-    axios.put(`https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`, result)
-    .then((response) => (message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`), getData()))
-    .catch((error) => (console.error(error)))
-    .finally(() => setLoading(false));
+
+    setLoading(true);
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`,
+        result
+      )
+      .then(
+        (response) => (
+          message.success(
+            `Accepted ${booking.studentInfo.studentName}'s Booking`
+          ),
+          getData()
+        )
+      )
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   };
+
+  const refresh = () => {
+    getData();
+    getNumberOfRequests();
+  }
 
   return (
     <>
       <Title className="sectionTitle" level={3}>
         BOOKING REQUESTS ({numOfRequests})
+        <Button
+          onClick={refresh}
+          icon={<RedoOutlined />}
+          style={{ margin: "0 7px 0 0" }}
+          loading={loading}
+        >
+          {loading ? "Checking for updates" : "Refresh"}
+        </Button>
       </Title>
-
       <Table
         className="tableOfLocations"
         columns={columns}
