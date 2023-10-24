@@ -27,7 +27,7 @@ export const LecturerCreatedSlot = () => {
   const [loading, setLoading] = useState(false);
   const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    if(localStorage.getItem('slots') !== null && localStorage.getItem('slots') !== undefined) {
+    if(localStorage.getItem('slots') !== null && localStorage.getItem('slots') !== "undefined") {
       setSlots(JSON.parse(localStorage.getItem("slots")));
       setHideLoading(true);
     } else {

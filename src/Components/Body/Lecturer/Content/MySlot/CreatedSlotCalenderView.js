@@ -313,7 +313,7 @@ export const LectuerCalenderView = (props) => {
         </div>
       </Spin>
       {/* No Slot display */}
-      {slots.length === 0 && <Empty description="No slot found" />}
+      {slots?.length === 0 && <Empty description="No slot found" />}
     </div>
   );
 };
