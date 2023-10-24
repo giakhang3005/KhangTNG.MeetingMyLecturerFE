@@ -14,7 +14,7 @@ export function SlotsManage() {
   const getData = () => {
     if (
       localStorage.getItem("Aslots") !== null &&
-      localStorage.getItem("Aslots") !== undefined
+      localStorage.getItem("Aslots") !== "undefined"
     ) {
       setHideLoading(true);
       setSlotList(JSON.parse(localStorage.getItem("Aslots")));

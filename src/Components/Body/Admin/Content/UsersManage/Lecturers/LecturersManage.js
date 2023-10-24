@@ -15,7 +15,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
   const getData = () => {
     if (
       localStorage.getItem("Alecturers") !== null &&
-      localStorage.getItem("Alecturers") !== undefined
+      localStorage.getItem("Alecturers") !== "undefined"
     ) {
       setHideLoading(true);
       setLecturerList(JSON.parse(localStorage.getItem("Alecturers")));

@@ -24,7 +24,7 @@ export const CreatingSlot = (props) => {
   const getSubjects = () => {
     if (
       localStorage.getItem("subjects") !== null &&
-      localStorage.getItem("subjects") !== undefined
+      localStorage.getItem("subjects") !== "undefined"
     ) {
       setSubjects(JSON.parse(localStorage.getItem("subjects")));
     } else {

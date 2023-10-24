@@ -17,7 +17,7 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
   const getData = () => {
     if (
       localStorage.getItem("Amajors") !== null &&
-      localStorage.getItem("Amajors") !== undefined
+      localStorage.getItem("Amajors") !== "undefined"
     ) {
       setHideLoading(true);
       setMajors(JSON.parse(localStorage.getItem("Amajors")));

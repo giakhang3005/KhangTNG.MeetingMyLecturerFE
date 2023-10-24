@@ -20,7 +20,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
   const getData = () => {
     if (
       localStorage.getItem("Asubjects") !== null &&
-      localStorage.getItem("Asubjects") !== undefined
+      localStorage.getItem("Asubjects") !== "undefined"
     ) {
       setHideLoading(true);
       setSubjects(JSON.parse(localStorage.getItem("Asubjects")));

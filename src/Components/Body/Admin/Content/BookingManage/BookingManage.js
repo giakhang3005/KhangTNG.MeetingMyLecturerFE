@@ -16,7 +16,7 @@ export function BookingManage() {
   const getData = () => {
     if (
       localStorage.getItem("Abooking") !== null &&
-      localStorage.getItem("Abooking") !== undefined
+      localStorage.getItem("Abooking") !== "undefined"
     ) {
       setHideLoading(true);
       setBookingList(JSON.parse(localStorage.getItem("Abooking")));

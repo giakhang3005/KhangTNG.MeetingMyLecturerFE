@@ -28,7 +28,7 @@ export function SearchBar(props) {
   useEffect(() => {
     if (
       localStorage.getItem("subjects") !== null &&
-      localStorage.getItem("subjects") !== undefined
+      localStorage.getItem("subjects") !== "undefined"
     ) {
       setSubjects(JSON.parse(localStorage.getItem("subjects")));
     } else {

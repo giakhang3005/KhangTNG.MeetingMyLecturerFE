@@ -12,7 +12,7 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
   const getData = () => {
     if (
       localStorage.getItem("Astudents") !== null &&
-      localStorage.getItem("Astudents") !== undefined
+      localStorage.getItem("Astudents") !== "undefined"
     ) {
       setHideLoading(true);
       setStudentList(JSON.parse(localStorage.getItem("Astudents")));

@@ -38,7 +38,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
   const getData = () => {
     if (
       localStorage.getItem("Ausers") !== null &&
-      localStorage.getItem("Ausers") !== undefined
+      localStorage.getItem("Ausers") !== "undefined"
     ) {
       setHideLoading(true);
       setUsers(JSON.parse(localStorage.getItem("Ausers")));

@@ -29,7 +29,7 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
   const getData = () => {
     if (
       localStorage.getItem("Alocations") !== null &&
-      localStorage.getItem("Alocations") !== undefined
+      localStorage.getItem("Alocations") !== "undefined"
     ) {
       setHideLoading(true);
       setLocations(JSON.parse(localStorage.getItem("Alocations")));

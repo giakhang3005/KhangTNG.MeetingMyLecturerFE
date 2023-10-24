@@ -32,11 +32,11 @@ export const StatisticNumber = () => {
       {/* Total Hours */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
-          <Statistic prefix={<HourglassOutlined />} title="Meeting time" value={loading ? "-" : statisticNum.totalHours === null ? "0" : statisticNum.totalHours} />
+          <Statistic prefix={<HourglassOutlined />} title="Total time" value={loading ? "-" : statisticNum.totalHours === null ? "0" : statisticNum.totalHours} />
         </Card>
       </Col>
 
-      {/* Total Locations */}
+      {/* Total booking */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
           <Statistic prefix={<SnippetsOutlined />} title="Total Bookings" value={loading ? "-" : statisticNum.totalBookings} />
