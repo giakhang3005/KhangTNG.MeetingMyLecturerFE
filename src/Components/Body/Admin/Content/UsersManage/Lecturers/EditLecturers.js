@@ -84,7 +84,9 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
       ? (phoneErr = false)
       : (phoneErr = true);
 
-    const validEmail = validateEmail(newLecturer.email) && !newLecturer.email?.includes(fptEmail);
+    const validEmail =
+      validateEmail(newLecturer.email) &&
+      !newLecturer.email?.includes(fptEmail);
 
     !phoneErr && validEmail ? (
       axios
@@ -106,7 +108,10 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
       <>
         {phoneErr &&
           message.error("Phone number must contain 10 or 11 numbers")}
-        {!validEmail && message.error("You must enter a valid email address and not FPT Email")}
+        {!validEmail &&
+          message.error(
+            "You must enter a valid email address and not FPT Email"
+          )}
         {setLoading(false)}
       </>
     );
@@ -143,88 +148,89 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
         Back
       </Button>
 
-      <Spin spinning={loading}>
-        <Row className="requestsInfo">
-          <Col xs={1}></Col>
-          <Col xs={23}>
-            {/* NAME */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Name:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    disabled
-                    className="editInput"
-                    defaultValue={lecturerEdit.name}
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
+      <Row className="requestsInfo">
+        <Col xs={1}></Col>
+        <Col xs={23}>
+          {/* NAME */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Name:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  disabled
+                  className="editInput"
+                  defaultValue={lecturerEdit.name}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
 
-            {/* PHONE */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Phone:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    className="editInput"
-                    defaultValue={lecturerEdit.phone}
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
+          {/* PHONE */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Phone:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  className="editInput"
+                  defaultValue={lecturerEdit.phone}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
 
-            {/* EMAIL */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Email:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  <Input
-                    disabled
-                    className="editInput"
-                    defaultValue={lecturerEdit.email}
-                  ></Input>
-                </Title>
-              </Col>
-            </Row>
+          {/* EMAIL */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Email:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Input
+                  disabled
+                  className="editInput"
+                  defaultValue={lecturerEdit.email}
+                ></Input>
+              </Title>
+            </Col>
+          </Row>
 
-            {/* Subjects */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText" level={5}>
-                  Teaching:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
+          {/* Subjects */}
+
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}>
+                Teaching:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Spin spinning={loading} tip="Preparing Subjects...">
                   <Select
                     style={{ width: "100%" }}
                     mode="multiple"
@@ -236,85 +242,85 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                     options={selectSubjectsList}
                     onChange={(subjects) => handleSubjectChange(subjects)}
                   ></Select>
-                </Title>
-              </Col>
-            </Row>
+                </Spin>
+              </Title>
+            </Col>
+          </Row>
 
-            {/* Locations */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Locations:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  {lecturerEdit.locationList?.length === 0 ? (
-                    <>No location</>
-                  ) : (
-                    lecturerEdit.locationList.map((location, i) => {
-                      return (
-                        <Popover key={i} content={location.locationAddress}>
-                          <Tag color="orange">{location.locationName}</Tag>
-                        </Popover>
-                      );
-                    })
-                  )}
-                </Title>
-              </Col>
-            </Row>
+          {/* Locations */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Locations:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                {lecturerEdit.locationList?.length === 0 ? (
+                  <>No location</>
+                ) : (
+                  lecturerEdit.locationList.map((location, i) => {
+                    return (
+                      <Popover key={i} content={location.locationAddress}>
+                        <Tag color="orange">{location.locationName}</Tag>
+                      </Popover>
+                    );
+                  })
+                )}
+              </Title>
+            </Col>
+          </Row>
 
-            {/* NOTE */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Note:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={Object.assign(
-                    { fontWeight: "400" },
-                    { minHeight: "70px" }
-                  )}
-                >
-                  <Input.TextArea
-                    maxLength={200}
-                    showCount
-                    className="editInput"
-                    defaultValue={lecturerEdit.note}
-                  ></Input.TextArea>
-                </Title>
-              </Col>
-            </Row>
+          {/* NOTE */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Note:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={Object.assign(
+                  { fontWeight: "400" },
+                  { minHeight: "70px" }
+                )}
+              >
+                <Input.TextArea
+                  maxLength={200}
+                  showCount
+                  className="editInput"
+                  defaultValue={lecturerEdit.note}
+                ></Input.TextArea>
+              </Title>
+            </Col>
+          </Row>
 
-            {/* Buttons */}
-            <Row>
-              <Col xs={9} md={3}>
-                <Title className="InfoText" level={5}></Title>
-              </Col>
-              <Col xs={15} md={10}>
-                {/* Update note */}
-                <Button
-                  loading={loading}
-                  type="primary"
-                  style={{ margin: "12px 8px 0 0" }}
-                  icon={<FormOutlined />}
-                  onClick={handleSubmit}
-                >
-                  Update
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Spin>
+          {/* Buttons */}
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText" level={5}></Title>
+            </Col>
+            <Col xs={15} md={10}>
+              {/* Update note */}
+              <Button
+                loading={loading}
+                type="primary"
+                style={{ margin: "12px 8px 0 0" }}
+                icon={<FormOutlined />}
+                onClick={handleSubmit}
+              >
+                Update
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </>
   );
 }

@@ -147,10 +147,10 @@ export const LecturerRequests = () => {
               />
             </Popover>
             <Popover content="Decline">
-            <CloseCircleFilled
-              style={Object.assign({ color: "red" }, { fontSize: "22px" })}
-              onClick={() => declineBooking(booking)}
-            />
+              <CloseCircleFilled
+                style={Object.assign({ color: "red" }, { fontSize: "22px" })}
+                onClick={() => declineBooking(booking)}
+              />
             </Popover>
           </>
         );
@@ -179,11 +179,10 @@ export const LecturerRequests = () => {
           message.success(
             `Accepted ${booking.studentInfo.studentName}'s Booking`
           ),
-          getData()
+          refresh()
         )
       )
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .catch((error) => (console.error(error), setLoading(false)))
   };
 
   //handle delete click
@@ -202,16 +201,11 @@ export const LecturerRequests = () => {
         `https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`,
         result
       )
-      .then(
-        (response) => (
-          message.success(
-            `Accepted ${booking.studentInfo.studentName}'s Booking`
-          ),
-          getData()
-        )
+      .then((response) =>
+        message.success(`Declined ${booking.studentInfo.studentName}'s Booking`)
       )
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .then(() => refresh())
+      .catch((error) => (console.error(error), setLoading(false)))
   };
 
   const refresh = () => {

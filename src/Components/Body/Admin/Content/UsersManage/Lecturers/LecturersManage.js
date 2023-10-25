@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Table, Typography, Tag, Popover, Button } from "antd";
-import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
+import { ConsoleSqlOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useArray } from "../../../../../../Hooks/All/useArray";
 import axios from "axios";
 
@@ -30,7 +30,7 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
           localStorage.setItem("Alecturers", JSON.stringify(response.data))
         )
       )
-      .catch((error) => (console.error(error), setLoading(false)))
+      .catch((error) => (console.error(error), setLoading(false), setLecturerList([])))
       .finally(() => (setLoading(false), setHideLoading(false)));
   };
   useEffect(() => {
@@ -69,12 +69,12 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
       key: "5",
       title: "Teaching",
       render: (lecturer) => {
-        const subjectCodeList = lecturer.subjectList.map((subject) => {
+        const subjectCodeList = lecturer.subjectList?.map((subject) => {
           return subject.subjectCode;
         });
         return (
           <Popover content={ArrayToString(subjectCodeList)}>
-            <Tag color="volcano">{`${subjectCodeList.length} subjects`}</Tag>
+            <Tag color="volcano">{`${subjectCodeList?.length} subjects`}</Tag>
           </Popover>
         );
       },
@@ -83,10 +83,10 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
       key: "6",
       title: "Location",
       render: (lecturer) => {
-        return lecturer.locationList.map((location, i) => {
+        return lecturer.locationList?.map((location, i) => {
           return (
-            <Popover key={i} content={location.locationAddress}>
-              <Tag color="orange">{location.locationName}</Tag>
+            <Popover key={i} content={location?.locationAddress}>
+              <Tag color="orange">{location?.locationName}</Tag>
             </Popover>
           );
         });

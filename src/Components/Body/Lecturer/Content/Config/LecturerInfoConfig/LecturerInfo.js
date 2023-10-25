@@ -226,7 +226,7 @@ export function LecturerInfo() {
                     className="editInput"
                     value={lecturer?.email}
                     onChange={(e) => handleEmailChange(e)}
-                    disabled={lecturer?.email?.includes(fptEmail)}
+                    disabled
                   ></Input>
                 </Title>
               </Col>

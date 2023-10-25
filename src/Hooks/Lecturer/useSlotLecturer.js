@@ -76,7 +76,7 @@ export const useSlotLecturer = () => {
                 message.success(
                   `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
                 ),
-                message.info('It may take sometimes to refresh the slot view '),
+                message.info('It may take times to refresh the slot view '),
                 getData()
               )
             )

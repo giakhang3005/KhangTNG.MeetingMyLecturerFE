@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Upload, message, Button, Col, Row, Popover } from "antd";
+import { Upload, message, Button, Col, Row, Popover, Spin } from "antd";
 import {
   UploadOutlined,
   DownloadOutlined,
@@ -83,48 +83,51 @@ export function UploadExcel({ subjects, locationsList }) {
     exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template");
   };
 
-  
-
   const [uploadedData, setUploadedData] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const props = {
     onRemove: () => {
-      setUploadedData([])
+      setUploadedData([]);
     },
     beforeUpload: (file) => {
-     readExcelFile(file, setUploadedData);
+      setLoading(true);
+      readExcelFile(file, setUploadedData, setLoading);
       return false;
     },
   };
 
-
   const handleUpload = () => {
-    console.log(uploadedData)
+    console.log(JSON.stringify(uploadedData));
   };
   return (
     <div className="requestsInfo">
       <Row style={{ margin: "15px 0 40px 0" }}>
         <Col xs={4}></Col>
+
         <Col xs={16}>
-          <Dragger
-            {...props}
-            type="file"
-            accept=".xlsx"
-            maxCount={1}
-            // onChange={(file) => handleChange(file)}
-            style={Object.assign({ width: "100%" })}
-          >
-            <p className="ant-upload-drag-icon">
-              <UploadOutlined />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag the excel (.xlsx) file to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              You can only upload 1 file at a time, but in your excel file can
-              contain multiple slots. Your file must follow the <b>Template</b>.
-            </p>
-          </Dragger>
+          <Spin spinning={loading}>
+            <Dragger
+              {...props}
+              type="file"
+              accept=".xlsx"
+              maxCount={1}
+              // onChange={(file) => handleChange(file)}
+              style={Object.assign({ width: "100%" })}
+            >
+              <p className="ant-upload-drag-icon">
+                <UploadOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag the excel (.xlsx) file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                You can only upload 1 file at a time, but in your excel file can
+                contain multiple slots. Your file must follow the{" "}
+                <b>Template</b>.
+              </p>
+            </Dragger>
+          </Spin>
         </Col>
       </Row>
 

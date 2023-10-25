@@ -27,7 +27,7 @@ export const useExcel = () => {
     });
   };
 
-  const readExcelFile = (file, setFile) => {
+  const readExcelFile = (file, setFile, setLoading) => {
     const reader = new FileReader();
   
     reader.onload = e => {
@@ -39,8 +39,8 @@ export const useExcel = () => {
   
       // Now you have 'excelData' that you can use or further process
       // message.success('Excel file read successfully');
-
       setFile(excelData)
+      setLoading(false)
     };
   
     reader.readAsBinaryString(file);
