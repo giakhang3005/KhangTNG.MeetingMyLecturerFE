@@ -18,7 +18,8 @@ import axios from "axios";
 
 export function RequestsInfo(props) {
   const isSelectedBooking = props.isSelectedBooking,
-    setRequestsView = props.setRequestsView;
+    setRequestsView = props.setRequestsView,
+    getData = props.getData;
 
   const noteRef = useRef(null);
 
@@ -32,9 +33,9 @@ export function RequestsInfo(props) {
   //check for status & return tag
   const setStatusTag = (status) => {
     switch (status) {
-      case "accept":
+      case 2:
         return <Accept />;
-      case "decline":
+      case 0:
         return <Decline />;
       default:
         return <Pending />;
@@ -63,8 +64,10 @@ export function RequestsInfo(props) {
             `https://meet-production-52c7.up.railway.app/api/booking/${updateData.id}`,
             updateData
           )
-          .then((res) =>
-            message.success("Updated Successfully", setLoading(false))
+          .then(
+            (res) => (message.success("Updated Successfully"),
+            setLoading(false),
+            getData())
           )
           .catch((err) => (console.log(err), setLoading(false)));
       }
@@ -92,10 +95,16 @@ export function RequestsInfo(props) {
   const handleDeleteBooking = () => {
     if (isSelectedBooking.status === 1) {
       setLoading(true);
-      axios.delete(`https://meet-production-52c7.up.railway.app/api/booking/${isSelectedBooking.id}`)
-      .then(message.success('Deleted successfully'), setRequestsView('sentRequests'))
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(true))
+      axios
+        .delete(
+          `https://meet-production-52c7.up.railway.app/api/booking/${isSelectedBooking.id}`
+        )
+        .then(
+          message.success("Deleted successfully"),
+          setRequestsView("sentRequests")
+        )
+        .catch((err) => console.error(err))
+        .finally(() => (setLoading(false), getData()));
     } else {
       message.error("You can only delete pending booking requests");
     }
@@ -224,8 +233,7 @@ export function RequestsInfo(props) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  {isSelectedBooking.slotInfo.locationName}{" "}
-                  <br/>
+                  {isSelectedBooking.slotInfo.locationName} <br />
                   <i style={{ fontSize: "13px" }}>
                     ({isSelectedBooking.slotInfo.locationAddress})
                   </i>

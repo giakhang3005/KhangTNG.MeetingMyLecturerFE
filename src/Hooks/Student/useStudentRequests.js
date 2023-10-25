@@ -46,11 +46,11 @@ export const useStudentRequests = () => {
 
   const tableColumn = (setRequestsView, setIsSelectedBooking) => {
     return [
-      {
-        key: "1",
-        title: "ID",
-        dataIndex: "id",
-      },
+      // {
+      //   key: "1",
+      //   title: "ID",
+      //   dataIndex: "id",
+      // },
       {
         key: "2",
         title: "Date",

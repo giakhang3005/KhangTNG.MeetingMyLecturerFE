@@ -5,25 +5,17 @@ import { RequestsViewAll } from "./RequestsViewAll";
 import { RequestsViewPending } from "./RequestsViewPending";
 import { RequestsViewAccepted } from "./RequestsViewAccepted";
 import { RequestsViewDeclined } from "./RequestsViewDeclined";
-import axios from "axios";
-import { Data } from "../../../Body";
 
-export const RequestsView = (props) => {
-  const setIsSelectedBooking = props.setIsSelectedBooking,
-    setRequestsView = props.setRequestsView;
 
+export const RequestsView = ({
+  setIsSelectedBooking,
+  setRequestsView,
+  hideLoading,
+  loading,
+  requestsList,
+  getData,
+}) => {
   const { Title } = Typography;
-  const { user } = useContext(Data);
-  const [loading, setLoading] = useState(false);
-  const [requestsList, setRequestsList] = useState([]);
-
-  const getData = () => {
-    setLoading(true);
-    axios
-      .get(`https://meet-production-52c7.up.railway.app/api/booking/${user.id}`)
-      .then((response) => (setRequestsList(response.data), setLoading(false)))
-      .catch((err) => (console.error(err), setLoading(false)));
-  };
 
   useEffect(() => {
     getData();
@@ -79,8 +71,12 @@ export const RequestsView = (props) => {
     <>
       <Title className="sectionTitle" level={3}>
         REQUESTS SENT
-        <Button icon={<ReloadOutlined />} onClick={getData} loading={loading}>
-          Refresh
+        <Button
+          icon={<ReloadOutlined />}
+          onClick={getData}
+          loading={loading || hideLoading}
+        >
+          {hideLoading ? "Checking for updates..." : "Refresh"}
         </Button>
       </Title>
       <Spin spinning={loading}>

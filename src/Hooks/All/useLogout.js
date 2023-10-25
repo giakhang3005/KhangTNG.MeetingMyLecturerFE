@@ -19,6 +19,9 @@ export const useLogOut = () => {
       }
       if (user.role === "student") {
         localStorage.removeItem("subjects");
+        localStorage.removeItem("sentRequests");
+        localStorage.removeItem("upcommingMeeting");
+        localStorage.removeItem("pastMeeting");
       }
       if (user.role === "admin") {
         localStorage.removeItem("Aslots");

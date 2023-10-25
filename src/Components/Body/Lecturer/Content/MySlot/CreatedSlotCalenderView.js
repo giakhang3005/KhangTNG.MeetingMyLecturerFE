@@ -143,9 +143,9 @@ export const LectuerCalenderView = (props) => {
   const convertStatus = (status) => {
     switch (status) {
       case true:
-        return <Tag color="green">Avaiable</Tag>;
+        return <Tag color="green">Available</Tag>;
       case false:
-        return <Tag color="red">Not Avaiable</Tag>;
+        return <Tag color="red">Not Available</Tag>;
     }
   };
 
@@ -299,7 +299,7 @@ export const LectuerCalenderView = (props) => {
                         }
                       >
                         {/* Slot box appear in Week Calender */}
-                        <li className="slotDisplay" key={key}>
+                        <li className={`slotDisplay ${slot.status && "slotDisplayAvaiable"}`} key={key}>
                           {slot.startTime.slice(0, 5)} -{" "}
                           {slot.endTime.slice(0, 5)}
                         </li>

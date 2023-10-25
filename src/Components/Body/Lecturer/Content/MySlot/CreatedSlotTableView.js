@@ -23,9 +23,9 @@ export const CreatedSlotTableView = (props) => {
   const convertStatus = (status) => {
     switch (status) {
       case true:
-        return <Tag color="green">Avaiable</Tag>;
+        return <Tag color="green">Available</Tag>;
       case false:
-        return <Tag color="red">Not Avaiable</Tag>;
+        return <Tag color="red">Not Available</Tag>;
     }
   };
   const columns = [

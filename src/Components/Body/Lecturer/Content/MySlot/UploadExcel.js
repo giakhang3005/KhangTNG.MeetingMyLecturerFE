@@ -174,7 +174,9 @@ export function UploadExcel({ subjects, locationsList }) {
             style={Object.assign(
               { width: "100%" },
               { height: "68px" },
-              { margin: "0 0 0 5px" }
+              { margin: "0 0 0 5px" },
+              {fontSize : "15px"},
+              {fontWeight: 600}
             )}
           >
             {uploading ? "Uploading..." : "Start Upload"}

@@ -142,6 +142,7 @@
   animation: fade 0.3s linear;
 }
 .slotDisplay {
+  position: relative;
   margin: 12.9px 3px 22px 0;
   padding: 10px 0 10px 0;
   border: 1px solid rgb(225, 225, 225);
@@ -149,8 +150,21 @@
   cursor: pointer;
   transition: all 0.2s ease-out;
   background: #fffcfb;
-  box-shadow: 0px 0px 4px grey inset;
+  box-shadow: 0px 0px 4px #fc5d5d inset;
 }
+.slotDisplayAvaiable {
+  box-shadow: 0px 0px 4px green inset;
+}
+/* .slotDisplay::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  width: 7px;
+  height: 7px;
+  background: #ff8282;
+  border-radius: 50%;
+} */
 .slotDisplay:hover {
   color: white;
   background: #fd7d1a;

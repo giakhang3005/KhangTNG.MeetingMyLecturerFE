@@ -16,6 +16,7 @@ export const LecturerRequests = () => {
 
   const [numOfRequests, setNumOfRequests] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(false);
   const getNumberOfRequests = () => {
     axios
       .get(
@@ -27,14 +28,14 @@ export const LecturerRequests = () => {
 
   const [BookingList, setBookingList] = useState([]);
   const getData = () => {
-    setLoading(true);
+    setFetchLoading(true);
     axios
       .get(
         `https://meet-production-52c7.up.railway.app/api/booking/pending/${user.id}`
       )
       .then((response) => setBookingList(response.data))
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => setFetchLoading(false));
   };
 
   useEffect(() => {
@@ -174,15 +175,12 @@ export const LecturerRequests = () => {
         `https://meet-production-52c7.up.railway.app/api/booking/status/${result.id}`,
         result
       )
-      .then(
-        (response) => (
-          message.success(
-            `Accepted ${booking.studentInfo.studentName}'s Booking`
-          ),
-          refresh()
-        )
+      .then((response) =>
+        message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`)
       )
-      .catch((error) => (console.error(error), setLoading(false)))
+      .then(() => refresh())
+      .catch((error) => (console.error(error)))
+      .finally(() => setLoading(false))
   };
 
   //handle delete click
@@ -205,7 +203,8 @@ export const LecturerRequests = () => {
         message.success(`Declined ${booking.studentInfo.studentName}'s Booking`)
       )
       .then(() => refresh())
-      .catch((error) => (console.error(error), setLoading(false)))
+      .catch((error) => (console.error(error)))
+      .finally(() => setLoading(false))
   };
 
   const refresh = () => {
@@ -230,7 +229,7 @@ export const LecturerRequests = () => {
         className="tableOfLocations"
         columns={columns}
         dataSource={BookingList}
-        loading={loading}
+        loading={loading || fetchLoading}
         rowKey="id"
         key="key"
       ></Table>
