@@ -1,6 +1,15 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-import { Button, Alert, Form, Input, Typography, message } from "antd";
+import {
+  Button,
+  Alert,
+  Form,
+  Input,
+  Typography,
+  message,
+  Row,
+  Col,
+} from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Data } from "../Body";
@@ -36,10 +45,8 @@ export const Login = () => {
           }
         )
         .then((res) => {
-          //! validate @fpt.edu.vn 
-          if (
-            res.data.email?.includes(fptEmail)
-          ) {
+          //! validate @fpt.edu.vn
+          if (res.data.email?.includes(fptEmail)) {
             setCheckMailErr(false);
             const userFromGg = res.data;
             //! call database, if database does not exist -> add data to database (default role: student)
@@ -196,22 +203,54 @@ export const Login = () => {
         <Title className="loginTitle" level={3}>
           Login Form
         </Title>
-        <Form.Item
-          name="userId"
-          label="UserID"
-          className="input"
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          className="input"
-          rules={[{ required: true }]}
-        >
-          <Input.Password />
-        </Form.Item>
+        <Row>
+          <Col xs={7}>
+            <Title
+              level={5}
+              style={Object.assign(
+                { margin: "0 0 32px 0" },
+                { padding: 0 },
+                { textAlign: "left" }
+              )}
+            >
+              UserID<span style={{ color: "red" }}> *</span>
+            </Title>
+          </Col>
+          <Col xs={1}></Col>
+          <Col xs={16}>
+            <Form.Item
+              name="userId"
+              style={Object.assign({ margin: 0 }, { padding: 0 })}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={7}>
+            <Title
+              level={5}
+              style={Object.assign(
+                { margin: "0 0 32px 0" },
+                { padding: 0 },
+                { textAlign: "left" }
+              )}
+            >
+              Password<span style={{ color: "red" }}> *</span>
+            </Title>
+          </Col>
+          <Col xs={1}></Col>
+          <Col xs={16}>
+            <Form.Item
+              name="password"
+              style={Object.assign({ margin: 0 }, { padding: 0 })}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
         <Form.Item>
           <Button
             loading={loading}
