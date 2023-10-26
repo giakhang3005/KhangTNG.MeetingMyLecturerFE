@@ -10,6 +10,7 @@ import {
   TimePicker,
   Select,
   Spin,
+  Checkbox,
 } from "antd";
 import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -63,6 +64,7 @@ export function CreateSlotForm({
   const [locationId, setLocationId] = useState(null);
   const [studentEmail, setStudentEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [hasPassword, setHasPassword] = useState(false);
 
   //handle Date Change
   const handleDateChange = (newDate) => {
@@ -156,7 +158,7 @@ export function CreateSlotForm({
       studentEmail: mode === 2 ? studentEmail : null,
       locationId: locationId,
       slotSubjectDTOS: returnSubjectsList,
-      password: password === "" ? null : password,
+      password: !hasPassword ? null : password,
       // toggle: true,
       // status: true,
     };
@@ -166,11 +168,13 @@ export function CreateSlotForm({
     } else {
       //validation empty
       let locErr = false,
-        SubjErr = false;
+        SubjErr = false,
+        passErr = false;
       newSlot.locationId === null && (locErr = true);
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
+      hasPassword && (newSlot.password?.length === 0 || newSlot.password === null) && (passErr = true);
 
-      if (!SubjErr && !locErr) {
+      if (!SubjErr && !locErr && !passErr) {
         setIsLoading(true);
         console.log(newSlot);
         axios
@@ -191,6 +195,7 @@ export function CreateSlotForm({
           .finally(() => setIsLoading(false));
       } else {
         message.error("Location and Subject are required");
+        passErr && message.error("You have enabled Passcode, please do not leave it empty")
       }
     }
   };
@@ -380,9 +385,12 @@ export function CreateSlotForm({
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
-                Password{" "}
+                Passcode{" "}
                 <span style={Object.assign({ fontSize: "9px" })}>
-                  (Optional)
+                  <Checkbox
+                    value={hasPassword}
+                    onChange={() => setHasPassword(!hasPassword)}
+                  ></Checkbox>
                 </span>
               </Title>
             </Col>
@@ -395,14 +403,15 @@ export function CreateSlotForm({
                   { animation: "fade 0.2s ease-out" }
                 )}
               >
-                <Input
-                  className="editInput"
-                  placeholder="Leave it empty if no password"
-                  style={{ width: "320px" }}
-                  showCount
-                  value={password}
-                  onChange={(e) => handlePasswordChange(e)}
-                ></Input>
+                {hasPassword && (
+                  <Input
+                    className="editInput animateBox"
+                    style={{ width: "320px" }}
+                    showCount
+                    value={password}
+                    onChange={(e) => handlePasswordChange(e)}
+                  ></Input>
+                )}
               </Title>
             </Col>
           </Row>

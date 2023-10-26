@@ -27,7 +27,10 @@ export const LecturerCreatedSlot = () => {
   const [loading, setLoading] = useState(false);
   const [hideLoading, setHideLoading] = useState(false);
   const getData = () => {
-    if(localStorage.getItem('slots') !== null && localStorage.getItem('slots') !== "undefined") {
+    if (
+      localStorage.getItem("slots") !== null &&
+      localStorage.getItem("slots") !== "undefined"
+    ) {
       setSlots(JSON.parse(localStorage.getItem("slots")));
       setHideLoading(true);
     } else {
@@ -54,14 +57,10 @@ export const LecturerCreatedSlot = () => {
   //Tab of Views
   const tabsObj = [
     {
-      label: "Calender View",
-      key: "calenderView",
+      label: "Table View",
+      key: "tableView",
       children: (
-        <LectuerCalenderView
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          selectedWeek={selectedWeek}
-          setSelectedWeek={setSelectedWeek}
+        <CreatedSlotTableView
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
           slots={slots}
@@ -70,10 +69,14 @@ export const LecturerCreatedSlot = () => {
       ),
     },
     {
-      label: "Table View",
-      key: "tableView",
+      label: "Calender View",
+      key: "calenderView",
       children: (
-        <CreatedSlotTableView
+        <LectuerCalenderView
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          selectedWeek={selectedWeek}
+          setSelectedWeek={setSelectedWeek}
           setCreatedSlotView={setCreatedSlotView}
           setEditingSlot={setEditingSlot}
           slots={slots}

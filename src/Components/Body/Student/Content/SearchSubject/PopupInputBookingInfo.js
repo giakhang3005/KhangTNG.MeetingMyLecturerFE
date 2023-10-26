@@ -20,7 +20,7 @@ export function PopupInputPassword(props) {
         : null;
 
     const bookingDeal = {
-      studentInfo: {studentId: user.id},
+      studentInfo: { studentId: user.id },
       slotInfo: { id: isSelectedSlot.id },
       note: note,
     };
@@ -232,7 +232,7 @@ export function PopupInputPassword(props) {
               <Row>
                 <Col xs={9} md={3}>
                   <Title className="InfoText ID" level={5}>
-                    Password: <span style={{ color: "red" }}>*</span>
+                    Passcode: <span style={{ color: "red" }}>*</span>
                   </Title>
                 </Col>
                 <Col xs={15} md={10}>

@@ -122,7 +122,7 @@ export const useStudentRequests = () => {
         render: (booking) => {
           return (
             <>
-              <Popover content="Click to view more booking info">
+              <Popover content="Click to view more booking info" placement="left">
                 <InfoCircleFilled
                   style={Object.assign(
                     { color: "#1c62d4" },

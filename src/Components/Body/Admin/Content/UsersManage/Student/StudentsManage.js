@@ -39,28 +39,33 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
   };
 
   const columns = [
+    // {
+    //   key: "1",
+    //   title: "ID",
+    //   dataIndex: "id",
+    // },
     {
-      key: "1",
+      key: "2",
       title: "Name",
       dataIndex: "name",
     },
     {
-      key: "2",
+      key: "3",
       title: "MSSV",
       dataIndex: "code",
     },
     {
-      key: "3",
+      key: "4",
       title: "DOB",
       dataIndex: "dob",
     },
     {
-      key: "4",
+      key: "5",
       title: "Phone",
       dataIndex: "phone",
     },
     {
-      key: "5",
+      key: "6",
       title: "Email",
       dataIndex: "email",
     },
@@ -110,6 +115,17 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
         </Button>
       </Title>
       <Table
+         expandable={{
+          expandedRowRender: (record) => (
+            <p
+              style={{
+                margin: 0,
+              }}
+            >
+              ID: {record.id}
+            </p>
+          ),
+        }}
         className="tableOfLocations"
         columns={columns}
         dataSource={studentList}

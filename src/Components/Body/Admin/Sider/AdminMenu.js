@@ -21,12 +21,12 @@ export const AdminMenu = () => {
   //Item for menu
   const menuItems = [
     { label: "Home", icon: <HomeFilled />, key: "adminDashboard" },
-    { label: "Slots", icon: <NotificationOutlined />, key: "slotsManage" },
-    {
-      label: "Bookings",
-      icon: <SnippetsOutlined />,
-      key: "bookingsManage",
-    },
+    // { label: "Slots", icon: <NotificationOutlined />, key: "slotsManage" },
+    // {
+    //   label: "Bookings",
+    //   icon: <SnippetsOutlined />,
+    //   key: "bookingsManage",
+    // },
     { label: "Majors", icon: <ProfileOutlined />, key: "majorsManage" },
     { label: "Subjects", icon: <BookOutlined />, key: "subjectsManage" },
     {
@@ -35,10 +35,10 @@ export const AdminMenu = () => {
       key: "publicLocationsManage",
     },
     {
-      label: "Users",
+      label: "Profile",
       key: null,
       children: [
-        { label: "All", icon: <TeamOutlined />, key: "usersManage" },
+        { label: "Users", icon: <TeamOutlined />, key: "usersManage" },
         {
           label: "Lecturers",
           icon: <SolutionOutlined />,

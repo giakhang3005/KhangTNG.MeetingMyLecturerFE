@@ -97,7 +97,6 @@ export const CreatedSlotTableView = (props) => {
     {
       key: "10",
       title: "Status",
-      //location.id
       render: (slot) => {
         return convertStatus(slot.status)
       }

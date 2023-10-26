@@ -90,7 +90,7 @@ export const ResultDisplay = (props) => {
           <>
             {/* Slot does not have password */}
             {booking.password === null || booking.password === "" ? (
-              <Popover content="Click to send a booking request!">
+              <Popover content="Click to send a booking request!" placement="left">
                 <UnlockFilled
                   style={Object.assign(
                     { color: "green" },
@@ -102,7 +102,7 @@ export const ResultDisplay = (props) => {
               </Popover>
             ) : (
               // Slot have password
-              <Popover content="This slot have a password, Click to enter password!">
+              <Popover content="This slot have a Passcode, Click to enter Passcode!" placement="left">
                 <LockFilled
                   style={Object.assign(
                     { color: "red" },

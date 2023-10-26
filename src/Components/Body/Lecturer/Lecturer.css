@@ -197,7 +197,7 @@
 }
 .displayGraph {
   position: absolute;
-  top: 35px;
+
   left: 50%;
   transform: translate(-50%, 0);
 }
@@ -243,6 +243,19 @@
   }
   .editLocationForm Form {
     width: 90%;
+  }
+}
+.animateBox {
+  animation: anibox 0.2s linear;
+}
+@keyframes anibox {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 @keyframes menu {

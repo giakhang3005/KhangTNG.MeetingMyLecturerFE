@@ -51,6 +51,7 @@ export const LecturerMenu = () => {
         { label: "Locations", icon: <EnvironmentFilled />, key: "locations" },
         { label: "Informations", icon: <UserOutlined />, key: "lecturerInformations" },
       ],
+      type: "group",
     },
     // { label: "Configurations", icon: <ControlFilled />, null, [getItem('Locations', 'location')], "group" },
   ];
