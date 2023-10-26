@@ -8,7 +8,8 @@ export const EditingLocation = (props) => {
   const { Title } = Typography;
   const { user } = useContext(Data);
 
-  const setLocationSectionView = props.setLocationSectionView;
+  const setLocationSectionView = props.setLocationSectionView,
+  getLocations = props.getLocations;
   let editLocation = props.editLocation;
 
   //set form values
@@ -33,6 +34,7 @@ export const EditingLocation = (props) => {
       address: data.address,
       status: data.status,
       lecturerId: user.id,
+      toggle: true,
     };
     //! Place fetching UPDATE API here
     if (newLocation.name.length >= 5 && newLocation.address.length >= 8) {
@@ -46,6 +48,7 @@ export const EditingLocation = (props) => {
           setIsLoading(false);
           message.success(`Updated location ${data.name}`);
           setLocationSectionView("");
+          getLocations();
         })
         .catch((err) => (console.error(err), setIsLoading(false)));
     } else {

@@ -9,7 +9,8 @@ export const AddingLocation = (props) => {
   const { user } = useContext(Data);
 
   //get props
-  const setLocationSectionView = props.setLocationSectionView;
+  const setLocationSectionView = props.setLocationSectionView,
+  getLocations = props.getLocations
 
   //handle cancel
   const handleCancel = () => {
@@ -20,7 +21,6 @@ export const AddingLocation = (props) => {
   //handle submit
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (data) => {
-    //TODO: For Backend
     const newLocation = {
       name: data.name,
       address: data.address,
@@ -34,9 +34,11 @@ export const AddingLocation = (props) => {
           "https://meet-production-52c7.up.railway.app/api/location/new-location",
           newLocation
         )
-        .then(() => {
+        .then((res) => {
+          // console.log(res);
           message.success("Created new location");
           setIsLoading(false);
+          getLocations();
           setLocationSectionView("");
         })
         .catch((err) => console.error(err));

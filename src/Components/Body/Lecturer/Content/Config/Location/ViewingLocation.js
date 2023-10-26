@@ -1,6 +1,5 @@
 import { useEffect, useContext } from "react";
-import { Typography, Table, Spin, message, Tag, Popconfirm, Button } from "antd";
-import { AddLocationBtn } from "./AddLocationBtn";
+import { Table, message, Tag, Popconfirm, Button } from "antd";
 import axios from "axios";
 import { EditOutlined, DeleteOutlined, LeftOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -11,31 +10,10 @@ export const ViewingLocation = (props) => {
   const setLocationSectionView = props.setLocationSectionView,
     setEditLocation = props.setEditLocation,
     setFinalIdOfTheList = props.setFinalIdOfTheList,
-    setMenuOpt = props.setMenuOpt
-
-  const { user } = useContext(Data);
-
-  const { Title } = Typography;
-
-  //! fetching data -> LocationsList
-  const [isLoading, setIsLoading] = useState(false);
-  const [LocationsList, setLocationsList] = useState([]);
-  const getLocations = () => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://meet-production-52c7.up.railway.app/api/location/personal?Lecturer-id=${user.id}`
-      )
-      .then(
-        (response) => (
-          setLocationsList(response.data.data), setIsLoading(false)
-        )
-      );
-  };
-
-  useEffect(() => {
-    getLocations();
-  }, []);
+    setIsLoading= props.setIsLoading,
+    LocationsList = props.LocationsList,
+    isLoading = props.isLoading,
+    refresh = props.refresh
 
   //columns of table
   const columns = [
@@ -96,7 +74,7 @@ export const ViewingLocation = (props) => {
                 <Popconfirm
                   placement="left"
                   description="Are you sure want to delete this location?"
-                  onClick={() => deleteLocation(location)}
+                  onConfirm={() => deleteLocation(location)}
                 >
                   <DeleteOutlined
                     className="locationDeleteBtn"
@@ -124,33 +102,16 @@ export const ViewingLocation = (props) => {
         `https://meet-production-52c7.up.railway.app/api/location/delete?id=${location.id}`
       )
       .then(
-        () => (
-          message.success("Deleted successfully"),
-          setIsLoading(false),
-          getLocations()
-        )
+        () => {
+          message.success("Deleted successfully");
+          setIsLoading(false);
+          refresh()
+        }
       )
       .catch((err) => (message.error("Deleted Failed"), setIsLoading(false)));
   };
   return (
     <div className="viewingLecturerLocations">
-      <Button
-        icon={<LeftOutlined />}
-        type="text"
-        onClick={() => setMenuOpt("lecturerCfg")}
-      >
-        Back
-      </Button>
-      <Title className="sectionTitle" level={3}>
-        MY LOCATIONS
-        <Spin spinning={isLoading}>
-          <AddLocationBtn
-            setLocationSectionView={setLocationSectionView}
-            LocationsList={LocationsList}
-            setFinalIdOfTheList={setFinalIdOfTheList}
-          />
-        </Spin>
-      </Title>
 
       {/* Table of locations */}
       <Table
@@ -159,6 +120,7 @@ export const ViewingLocation = (props) => {
         dataSource={LocationsList}
         loading={isLoading}
         rowKey="id"
+        key="id"
       ></Table>
     </div>
   );

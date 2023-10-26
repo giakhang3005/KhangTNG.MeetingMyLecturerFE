@@ -216,7 +216,6 @@ export const LecturerRequests = () => {
     <>
       <Title className="sectionTitle" level={3}>
         BOOKING REQUESTS ({BookingList.length})
-        {console.log(BookingList.length)}
         <Button
           onClick={refresh}
           icon={<RedoOutlined />}

@@ -2,8 +2,8 @@ import { Button } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
 export const AddLocationBtn = (props) => {
-  const setLocationSectionView = props.setLocationSectionView;
-
+  const setLocationSectionView = props.setLocationSectionView,
+    isLoading = props.isLoading;
 
   //redirect to adding location
   const handleAddLocation = () => {
@@ -14,6 +14,7 @@ export const AddLocationBtn = (props) => {
     <>
       {/* Add location button */}
       <Button
+        disabled={isLoading}
         className="addLocationBtn"
         onClick={handleAddLocation}
         icon={<PlusCircleFilled />}
