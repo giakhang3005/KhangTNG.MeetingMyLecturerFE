@@ -234,13 +234,13 @@ export const LectuerCalenderView = (props) => {
                               { minWidth: "300px" }
                             )}
                           >
-                            <Row style={{ width: "300px" }}>
+                            {/* <Row style={{ width: "300px" }}>
                               <Col xs={7}>
                                 <b>ID:</b>
                               </Col>
                               <Col xs={17}>{slot.id}</Col>
-                            </Row>
-                            <Row>
+                            </Row> */}
+                            <Row style={{ width: "300px" }}>
                               <Col xs={7}>
                                 <b>Date:</b>
                               </Col>

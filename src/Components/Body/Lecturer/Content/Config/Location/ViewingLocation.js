@@ -38,12 +38,12 @@ export const ViewingLocation = (props) => {
 
   //columns of table
   const columns = [
-    {
-      key: "1",
-      title: "ID",
-      //location.id
-      dataIndex: "id",
-    },
+    // {
+    //   key: "1",
+    //   title: "ID",
+    //   //location.id
+    //   dataIndex: "id",
+    // },
     {
       key: "2",
       title: "Name",

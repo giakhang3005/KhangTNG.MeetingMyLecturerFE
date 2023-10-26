@@ -100,11 +100,10 @@ export function RequestsInfo(props) {
           `https://meet-production-52c7.up.railway.app/api/booking/${isSelectedBooking.id}`
         )
         .then(
-          message.success("Deleted successfully"),
-          setRequestsView("sentRequests")
+          message.success("Deleted successfully")
         )
         .catch((err) => console.error(err))
-        .finally(() => (setLoading(false), getData()));
+        .finally(() => (setLoading(false), getData(), setRequestsView("view")));
     } else {
       message.error("You can only delete pending booking requests");
     }
