@@ -39,10 +39,16 @@ export function ConfigMainPage({setMenuOpt}) {
     },
     {
       id: 2,
-      name: "Personal Informations",
-      description: "Editing your personal informations",
-      opt: "lecturerInformations",
+      name: "Online meeting Informations",
+      description: "Editing your online meeting informations (meeting link,...)",
+      opt: "lecturerCfg",
     },
+    // {
+    //   id: 3,
+    //   name: "Personal Informations",
+    //   description: "Editing your personal informations",
+    //   opt: "lecturerInformations",
+    // },
   ]
   return (
     <>
