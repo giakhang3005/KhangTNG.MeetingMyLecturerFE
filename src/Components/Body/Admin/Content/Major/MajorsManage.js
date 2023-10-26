@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Typography, Table, Row, Col, Button, message, Popconfirm } from "antd";
 import {
   EditOutlined,
-  DeleteOutlined,
+  PoweroffOutlined,
   PlusOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
@@ -64,13 +64,13 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
               type="text"
               icon={<EditOutlined />}
             ></Button>
-            <Popconfirm
+            {/* <Popconfirm
               placement="left"
               description="Are you sure want to delete this major?"
               onConfirm={() => handleDelete(major)}
-            >
-              <Button type="text" icon={<DeleteOutlined />} danger></Button>
-            </Popconfirm>
+            > */}
+              <Button type="text" icon={<PoweroffOutlined />} style={{color: major.status ? "green" : "red"}} onClick={() => handleDelete(major)}></Button>
+            {/* </Popconfirm> */}
           </>
         );
       },
@@ -82,15 +82,15 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
     setLoading(true);
     axios
       .delete(
-        `https://meet-production-52c7.up.railway.app/api/major/${major.id}`
+        `https://meet-production-52c7.up.railway.app/api/major/${major.id}?status=${!major.status}`
       )
       .then(() => {
-        message.success("Deleted major successfully");
+        message.success("Changed major status successfully");
         getData();
       })
       .catch((err) => {
         console.log(err);
-        message.error("Failed to delete major");
+        message.error("Failed to change major status");
         setLoading(false);
       });
   };

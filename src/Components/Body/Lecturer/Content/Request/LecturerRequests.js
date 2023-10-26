@@ -17,14 +17,14 @@ export const LecturerRequests = () => {
   const [numOfRequests, setNumOfRequests] = useState(0);
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(false);
-  const getNumberOfRequests = () => {
-    axios
-      .get(
-        `https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`
-      )
-      .then((response) => setNumOfRequests(response.data.bookingCount))
-      .catch((error) => console.error(error));
-  };
+  // const getNumberOfRequests = () => {
+  //   axios
+  //     .get(
+  //       `https://meet-production-52c7.up.railway.app/api/booking/count/${user.id}`
+  //     )
+  //     .then((response) => setNumOfRequests(response.data.bookingCount))
+  //     .catch((error) => console.error(error));
+  // };
 
   const [BookingList, setBookingList] = useState([]);
   const getData = () => {
@@ -40,7 +40,7 @@ export const LecturerRequests = () => {
 
   useEffect(() => {
     getData();
-    getNumberOfRequests();
+    // getNumberOfRequests();
   }, []);
 
   const columns = [
@@ -209,13 +209,14 @@ export const LecturerRequests = () => {
 
   const refresh = () => {
     getData();
-    getNumberOfRequests();
+    // getNumberOfRequests();
   };
 
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        BOOKING REQUESTS ({numOfRequests})
+        BOOKING REQUESTS ({BookingList.length})
+        {console.log(BookingList.length)}
         <Button
           onClick={refresh}
           icon={<RedoOutlined />}
