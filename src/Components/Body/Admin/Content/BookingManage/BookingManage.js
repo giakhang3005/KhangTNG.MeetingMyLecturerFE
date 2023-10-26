@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Table, Typography, Popover, Tag, Button } from "antd";
-import { ReloadOutlined } from "@ant-design/icons";
+import { ReloadOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
@@ -116,7 +116,7 @@ export function BookingManage() {
               return <Accept />;
           }
         } else {
-          return <Tag color="red">Deleted</Tag>;
+          return <Tag color="red" style={Object.assign({fontWeight: 700})} icon={<DeleteOutlined />}>DELETED</Tag>;
         }
       },
     },
