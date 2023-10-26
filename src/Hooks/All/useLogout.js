@@ -24,8 +24,8 @@ export const useLogOut = () => {
         localStorage.removeItem("pastMeeting");
       }
       if (user.role === "admin") {
-        localStorage.removeItem("Aslots");
-        localStorage.removeItem("Abooking");
+        // localStorage.removeItem("Aslots");
+        // localStorage.removeItem("Abooking");
         localStorage.removeItem("Amajors");
         localStorage.removeItem("Asubjects");
         localStorage.removeItem("Alocations");

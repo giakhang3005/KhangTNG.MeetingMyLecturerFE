@@ -247,7 +247,7 @@ export const Login = () => {
               style={Object.assign({ margin: 0 }, { padding: 0 })}
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input.Password />
             </Form.Item>
           </Col>
         </Row>

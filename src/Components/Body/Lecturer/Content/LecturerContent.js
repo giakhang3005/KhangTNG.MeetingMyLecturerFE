@@ -5,10 +5,11 @@ import { LecturerLocation } from "./Config/Location/LecturerLocation";
 import { useContext, useState } from "react";
 import { Data } from "../../Body";
 import { LecturerInfo } from "./Config/LecturerInfoConfig/LecturerInfo";
+import { ConfigMainPage } from "./Config/ConfigMainPage";
 
 
 export const LecturerContent = () => {
-  const { menuOpt } = useContext(Data);
+  const { menuOpt, setMenuOpt } = useContext(Data);
   return (
         <div className="LecturerContent">
           <div className="LecturerShow">
@@ -19,11 +20,15 @@ export const LecturerContent = () => {
               <LecturerCreatedSlot />
             ) : menuOpt === "lecturerInformations" ? (
               <LecturerInfo />
+            ) : menuOpt === "lecturerCfg" ? (
+              <ConfigMainPage setMenuOpt={setMenuOpt} />
             ) : // request
-            menuOpt === "request" ? (
+            menuOpt === "request" ? ( 
               <LecturerRequests />
-            ) : (
-              <LecturerLocation />
+            ) : menuOpt === "locations" ? ( 
+              <LecturerLocation setMenuOpt={setMenuOpt} />
+            ) :(
+              <></>
             )}
           </div>
         </div>

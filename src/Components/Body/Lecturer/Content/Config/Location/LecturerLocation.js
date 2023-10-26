@@ -3,7 +3,7 @@ import { ViewingLocation } from "./ViewingLocation";
 import {EditingLocation} from "./EditingLocation";
 import { useState } from "react";
 
-export const LecturerLocation = () => {
+export const LecturerLocation = ({setMenuOpt}) => {
   //state checking action of user in LecturerLocation
   const [locationSectionView, setLocationSectionView] = useState("view");
   const [editLocation, setEditLocation] = useState({});
@@ -18,7 +18,7 @@ export const LecturerLocation = () => {
         <EditingLocation setLocationSectionView={setLocationSectionView} editLocation={editLocation} />
       ) : (
         // View location -> default
-        <ViewingLocation setLocationSectionView={setLocationSectionView} setEditLocation={setEditLocation} setFinalIdOfTheList={setFinalIdOfTheList}/>
+        <ViewingLocation setLocationSectionView={setLocationSectionView} setEditLocation={setEditLocation} setFinalIdOfTheList={setFinalIdOfTheList} setMenuOpt={setMenuOpt}/>
       )}
     </>
   );

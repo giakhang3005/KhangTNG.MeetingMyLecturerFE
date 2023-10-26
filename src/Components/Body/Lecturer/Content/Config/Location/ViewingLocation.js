@@ -1,8 +1,8 @@
 import { useEffect, useContext } from "react";
-import { Typography, Table, Spin, message, Tag, Popconfirm } from "antd";
+import { Typography, Table, Spin, message, Tag, Popconfirm, Button } from "antd";
 import { AddLocationBtn } from "./AddLocationBtn";
 import axios from "axios";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, LeftOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Data } from "../../../../Body";
 
@@ -10,7 +10,8 @@ export const ViewingLocation = (props) => {
   //get function from LecturerLocation
   const setLocationSectionView = props.setLocationSectionView,
     setEditLocation = props.setEditLocation,
-    setFinalIdOfTheList = props.setFinalIdOfTheList;
+    setFinalIdOfTheList = props.setFinalIdOfTheList,
+    setMenuOpt = props.setMenuOpt
 
   const { user } = useContext(Data);
 
@@ -133,6 +134,13 @@ export const ViewingLocation = (props) => {
   };
   return (
     <div className="viewingLecturerLocations">
+      <Button
+        icon={<LeftOutlined />}
+        type="text"
+        onClick={() => setMenuOpt("lecturerCfg")}
+      >
+        Back
+      </Button>
       <Title className="sectionTitle" level={3}>
         MY LOCATIONS
         <Spin spinning={isLoading}>

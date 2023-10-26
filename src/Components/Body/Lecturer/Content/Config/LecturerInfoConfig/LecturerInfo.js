@@ -9,14 +9,14 @@ import {
   Spin,
   Select,
 } from "antd";
-import { FormOutlined } from "@ant-design/icons";
+import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../../Body";
 import axios from "axios";
 
 export function LecturerInfo() {
   const { Title } = Typography;
-  const { user } = useContext(Data);
+  const { user, setMenuOpt } = useContext(Data);
   const fptEmail = "@fpt.edu.vn";
 
   //! subject from API
@@ -175,6 +175,13 @@ export function LecturerInfo() {
   };
   return (
     <>
+     <Button
+        icon={<LeftOutlined />}
+        type="text"
+        onClick={() => setMenuOpt("lecturerCfg")}
+      >
+        Back
+      </Button>
       <Title className="sectionTitle" level={3}>
         PERSONAL INFORMATIONS
       </Title>
