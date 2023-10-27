@@ -37,18 +37,18 @@ export function ConfigMainPage({setMenuOpt}) {
       description: "Adding, Viewing and Editing your meeting locations",
       opt: "locations",
     },
+    // {
+    //   id: 2,
+    //   name: "Online meeting Informations",
+    //   description: "Editing your online meeting informations (meeting link,...)",
+    //   opt: "lecturerCfg",
+    // },
     {
       id: 2,
-      name: "Online meeting Informations",
-      description: "Editing your online meeting informations (meeting link,...)",
-      opt: "lecturerCfg",
+      name: "Personal Informations",
+      description: "Editing your personal informations & Online meeting link",
+      opt: "lecturerInformations",
     },
-    // {
-    //   id: 3,
-    //   name: "Personal Informations",
-    //   description: "Editing your personal informations",
-    //   opt: "lecturerInformations",
-    // },
   ]
   return (
     <>

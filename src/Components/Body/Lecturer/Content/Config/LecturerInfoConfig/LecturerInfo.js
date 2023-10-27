@@ -309,6 +309,37 @@ export function LecturerInfo() {
         <Row className="requestsInfo">
           <Col xs={1}></Col>
           <Col xs={23}>
+            {/* ggmeet */}
+            <Row>
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Google Meet:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    placeholder="Please create a Google Meet and copy it's link to this box"
+                    // disabled={loading}
+                    // className="editInput"
+                    // value={lecturer?.phone}
+                    // maxLength={11}
+                    // showCount
+                    // onChange={(e) => handlePhoneChange(e)}
+                  ></Input>
+                </Title>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+
+        <Row className="requestsInfo">
+          <Col xs={1}></Col>
+          <Col xs={23}>
             {/* Note */}
             <Row>
               <Col xs={9} md={3}>

@@ -403,7 +403,7 @@ export function CreateSlotForm({
                   { animation: "fade 0.2s ease-out" }
                 )}
               >
-                {hasPassword && (
+                {hasPassword ? (
                   <Input
                     className="editInput animateBox"
                     style={{ width: "320px" }}
@@ -411,7 +411,7 @@ export function CreateSlotForm({
                     value={password}
                     onChange={(e) => handlePasswordChange(e)}
                   ></Input>
-                )}
+                ) : <i style={Object.assign({fontSize: '11px'}, {color: 'gray'})}>Tick the checkbox to enable Passcode</i>}
               </Title>
             </Col>
           </Row>
