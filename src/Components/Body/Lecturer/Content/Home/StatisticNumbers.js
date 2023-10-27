@@ -11,8 +11,10 @@ import { Data } from "../../../Body";
 import axios from "axios";
 
 export const StatisticNumber = () => {
+
   const { user } = useContext(Data);
   const [data, setData] = useState({});
+  const [dataMonth, setDataMonth] = useState({})
   const getData = () => {
     axios
       .get(
@@ -22,8 +24,18 @@ export const StatisticNumber = () => {
       .catch((error) => console.error(error));
   };
 
+  const getDataMonth = () => {
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/lecturer/indicator/month/${user.id}`
+      )
+      .then((response) => setDataMonth(response.data))
+      .catch((error) => console.error(error));
+  };
+
   useEffect(() => {
     getData();
+    getDataMonth()
   }, []);
   return (
     // xs={} sm={} md={} xl={}
@@ -108,7 +120,7 @@ export const StatisticNumber = () => {
                       prefix={<NotificationOutlined />}
                       title="Total Slots"
                       value={
-                        JSON.stringify(data) === "{}" ? "-" : data.totalSlot
+                        JSON.stringify(dataMonth) === "{}" ? "-" : dataMonth.totalSlot
                       }
                     />
                   </Card>
@@ -121,11 +133,11 @@ export const StatisticNumber = () => {
                       prefix={<HourglassOutlined />}
                       title="Total Time"
                       value={
-                        JSON.stringify(data) === "{}"
+                        JSON.stringify(dataMonth) === "{}"
                           ? "-"
-                          : data.totalHours === null
+                          : dataMonth.totalHours === null
                           ? "0"
-                          : data.totalHours
+                          : dataMonth.totalHours
                       }
                     />
                   </Card>
@@ -140,9 +152,9 @@ export const StatisticNumber = () => {
                       value={
                         JSON.stringify(data) === "{}"
                           ? "-"
-                          : data.mostDiscussSubject === null
+                          : dataMonth.mostDiscussSubject === null
                           ? "-"
-                          : data.mostDiscussSubject
+                          : dataMonth.mostDiscussSubject
                       }
                     />
                   </Card>

@@ -21,9 +21,18 @@ export const RecentSlotsMonth = () => {
       .then((response) => setGraphData(response.data.reverse()))
       .catch((error) => console.error(error));
   };
+  const getDataWeek = () => {
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/lecturer/graph/week/${user.id}`
+      )
+      .then((response) => setGraphDataWeek(response.data.reverse()))
+      .catch((error) => console.error(error));
+  };
 
   useEffect(() => {
     getData();
+    getDataWeek();
   }, []);
   return (
     <div className="Chart">
