@@ -185,25 +185,24 @@ export function CreateSlotForm({
         (passErr = true);
 
       if (!SubjErr && !locErr && !passErr) {
-        console.log(newSlot);
-        // setIsLoading(true);
-        // console.log(newSlot);
-        // axios
-        //   .post(
-        //     "https://meet-production-52c7.up.railway.app/api/v1/slot",
-        //     newSlot
-        //   )
-        //   .then((res) => {
-        //     if (res.data.data === "error") {
-        //       message.error(res.data.message);
-        //     } else {
-        //       message.success("Created successfully");
-        //       getData();
-        //       setCreatedSlotView("");
-        //     }
-        //   })
-        //   .catch((err) => console.error(err))
-        //   .finally(() => setIsLoading(false));
+        setIsLoading(true);
+        console.log(JSON.stringify(newSlot));
+        axios
+          .post(
+            "https://meet-production-52c7.up.railway.app/api/v1/slot",
+            newSlot
+          )
+          .then((res) => {
+            if (res.data.data === "error") {
+              message.error(res.data.message);
+            } else {
+              message.success("Created successfully");
+              getData();
+              setCreatedSlotView("");
+            }
+          })
+          .catch((err) => console.error(err))
+          .finally(() => setIsLoading(false));
       } else {
         locErr && message.error("Location is required for Offline meeting");
         SubjErr && message.error("You must select at least 1 subject");
@@ -220,7 +219,7 @@ export function CreateSlotForm({
         <Col xs={1}></Col>
         <Col xs={23}>
           {/* Date */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Date:
@@ -243,7 +242,7 @@ export function CreateSlotForm({
           </Row>
 
           {/* Start */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Start:
@@ -266,7 +265,7 @@ export function CreateSlotForm({
           </Row>
 
           {/* End */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 End:
@@ -289,7 +288,7 @@ export function CreateSlotForm({
           </Row>
 
           {/* Mode */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Mode:
@@ -342,7 +341,7 @@ export function CreateSlotForm({
           )}
 
           {/* Type */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Type:
@@ -393,7 +392,7 @@ export function CreateSlotForm({
 
           {/* Subject */}
 
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Subjects:
@@ -424,13 +423,13 @@ export function CreateSlotForm({
           </Row>
 
           {/* Password */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
                 Passcode{" "}
                 <span style={Object.assign({ fontSize: "9px" })}>
                   <Checkbox
-                    value={hasPassword}
+                    checked={hasPassword}
                     onChange={() => setHasPassword(!hasPassword)}
                   ></Checkbox>
                 </span>
@@ -469,7 +468,7 @@ export function CreateSlotForm({
           </Row>
 
           {/* Buttons */}
-          <Row>
+          <Row className="animateBox">
             <Col xs={9} md={3}>
               <Title className="InfoText" level={5}></Title>
             </Col>
