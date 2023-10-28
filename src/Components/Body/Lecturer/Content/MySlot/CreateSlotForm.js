@@ -11,6 +11,7 @@ import {
   Select,
   Spin,
   Checkbox,
+  Radio,
 } from "antd";
 import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -65,6 +66,7 @@ export function CreateSlotForm({
   const [studentEmail, setStudentEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [hasPassword, setHasPassword] = useState(false);
+  const [type, setType] = useState("offline");
 
   //handle Date Change
   const handleDateChange = (newDate) => {
@@ -133,6 +135,11 @@ export function CreateSlotForm({
     }
   };
 
+  //handle type change
+  const handleTypeChange = (newType) => {
+    setType(newType);
+  };
+
   //! handle submit
   const handleSubmit = () => {
     //conver time to string
@@ -156,7 +163,8 @@ export function CreateSlotForm({
       endTime: endString,
       mode: mode,
       studentEmail: mode === 2 ? studentEmail : null,
-      locationId: locationId,
+      type: type,
+      locationId: type === 'offline' ? locationId : null,
       slotSubjectDTOS: returnSubjectsList,
       password: !hasPassword ? null : password,
       // toggle: true,
@@ -170,32 +178,39 @@ export function CreateSlotForm({
       let locErr = false,
         SubjErr = false,
         passErr = false;
-      newSlot.locationId === null && (locErr = true);
+      (type === 'offline' && newSlot.locationId === null) && (locErr = true);
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
-      hasPassword && (newSlot.password?.length === 0 || newSlot.password === null) && (passErr = true);
+      hasPassword &&
+        (newSlot.password?.length === 0 || newSlot.password === null) &&
+        (passErr = true);
 
       if (!SubjErr && !locErr && !passErr) {
-        setIsLoading(true);
         console.log(newSlot);
-        axios
-          .post(
-            "https://meet-production-52c7.up.railway.app/api/v1/slot",
-            newSlot
-          )
-          .then((res) => {
-            if (res.data.data === "error") {
-              message.error(res.data.message);
-            } else {
-              message.success("Created successfully");
-              getData();
-              setCreatedSlotView("");
-            }
-          })
-          .catch((err) => console.error(err))
-          .finally(() => setIsLoading(false));
+        // setIsLoading(true);
+        // console.log(newSlot);
+        // axios
+        //   .post(
+        //     "https://meet-production-52c7.up.railway.app/api/v1/slot",
+        //     newSlot
+        //   )
+        //   .then((res) => {
+        //     if (res.data.data === "error") {
+        //       message.error(res.data.message);
+        //     } else {
+        //       message.success("Created successfully");
+        //       getData();
+        //       setCreatedSlotView("");
+        //     }
+        //   })
+        //   .catch((err) => console.error(err))
+        //   .finally(() => setIsLoading(false));
       } else {
-        message.error("Location and Subject are required");
-        passErr && message.error("You have enabled Passcode, please do not leave it empty")
+        locErr && message.error("Location is required for Offline meeting");
+        SubjErr && message.error("You must select at least 1 subject");
+        passErr &&
+          message.error(
+            "You have enabled Passcode, please do not leave it empty"
+          );
       }
     }
   };
@@ -303,7 +318,7 @@ export function CreateSlotForm({
 
           {/* Student email */}
           {mode === 2 && (
-            <Row>
+            <Row className="animateBox">
               <Col xs={9} md={3}>
                 <Title className="InfoText ID" level={5}>
                   Student Email:
@@ -326,28 +341,55 @@ export function CreateSlotForm({
             </Row>
           )}
 
-          {/* Location */}
+          {/* Type */}
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
-                Location:
+                Type:
               </Title>
             </Col>
             <Col xs={15} md={10}>
               <Title
-                className="InfoText"
+                className="InfoText id"
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Select
-                  style={{ minWidth: "320px" }}
-                  className="editInput"
-                  options={pushLocationList(locationsList)}
-                  onChange={(newLoc) => handleLocationChange(newLoc)}
-                ></Select>
+                <Radio.Group
+                  style={Object.assign({ width: "320px" })}
+                  value={type}
+                  onChange={(newType) => handleTypeChange(newType.target.value)}
+                >
+                  <Radio.Button value={"offline"}>Offline</Radio.Button>
+                  <Radio.Button value={"online"}>Online</Radio.Button>
+                </Radio.Group>
               </Title>
             </Col>
           </Row>
+
+          {/* Location */}
+          {type === "offline" && (
+            <Row className="animateBox">
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Location:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Select
+                    style={{ minWidth: "320px" }}
+                    className="editInput"
+                    options={pushLocationList(locationsList)}
+                    onChange={(newLoc) => handleLocationChange(newLoc)}
+                  ></Select>
+                </Title>
+              </Col>
+            </Row>
+          )}
 
           {/* Subject */}
 
@@ -411,7 +453,17 @@ export function CreateSlotForm({
                     value={password}
                     onChange={(e) => handlePasswordChange(e)}
                   ></Input>
-                ) : <i style={Object.assign({fontSize: '11px'}, {color: 'gray'})}>Tick the checkbox to enable Passcode</i>}
+                ) : (
+                  <i
+                    className="animateBox"
+                    style={Object.assign(
+                      { fontSize: "11px" },
+                      { color: "gray" }
+                    )}
+                  >
+                    Tick the checkbox to enable Passcode
+                  </i>
+                )}
               </Title>
             </Col>
           </Row>
