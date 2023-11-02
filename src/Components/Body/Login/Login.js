@@ -56,19 +56,22 @@ export const Login = () => {
                 `https://meet-production-52c7.up.railway.app/api/v1/account/get/${userFromGg.id}`
               )
               //! account exist
-              .then((response) => response.data.data)
-              .then((userData) => {
-                const finalUser = {
-                  id: userData.id,
-                  name: userData.name,
-                  picture: userFromGg.picture,
-                  email: userData.email,
-                  role: getRole(userData.role),
-                  status: userData.status,
-                };
-                //check account if disabled
-                validStatus(finalUser, setUser, setRole, setDisableAccount);
-                setGgLoading(false);
+              .then((response) => {
+                if (response.data.status === "NOT_FOUND") {
+                } else {
+                  const userData = response.data.data;
+                  const finalUser = {
+                    id: userData.id,
+                    name: userData.name,
+                    picture: userFromGg.picture,
+                    email: userData.email,
+                    role: getRole(userData.role),
+                    status: userData.status,
+                  };
+                  //check account if disabled
+                  validStatus(finalUser, setUser, setRole, setDisableAccount);
+                  setGgLoading(false);
+                }
               })
               //! account not exist
               .catch((err) => {
@@ -85,6 +88,7 @@ export const Login = () => {
                     status: true,
                     id: userFromGg.id,
                   };
+
                   //!start create account
                   axios
                     .post(
@@ -94,6 +98,7 @@ export const Login = () => {
                     //!get api response with new user data
                     .then((response) => response.data.data)
                     .then((userData) => {
+                      console.log(userData);
                       const finalUser = {
                         id: userData.id,
                         name: userData.name,
@@ -111,7 +116,10 @@ export const Login = () => {
                       );
                       setGgLoading(false);
                     })
-                    .catch((err) => console.log(err))
+                    .catch((err) => {
+                      console.log(err);
+                      message.error(`There is an internal error: ${statusMsg}`);
+                    })
                     .finally(() => setGgLoading(false));
                 } else {
                   message.error(`There is an internal error: ${statusMsg}`);

@@ -44,7 +44,7 @@ export const LecturerMenu = () => {
       key: "request",
     },
     {
-      label: "Configurations",
+      label: "Settings",
       icon: <SettingFilled />,
       key: "lecturerCfg",
       // children: [

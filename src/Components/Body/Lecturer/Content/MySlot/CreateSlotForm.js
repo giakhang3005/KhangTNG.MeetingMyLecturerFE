@@ -163,7 +163,7 @@ export function CreateSlotForm({
       endTime: endString,
       mode: mode,
       studentEmail: mode === 2 ? studentEmail : null,
-      type: type,
+      online: type === 'online',
       locationId: type === 'offline' ? locationId : null,
       slotSubjectDTOS: returnSubjectsList,
       password: !hasPassword ? null : password,
