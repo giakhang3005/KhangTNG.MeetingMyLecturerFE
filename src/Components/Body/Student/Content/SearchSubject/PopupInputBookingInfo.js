@@ -21,7 +21,12 @@ export function PopupInputPassword(props) {
 
     const bookingDeal = {
       studentInfo: { studentId: user.id },
-      slotInfo: { id: isSelectedSlot.id },
+      slotInfo: {
+        id: isSelectedSlot.id,
+        meetingDate: isSelectedSlot.meetingDay,
+        startTime: isSelectedSlot.startTime,
+        endTime: isSelectedSlot.endTime,
+      },
       note: note,
     };
 
@@ -36,7 +41,7 @@ export function PopupInputPassword(props) {
 
     //! Fetch
     if (!passwordErr && !noteErr) {
-      console.log(JSON.stringify(bookingDeal));
+      // console.log(bookingDeal);
       setLoading(true);
       axios
         .post(
