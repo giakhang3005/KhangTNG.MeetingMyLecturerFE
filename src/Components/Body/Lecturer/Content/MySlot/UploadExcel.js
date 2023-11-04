@@ -24,9 +24,10 @@ export function UploadExcel({ subjects, locationsList }) {
       return { STT: subject.id, CODE: subject.code, NAME: subject.name };
     });
 
-    const downloadLocationsList = locationsList.map((loc) => {
-      return { STT: loc.id, NAME: loc.name, ADDRESS: loc.address };
+    let downloadLocationsList = locationsList.map((loc) => {
+      return { ID: loc.id, NAME: loc.name, ADDRESS: loc.address };
     });
+    downloadLocationsList.push({ID: 'online', NAME: '', ADDRESS: ''})
 
     const slotMode = [
       {
@@ -78,6 +79,16 @@ export function UploadExcel({ subjects, locationsList }) {
         mode: 2,
         studentEmail: "testStudent@fpt.edu.vn",
         password: "12345",
+      },
+      {
+        meetingDay: "12/12/2023",
+        startTime: "19:15:00",
+        endTime: "20:00:00",
+        locationId: "online",
+        subjects: "SWP391",
+        mode: 0,
+        studentEmail: "",
+        password: "",
       },
     ];
     exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template");

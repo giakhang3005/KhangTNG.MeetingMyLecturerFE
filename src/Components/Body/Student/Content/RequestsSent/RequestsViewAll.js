@@ -13,7 +13,7 @@ export function RequestsViewAll(props) {
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);
-
+  console.log(requestsList)
   return (
     <>
       {/* Table of result */}

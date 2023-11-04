@@ -3,6 +3,7 @@ import { Typography, Input, Button, message, Row, Col, Tag, Spin } from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 import { Data } from "../../../Body";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export function PopupInputPassword(props) {
   const isSelectedSlot = props.isSelectedSlot,
@@ -215,17 +216,33 @@ export function PopupInputPassword(props) {
                 </Title>
               </Col>
               <Col xs={15} md={10}>
-                <Title
-                  className="InfoText id"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  {isSelectedSlot.locationName}
-                  <br />
-                  <i style={Object.assign({ fontSize: "13px" })}>
-                    ({isSelectedSlot.locationAddress}){" "}
-                  </i>
-                </Title>
+                {!isSelectedSlot.online ? (
+                  <Title
+                    className="InfoText id"
+                    level={5}
+                    style={{ fontWeight: "400" }}
+                  >
+                    {isSelectedSlot.locationName}
+                    <br />
+                    <i style={Object.assign({ fontSize: "13px" })}>
+                      ({isSelectedSlot.locationAddress}){" "}
+                    </i>
+                  </Title>
+                ) : (
+                  <Tag
+                    style={Object.assign(
+                      { display: "flex" },
+                      { alignItems: "center" },
+                      { width: "106px" },
+                      { justifyContent: "space-between" },
+                      {margin: '11px 0 0 0'}
+                    )}
+                    icon={<GooglemeetLogo />}
+                    color="geekblue"
+                  >
+                    Google Meet
+                  </Tag>
+                )}
               </Col>
             </Row>
           </Col>

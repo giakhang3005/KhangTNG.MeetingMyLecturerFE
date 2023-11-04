@@ -6,6 +6,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+import { GooglemeetLogo } from "../All/SVG";
 
 export const useStudentRequests = () => {
   const ArrayToString = useArray();
@@ -42,7 +43,6 @@ export const useStudentRequests = () => {
     setIsSelectedBooking(booking);
     setRequestsView("info");
   };
-
 
   const tableColumn = (setRequestsView, setIsSelectedBooking) => {
     return [
@@ -95,10 +95,23 @@ export const useStudentRequests = () => {
         key: "7",
         title: "Location",
         render: (booking) => {
-          return (
+          return !booking.online ? (
             <Popover content={booking.slotInfo.locationAddress}>
               <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
             </Popover>
+          ) : (
+            <Tag
+              style={Object.assign(
+                { display: "flex" },
+                { alignItems: "center" },
+                { width: "106px" },
+                { justifyContent: "space-between" }
+              )}
+              icon={<GooglemeetLogo />}
+              color="geekblue"
+            >
+              Google Meet
+            </Tag>
           );
         },
       },
@@ -122,7 +135,10 @@ export const useStudentRequests = () => {
         render: (booking) => {
           return (
             <>
-              <Popover content="Click to view more booking info" placement="left">
+              <Popover
+                content="Click to view more booking info"
+                placement="left"
+              >
                 <InfoCircleFilled
                   style={Object.assign(
                     { color: "#1c62d4" },

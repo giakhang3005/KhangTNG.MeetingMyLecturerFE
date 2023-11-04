@@ -74,7 +74,7 @@ export const CreatingSlot = (props) => {
       <Title className="sectionTitle" level={3}>
         CREATING SLOT
         <Button
-          disabled={subjectsLoading || isLoading}
+          disabled={ isLoading}
           onClick={() => setIsUploadMode(!isUploadMode)}
         >
           {!isUploadMode ? "Upload Excel File" : "Create new slot"}

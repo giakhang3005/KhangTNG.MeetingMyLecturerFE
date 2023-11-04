@@ -70,16 +70,15 @@ export const RecentSlotsMonth = () => {
         </div>
       </Col>
       <Col xs={4}>
-        <Menu
-          style={{margin: '15px 0 0 0'}}
-          mode="inline"
-          items={menuItems}
-          defaultSelectedKeys="1"
-          selectedKeys={mode}
-          onClick={(selectedOpt) => {
-            setMode(selectedOpt.key);
-          }}
-        />
+          <Menu
+            mode="inline"
+            items={menuItems}
+            defaultSelectedKeys="1"
+            selectedKeys={mode}
+            onClick={(selectedOpt) => {
+              setMode(selectedOpt.key);
+            }}
+          />
       </Col>
     </Row>
   );

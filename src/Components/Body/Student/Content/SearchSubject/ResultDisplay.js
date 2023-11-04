@@ -4,6 +4,8 @@ import { useArray } from "../../../../../Hooks/All/useArray";
 import { useState, useContext } from "react";
 import axios from "axios";
 import { Data } from "../../../Body";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
+
 
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,
@@ -60,11 +62,24 @@ export const ResultDisplay = (props) => {
       key: "6",
       title: "Location",
       render: (booking) => {
-        return (
+        return !booking.online ? (
           <Popover content={booking.locationAddress}>
             {" "}
             <Tag color="green">{booking.locationName}</Tag>
           </Popover>
+        ) : (
+          <Tag
+            style={Object.assign(
+              { display: "flex" },
+              { alignItems: "center" },
+              { width: "106px" },
+              { justifyContent: "space-between" }
+            )}
+            icon={<GooglemeetLogo />}
+            color="geekblue"
+          >
+            Google Meet
+          </Tag>
         );
       },
     },
@@ -90,7 +105,10 @@ export const ResultDisplay = (props) => {
           <>
             {/* Slot does not have password */}
             {booking.password === null || booking.password === "" ? (
-              <Popover content="Click to send a booking request!" placement="left">
+              <Popover
+                content="Click to send a booking request!"
+                placement="left"
+              >
                 <UnlockFilled
                   style={Object.assign(
                     { color: "green" },
@@ -102,7 +120,10 @@ export const ResultDisplay = (props) => {
               </Popover>
             ) : (
               // Slot have password
-              <Popover content="This slot have a Passcode, Click to enter Passcode!" placement="left">
+              <Popover
+                content="This slot have a Passcode, Click to enter Passcode!"
+                placement="left"
+              >
                 <LockFilled
                   style={Object.assign(
                     { color: "red" },
@@ -120,9 +141,9 @@ export const ResultDisplay = (props) => {
   ];
 
   //handle book action
-  const [checkingLoading, setCheckingLoading] = useState(false)
+  const [checkingLoading, setCheckingLoading] = useState(false);
   const Book = (booking) => {
-    setCheckingLoading(true)
+    setCheckingLoading(true);
     axios
       .get(
         `https://meet-production-52c7.up.railway.app/api/booking/exists?studentId=${user.id}&slotId=${booking.id}`
@@ -135,7 +156,7 @@ export const ResultDisplay = (props) => {
           : setIsSelectedSlot(booking)
       )
       .catch((err) => console.error(err))
-      .finally(() => setCheckingLoading(false))
+      .finally(() => setCheckingLoading(false));
   };
 
   return (
