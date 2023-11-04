@@ -29,136 +29,62 @@ export const StatisticNumber = () => {
   }, []);
   return (
     // xs={} sm={} md={} xl={}
-    <Tabs
-      defaultActiveKey="1"
-      items={[
-        {
-          key: "1",
-          label: "All time",
-          children: (
-            <Row className="lecturerStatisticNumber">
-              {/* Total Slot */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<TeamOutlined />}
-                    title="Total Meetings"
-                    value={loading ? "-" : statisticNum.totalMeeting}
-                  />
-                </Card>
-              </Col>
+    <Row className="lecturerStatisticNumber">
+      {/* Total Slot */}
+      <Col xs={12} md={5}>
+        <Card className="cardStatisticNumber">
+          <Statistic
+            prefix={<TeamOutlined />}
+            title="Total Meetings"
+            value={loading ? "-" : statisticNum.totalMeeting}
+          />
+        </Card>
+      </Col>
 
-              {/* Total Hours */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<HourglassOutlined />}
-                    title="Total time"
-                    value={
-                      loading
-                        ? "-"
-                        : statisticNum.totalHours === null
-                        ? "0"
-                        : statisticNum.totalHours
-                    }
-                  />
-                </Card>
-              </Col>
+      {/* Total Hours */}
+      <Col xs={12} md={5}>
+        <Card className="cardStatisticNumber">
+          <Statistic
+            prefix={<HourglassOutlined />}
+            title="Total time"
+            value={
+              loading
+                ? "-"
+                : statisticNum.totalHours === null
+                ? "0"
+                : statisticNum.totalHours
+            }
+          />
+        </Card>
+      </Col>
 
-              {/* Total booking */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<SnippetsOutlined />}
-                    title="Total Bookings"
-                    value={loading ? "-" : statisticNum.totalBooking}
-                  />
-                </Card>
-              </Col>
+      {/* Total booking */}
+      <Col xs={12} md={5}>
+        <Card className="cardStatisticNumber">
+          <Statistic
+            prefix={<SnippetsOutlined />}
+            title="Total Bookings"
+            value={loading ? "-" : statisticNum.totalBooking}
+          />
+        </Card>
+      </Col>
 
-              {/* Most meeting subject */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<MessageOutlined />}
-                    title="Most Discuss"
-                    value={
-                      loading
-                        ? "-"
-                        : statisticNum.mostDiscussSubject === null
-                        ? "-"
-                        : statisticNum.mostDiscussSubject
-                    }
-                  />
-                </Card>
-              </Col>
-            </Row>
-          ),
-        },
-        {
-          key: "2",
-          label: "This month",
-          children: (
-            <Row className="lecturerStatisticNumber">
-              {/* Total Slot */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<TeamOutlined />}
-                    title="Total Meetings"
-                    value={loading ? "-" : statisticNum.totalMeeting}
-                  />
-                </Card>
-              </Col>
-
-              {/* Total Hours */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<HourglassOutlined />}
-                    title="Total time"
-                    value={
-                      loading
-                        ? "-"
-                        : statisticNum.totalHours === null
-                        ? "0"
-                        : statisticNum.totalHours
-                    }
-                  />
-                </Card>
-              </Col>
-
-              {/* Total booking */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<SnippetsOutlined />}
-                    title="Total Bookings"
-                    value={loading ? "-" : statisticNum.totalBooking}
-                  />
-                </Card>
-              </Col>
-
-              {/* Most meeting subject */}
-              <Col xs={12} md={5}>
-                <Card className="cardStatisticNumber">
-                  <Statistic
-                    prefix={<MessageOutlined />}
-                    title="Most Discuss"
-                    value={
-                      loading
-                        ? "-"
-                        : statisticNum.mostDiscussSubject === null
-                        ? "-"
-                        : statisticNum.mostDiscussSubject
-                    }
-                  />
-                </Card>
-              </Col>
-            </Row>
-          ),
-        },
-      ]}
-    />
+      {/* Most meeting subject */}
+      <Col xs={12} md={5}>
+        <Card className="cardStatisticNumber">
+          <Statistic
+            prefix={<MessageOutlined />}
+            title="Most Discuss"
+            value={
+              loading
+                ? "-"
+                : statisticNum.mostDiscussSubject === null
+                ? "-"
+                : statisticNum.mostDiscussSubject
+            }
+          />
+        </Card>
+      </Col>
+    </Row>
   );
 };

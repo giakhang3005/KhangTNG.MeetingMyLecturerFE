@@ -48,14 +48,16 @@ export function PopupInputPassword(props) {
           `https://meet-production-52c7.up.railway.app/api/booking`,
           bookingDeal
         )
-        .then(
-          (res) => (
+        .then((res) => {
+          if (res.data.data === "sameTimeErr") {
+            message.error(res.data.message);
+          } else {
             message.success(
               `Booking successfully, please wait for lecturer ${isSelectedSlot.lecturerName} to respond`
-            ),
-            setIsSelectedSlot([])
-          )
-        )
+            );
+            setIsSelectedSlot([]);
+          }
+        })
         .catch((err) => console.error(err))
         .finally(() => setLoading(false));
     } else {

@@ -73,7 +73,9 @@ export function StudentInformations() {
 
   //check phone
   const checkOnlyDigits = (string) =>
-    [...string].every((c) => "0123456789".includes(c));
+    string === null || string === undefined
+      ? false
+      : [...string].every((c) => "0123456789".includes(c));
 
   const handleSubmit = () => {
     const dobString =
@@ -96,9 +98,9 @@ export function StudentInformations() {
 
     const dobErr = dob === null ? true : false;
     const phoneErr =
-      newStudent.phone.length < 10 ||
-      newStudent.phone.length > 11 ||
-      !checkOnlyDigits(newStudent.phone)
+      newStudent.phone?.length < 10 ||
+      newStudent.phone?.length > 11 ||
+      !checkOnlyDigits(newStudent.phone) 
         ? true
         : false;
 
@@ -110,7 +112,7 @@ export function StudentInformations() {
           `https://meet-production-52c7.up.railway.app/api/v1/student/${user.id}`,
           newStudent
         )
-        .then((res) => message.success('Updated successfully'))
+        .then((res) => message.success("Updated successfully"))
         .catch((err) => console.error(err))
         .finally(() => setLoading(false));
     } else {

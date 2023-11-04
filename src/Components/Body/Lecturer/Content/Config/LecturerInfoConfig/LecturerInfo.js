@@ -306,11 +306,11 @@ export function LecturerInfo() {
           </Col>
         </Row>
 
-        {/* <Row className="requestsInfo">
+        <Row className="requestsInfo">
           <Col xs={1}></Col>
-          <Col xs={23}> */}
+          <Col xs={23}>
             {/* ggmeet */}
-            {/* <Row>
+            <Row>
               <Col xs={9} md={3}>
                 <Title className="InfoText ID" level={5}>
                   Google Meet:
@@ -335,7 +335,7 @@ export function LecturerInfo() {
               </Col>
             </Row>
           </Col>
-        </Row> */}
+        </Row>
 
         <Row className="requestsInfo">
           <Col xs={1}></Col>
