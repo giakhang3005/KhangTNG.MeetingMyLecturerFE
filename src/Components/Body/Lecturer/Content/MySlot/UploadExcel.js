@@ -61,9 +61,9 @@ export function UploadExcel({ subjects, locationsList }) {
     //data
     const dataTemplates = [
       {
-        meetingDay: "12/12/2023",
-        startTime: "12:15:00",
-        endTime: "13:45:00",
+        meetingDay: "1/1/2023",
+        startTime: "12:15",
+        endTime: "13:45",
         locationId: 6,
         subjects: "DBI202, PRO192",
         mode: 0,
@@ -71,9 +71,9 @@ export function UploadExcel({ subjects, locationsList }) {
         password: "",
       },
       {
-        meetingDay: "12/12/2023",
-        startTime: "14:15:00",
-        endTime: "15:00:00",
+        meetingDay: "1/1/2023",
+        startTime: "14:15",
+        endTime: "15:00",
         locationId: 6,
         subjects: "DBI202",
         mode: 2,
@@ -81,12 +81,12 @@ export function UploadExcel({ subjects, locationsList }) {
         password: "12345",
       },
       {
-        meetingDay: "12/12/2023",
-        startTime: "19:15:00",
-        endTime: "20:00:00",
+        meetingDay: "1/1/2023",
+        startTime: "19:15",
+        endTime: "20:00",
         locationId: "online",
         subjects: "SWP391",
-        mode: 0,
+        mode: 1,
         studentEmail: "",
         password: "",
       },
@@ -109,7 +109,19 @@ export function UploadExcel({ subjects, locationsList }) {
   };
 
   const handleUpload = () => {
-    console.log(JSON.stringify(uploadedData));
+    const formatedData = uploadedData.map((row) => (
+      {
+        meetingDay: row.meetingDay.toString(),
+        startTime: row.startTime.toString(),
+        endTime: row.endTime.toString(),
+        locationId: row.locationId.toString(),
+        subjects: row.subjects.toString(),
+        mode: row.mode.toString(),
+        studentEmail: row.studentEmail.toString(),
+        password: row.password.toString(),
+      }
+    ))
+    console.log(JSON.stringify(formatedData));
   };
   return (
     <div className="requestsInfo">

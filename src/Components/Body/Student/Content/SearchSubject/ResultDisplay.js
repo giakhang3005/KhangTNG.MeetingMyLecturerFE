@@ -11,7 +11,7 @@ export const ResultDisplay = (props) => {
     recentSearch = props.recentSearch,
     BookingList = props.BookingList,
     loading = props.loading,
-    checkSearch = props.checkSearch
+    checkSearch = props.checkSearch;
 
   const { user } = useContext(Data);
 
@@ -166,21 +166,44 @@ export const ResultDisplay = (props) => {
           //   recentSearch.to !== null) && (
           <Alert
             style={{ margin: "8px 0 0 0" }}
-            message={checkSearch ? `Found ${BookingList.length} ${
-              BookingList.length < 2 ? "slot" : "slots"
-            } ${
-              recentSearch.lecturerCode !== null
-                ? `of Lecturer [${recentSearch.lecturerCode}]`
-                : ""
-            }  ${
-              recentSearch.subject !== null
-                ? `with Subject[ ${recentSearch.subject}] `
-                : ""
-            } ${
-              recentSearch.start !== null
-                ? `from ${recentSearch.start} to ${recentSearch.to}`
-                : ""
-            }` : 'Click search to search all or you can select conditions base on your needs'}
+            message={
+              checkSearch ? (
+                <>
+                  Found {BookingList.length}{" "}
+                  {BookingList.length < 2 ? "slot " : "slots "}
+                  {recentSearch.lecturerCode !== null ? (
+                    <>
+                      of Lecturer{" "}
+                      <Tag style={{ margin: 0 }}>
+                        {recentSearch.lecturerCode}
+                      </Tag>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {recentSearch.subject !== null ? (
+                    <>
+                      {" "}
+                      contain Subject{" "}
+                      <Tag style={{ margin: 0 }}>{recentSearch.subject}</Tag>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {recentSearch.start !== null ? (
+                    <>
+                    {" "}
+                      from <Tag style={{ margin: 0 }}>{recentSearch.start}</Tag>{" "}
+                      to <Tag style={{ margin: 0 }}>{recentSearch.to}</Tag>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
+              ) : (
+                "Click search to search all or you can select conditions base on your needs"
+              )
+            }
             type="info"
             showIcon
           />
