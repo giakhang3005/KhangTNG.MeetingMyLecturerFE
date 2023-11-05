@@ -42,7 +42,7 @@ export function AddUser({ setMenuOpt }) {
       emailCheck = true;
     } else {
       //check for fpt @ fe
-      if (newUser.email.includes(fptEmail) || newUser.email.includes(feEmail)) {
+      if (newUser.email.includes(fptEmail)) {
         message.error("You can not use FPT & FE email");
         emailCheck = true;
       }

@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../../Hooks/All/SVG";
 
 export function EditLecturers({ setMenuOpt, lecturerEdit }) {
   const { Title } = Typography;
@@ -140,7 +141,6 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
 
       {/* Back button */}
       <Button
-        disabled={loading}
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("lecturersManage")}
@@ -258,19 +258,37 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
               <Title
                 className="InfoText id"
                 level={5}
-                style={{ fontWeight: "400" }}
-              >
-                {lecturerEdit.locationList?.length === 0 ? (
-                  <>No location</>
-                ) : (
-                  lecturerEdit.locationList.map((location, i) => {
-                    return (
-                      <Popover key={i} content={location.locationAddress}>
-                        <Tag color="orange">{location.locationName}</Tag>
-                      </Popover>
-                    );
-                  })
+                style={Object.assign(
+                  { fontWeight: "400" },
+                  { display: "flex" }
                 )}
+              >
+                {lecturerEdit.linkMeet === null &&
+                  lecturerEdit.locationList.length === 0 &&
+                  "No Location"}
+                {lecturerEdit.linkMeet !== null && (
+                  <a href={`https://${lecturerEdit.linkMeet}`} target="_blank">
+                    <Tag
+                      style={Object.assign(
+                        { display: "flex" },
+                        { alignItems: "center" },
+                        { width: "106px" },
+                        { justifyContent: "space-between" }
+                      )}
+                      icon={<GooglemeetLogo />}
+                      color="geekblue"
+                    >
+                      Google Meet
+                    </Tag>
+                  </a>
+                )}
+                {lecturerEdit.locationList.map((location, i) => {
+                  return (
+                    <Popover key={i} content={location.locationAddress}>
+                      <Tag color="orange">{location.locationName}</Tag>
+                    </Popover>
+                  );
+                })}
               </Title>
             </Col>
           </Row>

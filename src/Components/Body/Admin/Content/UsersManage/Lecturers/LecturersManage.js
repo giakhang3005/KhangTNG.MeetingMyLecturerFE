@@ -1,6 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { Table, Typography, Tag, Popover, Button } from "antd";
-import { ConsoleSqlOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  ConsoleSqlOutlined,
+  EditOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useArray } from "../../../../../../Hooks/All/useArray";
 import axios from "axios";
 
@@ -30,7 +34,11 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
           localStorage.setItem("Alecturers", JSON.stringify(response.data))
         )
       )
-      .catch((error) => (console.error(error), setLoading(false), setLecturerList([])))
+      .catch(
+        (error) => (
+          console.error(error), setLoading(false), setLecturerList([])
+        )
+      )
       .finally(() => (setLoading(false), setHideLoading(false)));
   };
   useEffect(() => {
@@ -42,6 +50,8 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
     setlecturerEdit(lecturer);
     setMenuOpt("editLecturers");
   };
+
+  const sum = (a, b) => a + b;
 
   //table columns
   const columns = [
@@ -83,13 +93,22 @@ export function LecturersManage({ setlecturerEdit, setMenuOpt }) {
       key: "6",
       title: "Location",
       render: (lecturer) => {
-        return lecturer.locationList?.map((location, i) => {
-          return (
-            <Popover key={i} content={location?.locationAddress}>
-              <Tag color="orange">{location?.locationName}</Tag>
-            </Popover>
-          );
-        });
+        return (
+          <>
+            <Tag color="orange">
+              {sum(
+                lecturer.locationList?.length,
+                lecturer.linkMeet !== null ? 1 : 0
+              )}{" "}
+              {sum(
+                lecturer.locationList?.length,
+                lecturer.linkMeet !== null ? 1 : 0
+              ) < 2
+                ? "Location"
+                : "Locations"}
+            </Tag>
+          </>
+        );
       },
     },
 

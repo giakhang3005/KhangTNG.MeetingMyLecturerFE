@@ -225,7 +225,7 @@ export function PopupInputPassword(props) {
                     {isSelectedSlot.locationName}
                     <br />
                     <i style={Object.assign({ fontSize: "13px" })}>
-                      ({isSelectedSlot.locationAddress}){" "}
+                      ({isSelectedSlot.locationAddress})
                     </i>
                   </Title>
                 ) : (

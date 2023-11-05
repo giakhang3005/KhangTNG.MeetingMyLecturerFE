@@ -110,7 +110,7 @@ export function StudentInformations() {
       setLoading(true);
       axios
         .put(
-          `https://meet-production-52c7.up.railway.app/api/v1/student/${user.id}`,
+          `https://meet-production-52c7.up.railway.app/api/v1/student`,
           newStudent
         )
         .then((res) => message.success("Updated successfully"))
@@ -192,6 +192,7 @@ export function StudentInformations() {
                     value={dob}
                     format="DD/MM/YYYY"
                     onSelect={(newDob) => handleDobchange(newDob)}
+                    onChange={(newDob) => handleDobchange(newDob)}
                   />
                 </Title>
               </Col>

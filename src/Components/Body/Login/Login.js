@@ -186,7 +186,7 @@ export const Login = () => {
           message.error("Invalid username or password!");
         }
       })
-      .catch((err) =>{ console.log(err)})
+      .catch((err) =>{ message.error("Invalid username or password!"); console.log(err)})
       .finally(() => setLoading(false));
   };
 
