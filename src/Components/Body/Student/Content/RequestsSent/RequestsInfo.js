@@ -15,6 +15,7 @@ import { LeftOutlined, FormOutlined, CloseOutlined } from "@ant-design/icons";
 import "../../Student.css";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export function RequestsInfo(props) {
   const isSelectedBooking = props.isSelectedBooking,
@@ -65,9 +66,11 @@ export function RequestsInfo(props) {
             updateData
           )
           .then(
-            (res) => (message.success("Updated Successfully"),
-            setLoading(false),
-            getData())
+            (res) => (
+              message.success("Updated Successfully"),
+              setLoading(false),
+              getData()
+            )
           )
           .catch((err) => (console.log(err), setLoading(false)));
       }
@@ -99,9 +102,7 @@ export function RequestsInfo(props) {
         .delete(
           `https://meet-production-52c7.up.railway.app/api/booking/${isSelectedBooking.id}`
         )
-        .then(
-          message.success("Deleted successfully")
-        )
+        .then(message.success("Deleted successfully"))
         .catch((err) => console.error(err))
         .finally(() => (setLoading(false), getData(), setRequestsView("view")));
     } else {
@@ -227,16 +228,33 @@ export function RequestsInfo(props) {
                 </Title>
               </Col>
               <Col xs={15} md={10}>
-                <Title
-                  className="InfoText"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
-                  {isSelectedBooking.slotInfo.locationName} <br />
-                  <i style={{ fontSize: "13px" }}>
-                    ({isSelectedBooking.slotInfo.locationAddress})
-                  </i>
-                </Title>
+                {!isSelectedBooking.slotInfo.online ? (
+                  <Title
+                    className="InfoText id"
+                    level={5}
+                    style={{ fontWeight: "400" }}
+                  >
+                    {isSelectedBooking.slotInfo.locationName}
+                    <br />
+                    <i style={Object.assign({ fontSize: "13px" })}>
+                      ({isSelectedBooking.slotInfo.locationAddress}){" "}
+                    </i>
+                  </Title>
+                ) : (
+                  <Tag
+                    style={Object.assign(
+                      { display: "flex" },
+                      { alignItems: "center" },
+                      { width: "106px" },
+                      { justifyContent: "space-between" },
+                      {margin: '11px 0 0 0'}
+                    )}
+                    icon={<GooglemeetLogo />}
+                    color="geekblue"
+                  >
+                    Google Meet
+                  </Tag>
+                )}
               </Col>
             </Row>
 
@@ -300,16 +318,18 @@ export function RequestsInfo(props) {
                 >
                   <Popover
                     content={
-                      isSelectedBooking.status !== 1 &&
-                      "You can only edit note for pending requests"
+                      isSelectedBooking.status !== 1
+                        ? "You can only edit note for pending requests"
+                        : ""
                     }
                   >
                     <TextArea
                       value={inputNote}
                       onChange={onChange}
                       placeholder={
-                        isSelectedBooking.status === 1 &&
-                        "Questions, Notes for lecturer"
+                        isSelectedBooking.status === 1
+                          ? "Questions, Notes for lecturer"
+                          : ""
                       }
                       disabled={isSelectedBooking.status !== 1}
                       // maxLength={250}

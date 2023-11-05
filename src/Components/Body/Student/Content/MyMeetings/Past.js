@@ -1,11 +1,16 @@
 import { Table, Typography, Popover, Tag, Button, Row, Col } from "antd";
-import { InfoCircleFilled, LeftOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  InfoCircleFilled,
+  LeftOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useStudentRequests } from "../../../../../Hooks/Student/useStudentRequests";
 import { useState, useContext } from "react";
 import { Data } from "../../../Body";
 import axios from "axios";
 import { React, useEffect } from "react";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export function Past() {
   const { Title } = Typography;
@@ -109,10 +114,23 @@ export function Past() {
       key: "7",
       title: "Location",
       render: (booking) => {
-        return (
+        return !booking.slotInfo.online ? (
           <Popover content={booking.slotInfo.locationAddress}>
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
+        ) : (
+          <Tag
+            style={Object.assign(
+              { display: "flex" },
+              { alignItems: "center" },
+              { width: "106px" },
+              { justifyContent: "space-between" }
+            )}
+            icon={<GooglemeetLogo />}
+            color="geekblue"
+          >
+            Google Meet
+          </Tag>
         );
       },
     },
@@ -154,7 +172,6 @@ export function Past() {
     <>
       <Title className="sectionTitle" level={3}>
         UPCOMMING MEETINGS
-
         {/* Back button */}
         {JSON.stringify(meetingInfo) === "{}" && (
           <Button
@@ -187,11 +204,10 @@ export function Past() {
             Back
           </Button>
 
-        {/* Info section */}
+          {/* Info section */}
           <Row className="requestsInfo">
             <Col xs={1}></Col>
             <Col xs={23}>
-
               {/* Lecturer */}
               <Row>
                 <Col xs={9} md={3}>
@@ -277,10 +293,33 @@ export function Past() {
                     level={5}
                     style={{ fontWeight: "400" }}
                   >
-                    {meetingInfo.slotInfo.locationName} <br />
-                    <i style={{ fontSize: "13px" }}>
-                      ({meetingInfo.slotInfo.locationAddress})
-                    </i>
+                    {!meetingInfo.slotInfo.online ? (
+                      <Title
+                        className="InfoText id"
+                        level={5}
+                        style={{ fontWeight: "400" }}
+                      >
+                        {meetingInfo.slotInfo.locationName}
+                        <br />
+                        <i style={Object.assign({ fontSize: "13px" })}>
+                          ({meetingInfo.slotInfo.locationAddress}){" "}
+                        </i>
+                      </Title>
+                    ) : (
+                      <Tag
+                        style={Object.assign(
+                          { display: "flex" },
+                          { alignItems: "center" },
+                          { width: "106px" },
+                          { justifyContent: "space-between" },
+                          { margin: "11px 0 0 0" }
+                        )}
+                        icon={<GooglemeetLogo />}
+                        color="geekblue"
+                      >
+                        Google Meet
+                      </Tag>
+                    )}
                   </Title>
                 </Col>
               </Row>

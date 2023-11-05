@@ -95,7 +95,7 @@ export const useStudentRequests = () => {
         key: "7",
         title: "Location",
         render: (booking) => {
-          return !booking.online ? (
+          return !booking.slotInfo.online ? (
             <Popover content={booking.slotInfo.locationAddress}>
               <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
             </Popover>

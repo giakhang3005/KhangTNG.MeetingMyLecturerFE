@@ -10,6 +10,7 @@ import { useState, useContext } from "react";
 import { Data } from "../../../Body";
 import axios from "axios";
 import { React, useEffect } from "react";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export function Upcomming() {
   const { Title } = Typography;
@@ -116,10 +117,23 @@ export function Upcomming() {
       key: "7",
       title: "Location",
       render: (booking) => {
-        return (
+        return !booking.slotInfo.online ? (
           <Popover content={booking.slotInfo.locationAddress}>
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
+        ) : (
+          <Tag
+            style={Object.assign(
+              { display: "flex" },
+              { alignItems: "center" },
+              { width: "106px" },
+              { justifyContent: "space-between" }
+            )}
+            icon={<GooglemeetLogo />}
+            color="geekblue"
+          >
+            Google Meet
+          </Tag>
         );
       },
     },
@@ -282,10 +296,33 @@ export function Upcomming() {
                     level={5}
                     style={{ fontWeight: "400" }}
                   >
-                    {meetingInfo.slotInfo.locationName} <br />
-                    <i style={{ fontSize: "13px" }}>
-                      ({meetingInfo.slotInfo.locationAddress})
-                    </i>
+                    {!meetingInfo.slotInfo.online ? (
+                      <Title
+                        className="InfoText id"
+                        level={5}
+                        style={{ fontWeight: "400" }}
+                      >
+                        {meetingInfo.slotInfo.locationName}
+                        <br />
+                        <i style={Object.assign({ fontSize: "13px" })}>
+                          ({meetingInfo.slotInfo.locationAddress}){" "}
+                        </i>
+                      </Title>
+                    ) : (
+                      <Tag
+                        style={Object.assign(
+                          { display: "flex" },
+                          { alignItems: "center" },
+                          { width: "106px" },
+                          { justifyContent: "space-between" },
+                          { margin: "11px 0 0 0" }
+                        )}
+                        icon={<GooglemeetLogo />}
+                        color="geekblue"
+                      >
+                        Google Meet
+                      </Tag>
+                    )}
                   </Title>
                 </Col>
               </Row>

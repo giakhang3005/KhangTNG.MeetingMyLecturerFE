@@ -8,7 +8,7 @@ import {
   Col,
   Tag,
   Popconfirm,
-  Spin
+  Spin,
 } from "antd";
 import { useEffect, useState } from "react";
 import {
@@ -23,6 +23,7 @@ import { useArray } from "../../../../../Hooks/All/useArray";
 import { useDate } from "../../../../../Hooks/All/useDate.js";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
 import dayjs from "dayjs";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export const LectuerCalenderView = (props) => {
   //receive function
@@ -261,12 +262,42 @@ export const LectuerCalenderView = (props) => {
                               </Col>
                               <Col xs={17}>{convertMode(slot.mode)}</Col>
                             </Row>
+
+                            {/* Location */}
                             <Row>
                               <Col xs={7}>
                                 <b>Location:</b>
                               </Col>
-                              <Col xs={17}> {slot.locationName}</Col>
+                              <Col xs={17}>
+                                {" "}
+                                {slot.online ? (
+                                  <a
+                                    href={`https://${slot.linkMeet}`}
+                                    target="_blank"
+                                  >
+                                    <Tag
+                                      style={Object.assign(
+                                        { display: "flex" },
+                                        { alignItems: "center" },
+                                        { width: "106px" },
+                                        {margin: '5px 0 0 0'},
+                                        { justifyContent: "space-between" },
+                                        { cursor: "pointer" }
+                                      )}
+                                      icon={<GooglemeetLogo />}
+                                      color="geekblue"
+                                    >
+                                      Google Meet
+                                    </Tag>
+                                  </a>
+                                ) : (
+                                  <Popover content={slot.locationAddress}>
+                                    <Tag color="orange">{slot.locationName}</Tag>
+                                  </Popover>
+                                )}
+                              </Col>
                             </Row>
+
                             <Row>
                               <Col xs={7}>
                                 <b>Student:</b>
@@ -299,7 +330,12 @@ export const LectuerCalenderView = (props) => {
                         }
                       >
                         {/* Slot box appear in Week Calender */}
-                        <li className={`slotDisplay ${slot.status && "slotDisplayAvaiable"}`} key={key}>
+                        <li
+                          className={`slotDisplay ${
+                            slot.status && "slotDisplayAvaiable"
+                          }`}
+                          key={key}
+                        >
                           {slot.startTime.slice(0, 5)} -{" "}
                           {slot.endTime.slice(0, 5)}
                         </li>

@@ -73,9 +73,10 @@ export const ResultDisplay = (props) => {
               { display: "flex" },
               { alignItems: "center" },
               { width: "106px" },
-              { justifyContent: "space-between" }
+              { justifyContent: "space-between" },
+              {cursor: 'block'}
             )}
-            icon={<GooglemeetLogo />}
+            icon={<GooglemeetLogo/>}
             color="geekblue"
           >
             Google Meet

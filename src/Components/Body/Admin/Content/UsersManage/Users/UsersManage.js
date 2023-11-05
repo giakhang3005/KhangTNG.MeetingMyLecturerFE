@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import {
   Table,
   Typography,
@@ -20,8 +20,10 @@ import {
 import { AdvancePopover } from "./AdvancePopover";
 import { UserResultDisplay } from "./UserResultDisplay";
 import axios from "axios";
+import { Data } from "../../../../Body";
 
 export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
+  const { user } = useContext(Data);
   const { Title } = Typography;
   // State
   const [finalSearch, setFinalSearch] = useState({
@@ -182,8 +184,8 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
     {
       key: "4",
       title: "Role",
-      render: (user) => {
-        return checkRole(user.role);
+      render: (userFetch) => {
+        return checkRole(userFetch.role);
       },
     },
     {
@@ -194,8 +196,8 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
     {
       key: "6",
       title: "Status",
-      render: (user) => {
-        return user.status ? (
+      render: (userFetch) => {
+        return userFetch.status ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Disabled</Tag>
@@ -205,12 +207,12 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
     {
       key: "7",
       title: "",
-      render: (user) => {
+      render: (userFetch) => {
         return (
           <>
             {/* Loading */}
             {toggleLoading ? (
-              <Popover content="Please wait for the Update finish">
+              <Popover content="Please wait for the Update finish" placement="left">
                 <EditOutlined
                   style={Object.assign(
                     { fontSize: "18px" },
@@ -230,22 +232,41 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
             ) : (
               <>
                 {/* Edit Button */}
-                <Popover content={`Click to edit ${user.name}'s account`}>
-                  <EditOutlined
-                    onClick={() => handleEditUser(user)}
-                    style={Object.assign(
-                      { fontSize: "18px" },
-                      { color: "black" },
-                      { margin: "0 12px 0 0" }
-                    )}
-                  />
-                </Popover>
+                {userFetch.role > 0 || userFetch.id === user.id ? (
+                  <Popover
+                    content={`Click to edit ${userFetch.name}'s account`}
+                    placement="left"
+                  >
+                    <EditOutlined
+                      onClick={() => handleEditUser(userFetch)}
+                      style={Object.assign(
+                        { fontSize: "18px" },
+                        { color: "black" },
+                        { margin: "0 12px 0 0" }
+                      )}
+                    />
+                  </Popover>
+                ) : (
+                  <Popover content="You cannot edit other admin account" placement="left">
+                    <EditOutlined
+                      style={Object.assign(
+                        { fontSize: "18px" },
+                        { color: "black" },
+                        { opacity: "0.1" },
+                        { margin: "0 12px 0 0" }
+                      )}
+                    />
+                  </Popover>
+                )}
 
-                {user.status ? (
+                {userFetch.status ? (
                   //! Active
-                  <Popover content={`Click to disable ${user.name}'s account`}>
+                  <Popover
+                    content={`Click to disable ${userFetch.name}'s account`}
+                    placement="left"
+                  >
                     <PoweroffOutlined
-                      onClick={() => toggleUser(user)}
+                      onClick={() => toggleUser(userFetch)}
                       style={Object.assign(
                         { fontSize: "18px" },
                         { color: "green" }
@@ -254,9 +275,12 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
                   </Popover>
                 ) : (
                   //! Disable
-                  <Popover content={`Click to active ${user.name}'s account`}>
+                  <Popover
+                    content={`Click to active ${userFetch.name}'s account`}
+                    placement="left"
+                  >
                     <PoweroffOutlined
-                      onClick={() => toggleUser(user)}
+                      onClick={() => toggleUser(userFetch)}
                       style={Object.assign(
                         { fontSize: "18px" },
                         { color: "red" }

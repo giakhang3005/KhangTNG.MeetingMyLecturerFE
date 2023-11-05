@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useArray } from "../../../../../Hooks/All/useArray";
 import { useSlotLecturer } from "../../../../../Hooks/Lecturer/useSlotLecturer";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export const CreatedSlotTableView = (props) => {
   const setCreatedSlotView = props.setCreatedSlotView,
@@ -56,8 +57,26 @@ export const CreatedSlotTableView = (props) => {
       key: "5",
       title: "Location",
       render: (slot) => {
-        return (
-          <Popover content={slot.locationAddress}>{slot.locationName}</Popover>
+        return slot.online ? (
+          <a href={`https://${slot.linkMeet}`} target="_blank">
+            <Tag
+              style={Object.assign(
+                { display: "flex" },
+                { alignItems: "center" },
+                { width: "106px" },
+                { justifyContent: "space-between" },
+                { cursor: "pointer" }
+              )}
+              icon={<GooglemeetLogo />}
+              color="geekblue"
+            >
+              Google Meet
+            </Tag>
+          </a>
+        ) : (
+          <Popover content={slot.locationAddress}>
+            <Tag color="green">{slot.locationName}</Tag>
+          </Popover>
         );
       },
     },
@@ -98,8 +117,8 @@ export const CreatedSlotTableView = (props) => {
       key: "10",
       title: "Status",
       render: (slot) => {
-        return convertStatus(slot.status)
-      }
+        return convertStatus(slot.status);
+      },
     },
     {
       key: "11",

@@ -8,6 +8,7 @@ import { useArray } from "../../../../../Hooks/All/useArray";
 import { useState, useEffect, useContext } from "react";
 import { Data } from "../../../Body";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export const LecturerRequests = () => {
   const { Title } = Typography;
@@ -97,10 +98,25 @@ export const LecturerRequests = () => {
       key: "7",
       title: "Location",
       render: (booking) => {
-        return (
+        console.log(booking);
+        return !booking.slotInfo.online ? (
           <Popover content={booking.slotInfo.locationAddress}>
-            <Tag color="green">{booking.slotInfo.locationName}</Tag>
+            <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
+        ) : (
+          <Tag
+            style={Object.assign(
+              { display: "flex" },
+              { alignItems: "center" },
+              { width: "106px" },
+              { justifyContent: "space-between" },
+              { cursor: "pointer" }
+            )}
+            icon={<GooglemeetLogo />}
+            color="geekblue"
+          >
+            Google Meet
+          </Tag>
         );
       },
     },
@@ -179,8 +195,8 @@ export const LecturerRequests = () => {
         message.success(`Accepted ${booking.studentInfo.studentName}'s Booking`)
       )
       .then(() => refresh())
-      .catch((error) => (console.error(error)))
-      .finally(() => setLoading(false))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   };
 
   //handle delete click
@@ -203,8 +219,8 @@ export const LecturerRequests = () => {
         message.success(`Declined ${booking.studentInfo.studentName}'s Booking`)
       )
       .then(() => refresh())
-      .catch((error) => (console.error(error)))
-      .finally(() => setLoading(false))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   };
 
   const refresh = () => {

@@ -148,10 +148,10 @@ export function CreateSlotForm({
     }/${date.$y}`;
     const startString = `${start.$H < 10 ? `0${start.$H}` : start.$H}:${
       start.$m < 10 ? `0${start.$m}` : start.$m
-    }:00`;
+    }`;
     const endString = `${end.$H < 10 ? `0${end.$H}` : end.$H}:${
       end.$m < 10 ? `0${end.$m}` : end.$m
-    }:00`;
+    }`;
 
     const returnSubjectsList = selectedSubjects.map((subject) => {
       return { subjectCode: subject };
