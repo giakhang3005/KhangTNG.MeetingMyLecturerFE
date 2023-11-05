@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Typography, Table, Row, Col, Button, message, Popconfirm } from "antd";
+import { Typography, Table, Row, Col, Button, message, Tag } from "antd";
 import {
   EditOutlined,
   PoweroffOutlined,
@@ -52,6 +52,13 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
       key: "2",
       title: "Name",
       dataIndex: "name",
+    },
+    {
+      key: "3",
+      title: "Status",
+      render: (major) => (
+        <Tag color={major.status ? "green" : "red"}>{major.status ? "Active" : "Disabled"}</Tag>
+      )
     },
     {
       key: "5",
