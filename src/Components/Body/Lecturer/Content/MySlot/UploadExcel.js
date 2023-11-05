@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { Upload, message, Button, Col, Row, Popover, Spin } from "antd";
 import {
   UploadOutlined,
@@ -7,11 +7,13 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useExcel } from "../../../../../Hooks/All/useExcel";
+import { Data } from "../../../Body";
 import dayjs from "dayjs";
 
 export function UploadExcel({ subjects, locationsList }) {
   const { Dragger } = Upload;
   const { exportExcel, readExcelFile } = useExcel();
+  const { user } = useContext(Data);
 
   const handleExportMaterials = () => {
     const today = new dayjs();
@@ -27,7 +29,7 @@ export function UploadExcel({ subjects, locationsList }) {
     let downloadLocationsList = locationsList.map((loc) => {
       return { ID: loc.id, NAME: loc.name, ADDRESS: loc.address };
     });
-    downloadLocationsList.push({ID: 'online', NAME: '', ADDRESS: ''})
+    downloadLocationsList.push({ ID: "online", NAME: "", ADDRESS: "" });
 
     const slotMode = [
       {
@@ -109,19 +111,28 @@ export function UploadExcel({ subjects, locationsList }) {
   };
 
   const handleUpload = () => {
-    const formatedData = uploadedData.map((row) => (
-      {
-        meetingDay: row.meetingDay.toString(),
-        startTime: row.startTime.toString(),
-        endTime: row.endTime.toString(),
-        locationId: row.locationId.toString(),
-        subjects: row.subjects.toString(),
-        mode: row.mode.toString(),
-        studentEmail: row.studentEmail.toString(),
-        password: row.password.toString(),
-      }
-    ))
-    console.log(JSON.stringify(formatedData));
+    const formatedData = uploadedData.map((row) => ({
+      meetingDay: row.meetingDay.toString(),
+      startTime: row.startTime.toString(),
+      endTime: row.endTime.toString(),
+      locationId: row.locationId.toString(),
+      subjects: row.subjects.toString(),
+      mode: row.mode.toString(),
+      studentEmail: row.studentEmail.toString(),
+      password: row.password.toString(),
+    }));
+
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
+        formatedData
+      )
+      .then((res) => {
+        message.success("Uploaded Successfully");
+        setUploadedData([]);
+      })
+      .catch((err) => message.error(err));
+    // console.log(JSON.stringify(formatedData));
   };
   return (
     <div className="requestsInfo">
@@ -198,8 +209,8 @@ export function UploadExcel({ subjects, locationsList }) {
               { width: "100%" },
               { height: "68px" },
               { margin: "0 0 0 5px" },
-              {fontSize : "15px"},
-              {fontWeight: 600}
+              { fontSize: "15px" },
+              { fontWeight: 600 }
             )}
           >
             {uploading ? "Uploading..." : "Start Upload"}
