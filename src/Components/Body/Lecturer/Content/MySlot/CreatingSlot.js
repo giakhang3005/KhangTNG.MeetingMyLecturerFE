@@ -1,5 +1,5 @@
-import { Select, Button, Typography, message, Spin } from "antd";
-import { LeftOutlined } from "@ant-design/icons";
+import { Select, Button, Typography, message, Spin, Popover } from "antd";
+import { LeftOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import "../../Lecturer.css";
 import dayjs from "dayjs";
 import { useEffect, useState, useContext } from "react";
@@ -72,9 +72,26 @@ export const CreatingSlot = (props) => {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        CREATING SLOT
+        <span
+          style={Object.assign({ display: "flex" }, { alignItems: "center" })}
+        >
+          CREATING SLOT{" "}
+          <Popover content="Click to download instructions file" placement="right">
+            <a
+              href="./[MML] Create slot instruction.docx"
+              style={Object.assign(
+                { fontSize: "14px" },
+                { color: "#F15A25" },
+                { margin: "3px 0 0 5px" }
+              )}
+              download
+            >
+              <QuestionCircleOutlined />
+            </a>
+          </Popover>
+        </span>
         <Button
-          disabled={ isLoading}
+          disabled={isLoading}
           onClick={() => setIsUploadMode(!isUploadMode)}
         >
           {!isUploadMode ? "Upload Excel File" : "Create new slot"}

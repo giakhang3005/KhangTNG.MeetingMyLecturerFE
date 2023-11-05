@@ -250,7 +250,6 @@
 .animateBox {
   animation: anibox 0.15s linear;
 }
-
 @keyframes anibox {
   from {
     opacity: 0;
