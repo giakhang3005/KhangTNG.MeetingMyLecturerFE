@@ -7,10 +7,19 @@ import { useState } from "react";
 function App() {
   // User
   //atob == decode
-  const startUser =
-    sessionStorage.user === undefined
-      ? null
-      : JSON.parse(atob(sessionStorage.user));
+  let startUser = null
+    if(sessionStorage.user !== undefined) {
+      const firstParse = JSON.parse(sessionStorage.user)
+      const secondParse = JSON.parse(atob(firstParse.info))
+      startUser = {
+        name: firstParse.name,
+        id: secondParse.id,
+        picture: secondParse.picture,
+        email: secondParse.email,
+        role: secondParse.role,
+        status: secondParse.status,
+      }
+    }
   const [user, setUser] = useState(startUser);
   return (
     <>

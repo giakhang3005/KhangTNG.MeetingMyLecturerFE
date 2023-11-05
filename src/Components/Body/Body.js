@@ -57,11 +57,11 @@ export const Body = (props) => {
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedWeek, setSelectedWeek] = useState(GetWeek(selectedDate));
 
-  //! Get role in localStorage
+  //! Get role in session
   const startRole =
     sessionStorage.user === undefined
       ? null
-      : JSON.parse(atob(sessionStorage.user)).role;
+      : user.role;
   const [role, setRole] = useState(startRole);
 
   //default MenuOpt
