@@ -11,7 +11,7 @@ export function RequestsViewDeclined(props) {
   const [declineList, setDeclineList] = useState([])
   useEffect(() => {
     FilterList(requestsList, 0, setDeclineList)
-  }, [])
+  }, [requestsList])
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);

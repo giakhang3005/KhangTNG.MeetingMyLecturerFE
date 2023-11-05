@@ -7,14 +7,11 @@ import { Data } from "../../../Body";
 import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export const ResultDisplay = (props) => {
-  const setSlotView = props.setSlotView,
-    setIsSelectedSlot = props.setIsSelectedSlot,
-    isSearchingSubject = props.isSearchingSubject,
-    startDate = props.startDate,
-    toDate = props.toDate,
+  const setIsSelectedSlot = props.setIsSelectedSlot,
     recentSearch = props.recentSearch,
     BookingList = props.BookingList,
-    loading = props.loading;
+    loading = props.loading,
+    checkSearch = props.checkSearch
 
   const { user } = useContext(Data);
 
@@ -161,25 +158,35 @@ export const ResultDisplay = (props) => {
 
   return (
     <>
-      {!loading &&
-        (recentSearch.subject !== null ||
-          recentSearch.start !== null ||
-          recentSearch.to !== null) && (
+      {
+        !loading && (
+          // (recentSearch.lecturerCode !== null ||
+          //   recentSearch.subject !== null ||
+          //   recentSearch.start !== null ||
+          //   recentSearch.to !== null) && (
           <Alert
             style={{ margin: "8px 0 0 0" }}
-            message={`Found ${BookingList.length} slots for ${
-              recentSearch.subject === null || recentSearch.subject === ""
-                ? "All"
-                : recentSearch.subject
+            message={checkSearch ? `Found ${BookingList.length} ${
+              BookingList.length < 2 ? "slot" : "slots"
+            } ${
+              recentSearch.lecturerCode !== null
+                ? `of Lecturer [${recentSearch.lecturerCode}]`
+                : ""
+            }  ${
+              recentSearch.subject !== null
+                ? `with Subject[ ${recentSearch.subject}] `
+                : ""
             } ${
               recentSearch.start !== null
                 ? `from ${recentSearch.start} to ${recentSearch.to}`
                 : ""
-            }`}
+            }` : 'Click search to search all or you can select conditions base on your needs'}
             type="info"
             showIcon
           />
-        )}
+        )
+        // )
+      }
 
       {/* Table of result */}
       <Table

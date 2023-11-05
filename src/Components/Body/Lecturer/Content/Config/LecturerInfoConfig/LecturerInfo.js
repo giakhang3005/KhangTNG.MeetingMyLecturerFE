@@ -13,6 +13,7 @@ import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../../Body";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../../Hooks/All/SVG";
 
 export function LecturerInfo() {
   const { Title } = Typography;
@@ -148,6 +149,8 @@ export function LecturerInfo() {
 
   //handle submit
   const [loading, setLoading] = useState(false);
+  const meetformat =
+    "meet.google.com/[a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z]$";
   const handleSubmit = () => {
     const newLecturer = {
       id: lecturer.id,
@@ -168,7 +171,6 @@ export function LecturerInfo() {
       ? (phoneErr = true)
       : (phoneErr = false);
 
-    const meetformat = 'meet.google.com/[a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z]$'
     let meetErr = newLecturer.linkMeet.match(meetformat);
 
     if (phoneErr && validEmail && meetErr) {
@@ -341,6 +343,20 @@ export function LecturerInfo() {
                   <Input
                     placeholder="Please create a Google Meet and copy it's link to this box"
                     className="editInput"
+                    suffix={
+                      lecturer?.linkMeet?.match(meetformat) && (
+                        <a
+                          href={lecturer.linkMeet}
+                          target="_blank"
+                          style={Object.assign(
+                            { scale: "1.2" },
+                            { margin: "2.5px 0 0 0" }
+                          )}
+                        >
+                          <GooglemeetLogo />
+                        </a>
+                      )
+                    }
                     value={lecturer?.linkMeet}
                     onChange={(e) => handleMeetChange(e)}
                   ></Input>

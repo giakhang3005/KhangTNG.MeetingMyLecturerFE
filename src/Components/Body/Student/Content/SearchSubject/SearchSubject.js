@@ -7,6 +7,9 @@ import { Typography, Space } from "antd";
 export const SearchSubject = () => {
   const { Title } = Typography;
 
+  //check if user search for the first time
+  const [checkSearch, setCheckSearch] = useState(false)
+
   //handle subject search
   const [isSearchingSubject, setIsSearchingSubject] = useState(null);
   const [isSelectedSlot, setIsSelectedSlot] = useState([]);
@@ -15,14 +18,18 @@ export const SearchSubject = () => {
   const [startDate, setStartDate] = useState(null);
   const [toDate, setToDate] = useState(null);
 
+  //handle lecturerCodeSearch
+  const [lecturerCodeSearch, setLecturerCodeSearch] = useState(null);
+
   const [recentSearch, setRecentSearch] = useState({
+    lecturerCode: null,
     subject: null,
     start: null,
     to: null,
   });
 
-  const [BookingList, setBookingList] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [BookingList, setBookingList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="searchSubject">
@@ -35,6 +42,8 @@ export const SearchSubject = () => {
           {/* Display Search Bar & result */}
           <Space direction="vertical" style={{ width: "100%" }}>
             <SearchBar
+              setLecturerCodeSearch={setLecturerCodeSearch}
+              lecturerCodeSearch={lecturerCodeSearch}
               setIsSearchingSubject={setIsSearchingSubject}
               startDate={startDate}
               setStartDate={setStartDate}
@@ -44,6 +53,7 @@ export const SearchSubject = () => {
               isSearchingSubject={isSearchingSubject}
               setBookingList={setBookingList}
               setLoading={setLoading}
+              setCheckSearch={setCheckSearch}
             />
             <ResultDisplay
               setIsSelectedSlot={setIsSelectedSlot}
@@ -53,6 +63,7 @@ export const SearchSubject = () => {
               recentSearch={recentSearch}
               BookingList={BookingList}
               loading={loading}
+              checkSearch={checkSearch}
             />
           </Space>
         </>

@@ -12,6 +12,8 @@ import { PickDate } from "./PickDate";
 export function SearchBar(props) {
   //get function
   const setIsSearchingSubject = props.setIsSearchingSubject,
+    setLecturerCodeSearch = props.setLecturerCodeSearch,
+    lecturerCodeSearch = props.lecturerCodeSearch,
     startDate = props.startDate,
     setStartDate = props.setStartDate,
     toDate = props.toDate,
@@ -19,13 +21,14 @@ export function SearchBar(props) {
     setRecentSearch = props.setRecentSearch,
     isSearchingSubject = props.isSearchingSubject,
     setBookingList = props.setBookingList,
-    setLoading = props.setLoading;
+    setLoading = props.setLoading,
+    setCheckSearch = props.setCheckSearch;
 
   //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(false);
-  useEffect(() => {
+  const getSubjects = () => {
     if (
       localStorage.getItem("subjects") !== null &&
       localStorage.getItem("subjects") !== "undefined"
@@ -44,6 +47,38 @@ export function SearchBar(props) {
         )
       )
       .finally(() => setSubjectsLoading(false));
+  };
+
+  //! lecturerCodes from API
+  const [lecturerCodes, setLecturerCodes] = useState([]);
+  const [lecturerCodesLoading, setLecturerCodesLoading] = useState(false);
+  const getLecturerCodes = () => {
+    if (
+      localStorage.getItem("lecturerCodes") !== null &&
+      localStorage.getItem("lecturerCodes") !== "undefined"
+    ) {
+      setLecturerCodes(JSON.parse(localStorage.getItem("lecturerCodes")));
+    } else {
+      setLecturerCodesLoading(true);
+    }
+
+    axios
+      .get(
+        "https://meet-production-52c7.up.railway.app/api/lecturer/lecturerCode"
+      )
+      .then(
+        (response) => (
+          setLecturerCodes(response.data),
+          localStorage.setItem("lecturerCodes", JSON.stringify(response.data))
+        )
+      )
+      .finally(() => setLecturerCodesLoading(false));
+  };
+
+  useEffect(() => {
+    getSubjects();
+    getLecturerCodes();
+    // handleSearch();
   }, []);
 
   const [fromDatePicker, setFromDatePicker] = useState(null);
@@ -88,6 +123,7 @@ export function SearchBar(props) {
 
   //Handle search
   const handleSearch = () => {
+    setCheckSearch(true)
     //! handle show recent
     //fetch subject, startDate, toDate
     const startDateString =
@@ -100,6 +136,7 @@ export function SearchBar(props) {
 
     const recentSearchValue = {
       subject: isSearchingSubject,
+      lecturerCode: lecturerCodeSearch,
       start: startDateString,
       to: toDateString,
     };
@@ -123,6 +160,7 @@ export function SearchBar(props) {
 
     const searchValue = {
       subject: isSearchingSubject,
+      lecturerCode: lecturerCodeSearch,
       start: startSearch,
       to: toSearch,
     };
@@ -132,6 +170,9 @@ export function SearchBar(props) {
     //subject
     queryString +=
       searchValue.subject !== null ? `subjectCode=${searchValue.subject}&` : "";
+    //lecturer
+    queryString +=
+      searchValue.lecturerCode !== null ? `lecturerCode=${searchValue.lecturerCode}&` : "";
     //start
     queryString +=
       searchValue.start !== null ? `startDay=${searchValue.start}&` : "";
@@ -168,7 +209,31 @@ export function SearchBar(props) {
 
       <Row>
         {/* <Col xs={2} md={6}></Col> */}
-        <Col xs={17} md={9}>
+        <Col xs={10} md={6}>
+          {/* Search box */}
+          <Spin
+            spinning={lecturerCodesLoading}
+            size="medium"
+            tip="Preparing Lecturers..."
+          >
+            <Select
+              suffixIcon={<SearchOutlined />}
+              placeholder="Search Lecturer (PhuongLHK,...)"
+              showSearch
+              allowClear
+              onClear={() => setLecturerCodeSearch(null)}
+              onSelect={(subject) => setLecturerCodeSearch(subject)}
+              options={lecturerCodes.map((lecturerCode) => ({
+                value: lecturerCode,
+                label: lecturerCode,
+              }))}
+              style={{
+                width: "98%",
+              }}
+            ></Select>
+          </Spin>
+        </Col>
+        <Col xs={10} md={5}>
           {/* Search box */}
           <Spin
             spinning={subjectsLoading}
@@ -177,7 +242,7 @@ export function SearchBar(props) {
           >
             <Select
               suffixIcon={<SearchOutlined />}
-              placeholder="Ex: SWP391,..."
+              placeholder="Search Subjects (SWP391,...)"
               showSearch
               allowClear
               onClear={() => setIsSearchingSubject(null)}
