@@ -11,7 +11,7 @@ export function RequestsViewAccepted(props) {
   const [acceptList, setAcceptList] = useState([])
   useEffect(() => {
     FilterList(requestsList, 2, setAcceptList)
-  }, [])
+  }, [requestsList])
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);

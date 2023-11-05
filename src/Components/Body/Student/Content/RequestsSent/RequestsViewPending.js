@@ -13,7 +13,7 @@ export function RequestsViewPending(props) {
   const [pendingList, setPendingList] = useState([])
   useEffect(() => {
     FilterList(requestsList, 1, setPendingList)
-  }, [])
+  }, [requestsList])
 
   //columns for table
   const columns = tableColumn(setRequestsView, setIsSelectedBooking);

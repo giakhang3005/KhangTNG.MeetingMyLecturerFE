@@ -235,7 +235,8 @@ export function PopupInputPassword(props) {
                       { alignItems: "center" },
                       { width: "106px" },
                       { justifyContent: "space-between" },
-                      {margin: '11px 0 0 0'}
+                      { margin: "11px 0 0 0" },
+                      { cursor: "not-allowed" }
                     )}
                     icon={<GooglemeetLogo />}
                     color="geekblue"

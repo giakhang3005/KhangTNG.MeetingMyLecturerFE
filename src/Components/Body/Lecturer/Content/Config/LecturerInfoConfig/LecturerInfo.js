@@ -110,6 +110,17 @@ export function LecturerInfo() {
     setLecturer({ ...lecturer, phone: e.target.value });
   };
 
+  //handle meet change
+  const handleMeetChange = (e) => {
+    setLecturer({
+      ...lecturer,
+      linkMeet: e.target.value.replace(
+        "https://meet.google.com/",
+        "meet.google.com/"
+      ),
+    });
+  };
+
   //handle note change
   const handleNoteChange = (e) => {
     setLecturer({ ...lecturer, note: e.target.value });
@@ -143,6 +154,7 @@ export function LecturerInfo() {
       name: lecturer.name,
       email: lecturer.email,
       phone: lecturer.phone,
+      linkMeet: lecturer.linkMeet,
       subjectList: convertSubject(),
       note: lecturer.note,
     };
@@ -156,7 +168,10 @@ export function LecturerInfo() {
       ? (phoneErr = true)
       : (phoneErr = false);
 
-    if (phoneErr && validEmail) {
+    const meetformat = 'meet.google.com/[a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z][a-zA-Z]$'
+    let meetErr = newLecturer.linkMeet.match(meetformat);
+
+    if (phoneErr && validEmail && meetErr) {
       setLoading(true);
       axios
         .put(
@@ -171,11 +186,12 @@ export function LecturerInfo() {
       !phoneErr && message.error("Phone number must from 10 to 11 numbers");
       //validEmail = false -> execute
       !validEmail && message.error("Invalid Email address");
+      !meetErr && message.error("You have to enter a valid google meet link");
     }
   };
   return (
     <>
-     <Button
+      <Button
         icon={<LeftOutlined />}
         type="text"
         onClick={() => setMenuOpt("lecturerCfg")}
@@ -324,12 +340,9 @@ export function LecturerInfo() {
                 >
                   <Input
                     placeholder="Please create a Google Meet and copy it's link to this box"
-                    // disabled={loading}
-                    // className="editInput"
-                    // value={lecturer?.phone}
-                    // maxLength={11}
-                    // showCount
-                    // onChange={(e) => handlePhoneChange(e)}
+                    className="editInput"
+                    value={lecturer?.linkMeet}
+                    onChange={(e) => handleMeetChange(e)}
                   ></Input>
                 </Title>
               </Col>
