@@ -1,4 +1,4 @@
-<span class="demo">Demo with Github Pages: [Meeting my Lecturers](https://meetinglecturers.giakhang3005.com) </span>
+<span class="demo">Demo with Github Pages: [Meeting my Lecturers](https://meetingmylecturers.giakhang3005.com) </span>
 
 
 <h3>Using</h3>

@@ -21,7 +21,7 @@ export function EditSubjects({ setMenuOpt, subjectEdit }) {
     setMajorLoading(true);
     setSelectedMajors(subjectEdit.majorList);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/major")
+      .get("https://meet-production-52c7.up.railway.app/api/major/status")
       .then((response) => setMajors(response.data))
       .catch((err) => console.error(err))
       .finally(() => setMajorLoading(false));

@@ -19,7 +19,7 @@ export function AddSubjects({ setMenuOpt }) {
   useEffect(() => {
     setMajorLoading(true);
     axios
-      .get("https://meet-production-52c7.up.railway.app/api/major")
+      .get("https://meet-production-52c7.up.railway.app/api/major/status")
       .then((response) => setMajors(response.data))
       .finally(() => (setMajorLoading(false), setMajorLoading(false)));
   }, []);

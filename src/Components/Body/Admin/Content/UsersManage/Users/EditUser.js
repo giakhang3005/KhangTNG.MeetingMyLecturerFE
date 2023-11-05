@@ -207,6 +207,7 @@ export function EditUser({ userEdit, setUidEditUser, setMenuOpt }) {
                 style={{ fontWeight: "400" }}
               >
                 <Select
+                disabled
                   defaultValue={userEdit.role}
                   options={[
                     {
