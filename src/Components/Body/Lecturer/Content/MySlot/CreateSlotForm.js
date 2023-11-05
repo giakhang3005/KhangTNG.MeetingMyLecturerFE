@@ -73,9 +73,9 @@ export function CreateSlotForm({
   };
 
   //! STATE
-  const [today, setToday] = useState(new dayjs());
-  const [date, setDate] = useState(today);
-  const [start, setStart] = useState(date.add(6, "hour"));
+  const today = new dayjs()
+  const [date, setDate] = useState(today.add(6, "hour"));
+  const [start, setStart] = useState(date);
   const [end, setEnd] = useState(start.add(15, "minute"));
   const [mode, setMode] = useState(0);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
@@ -108,22 +108,24 @@ export function CreateSlotForm({
 
   //handle State time change
   const handleStartChange = (newStart) => {
-    if (newStart < today.add(6, "hour")) {
+    const startHour = newStart.date(date.date()).month(date.month()).year(date.year())
+    if (startHour < today.add(6, "hour")) {
       message.error("You have to create slot at least 6 hours from now");
     } else {
-      setStart(newStart);
-      if (end.diff(newStart) < 900000) {
-        setEnd(newStart.add(15, "minute"));
+      setStart(startHour);
+      if (end.diff(startHour) < 900000) {
+        setEnd(startHour.add(15, "minute"));
       }
     }
   };
 
   //handle End time change
   const handleEndChange = (newEnd) => {
-    if (newEnd < start.add(15, "minute")) {
+    const endHour = newEnd.date(date.date()).month(date.month()).year(date.year())
+    if (endHour < start.add(15, "minute")) {
       message.error("Slot must be at least 15 minutes");
     } else {
-      setEnd(newEnd);
+      setEnd(endHour);
     }
   };
 
@@ -225,7 +227,7 @@ export function CreateSlotForm({
 
       if (!SubjErr && !locErr && !passErr) {
         setIsLoading(true);
-        console.log(JSON.stringify(newSlot));
+        // console.log(JSON.stringify(newSlot));
         axios
           .post(
             "https://meet-production-52c7.up.railway.app/api/v1/slot",

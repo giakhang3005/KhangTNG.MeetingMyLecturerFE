@@ -98,25 +98,26 @@ export const LecturerRequests = () => {
       key: "7",
       title: "Location",
       render: (booking) => {
-        console.log(booking);
         return !booking.slotInfo.online ? (
           <Popover content={booking.slotInfo.locationAddress}>
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <Tag
-            style={Object.assign(
-              { display: "flex" },
-              { alignItems: "center" },
-              { width: "106px" },
-              { justifyContent: "space-between" },
-              { cursor: "pointer" }
-            )}
-            icon={<GooglemeetLogo />}
-            color="geekblue"
-          >
-            Google Meet
-          </Tag>
+          <a href={`https://${booking.slotInfo.lecturerLinkMeet}`} target="_blank">
+            <Tag
+              style={Object.assign(
+                { display: "flex" },
+                { alignItems: "center" },
+                { width: "106px" },
+                { justifyContent: "space-between" },
+                { cursor: "pointer" }
+              )}
+              icon={<GooglemeetLogo />}
+              color="geekblue"
+            >
+              Google Meet
+            </Tag>
+          </a>
         );
       },
     },

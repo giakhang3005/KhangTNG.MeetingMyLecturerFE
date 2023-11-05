@@ -61,7 +61,7 @@ export function UploadExcel({ subjects, locationsList }) {
     //data
     const dataTemplates = [
       {
-        meetingDay: "1/1/2023",
+        meetingDay: "01/01/2023",
         startTime: "12:15",
         endTime: "13:45",
         locationId: 6,
@@ -71,7 +71,7 @@ export function UploadExcel({ subjects, locationsList }) {
         password: "",
       },
       {
-        meetingDay: "1/1/2023",
+        meetingDay: "01/01/2023",
         startTime: "14:15",
         endTime: "15:00",
         locationId: 6,
@@ -81,7 +81,7 @@ export function UploadExcel({ subjects, locationsList }) {
         password: "12345",
       },
       {
-        meetingDay: "1/1/2023",
+        meetingDay: "01/01/2023",
         startTime: "19:15",
         endTime: "20:00",
         locationId: "online",

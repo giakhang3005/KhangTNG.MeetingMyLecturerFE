@@ -173,7 +173,7 @@ export function LecturerInfo() {
 
     let meetErr = newLecturer.linkMeet.match(meetformat);
 
-    if (phoneErr && validEmail && meetErr) {
+    if (phoneErr && meetErr) {
       setLoading(true);
       axios
         .put(
@@ -187,7 +187,6 @@ export function LecturerInfo() {
       //phone error = true -> execute
       !phoneErr && message.error("Phone number must from 10 to 11 numbers");
       //validEmail = false -> execute
-      !validEmail && message.error("Invalid Email address");
       !meetErr && message.error("You have to enter a valid google meet link");
     }
   };

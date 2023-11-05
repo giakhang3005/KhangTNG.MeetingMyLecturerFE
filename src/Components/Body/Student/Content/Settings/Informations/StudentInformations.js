@@ -94,6 +94,7 @@ export function StudentInformations() {
       dob: dobString,
       phone: phone,
       address: address,
+      status: true,
     };
 
     const dobErr = dob === null ? true : false;
