@@ -240,6 +240,25 @@ export function RequestsInfo(props) {
                       ({isSelectedBooking.slotInfo.locationAddress}){" "}
                     </i>
                   </Title>
+                ) : isSelectedBooking.status === 2 ? (
+                  <a
+                    href={`https://${isSelectedBooking.slotInfo.lecturerLinkMeet}`}
+                    target="_blank"
+                  >
+                    <Tag
+                      style={Object.assign(
+                        { display: "flex" },
+                        { alignItems: "center" },
+                        { width: "106px" },
+                        { justifyContent: "space-between" },
+                        { margin: "12px 0 0 0" }
+                      )}
+                      icon={<GooglemeetLogo />}
+                      color="geekblue"
+                    >
+                      Google Meet
+                    </Tag>
+                  </a>
                 ) : (
                   <Tag
                     style={Object.assign(
@@ -247,7 +266,8 @@ export function RequestsInfo(props) {
                       { alignItems: "center" },
                       { width: "106px" },
                       { justifyContent: "space-between" },
-                      {margin: '11px 0 0 0'}
+                      { margin: "12px 0 0 0" },
+                      { cursor: "not-allowed" }
                     )}
                     icon={<GooglemeetLogo />}
                     color="geekblue"

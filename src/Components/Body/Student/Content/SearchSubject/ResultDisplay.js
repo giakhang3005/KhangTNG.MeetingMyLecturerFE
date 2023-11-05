@@ -6,7 +6,6 @@ import axios from "axios";
 import { Data } from "../../../Body";
 import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
-
 export const ResultDisplay = (props) => {
   const setSlotView = props.setSlotView,
     setIsSelectedSlot = props.setIsSelectedSlot,
@@ -74,9 +73,9 @@ export const ResultDisplay = (props) => {
               { alignItems: "center" },
               { width: "106px" },
               { justifyContent: "space-between" },
-              {cursor: 'block'}
+              { cursor: "not-allowed" }
             )}
-            icon={<GooglemeetLogo/>}
+            icon={<GooglemeetLogo />}
             color="geekblue"
           >
             Google Meet

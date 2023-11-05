@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import {
   Input,
   Button,
@@ -12,11 +12,14 @@ import {
   Spin,
   Checkbox,
   Radio,
+  Tag,
+  notification,
 } from "antd";
-import { ConsoleSqlOutlined, FormOutlined } from "@ant-design/icons";
+import { FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../Body";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export function CreateSlotForm({
   isLoading,
@@ -29,7 +32,21 @@ export function CreateSlotForm({
   getData,
 }) {
   const { Title } = Typography;
-  const { user } = useContext(Data);
+  const { user, setMenuOpt } = useContext(Data);
+
+  const [linkMeet, setLinkMeet] = useState(null);
+  const getLinkMeet = () => {
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/lecturer/linkMeet?id=${user.id}`
+      )
+      .then((response) => setLinkMeet(response.data.data))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getLinkMeet();
+  }, []);
 
   //push in to select format
   const pushSubjectList = (inputSubjects) => {
@@ -136,8 +153,30 @@ export function CreateSlotForm({
   };
 
   //handle type change
+  const settingBtn = (
+    <Button>Go to Setting</Button>
+  )
+  const btn = (
+      <Button type="primary" size="small" onClick={() => setMenuOpt('lecturerInformations')}>
+        Go to Settings
+      </Button>
+  );
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = () => {
+    api.warning({
+      message: "Can not change type to Online",
+      description:
+        "You haven't add any Google Meet link yet",
+      btn,
+      duration: 5,
+    });
+  };
   const handleTypeChange = (newType) => {
-    setType(newType);
+    if (newType === "online" && (linkMeet === null || linkMeet?.length < 25)) {
+      openNotification();
+    } else {
+      setType(newType);
+    }
   };
 
   //! handle submit
@@ -163,8 +202,8 @@ export function CreateSlotForm({
       endTime: endString,
       mode: mode,
       studentEmail: mode === 2 ? studentEmail : null,
-      online: type === 'online',
-      locationId: type === 'offline' ? locationId : null,
+      online: type === "online",
+      locationId: type === "offline" ? locationId : null,
       slotSubjectDTOS: returnSubjectsList,
       password: !hasPassword ? null : password,
       // toggle: true,
@@ -178,7 +217,7 @@ export function CreateSlotForm({
       let locErr = false,
         SubjErr = false,
         passErr = false;
-      (type === 'offline' && newSlot.locationId === null) && (locErr = true);
+      type === "offline" && newSlot.locationId === null && (locErr = true);
       newSlot.slotSubjectDTOS.length === 0 && (SubjErr = true);
       hasPassword &&
         (newSlot.password?.length === 0 || newSlot.password === null) &&
@@ -215,6 +254,9 @@ export function CreateSlotForm({
   };
   return (
     <>
+      {/* Notification */}
+      {contextHolder}
+
       <Row className="requestsInfo">
         <Col xs={1}></Col>
         <Col xs={23}>
@@ -366,29 +408,45 @@ export function CreateSlotForm({
           </Row>
 
           {/* Location */}
-          {type === "offline" && (
-            <Row className="animateBox">
-              <Col xs={9} md={3}>
-                <Title className="InfoText ID" level={5}>
-                  Location:
-                </Title>
-              </Col>
-              <Col xs={15} md={10}>
-                <Title
-                  className="InfoText"
-                  level={5}
-                  style={{ fontWeight: "400" }}
-                >
+          <Row>
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Location:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                {type === "offline" ? (
                   <Select
                     style={{ minWidth: "320px" }}
-                    className="editInput"
+                    className="editInput animateBox"
                     options={pushLocationList(locationsList)}
                     onChange={(newLoc) => handleLocationChange(newLoc)}
                   ></Select>
-                </Title>
-              </Col>
-            </Row>
-          )}
+                ) : (
+                  <a href={`https://${linkMeet}`} target="_blank">
+                    <Tag
+                      className="animateBox"
+                      style={Object.assign(
+                        { display: "flex" },
+                        { alignItems: "center" },
+                        { width: "106px" },
+                        { justifyContent: "space-between" }
+                      )}
+                      icon={<GooglemeetLogo />}
+                      color="geekblue"
+                    >
+                      Google Meet
+                    </Tag>
+                  </a>
+                )}
+              </Title>
+            </Col>
+          </Row>
 
           {/* Subject */}
 
