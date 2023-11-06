@@ -138,7 +138,7 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
           locationId: row.locationId.toString(),
           subjects: row.subjects.toString(),
           mode: row.mode.toString(),
-          studentEmail: row.studentEmail.toString(),
+          studentEmail: row.studentEmail,
           password: row.password.toString(),
         };
       }
