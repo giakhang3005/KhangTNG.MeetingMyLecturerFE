@@ -133,13 +133,13 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
 
         return {
           meetingDay: `${date}/${month}/${year}`,
-          startTime: row.startTime.toString(),
-          endTime: row.endTime.toString(),
-          locationId: row.locationId.toString(),
-          subjects: row.subjects.toString(),
-          mode: row.mode.toString(),
+          startTime: row.startTime?.toString(),
+          endTime: row.endTime?.toString(),
+          locationId: row.locationId?.toString(),
+          subjects: row.subjects,
+          mode: row.mode?.toString(),
           studentEmail: row.studentEmail,
-          password: row.password.toString(),
+          password: row.password,
         };
       }
     });
