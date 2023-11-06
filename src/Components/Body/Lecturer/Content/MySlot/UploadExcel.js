@@ -122,6 +122,7 @@ export function UploadExcel({ subjects, locationsList }) {
       password: row.password.toString(),
     }));
 
+    setUploading(true)
     axios
       .post(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
@@ -131,7 +132,8 @@ export function UploadExcel({ subjects, locationsList }) {
         message.success("Uploaded Successfully");
         setUploadedData([]);
       })
-      .catch((err) => message.error(err));
+      .catch((err) => message.error(err))
+      .finally(() => setUploading(false))
     // console.log(JSON.stringify(formatedData));
   };
   return (
