@@ -122,18 +122,20 @@ export function Upcomming() {
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <Tag
-            style={Object.assign(
-              { display: "flex" },
-              { alignItems: "center" },
-              { width: "106px" },
-              { justifyContent: "space-between" }
-            )}
-            icon={<GooglemeetLogo />}
-            color="geekblue"
-          >
-            Google Meet
-          </Tag>
+          <a href={booking.slotInfo.lecturerLinkMeet} target="_blank">
+            <Tag
+              style={Object.assign(
+                { display: "flex" },
+                { alignItems: "center" },
+                { width: "106px" },
+                { justifyContent: "space-between" }
+              )}
+              icon={<GooglemeetLogo />}
+              color="geekblue"
+            >
+              Google Meet
+            </Tag>
+          </a>
         );
       },
     },
@@ -309,19 +311,24 @@ export function Upcomming() {
                         </i>
                       </Title>
                     ) : (
-                      <Tag
-                        style={Object.assign(
-                          { display: "flex" },
-                          { alignItems: "center" },
-                          { width: "106px" },
-                          { justifyContent: "space-between" },
-                          { margin: "11px 0 0 0" }
-                        )}
-                        icon={<GooglemeetLogo />}
-                        color="geekblue"
+                      <a
+                        href={meetingInfo.slotInfo.lecturerLinkMeet}
+                        target="_blank"
                       >
-                        Google Meet
-                      </Tag>
+                        <Tag
+                          style={Object.assign(
+                            { display: "flex" },
+                            { alignItems: "center" },
+                            { width: "106px" },
+                            { justifyContent: "space-between" },
+                            { margin: "11px 0 0 0" }
+                          )}
+                          icon={<GooglemeetLogo />}
+                          color="geekblue"
+                        >
+                          Google Meet
+                        </Tag>
+                      </a>
                     )}
                   </Title>
                 </Col>

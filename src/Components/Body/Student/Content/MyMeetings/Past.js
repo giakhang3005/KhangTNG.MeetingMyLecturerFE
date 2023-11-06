@@ -119,18 +119,20 @@ export function Past() {
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <Tag
-            style={Object.assign(
-              { display: "flex" },
-              { alignItems: "center" },
-              { width: "106px" },
-              { justifyContent: "space-between" }
-            )}
-            icon={<GooglemeetLogo />}
-            color="geekblue"
-          >
-            Google Meet
-          </Tag>
+          <a href={booking.slotInfo.lecturerLinkMeet} target="_blank">
+            <Tag
+              style={Object.assign(
+                { display: "flex" },
+                { alignItems: "center" },
+                { width: "106px" },
+                { justifyContent: "space-between" }
+              )}
+              icon={<GooglemeetLogo />}
+              color="geekblue"
+            >
+              Google Meet
+            </Tag>
+          </a>
         );
       },
     },
@@ -306,6 +308,10 @@ export function Past() {
                         </i>
                       </Title>
                     ) : (
+                      <a
+                      href={meetingInfo.slotInfo.lecturerLinkMeet}
+                      target="_blank"
+                    >
                       <Tag
                         style={Object.assign(
                           { display: "flex" },
@@ -319,6 +325,7 @@ export function Past() {
                       >
                         Google Meet
                       </Tag>
+                    </a>
                     )}
                   </Title>
                 </Col>
