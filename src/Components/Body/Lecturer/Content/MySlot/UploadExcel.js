@@ -111,26 +111,36 @@ export function UploadExcel({ subjects, locationsList }) {
   };
 
   const handleUpload = () => {
-    const formatedData = uploadedData.map((row) => ({
-      meetingDay: row.meetingDay.toString(),
-      startTime: row.startTime.toString(),
-      endTime: row.endTime.toString(),
-      locationId: row.locationId.toString(),
-      subjects: row.subjects.toString(),
-      mode: row.mode.toString(),
-      studentEmail: row.studentEmail.toString(),
-      password: row.password.toString(),
-    }));
-
     setUploading(true);
+
+    //Formatted data 
+    const formatedData = uploadedData.map((row) => {
+      //push into the date format dd/mm/yyyy
+      const dateSplit = row.meetingDay.split("/");
+      const date = dateSplit[0].length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
+      const month = dateSplit[1].length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
+      const year = dateSplit[2];
+
+      return {
+        meetingDay: `${date}/${month}/${year}`,
+        startTime: row.startTime.toString(),
+        endTime: row.endTime.toString(),
+        locationId: row.locationId.toString(),
+        subjects: row.subjects.toString(),
+        mode: row.mode.toString(),
+        studentEmail: row.studentEmail.toString(),
+        password: row.password.toString(),
+      };
+    });
+
     axios
       .post(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
         formatedData
       )
       .then((res) => {
-        console.log(res);
-        message.success("Uploaded Successfully");
+        // console.log(res);
+        message.info(res.data.data);
         setUploadedData([]);
       })
       .catch((err) => {
