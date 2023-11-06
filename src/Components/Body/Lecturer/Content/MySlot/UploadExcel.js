@@ -123,7 +123,7 @@ export function UploadExcel({ subjects, locationsList }) {
     }));
 
     axios
-      .put(
+      .post(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
         formatedData
       )
