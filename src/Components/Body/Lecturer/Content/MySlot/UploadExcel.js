@@ -139,10 +139,8 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
         formatedData
       )
       .then((res) => {
-        const nums = res.data.data.split(" ");
-        const success = nums[1].trim();
-        const failed = nums[3].trim();
-        message.info(`Upload completed: ${success} success, ${failed} failed`);
+        message.success('Uploaded completed')
+        message.info(res.data.data);
         setUploadedData([]);
       })
       .catch((err) => {
