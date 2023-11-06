@@ -114,11 +114,12 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
     setUploading(true);
 
     //Formatted data
+    console.log(uploadedData)
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
-      const dateSplit = row.meetingDay.split("/");
-      const date = dateSplit[0].length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
-      const month = dateSplit[1].length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
+      const dateSplit = row.meetingDay?.split("/");
+      const date = dateSplit[0]?.length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
+      const month = dateSplit[1]?.length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
       const year = dateSplit[2];
 
       return {
