@@ -138,12 +138,13 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
           locationId: row.locationId?.toString(),
           subjects: row.subjects,
           mode: row.mode?.toString(),
-          studentEmail: row.studentEmail,
-          password: row.password,
+          studentEmail: row.studentEmail === null || row.studentEmail === undefined ? "" : row.studentEmail,
+          password: row.password === null || row.password === undefined ? "" : row.password,
         };
       }
     });
 
+    console.log(formatedData);
     if (!Err) {
       axios
         .post(
