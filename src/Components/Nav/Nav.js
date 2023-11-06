@@ -1,5 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Typography, Avatar } from "antd";
+import { Typography, Avatar, Alert } from "antd";
 import "./NavStyle.css";
 
 const { Text } = Typography;
@@ -21,6 +21,11 @@ export const Nav = (props) => {
           alt="Meeting my Lecturers"
         />
       </div>
+      <Alert closable type="error" message={<ul>
+        <li>Student khi book chọn 1 môn</li>
+        <li>Khi book student phải fill note ngắn (giới thiệu,...), note dài để ghi câu hỏi</li>
+        <li>Làm blacklist & report</li>
+      </ul>} />
 
       {/* User */}
       {user !== null && (
