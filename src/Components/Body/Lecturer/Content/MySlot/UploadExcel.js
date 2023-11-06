@@ -122,18 +122,22 @@ export function UploadExcel({ subjects, locationsList }) {
       password: row.password.toString(),
     }));
 
-    setUploading(true)
+    setUploading(true);
     axios
       .post(
         `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
         formatedData
       )
       .then((res) => {
+        console.log(res);
         message.success("Uploaded Successfully");
         setUploadedData([]);
       })
-      .catch((err) => message.error(err))
-      .finally(() => setUploading(false))
+      .catch((err) => {
+        console.error(err);
+        message.error("There is an internal error");
+      })
+      .finally(() => setUploading(false));
     // console.log(JSON.stringify(formatedData));
   };
   return (
