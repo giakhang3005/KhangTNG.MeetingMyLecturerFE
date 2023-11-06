@@ -109,7 +109,7 @@ export const CreatingSlot = (props) => {
       </Button>
 
       {isUploadMode ? (
-        <UploadExcel subjects={subjects} locationsList={locationsList} subjectsLoading={subjectsLoading} />
+        <UploadExcel subjects={subjects} locationsList={locationsList} subjectsLoading={subjectsLoading} getData={getData} />
       ) : (
         <Spin spinning={isLoading}>
           <CreateSlotForm

@@ -10,7 +10,7 @@ import { useExcel } from "../../../../../Hooks/All/useExcel";
 import { Data } from "../../../Body";
 import dayjs from "dayjs";
 
-export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
+export function UploadExcel({ subjects, locationsList, subjectsLoading, getData }) {
   const { Dragger } = Upload;
   const { exportExcel, readExcelFile } = useExcel();
   const { user } = useContext(Data);
@@ -117,10 +117,10 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
     let Err = false;
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
-      if (typeof row.meetingDay === "number") {
+      if (typeof row.meetingDay === "number" || typeof row.startTime === "number" || typeof row.endTime === "number") {
         Err = true;
         message.error(
-          `Failed to upload: You have to format meeting date as a String/Text in Excel (Row ${row.__rowNum__})`
+          `Failed to upload: You have to format meetingDate, startTime, endTime as a String/Text in Excel (Row ${row.__rowNum__})`
         );
         setUploading(false);
       } else {
@@ -154,6 +154,7 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
           message.success("Uploaded completed");
           message.info(res.data.data);
           setUploadedData([]);
+          getData()
         })
         .catch((err) => {
           console.error(err);

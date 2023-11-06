@@ -164,10 +164,8 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
     setSelectedSubjects(newSubjectList);
   };
 
-  
-
   //handle submit update
-  const [updateLoading, setUpdateLoading] = useState(false)
+  const [updateLoading, setUpdateLoading] = useState(false);
   const handleSubmit = () => {
     //conver time to string
     const dateString = `${date.$D < 10 ? `0${date.$D}` : date.$D}/${
@@ -194,16 +192,19 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
       slotSubjectDTOS: returnSubjectsList,
       password: password,
       lecturerId: user.id,
-    }
+    };
 
-    setUpdateLoading(true)
+    setUpdateLoading(true);
     // console.log(JSON.stringify(newSlot));
-    axios.put(`https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`, newSlot)
-    .then((res) => (message.success('Updated slot successfully'), getData()))
-    .catch((err) => (message.error('Updated fail'), console.error(err) ))
-    .finally(() => setUpdateLoading(false))
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`,
+        newSlot
+      )
+      .then((res) => (message.success("Updated slot successfully"), getData()))
+      .catch((err) => (message.error("Updated fail"), console.error(err)))
+      .finally(() => setUpdateLoading(false));
   };
-
 
   return (
     <>
@@ -236,6 +237,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                 style={{ fontWeight: "400" }}
               >
                 <DatePicker
+                  disabled
                   style={{ width: "320px" }}
                   value={date}
                   format="DD/MM/YYYY"
@@ -259,6 +261,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                 style={{ fontWeight: "400" }}
               >
                 <TimePicker
+                  disabled
                   style={{ width: "320px" }}
                   format="HH:mm"
                   value={start}
@@ -282,6 +285,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                 style={{ fontWeight: "400" }}
               >
                 <TimePicker
+                  disabled
                   style={{ width: "320px" }}
                   value={end}
                   format="HH:mm"
