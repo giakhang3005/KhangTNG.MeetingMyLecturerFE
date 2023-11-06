@@ -114,43 +114,55 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
     setUploading(true);
 
     //Formatted data
-    console.log(uploadedData)
+    let Err = false;
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
-      const dateSplit = row.meetingDay?.split("/");
-      const date = dateSplit[0]?.length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
-      const month = dateSplit[1]?.length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
-      const year = dateSplit[2];
+      if (typeof row.meetingDay === "number") {
+        Err = true;
+        message.error(
+          `Failed to upload: You have to format meeting date as a String/Text in Excel (Row ${row.__rowNum__})`
+        );
+        setUploading(false);
+      } else {
+        const dateSplit = row.meetingDay?.split("/");
+        const date =
+          dateSplit[0]?.length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
+        const month =
+          dateSplit[1]?.length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
+        const year = dateSplit[2];
 
-      return {
-        meetingDay: `${date}/${month}/${year}`,
-        startTime: row.startTime.toString(),
-        endTime: row.endTime.toString(),
-        locationId: row.locationId.toString(),
-        subjects: row.subjects.toString(),
-        mode: row.mode.toString(),
-        studentEmail: row.studentEmail.toString(),
-        password: row.password.toString(),
-      };
+        return {
+          meetingDay: `${date}/${month}/${year}`,
+          startTime: row.startTime.toString(),
+          endTime: row.endTime.toString(),
+          locationId: row.locationId.toString(),
+          subjects: row.subjects.toString(),
+          mode: row.mode.toString(),
+          studentEmail: row.studentEmail.toString(),
+          password: row.password.toString(),
+        };
+      }
     });
 
-    axios
-      .post(
-        `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
-        formatedData
-      )
-      .then((res) => {
-        message.success('Uploaded completed')
-        message.info(res.data.data);
-        setUploadedData([]);
-      })
-      .catch((err) => {
-        console.error(err);
-        message.error("There is an internal error");
-      })
-      .finally(() => {
-        setUploading(false);
-      });
+    if (!Err) {
+      axios
+        .post(
+          `https://meet-production-52c7.up.railway.app/api/v1/slot/import?id=${user.id}`,
+          formatedData
+        )
+        .then((res) => {
+          message.success("Uploaded completed");
+          message.info(res.data.data);
+          setUploadedData([]);
+        })
+        .catch((err) => {
+          console.error(err);
+          message.error("There is an internal error");
+        })
+        .finally(() => {
+          setUploading(false);
+        });
+    }
     // console.log(JSON.stringify(formatedData));
   };
   return (
