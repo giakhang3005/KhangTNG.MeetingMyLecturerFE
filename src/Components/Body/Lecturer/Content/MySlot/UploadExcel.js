@@ -153,6 +153,7 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
         .then((res) => {
           message.success("Uploaded completed");
           message.info(res.data.data);
+          console.log(res)
           setUploadedData([]);
           getData()
         })
