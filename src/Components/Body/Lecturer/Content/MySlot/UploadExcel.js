@@ -10,7 +10,7 @@ import { useExcel } from "../../../../../Hooks/All/useExcel";
 import { Data } from "../../../Body";
 import dayjs from "dayjs";
 
-export function UploadExcel({ subjects, locationsList }) {
+export function UploadExcel({ subjects, locationsList, subjectsLoading }) {
   const { Dragger } = Upload;
   const { exportExcel, readExcelFile } = useExcel();
   const { user } = useContext(Data);
@@ -113,7 +113,7 @@ export function UploadExcel({ subjects, locationsList }) {
   const handleUpload = () => {
     setUploading(true);
 
-    //Formatted data 
+    //Formatted data
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
       const dateSplit = row.meetingDay.split("/");
@@ -139,15 +139,19 @@ export function UploadExcel({ subjects, locationsList }) {
         formatedData
       )
       .then((res) => {
-        // console.log(res);
-        message.info(res.data.data);
+        const nums = res.data.data.split(" ");
+        const success = nums[1].trim();
+        const failed = nums[3].trim();
+        message.info(`Upload completed: ${success} success, ${failed} failed`);
         setUploadedData([]);
       })
       .catch((err) => {
         console.error(err);
         message.error("There is an internal error");
       })
-      .finally(() => setUploading(false));
+      .finally(() => {
+        setUploading(false);
+      });
     // console.log(JSON.stringify(formatedData));
   };
   return (
@@ -207,9 +211,10 @@ export function UploadExcel({ subjects, locationsList }) {
                 <Button
                   style={{ width: "100%" }}
                   icon={<DownloadOutlined />}
+                  disabled={subjectsLoading}
                   onClick={handleExportMaterials}
                 >
-                  Download Materials list
+                  {subjectsLoading ? "Preparing..." : "Download Materials list"}
                 </Button>
               </Popover>
             </Col>
