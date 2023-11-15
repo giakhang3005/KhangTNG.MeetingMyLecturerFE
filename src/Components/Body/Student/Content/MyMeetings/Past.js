@@ -101,14 +101,7 @@ export function Past() {
     {
       key: "6",
       title: "Subject",
-      render: (booking) => {
-        let subjectList = [];
-        booking.subjectSlot.map((subject) => {
-          subjectList.push(subject.subjectCode);
-        });
-
-        return ArrayToString(subjectList);
-      },
+      dataIndex: "subject",
     },
     {
       key: "7",
@@ -344,13 +337,9 @@ export function Past() {
                     level={5}
                     style={{ fontWeight: "400" }}
                   >
-                    {meetingInfo.subjectSlot.map((subject, i) => {
-                      return (
-                        <Tag color="volcano" key={i}>
-                          {subject.subjectCode}
-                        </Tag>
-                      );
-                    })}
+                    <Tag color="volcano" >
+                      {meetingInfo.subject}
+                    </Tag>
                   </Title>
                 </Col>
               </Row>

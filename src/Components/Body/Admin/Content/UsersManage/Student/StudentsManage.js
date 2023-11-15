@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Button } from "antd";
+import { Table, Typography, Button, Popover, Row, Col } from "antd";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -22,8 +22,10 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
     axios
       .get("https://meet-production-52c7.up.railway.app/api/v1/student/all")
       .then(
-        (response) => (setStudentList(response.data.data),
-        localStorage.setItem("Astudents", JSON.stringify(response.data.data)))
+        (response) => (
+          setStudentList(response.data.data),
+          localStorage.setItem("Astudents", JSON.stringify(response.data.data))
+        )
       )
       .catch((error) => console.error(error))
       .finally(() => (setLoading(false), setHideLoading(false)));
@@ -47,7 +49,43 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
     {
       key: "2",
       title: "Name",
-      dataIndex: "name",
+      render: (student) => (
+        <Popover
+        title="Other Informations"
+          content={
+            <span
+              style={Object.assign(
+                { lineHeight: "30px" },
+                { minWidth: "300px" }
+              )}
+            >
+              {/* ID */}
+              <Row style={{ width: "300px" }}>
+                <Col xs={7}>
+                  <b>ID:</b>
+                </Col>
+                <Col xs={17}> {student.id} </Col>
+              </Row>
+              {/* Email */}
+              <Row style={{ width: "300px" }}>
+                <Col xs={7}>
+                  <b>Email:</b>
+                </Col>
+                <Col xs={17}> {student.email} </Col>
+              </Row>
+              {/* Email */}
+              <Row style={{ width: "300px" }}>
+                <Col xs={7}>
+                  <b>Phone:</b>
+                </Col>
+                <Col xs={17}> {student.phone} </Col>
+              </Row>
+            </span>
+          }
+        >
+          {student.name}
+        </Popover>
+      ),
     },
     {
       key: "3",
@@ -59,16 +97,16 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
       title: "DOB",
       dataIndex: "dob",
     },
-    {
-      key: "5",
-      title: "Phone",
-      dataIndex: "phone",
-    },
-    {
-      key: "6",
-      title: "Email",
-      dataIndex: "email",
-    },
+    // {
+    //   key: "5",
+    //   title: "Phone",
+    //   dataIndex: "phone",
+    // },
+    // {
+    //   key: "6",
+    //   title: "Email",
+    //   dataIndex: "email",
+    // },
     {
       key: "7",
       title: "Curriculum",
@@ -115,17 +153,6 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
         </Button>
       </Title>
       <Table
-         expandable={{
-          expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: 0,
-              }}
-            >
-              ID: {record.id}
-            </p>
-          ),
-        }}
         className="tableOfLocations"
         columns={columns}
         dataSource={studentList}

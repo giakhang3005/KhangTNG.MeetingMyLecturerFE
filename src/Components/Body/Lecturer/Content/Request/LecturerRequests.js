@@ -82,17 +82,7 @@ export const LecturerRequests = () => {
     {
       key: "6",
       title: "Subject",
-      render: (booking) => {
-        return (
-          <Popover
-            content={booking.subjectSlot.map((subj) => {
-              return <Tag color="volcano">{subj.subjectCode}</Tag>;
-            })}
-          >
-            <Tag color="volcano">{booking.subjectSlot.length} Subjects</Tag>
-          </Popover>
-        );
-      },
+      dataIndex: "subject"
     },
     {
       key: "7",

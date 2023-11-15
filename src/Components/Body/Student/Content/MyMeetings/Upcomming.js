@@ -104,14 +104,7 @@ export function Upcomming() {
     {
       key: "6",
       title: "Subject",
-      render: (booking) => {
-        let subjectList = [];
-        booking.subjectSlot.map((subject) => {
-          subjectList.push(subject.subjectCode);
-        });
-
-        return ArrayToString(subjectList);
-      },
+      dataIndex: "subject",
     },
     {
       key: "7",
@@ -122,7 +115,10 @@ export function Upcomming() {
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <a href={`https://${booking.slotInfo.lecturerLinkMeet}`} target="_blank">
+          <a
+            href={`https://${booking.slotInfo.lecturerLinkMeet}`}
+            target="_blank"
+          >
             <Tag
               style={Object.assign(
                 { display: "flex" },
@@ -347,13 +343,9 @@ export function Upcomming() {
                     level={5}
                     style={{ fontWeight: "400" }}
                   >
-                    {meetingInfo.subjectSlot.map((subject, i) => {
-                      return (
-                        <Tag color="volcano" key={i}>
-                          {subject.subjectCode}
-                        </Tag>
-                      );
-                    })}
+                    <Tag color="volcano" >
+                      {meetingInfo.subject}
+                    </Tag>
                   </Title>
                 </Col>
               </Row>

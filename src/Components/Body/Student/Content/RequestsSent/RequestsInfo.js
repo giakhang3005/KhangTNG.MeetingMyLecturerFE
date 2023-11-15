@@ -291,13 +291,9 @@ export function RequestsInfo(props) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  {isSelectedBooking.subjectSlot.map((subject, i) => {
-                    return (
-                      <Tag color="volcano" key={i}>
-                        {subject.subjectCode}
-                      </Tag>
-                    );
-                  })}
+                  <Tag color="volcano">
+                    {isSelectedBooking.subject}
+                  </Tag>
                 </Title>
               </Col>
             </Row>

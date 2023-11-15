@@ -82,14 +82,7 @@ export const useStudentRequests = () => {
       {
         key: "6",
         title: "Subject",
-        render: (booking) => {
-          let subjectList = [];
-          booking.subjectSlot.map((subject) => {
-            subjectList.push(subject.subjectCode);
-          });
-
-          return ArrayToString(subjectList);
-        },
+        dataIndex: "subject",
       },
       {
         key: "7",
