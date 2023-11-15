@@ -119,7 +119,7 @@ export function Past() {
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <a href={booking.slotInfo.lecturerLinkMeet} target="_blank">
+          <a href={`https://${booking.slotInfo.lecturerLinkMeet}`} target="_blank">
             <Tag
               style={Object.assign(
                 { display: "flex" },
@@ -309,7 +309,7 @@ export function Past() {
                       </Title>
                     ) : (
                       <a
-                      href={meetingInfo.slotInfo.lecturerLinkMeet}
+                      href={`https://${meetingInfo.slotInfo.lecturerLinkMeet}`}
                       target="_blank"
                     >
                       <Tag
