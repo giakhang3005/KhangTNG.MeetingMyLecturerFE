@@ -1,5 +1,15 @@
 import { React, useState, useContext } from "react";
-import { Typography, Input, Button, message, Row, Col, Tag, Spin } from "antd";
+import {
+  Typography,
+  Input,
+  Button,
+  message,
+  Row,
+  Col,
+  Tag,
+  Spin,
+  Select,
+} from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
 import { Data } from "../../../Body";
 import axios from "axios";
@@ -13,6 +23,7 @@ export function PopupInputPassword(props) {
   const { user } = useContext(Data);
 
   const [note, setNote] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
     const passwordInput =
@@ -27,9 +38,14 @@ export function PopupInputPassword(props) {
         meetingDate: isSelectedSlot.meetingDay,
         startTime: isSelectedSlot.startTime,
         endTime: isSelectedSlot.endTime,
+        subject: selectedSubject,
       },
       note: note,
+      subject: selectedSubject,
     };
+
+    //! Check subject
+    const subjErr = selectedSubject === null
 
     //!Check note
     const noteErr = note === null || (note.length < 20 && true);
@@ -37,11 +53,10 @@ export function PopupInputPassword(props) {
     //! Check password
     const passwordErr =
       isSelectedSlot.password !== null &&
-      isSelectedSlot.password !== passwordInput &&
-      true;
+      isSelectedSlot.password !== passwordInput;
 
     //! Fetch
-    if (!passwordErr && !noteErr) {
+    if (!passwordErr && !noteErr && !subjErr) {
       // console.log(bookingDeal);
       setLoading(true);
       axios
@@ -64,6 +79,7 @@ export function PopupInputPassword(props) {
     } else {
       passwordErr && message.error("Incorrect password");
       noteErr && message.error("Note must be at least 20 characters long");
+      subjErr && message.error("You have to select a subject to discuss")
     }
   };
 
@@ -183,7 +199,7 @@ export function PopupInputPassword(props) {
             <Row>
               <Col xs={9} md={3}>
                 <Title className="InfoText ID" level={5}>
-                  Subjects:
+                  Subject: <span style={{ color: "red" }}>*</span>
                 </Title>
               </Col>
               <Col xs={15} md={10}>
@@ -192,13 +208,15 @@ export function PopupInputPassword(props) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  {isSelectedSlot.slotSubjectDTOS.map((subj, i) => {
-                    return (
-                      <Tag color="volcano" key={i}>
-                        {subj.subjectCode}
-                      </Tag>
-                    );
-                  })}
+                  <Select style={{ width: "170px" }} placeholder="Select a subject" onChange={(newSubject) => setSelectedSubject(newSubject)}>
+                    {isSelectedSlot.slotSubjectDTOS.map((subj, i) => {
+                      return (
+                        <Select.Option key={i} value={subj.subjectCode}>
+                          {subj.subjectCode}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
                 </Title>
               </Col>
             </Row>

@@ -21,12 +21,6 @@ export const Nav = (props) => {
           alt="Meeting my Lecturers"
         />
       </div>
-      <Alert closable type="error" message={<ul>
-        <li>Student khi book chọn 1 môn</li>
-        <li>Khi book student phải fill note ngắn (giới thiệu,...), note dài để ghi câu hỏi</li>
-        <li>Làm blacklist & report</li>
-        <li>Show sdt, email của GV/Student cho nhau để tiện liên lạc</li>
-      </ul>} />
 
       {/* User */}
       {user !== null && (

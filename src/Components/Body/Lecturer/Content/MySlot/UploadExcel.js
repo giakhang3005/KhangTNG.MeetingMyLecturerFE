@@ -10,7 +10,12 @@ import { useExcel } from "../../../../../Hooks/All/useExcel";
 import { Data } from "../../../Body";
 import dayjs from "dayjs";
 
-export function UploadExcel({ subjects, locationsList, subjectsLoading, getData }) {
+export function UploadExcel({
+  subjects,
+  locationsList,
+  subjectsLoading,
+  getData,
+}) {
   const { Dragger } = Upload;
   const { exportExcel, readExcelFile } = useExcel();
   const { user } = useContext(Data);
@@ -59,42 +64,6 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
       "Locations List"
     );
   };
-  const handleExportTemplate = () => {
-    //data
-    const dataTemplates = [
-      {
-        meetingDay: "01/01/2023",
-        startTime: "12:15",
-        endTime: "13:45",
-        locationId: 6,
-        subjects: "DBI202, PRO192",
-        mode: 0,
-        studentEmail: "",
-        password: "",
-      },
-      {
-        meetingDay: "01/01/2023",
-        startTime: "14:15",
-        endTime: "15:00",
-        locationId: 6,
-        subjects: "DBI202",
-        mode: 2,
-        studentEmail: "testStudent@fpt.edu.vn",
-        password: "12345",
-      },
-      {
-        meetingDay: "01/01/2023",
-        startTime: "19:15",
-        endTime: "20:00",
-        locationId: "online",
-        subjects: "SWP391",
-        mode: 1,
-        studentEmail: "",
-        password: "",
-      },
-    ];
-    exportExcel(dataTemplates, "Slot", "[MML] Import Slots Template");
-  };
 
   const [uploadedData, setUploadedData] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -117,7 +86,11 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
     let Err = false;
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
-      if (typeof row.meetingDay === "number" || typeof row.startTime === "number" || typeof row.endTime === "number") {
+      if (
+        typeof row.meetingDay === "number" ||
+        typeof row.startTime === "number" ||
+        typeof row.endTime === "number"
+      ) {
         Err = true;
         message.error(
           `Failed to upload: You have to format meetingDate, startTime, endTime as a String/Text in Excel (Row ${row.__rowNum__})`
@@ -138,8 +111,14 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
           locationId: row.locationId?.toString(),
           subjects: row.subjects,
           mode: row.mode?.toString(),
-          studentEmail: row.studentEmail === null || row.studentEmail === undefined ? "" : row.studentEmail,
-          password: row.password === null || row.password === undefined ? "" : row.password,
+          studentEmail:
+            row.studentEmail === null || row.studentEmail === undefined
+              ? ""
+              : row.studentEmail,
+          password:
+            row.password === null || row.password === undefined
+              ? ""
+              : row.password,
         };
       }
     });
@@ -154,9 +133,9 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
         .then((res) => {
           message.success("Uploaded completed");
           message.info(res.data.data);
-          console.log(res)
+          console.log(res);
           setUploadedData([]);
-          getData()
+          getData();
         })
         .catch((err) => {
           console.error(err);
@@ -204,13 +183,14 @@ export function UploadExcel({ subjects, locationsList, subjectsLoading, getData 
         <Col xs={5}>
           <Row>
             <Col xs={24} style={Object.assign({ margin: "0 0 5px 0" })}>
-              <Button
-                style={{ width: "100%" }}
-                icon={<CloudDownloadOutlined />}
-                onClick={handleExportTemplate}
-              >
-                Download Template
-              </Button>
+              <a href="./[MML] Import Slots Template.xlsx" download>
+                <Button
+                  style={{ width: "100%" }}
+                  icon={<CloudDownloadOutlined />}
+                >
+                  Download Template
+                </Button>
+              </a>
             </Col>
             <Col xs={24}>
               <Popover
