@@ -20,7 +20,7 @@ export const AdminMenu = () => {
   const LogOutBtn = useLogOut();
   //Item for menu
   const menuItems = [
-    { label: "Home", icon: <HomeFilled />, key: "adminDashboard" },
+    { label: "Dashboard", icon: <HomeFilled />, key: "adminDashboard" },
     // { label: "Slots", icon: <NotificationOutlined />, key: "slotsManage" },
     // {
     //   label: "Bookings",

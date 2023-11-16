@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Table, Typography, Button, Popover, Row, Col } from "antd";
+import { Table, Typography, Button, Popover, Row, Col, Tag } from "antd";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -83,7 +83,7 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
             </span>
           }
         >
-          {student.name}
+          <Tag>{student.name}</Tag>
         </Popover>
       ),
     },

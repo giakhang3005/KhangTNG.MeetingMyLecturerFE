@@ -53,11 +53,11 @@ export function EditStudent({ setMenuOpt, studentEdit }) {
         <Row className="requestsInfo">
           <Col xs={1}></Col>
           <Col xs={23}>
-            {/* MSSV */}
+            {/* student code */}
             <Row>
               <Col xs={9} md={3}>
                 <Title className="InfoText ID" level={5}>
-                  MSSV:
+                  Student Code:
                 </Title>
               </Col>
               <Col xs={15} md={10}>
