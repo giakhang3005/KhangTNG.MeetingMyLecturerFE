@@ -242,7 +242,7 @@ export function CreateSlotForm({
             newSlot
           )
           .then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.data.data === "error") {
               message.error(res.data.message);
             } else {
