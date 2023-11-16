@@ -72,21 +72,21 @@ export function Past() {
     // },
     {
       key: "2",
-      title: "Date",
+      title: "Meeting Date",
       render: (booking) => {
         return <>{booking.slotInfo.meetingDate}</>;
       },
     },
     {
       key: "3",
-      title: "Start",
+      title: "Start Time",
       render: (booking) => {
         return <>{booking.slotInfo.startTime}</>;
       },
     },
     {
       key: "4",
-      title: "End",
+      title: "End Time",
       render: (booking) => {
         return <>{booking.slotInfo.endTime}</>;
       },

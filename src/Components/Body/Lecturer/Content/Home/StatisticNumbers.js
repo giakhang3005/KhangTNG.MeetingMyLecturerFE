@@ -81,7 +81,7 @@ export const StatisticNumber = () => {
           <Card className="cardStatisticNumber">
             <Statistic
               prefix={<MessageOutlined />}
-              title="Most Discuss"
+              title="Most Discuss subject"
               value={
                 JSON.stringify(data) === "{}"
                   ? "-"

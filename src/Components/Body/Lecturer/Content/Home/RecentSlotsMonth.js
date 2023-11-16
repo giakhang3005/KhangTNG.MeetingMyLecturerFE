@@ -37,7 +37,7 @@ export const RecentSlotsMonth = () => {
 
   //Item for menu
   const menuItems = [
-    { label: "Rencent Months", key: "1" },
+    { label: "Recent Months", key: "1" },
     { label: "Recent Weeks", key: "2" },
   ];
   return (

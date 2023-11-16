@@ -39,7 +39,7 @@ export const StudentMenu = () => {
       key: null,
       children: [
         {
-          label: "Upcomming Meetings",
+          label: "Upcoming Meetings",
           icon: <HourglassFilled />,
           key: "upcommingMeetings",
         },

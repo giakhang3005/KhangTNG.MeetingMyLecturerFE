@@ -60,7 +60,7 @@ export const LecturerRequests = () => {
     },
     {
       key: "3",
-      title: "Date",
+      title: "Meeting Date",
       render: (booking) => {
         return booking.slotInfo.meetingDate;
       },

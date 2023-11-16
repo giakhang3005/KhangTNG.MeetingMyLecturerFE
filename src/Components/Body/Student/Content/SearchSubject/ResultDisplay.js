@@ -30,7 +30,7 @@ export const ResultDisplay = (props) => {
     },
     {
       key: "3",
-      title: "Date",
+      title: "Meeting Date",
       dataIndex: "meetingDay",
     },
     {
