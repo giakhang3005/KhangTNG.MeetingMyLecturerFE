@@ -60,19 +60,23 @@ export const RecentSlotsMonth = () => {
   };
 
   const handleStartDateChange = (newDate) => {
-    if (newDate.add('9', "day") < endDate) {
-      setStartDate(newDate);
-    } else {
-      message.error("Start date must at least 10 days before End Date");
+    if (newDate.add("9", "day") > endDate) {
+      setEndDate(newDate.add("9", "day"));
+      message.info(
+        "End date have been updated because range must be at least 10 days"
+      );
     }
+
+    setStartDate(newDate);
   };
 
   const handleEndDateChange = (newDate) => {
-    if (startDate.add('9', "day") < newDate ) {
-      setEndDate(newDate);
+    const validateMinDays = startDate.add(9, "day") > newDate;
+    if (validateMinDays) {
+      validateMinDays &&
+        message.error("End date must at least 10 days from Start Date");
     } else {
-      message.error("End date must at least 10 days from Start Date");
-      
+      setEndDate(newDate);
     }
   };
 

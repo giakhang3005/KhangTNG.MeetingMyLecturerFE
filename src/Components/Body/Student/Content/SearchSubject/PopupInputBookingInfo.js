@@ -23,6 +23,7 @@ export function PopupInputPassword(props) {
   const { user } = useContext(Data);
 
   const [note, setNote] = useState(null);
+  const [password, setPassword] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
@@ -53,7 +54,7 @@ export function PopupInputPassword(props) {
     //! Check password
     const passwordErr =
       isSelectedSlot.password !== null &&
-      isSelectedSlot.password !== passwordInput;
+      isSelectedSlot.password !== password;
 
     //! Fetch
     if (!passwordErr && !noteErr && !subjErr) {
@@ -285,6 +286,8 @@ export function PopupInputPassword(props) {
                     style={{ fontWeight: "400" }}
                   >
                     <Input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter password to book"
                       className="editInput"
                     ></Input>

@@ -137,12 +137,16 @@ export function CreateSlotForm({
     } else {
       setStart(startHour);
       if (end.diff(startHour) < 900000) {
-        message.info('End time have been updated automatically because minimum meeting time is 15 minutes ')
+        message.info(
+          "End time have been updated automatically because minimum meeting time is 15 minutes "
+        );
         setEnd(startHour.add(15, "minute"));
       }
       if (end > maximumMeetingTime) {
         setEnd(startHour.add(2, "hour").add(15, "minute"));
-        message.info('End time have been updated automatically because maximum meeting time is 2 hours 15 minutes ')
+        message.info(
+          "End time have been updated automatically because maximum meeting time is 2 hours 15 minutes "
+        );
       }
     }
   };
@@ -157,8 +161,10 @@ export function CreateSlotForm({
     if (endHour < start.add(15, "minute")) {
       message.error("Slot must be at least 15 minutes");
     } else {
-      if(endHour > maximumMeetingTime) {
-        message.error(`Can not change End time because maximum meeting time is 2 hours 15 minutes`)
+      if (endHour > maximumMeetingTime) {
+        message.error(
+          `Can not change End time because maximum meeting time is 2 hours 15 minutes`
+        );
       } else {
         setEnd(endHour);
       }
