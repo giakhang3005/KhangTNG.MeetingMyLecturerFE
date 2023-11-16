@@ -1,4 +1,4 @@
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Typography } from "antd";
 import axios from "axios";
@@ -27,8 +27,8 @@ export const RecentSlotsMonth = () => {
   }, [])
   return (
     <div className="Chart">
-      <Title level={5}>Number of slots & users in recent months</Title>
-      <Bar
+      <Title level={5}>Statistic Graph</Title>
+      <Line
         className="displayGraph"
         data={{
           labels: meetings.map((data) => data.month),
@@ -36,7 +36,8 @@ export const RecentSlotsMonth = () => {
             {
               label: "Meetings",
               data: meetings.map((data) => data.slotCount),
-              backgroundColor: "#fa541c",
+              borderColor: "#fc784c",
+              backgroundColor: "#fc784c",
             },
           ],
         }}

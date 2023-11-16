@@ -57,26 +57,8 @@ export const Login = () => {
               )
               //! account exist
               .then((response) => {
-                if (response.data.status === "NOT_FOUND") {
-                } else {
-                  const userData = response.data.data;
-                  const finalUser = {
-                    id: userData.id,
-                    name: userData.name,
-                    picture: userFromGg.picture,
-                    email: userData.email,
-                    role: getRole(userData.role),
-                    status: userData.status,
-                  };
-                  //check account if disabled
-                  validStatus(finalUser, setUser, setRole, setDisableAccount);
-                  setGgLoading(false);
-                }
-              })
-              //! account not exist
-              .catch((err) => {
-                //get status error
-                const statusMsg = err.response.data.status;
+                // console.log(response);
+                const statusMsg = response.data.status;
                 //account not found
                 if (statusMsg === "NOT_FOUND") {
                   //requests body
@@ -98,7 +80,6 @@ export const Login = () => {
                     //!get api response with new user data
                     .then((response) => response.data.data)
                     .then((userData) => {
-                      console.log(userData);
                       const finalUser = {
                         id: userData.id,
                         name: userData.name,
@@ -122,9 +103,26 @@ export const Login = () => {
                     })
                     .finally(() => setGgLoading(false));
                 } else {
-                  message.error(`There is an internal error: ${statusMsg}`);
+                  const userData = response.data.data;
+                  const finalUser = {
+                    id: userData.id,
+                    name: userData.name,
+                    picture: userFromGg.picture,
+                    email: userData.email,
+                    role: getRole(userData.role),
+                    status: userData.status,
+                  };
+                  //check account if disabled
+                  validStatus(finalUser, setUser, setRole, setDisableAccount);
                   setGgLoading(false);
                 }
+              })
+              //! account not exist
+              .catch((err) => {
+                //get status error
+                console.log(err);
+                message.error(`There is an internal error`);
+                setGgLoading(false);
               });
           } else {
             setCheckMailErr(true);
@@ -171,7 +169,12 @@ export const Login = () => {
       )
       .then((response) => response.data.data)
       .then((userData) => {
-        if (userData.password === data.password) {
+        if (
+          userData.id === data.userId &&
+          userData.password === data.password
+        ) {
+          console.log(userData);
+          console.log(data);
           const finalUser = {
             id: userData.id,
             name: userData.name,
@@ -186,7 +189,10 @@ export const Login = () => {
           message.error("Invalid username or password!");
         }
       })
-      .catch((err) =>{ message.error("Invalid username or password!"); console.log(err)})
+      .catch((err) => {
+        message.error("Invalid username or password!");
+        console.log(err);
+      })
       .finally(() => setLoading(false));
   };
 

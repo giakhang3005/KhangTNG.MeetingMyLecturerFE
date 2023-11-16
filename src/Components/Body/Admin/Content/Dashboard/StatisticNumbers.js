@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 export const StatisticNumber = () => {
   const [data, setData] = useState([]);
@@ -20,12 +22,31 @@ export const StatisticNumber = () => {
       .catch((error) => console.error(error));
   };
 
+  const studentAndLecturer = [
+    {
+      label: "Lecturers",
+      amount: data.totalLecturer,
+      color: "#F4B678",
+    },
+    {
+      label: "Students",
+      amount: data.totalStudent,
+      color: "#EC7A08",
+    },
+    {
+      label: "Admins",
+      amount: data.totalAdmin,
+      color: "#ec4908",
+    },
+  ];
+
   useEffect(() => {
     getData();
   }, []);
   return (
     // xs={} sm={} md={} xl={}
     <Row className="lecturerStatisticNumber">
+      <Col xs={0} md={1}></Col>
       {/* Total Slot */}
       <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
@@ -37,8 +58,8 @@ export const StatisticNumber = () => {
         </Card>
       </Col>
 
-      {/* Total Hours */}
-      <Col xs={12} md={5}>
+      {/* Total Lecturers */}
+      {/* <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
           <Statistic
             prefix={<SolutionOutlined />}
@@ -46,10 +67,10 @@ export const StatisticNumber = () => {
             value={data.length === 0 ? "-" : data.totalLecturer}
           />
         </Card>
-      </Col>
+      </Col> */}
 
-      {/* Total Locations */}
-      <Col xs={12} md={5}>
+      {/* Total Students */}
+      {/* <Col xs={12} md={5}>
         <Card className="cardStatisticNumber">
           <Statistic
             prefix={<UserOutlined />}
@@ -57,7 +78,7 @@ export const StatisticNumber = () => {
             value={data.length === 0 ? "-" : data.totalStudent}
           />
         </Card>
-      </Col>
+      </Col> */}
 
       {/* Most meeting subject */}
       <Col xs={12} md={5}>
@@ -69,6 +90,26 @@ export const StatisticNumber = () => {
           />
         </Card>
       </Col>
+
+      <Col xs={0} md={1}></Col>
+      <Col xs={20} md={8}>
+          <Doughnut
+          style={Object.assign({maxHeight: '300px'})}
+            data={{
+              labels: studentAndLecturer.map((user) => user.label),
+              datasets: [
+                {
+                  label: "Total",
+                  data: studentAndLecturer.map((user) => user.amount),
+                  borderColor: studentAndLecturer.map((user) => user.color),
+                  backgroundColor: studentAndLecturer.map((user) => user.color),
+                },
+              ],
+            }}
+            options={{}}
+          />
+      </Col>
+      <Col xs={0} md={1}></Col>
     </Row>
   );
 };
