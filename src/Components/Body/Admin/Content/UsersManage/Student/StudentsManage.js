@@ -89,7 +89,7 @@ export function StudentsManage({ setStudentEdit, setMenuOpt }) {
     },
     {
       key: "3",
-      title: "MSSV",
+      title: "Student Code",
       dataIndex: "code",
     },
     {

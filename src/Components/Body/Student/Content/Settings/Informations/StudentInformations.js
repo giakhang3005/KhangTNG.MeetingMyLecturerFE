@@ -152,11 +152,11 @@ export function StudentInformations() {
               </Col>
             </Row>
 
-            {/* MSSV */}
+            {/* Student Code */}
             <Row>
               <Col xs={9} md={3}>
                 <Title className="InfoText ID" level={5}>
-                  MSSV:
+                  Student Code:
                 </Title>
               </Col>
               <Col xs={15} md={10}>
