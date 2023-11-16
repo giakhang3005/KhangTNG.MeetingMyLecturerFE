@@ -133,14 +133,12 @@ export const CreatedSlotTableView = (props) => {
       title: "Subject",
       // dataIndex: 'subject',
       render: (slot) => {
-        return (
-          <Popover
-            content={slot.slotSubjectDTOS.map((subject) => {
-              return <Tag color="volcano">{subject.subjectCode}</Tag>;
-            })}
-          >
-            <Tag color="volcano">{slot.slotSubjectDTOS?.length} Subjects </Tag>
-          </Popover>
+        return slot.studentName !== null ? (
+          <Tag color="volcano">{slot.subject} </Tag>
+        ) : (
+          slot.slotSubjectDTOS.map((subject) => {
+            return <Tag color="volcano" style={{margin:'0 0 2px 0'}}>{subject.subjectCode}</Tag>;
+          })
         );
       },
     },

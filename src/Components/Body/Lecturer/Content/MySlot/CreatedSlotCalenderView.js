@@ -305,11 +305,13 @@ export const LectuerCalenderView = (props) => {
                                 <b>Subject:</b>
                               </Col>
                               <Col xs={17}>
-                                {ArrayToString(
-                                  slot.slotSubjectDTOS.map((subj) => {
-                                    return subj.subjectCode;
-                                  })
-                                )}
+                                {slot.studentName !== null
+                                  ? slot.subject
+                                  : ArrayToString(
+                                      slot.slotSubjectDTOS.map((subj) => {
+                                        return subj.subjectCode;
+                                      })
+                                    )}
                               </Col>
                             </Row>
                             <Row>
