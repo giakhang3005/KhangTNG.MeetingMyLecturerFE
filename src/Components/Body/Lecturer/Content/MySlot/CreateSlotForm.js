@@ -73,7 +73,7 @@ export function CreateSlotForm({
   };
 
   //! STATE
-  const today = new dayjs()
+  const today = new dayjs();
   const [date, setDate] = useState(today.add(6, "hour"));
   const [start, setStart] = useState(date);
   const [end, setEnd] = useState(start.add(15, "minute"));
@@ -108,7 +108,10 @@ export function CreateSlotForm({
 
   //handle State time change
   const handleStartChange = (newStart) => {
-    const startHour = newStart.date(date.date()).month(date.month()).year(date.year())
+    const startHour = newStart
+      .date(date.date())
+      .month(date.month())
+      .year(date.year());
     if (startHour < today.add(6, "hour")) {
       message.error("You have to create slot at least 6 hours from now");
     } else {
@@ -121,7 +124,10 @@ export function CreateSlotForm({
 
   //handle End time change
   const handleEndChange = (newEnd) => {
-    const endHour = newEnd.date(date.date()).month(date.month()).year(date.year())
+    const endHour = newEnd
+      .date(date.date())
+      .month(date.month())
+      .year(date.year());
     if (endHour < start.add(15, "minute")) {
       message.error("Slot must be at least 15 minutes");
     } else {
@@ -155,20 +161,21 @@ export function CreateSlotForm({
   };
 
   //handle type change
-  const settingBtn = (
-    <Button>Go to Setting</Button>
-  )
+  const settingBtn = <Button>Go to Setting</Button>;
   const btn = (
-      <Button type="primary" size="small" onClick={() => setMenuOpt('lecturerInformations')}>
-        Go to Settings
-      </Button>
+    <Button
+      type="primary"
+      size="small"
+      onClick={() => setMenuOpt("lecturerInformations")}
+    >
+      Go to Settings
+    </Button>
   );
   const [api, contextHolder] = notification.useNotification();
   const openNotification = () => {
     api.warning({
       message: "Can not change type to Online",
-      description:
-        "You haven't add any Google Meet link yet",
+      description: "You haven't add any Google Meet link yet",
       btn,
       duration: 5,
     });
@@ -224,8 +231,9 @@ export function CreateSlotForm({
       hasPassword &&
         (newSlot.password?.length === 0 || newSlot.password === null) &&
         (passErr = true);
-
-      if (!SubjErr && !locErr && !passErr) {
+      let tooManySubjErr =
+        newSlot.mode === 2 && newSlot.slotSubjectDTOS.length > 1;
+      if (!SubjErr && !locErr && !passErr && !tooManySubjErr) {
         setIsLoading(true);
         // console.log(JSON.stringify(newSlot));
         axios
@@ -234,6 +242,7 @@ export function CreateSlotForm({
             newSlot
           )
           .then((res) => {
+            console.log(res)
             if (res.data.data === "error") {
               message.error(res.data.message);
             } else {
@@ -251,6 +260,8 @@ export function CreateSlotForm({
           message.error(
             "You have enabled Passcode, please do not leave it empty"
           );
+        tooManySubjErr &&
+          message.error("You can only add 1 subject in Assign Student Mode");
       }
     }
   };
@@ -477,6 +488,20 @@ export function CreateSlotForm({
                       handleSubjectChange(subjectsList)
                     }
                   ></Select>
+                  {mode === 2 && selectedSubjects.length > 1 && (
+                    <>
+                      <br />
+                      <span
+                        style={Object.assign(
+                          { fontSize: "11.5px" },
+                          { color: "red" },
+                          { fontWeight: "450" }
+                        )}
+                      >
+                        You can only add 1 subject in <b>Assign Student</b> Mode
+                      </span>
+                    </>
+                  )}
                 </Title>
               </Spin>
             </Col>
