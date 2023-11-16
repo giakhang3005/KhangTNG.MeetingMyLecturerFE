@@ -39,11 +39,11 @@ export const StudentMenu = () => {
       key: null,
       children: [
         {
-          label: "Upcomming",
+          label: "Upcomming Meetings",
           icon: <HourglassFilled />,
           key: "upcommingMeetings",
         },
-        { label: "Past", icon: <ClockCircleFilled />, key: "pastMeetings" },
+        { label: "Past Meetings", icon: <ClockCircleFilled />, key: "pastMeetings" },
       ],
       type: "group",
     },

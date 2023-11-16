@@ -100,16 +100,21 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
 
   //toggle user
   const [toggleLoading, setToggleLoading] = useState(false);
-  const toggleUser = async (user) => {
+  const toggleUser = (user) => {
     setToggleLoading(true);
     const data = { ...user, status: !user.status };
-    await axios.put(
-      `https://meet-production-52c7.up.railway.app/api/v1/account/put/${user.id}`,
-      data
-    );
-    getData();
-    setToggleLoading(false);
-    message.success("Toggled successfully");
+    axios
+      .put(
+        `https://meet-production-52c7.up.railway.app/api/v1/account/put/${user.id}`,
+        data
+      )
+      .then(() => {
+        getData();
+        message.success("Toggled successfully");
+      })
+      .finally(() => {
+        setToggleLoading(false);
+      });
   };
 
   //handle search user
@@ -204,96 +209,102 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
         );
       },
     },
-    {
-      key: "7",
-      title: "",
-      render: (userFetch) => {
-        return (
-          <>
-            {/* Loading */}
-            {toggleLoading ? (
-              <Popover content="Please wait for the Update finish" placement="left">
-                <EditOutlined
-                  style={Object.assign(
-                    { fontSize: "18px" },
-                    { color: "black" },
-                    { opacity: "0.1" },
-                    { margin: "0 12px 0 0" }
-                  )}
-                />
-                <PoweroffOutlined
-                  style={Object.assign(
-                    { fontSize: "18px" },
-                    { color: "black" },
-                    { opacity: "0.1" }
-                  )}
-                />
-              </Popover>
-            ) : (
-              <>
-                {/* Edit Button */}
-                {userFetch.role > 0 || userFetch.id === user.id ? (
-                  <Popover
-                    content={`Click to edit ${userFetch.name}'s account`}
-                    placement="left"
-                  >
-                    <EditOutlined
-                      onClick={() => handleEditUser(userFetch)}
-                      style={Object.assign(
-                        { fontSize: "18px" },
-                        { color: "black" },
-                        { margin: "0 12px 0 0" }
-                      )}
-                    />
-                  </Popover>
-                ) : (
-                  <Popover content="You cannot edit other admin account" placement="left">
-                    <EditOutlined
-                      style={Object.assign(
-                        { fontSize: "18px" },
-                        { color: "black" },
-                        { opacity: "0.1" },
-                        { margin: "0 12px 0 0" }
-                      )}
-                    />
-                  </Popover>
-                )}
+    // {
+    //   key: "7",
+    //   title: "",
+    //   render: (userFetch) => {
+    //     return (
+    //       <>
+    //         {/* Loading */}
+    //         {toggleLoading ? (
+    //           <Popover
+    //             content="Please wait for the Update finish"
+    //             placement="left"
+    //           >
+    //             <EditOutlined
+    //               style={Object.assign(
+    //                 { fontSize: "18px" },
+    //                 { color: "black" },
+    //                 { opacity: "0.1" },
+    //                 { margin: "0 12px 0 0" }
+    //               )}
+    //             />
+    //             <PoweroffOutlined
+    //               style={Object.assign(
+    //                 { fontSize: "18px" },
+    //                 { color: "black" },
+    //                 { opacity: "0.1" }
+    //               )}
+    //             />
+    //           </Popover>
+    //         ) : (
+    //           <>
+    //             {/* Edit Button */}
+    //             {userFetch.role > 0 || userFetch.id === user.id ? (
+    //               <Popover
+    //                 content={`Click to edit ${userFetch.name}'s account`}
+    //                 placement="left"
+    //               >
+    //                 <EditOutlined
+    //                   onClick={() => handleEditUser(userFetch)}
+    //                   style={Object.assign(
+    //                     { fontSize: "18px" },
+    //                     { color: "black" },
+    //                     { margin: "0 12px 0 0" }
+    //                   )}
+    //                 />
+    //               </Popover>
+    //             ) : (
+    //               <Popover
+    //                 content="You cannot edit other admin account"
+    //                 placement="left"
+    //               >
+    //                 <EditOutlined
+    //                   style={Object.assign(
+    //                     { fontSize: "18px" },
+    //                     { color: "black" },
+    //                     { opacity: "0.1" },
+    //                     { margin: "0 12px 0 0" }
+    //                   )}
+    //                 />
+    //               </Popover>
+    //             )}
 
-                {userFetch.status ? (
-                  //! Active
-                  <Popover
-                    content={`Click to disable ${userFetch.name}'s account`}
-                    placement="left"
-                  >
-                    <PoweroffOutlined
-                      onClick={() => toggleUser(userFetch)}
-                      style={Object.assign(
-                        { fontSize: "18px" },
-                        { color: "green" }
-                      )}
-                    />
-                  </Popover>
-                ) : (
-                  //! Disable
-                  <Popover
-                    content={`Click to active ${userFetch.name}'s account`}
-                    placement="left"
-                  >
-                    <PoweroffOutlined
-                      onClick={() => toggleUser(userFetch)}
-                      style={Object.assign(
-                        { fontSize: "18px" },
-                        { color: "red" }
-                      )}
-                    />
-                  </Popover>
-                )}
-              </>
-            )}
-          </>
-        );
-      },
-    },
+    //             {userFetch.status ? (
+    //               //! Active
+    //               <Popover
+    //                 content={`Click to disable ${userFetch.name}'s account`}
+    //                 placement="left"
+    //               >
+    //                 <PoweroffOutlined
+    //                   onClick={() => toggleUser(userFetch)}
+    //                   style={Object.assign(
+    //                     { fontSize: "18px" },
+    //                     { color: "green" }
+    //                   )}
+    //                 />
+    //               </Popover>
+    //             ) : (
+    //               //! Disable
+    //               <Popover
+    //                 content={`Click to active ${userFetch.name}'s account`}
+    //                 placement="left"
+    //               >
+    //                 <PoweroffOutlined
+    //                   onClick={() => toggleUser(userFetch)}
+    //                   style={Object.assign(
+    //                     { fontSize: "18px" },
+    //                     { color: "red" }
+    //                   )}
+    //                 />
+    //               </Popover>
+    //             )}
+    //           </>
+    //         )}
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -367,7 +378,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
             className="tableOfLocations"
             columns={columns}
             dataSource={usersList?.length === 0 ? users : usersList}
-            loading={isLoading}
+            loading={isLoading || toggleLoading}
             rowKey="id"
           ></Table>
         </Col>
