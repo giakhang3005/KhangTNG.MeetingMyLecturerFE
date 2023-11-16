@@ -136,8 +136,8 @@ export const CreatedSlotTableView = (props) => {
         return slot.studentName !== null ? (
           <Tag color="volcano">{slot.subject} </Tag>
         ) : (
-          slot.slotSubjectDTOS.map((subject) => {
-            return <Tag color="volcano" style={{margin:'0 0 2px 0'}}>{subject.subjectCode}</Tag>;
+          slot.slotSubjectDTOS.map((subject, i) => {
+            return <Tag color="volcano" key={i} style={{margin:'0 0 2px 0'}}>{subject.subjectCode}</Tag>;
           })
         );
       },

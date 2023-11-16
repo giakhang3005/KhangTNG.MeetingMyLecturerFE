@@ -85,14 +85,15 @@ export function CreateSlotForm({
 
   //handle Date Change
   const handleDateChange = (newDate) => {
-    if (newDate < today) {
+    const changedDate = newDate.hour(start.hour()).minute(start.minute());
+    if (changedDate < today) {
       message.error("You have to create slot at least 6 hours from now");
     } else {
       setDate(newDate);
       //set new date/month/year for start time & end time
-      setEnd(
+      setStart(
         newDate
-          .date(newDate.date())
+          .set("date", newDate.date())
           .month(newDate.month())
           .year(newDate.year())
           .hour(start.hour())
@@ -100,7 +101,7 @@ export function CreateSlotForm({
       );
       setEnd(
         newDate
-          .date(newDate.date())
+          .set("date", newDate.date())
           .month(newDate.month())
           .year(newDate.year())
           .hour(end.hour())
@@ -239,8 +240,11 @@ export function CreateSlotForm({
 
       //time validation
       let dateErr = date < today;
-      let startErr = start < today.add(6, "hour");
+      const mustAfterThisTime = today;
+      let startErr = start < mustAfterThisTime;
       let endErr = end < start.add(15, "minute");
+      console.log(start);
+      console.log(dateErr, startErr, endErr);
 
       if (
         !SubjErr &&
@@ -280,7 +284,9 @@ export function CreateSlotForm({
         tooManySubjErr &&
           message.error("You can only add 1 subject in Assign Student Mode");
         if (dateErr || startErr || endErr) {
-          message.error("You have to create slot at least 6 hours from now");
+          message.error(
+            `You have to create slot after ${mustAfterThisTime.date()}/${mustAfterThisTime.month() + 1}/${mustAfterThisTime.year()} ${mustAfterThisTime.hour()}:${mustAfterThisTime.minute()}:${mustAfterThisTime.second()}`
+          );
         }
       }
     }
