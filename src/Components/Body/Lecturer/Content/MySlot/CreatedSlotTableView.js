@@ -1,4 +1,4 @@
-import { message, Popconfirm, Popover, Table, Tag } from "antd";
+import { message, Popconfirm, Popover, Table, Tag, Row, Col } from "antd";
 import { useState } from "react";
 import {
   PlusCircleFilled,
@@ -90,7 +90,40 @@ export const CreatedSlotTableView = (props) => {
     {
       key: "7",
       title: "Student",
-      dataIndex: "studentName",
+      render: (slot) => (
+        <Popover
+          title="Other Informations"
+          content={
+            slot.studentName !== "" && slot.studentName !== null ? (
+              <span
+                style={Object.assign(
+                  { lineHeight: "30px" },
+                  { minWidth: "300px" }
+                )}
+              >
+                {/* Email */}
+                <Row style={{ width: "300px" }}>
+                  <Col xs={7}>
+                    <b>Email:</b>
+                  </Col>
+                  <Col xs={17}> {slot.studentEmail} </Col>
+                </Row>
+                {/* Email */}
+                <Row style={{ width: "300px" }}>
+                  <Col xs={7}>
+                    <b>Phone:</b>
+                  </Col>
+                  <Col xs={17}> {slot.studentPhone} </Col>
+                </Row>
+              </span>
+            ) : (
+              ""
+            )
+          }
+        >
+          <Tag>{slot.studentName}</Tag>
+        </Popover>
+      ),
     },
     {
       key: "8",

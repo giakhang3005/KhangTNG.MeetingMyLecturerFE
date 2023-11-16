@@ -280,7 +280,7 @@ export const LectuerCalenderView = (props) => {
                                         { display: "flex" },
                                         { alignItems: "center" },
                                         { width: "106px" },
-                                        {margin: '5px 0 0 0'},
+                                        { margin: "5px 0 0 0" },
                                         { justifyContent: "space-between" },
                                         { cursor: "pointer" }
                                       )}
@@ -292,22 +292,14 @@ export const LectuerCalenderView = (props) => {
                                   </a>
                                 ) : (
                                   <Popover content={slot.locationAddress}>
-                                    <Tag color="orange">{slot.locationName}</Tag>
+                                    <Tag color="orange">
+                                      {slot.locationName}
+                                    </Tag>
                                   </Popover>
                                 )}
                               </Col>
                             </Row>
 
-                            <Row>
-                              <Col xs={7}>
-                                <b>Student:</b>
-                              </Col>
-                              <Col xs={17}>
-                                {slot.studentName === null
-                                  ? "None"
-                                  : slot.studentName}
-                              </Col>
-                            </Row>
                             <Row>
                               <Col xs={7}>
                                 <b>Subject:</b>
@@ -325,6 +317,41 @@ export const LectuerCalenderView = (props) => {
                                 <b>Password:</b>{" "}
                               </Col>{" "}
                               <Col xs={17}>{slot.password}</Col>
+                            </Row>
+                            <Row>
+                              <span>------------</span>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Student:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {slot.studentName === null
+                                  ? "None"
+                                  : slot.studentName}
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Email:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {slot.studentName === null
+                                  ? "None"
+                                  : slot.studentEmail}
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col xs={7}>
+                                <b>Phone:</b>
+                              </Col>
+                              <Col xs={17}>
+                                {slot.studentName === null
+                                  ? "None"
+                                  : slot.studentPhone === null
+                                  ? "No phone number"
+                                  : slot.studentPhone}
+                              </Col>
                             </Row>
                           </span>
                         }
