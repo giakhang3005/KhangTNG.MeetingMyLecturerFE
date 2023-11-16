@@ -1,4 +1,5 @@
-import { Form, Input, Button, Typography, message, Spin } from "antd";
+import { Row, Col, Input, Button, Typography, message, Spin } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 import "../../../Lecturer.css";
 import { useContext, useState } from "react";
 import { Data } from "../../../../Body";
@@ -9,30 +10,19 @@ export const EditingLocation = (props) => {
   const { user } = useContext(Data);
 
   const setLocationSectionView = props.setLocationSectionView,
-  getLocations = props.getLocations;
+    getLocations = props.getLocations;
   let editLocation = props.editLocation;
-
-  //set form values
-  const formValues = {
-    ["id"]: editLocation.id,
-    ["name"]: editLocation["name"],
-    ["address"]: editLocation["address"],
-  };
-
-  //handle cancel
-  const handleCancel = () => {
-    message.error(`Canceled update location`);
-    setLocationSectionView("");
-  };
 
   //handle submit update
   const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState(editLocation.name)
+  const [address, setAddress] = useState(editLocation.address)
   const handleSubmit = (data) => {
     const newLocation = {
       id: editLocation.id,
-      name: data.name,
-      address: data.address,
-      status: data.status,
+      name: name,
+      address: address,
+      status: editLocation.status,
       lecturerId: user.id,
       toggle: true,
     };
@@ -46,7 +36,7 @@ export const EditingLocation = (props) => {
         )
         .then(() => {
           setIsLoading(false);
-          message.success(`Updated location ${data.name}`);
+          message.success(`Updated location`);
           setLocationSectionView("");
           getLocations();
         })
@@ -62,37 +52,85 @@ export const EditingLocation = (props) => {
       <Title className="sectionTitle" level={3}>
         EDITTING LOCATION
       </Title>
+      <Button
+        disabled={isLoading}
+        icon={<LeftOutlined />}
+        type="text"
+        onClick={() => setLocationSectionView("")}
+      >
+        Back
+      </Button>
+      {/* Form */}
       <Spin spinning={isLoading}>
-        <div className="editLocationForm">
-          <Form initialValues={formValues} onFinish={handleSubmit}>
-            <Form.Item name="id" label="ID" rules={[{ required: true }]}>
-              <Input disabled />
-            </Form.Item>
-            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-              <Input maxLength={30} showCount/>
-            </Form.Item>
-            <Form.Item
-              name="address"
-              label="Address"
-              rules={[{ required: true }]}
-            >
-              <Input maxLength={200} showCount/>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                onClick={handleCancel}
-                style={{ margin: "0 8px 0 0" }}
-                type="default"
-                danger
-              >
-                Cancel
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Save
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+        <Row className="requestsInfo">
+          <Col xs={1}></Col>
+
+          <Col xs={23}>
+            {/* Name */}
+            <Row className="animateBox">
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Name:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    value={name}
+                    maxLength={30}
+                    showCount
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Title>
+              </Col>
+            </Row>
+
+            {/* Address */}
+            <Row className="animateBox">
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}>
+                  Address:
+                </Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Input
+                    value={address}
+                    maxLength={200}
+                    showCount
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Title>
+              </Col>
+            </Row>
+
+            {/* Save */}
+            <Row className="animateBox">
+              <Col xs={9} md={3}>
+                <Title className="InfoText ID" level={5}></Title>
+              </Col>
+              <Col xs={15} md={10}>
+                <Title
+                  className="InfoText id"
+                  level={5}
+                  style={{ fontWeight: "400" }}
+                >
+                  <Button type="primary" onClick={handleSubmit}>
+                    Save
+                  </Button>
+                </Title>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </Spin>
     </>
   );
