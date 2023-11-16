@@ -7,7 +7,7 @@ import {
   HomeFilled,
   SettingFilled,
   EnvironmentFilled,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import { useLogOut } from "../../../../Hooks/All/useLogout";
 
@@ -64,6 +64,10 @@ export const LecturerMenu = () => {
         defaultSelectedKeys="lecturerDashboard"
         selectedKeys={menuOpt}
         onClick={(selectedOpt) => {
+          if (selectedOpt.key !== "createdSlot") {
+            sessionStorage.removeItem("slotBackupData");
+            sessionStorage.removeItem("locationBack");
+          }
           setMenuOpt(selectedOpt.key);
         }}
       />
