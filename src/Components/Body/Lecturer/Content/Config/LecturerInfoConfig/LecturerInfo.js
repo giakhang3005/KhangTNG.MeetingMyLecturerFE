@@ -189,12 +189,21 @@ export function LecturerInfo() {
       !meetErr && message.error("You have to enter a valid google meet link");
     }
   };
+
+  const handleBack = () => {
+    const whereToBack = sessionStorage.getItem("locationBack");
+    if (whereToBack === "backToCreateSlot") {
+      setMenuOpt("createdSlot");
+    } else {
+      setMenuOpt("lecturerCfg");
+    }
+  };
   return (
     <>
       <Button
         icon={<LeftOutlined />}
         type="text"
-        onClick={() => setMenuOpt("lecturerCfg")}
+        onClick={handleBack}
       >
         Back
       </Button>

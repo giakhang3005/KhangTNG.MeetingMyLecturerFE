@@ -164,7 +164,7 @@ export function CreateSlotForm({
     <Button
       type="primary"
       size="small"
-      onClick={() => setMenuOpt("lecturerInformations")}
+      onClick={() => changeToAddLocation("lecturerInformations")}
     >
       Go to Settings
     </Button>
@@ -232,10 +232,11 @@ export function CreateSlotForm({
       let tooManySubjErr =
         newSlot.mode === 2 && newSlot.slotSubjectDTOS.length > 1;
 
+      //time validation
       let dateErr = date < today;
       let startErr = start < today.add(6, "hour");
       let endErr = end < start.add(15, "minute");
-      console.log(dateErr, startErr, endErr);
+
       if (
         !SubjErr &&
         !locErr &&
@@ -280,7 +281,7 @@ export function CreateSlotForm({
     }
   };
 
-  const changeToAddLocation = () => {
+  const changeToAddLocation = (toOpt) => {
     const dateString = `${date.date()}/${date.month()}/${date.year()}/${date.hour()}/${date.minute()}/${date.second()}`;
     const startString = `${start.date()}/${start.month()}/${start.year()}/${start.hour()}/${start.minute()}/${start.second()}`;
     const endString = `${end.date()}/${end.month()}/${end.year()}/${end.hour()}/${end.minute()}/${end.second()}`;
@@ -297,9 +298,8 @@ export function CreateSlotForm({
       mode: mode,
     };
     sessionStorage.setItem("locationBack", "backToCreateSlot");
-    console.log(slotBackupData);
     sessionStorage.setItem("slotBackupData", JSON.stringify(slotBackupData));
-    setMenuOpt("locations");
+    setMenuOpt(toOpt);
   };
 
   const recoverData = () => {
@@ -554,7 +554,7 @@ export function CreateSlotForm({
                         style={{ margin: "0 0 0 4px" }}
                         size="small"
                         shape="circle"
-                        onClick={changeToAddLocation}
+                        onClick={() => changeToAddLocation("locations")}
                       ></Button>
                     </Popover>
                   </>
