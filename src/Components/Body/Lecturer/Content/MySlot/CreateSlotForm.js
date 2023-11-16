@@ -86,8 +86,22 @@ export function CreateSlotForm({
   //handle Date Change
   const handleDateChange = (newDate) => {
     const changedDate = newDate.hour(start.hour()).minute(start.minute());
-    if (changedDate < today) {
-      message.error("You have to create slot at least 6 hours from now");
+    const maxDate = today.add(30, "day");
+
+    //validate if new date < today or new date > max date (over 30 days)
+    if (changedDate < today || changedDate > maxDate) {
+      changedDate < today &&
+        message.error("You have to create slot at least 6 hours from now");
+      changedDate > maxDate &&
+        message.error(
+          `You can only create slot maximum to ${
+            maxDate.date() < 0 ? `0${maxDate.date()}` : maxDate.date()
+          }/${
+            maxDate.month() + 1 < 0
+              ? `0${maxDate.month() + 1}`
+              : maxDate.month() + 1
+          }/${maxDate.year()} (30 days from now)`
+        );
     } else {
       setDate(newDate);
       //set new date/month/year for start time & end time
@@ -112,22 +126,30 @@ export function CreateSlotForm({
 
   //handle State time change
   const handleStartChange = (newStart) => {
+    const maximumMeetingTime = newStart.add(2, "hour").add(15, "minute");
     const startHour = newStart
       .date(date.date())
       .month(date.month())
       .year(date.year());
+
     if (startHour < today.add(6, "hour")) {
       message.error("You have to create slot at least 6 hours from now");
     } else {
       setStart(startHour);
       if (end.diff(startHour) < 900000) {
+        message.info('End time have been updated automatically because minimum meeting time is 15 minutes ')
         setEnd(startHour.add(15, "minute"));
+      }
+      if (end > maximumMeetingTime) {
+        setEnd(startHour.add(2, "hour").add(15, "minute"));
+        message.info('End time have been updated automatically because maximum meeting time is 2 hours 15 minutes ')
       }
     }
   };
 
   //handle End time change
   const handleEndChange = (newEnd) => {
+    const maximumMeetingTime = start.add(2, "hour").add(15, "minute");
     const endHour = newEnd
       .date(date.date())
       .month(date.month())
@@ -135,7 +157,11 @@ export function CreateSlotForm({
     if (endHour < start.add(15, "minute")) {
       message.error("Slot must be at least 15 minutes");
     } else {
-      setEnd(endHour);
+      if(endHour > maximumMeetingTime) {
+        message.error(`Can not change End time because maximum meeting time is 2 hours 15 minutes`)
+      } else {
+        setEnd(endHour);
+      }
     }
   };
 
@@ -283,7 +309,27 @@ export function CreateSlotForm({
           message.error("You can only add 1 subject in Assign Student Mode");
         if (dateErr || startErr || endErr) {
           message.error(
-            `You have to create slot after ${mustAfterThisTime.date() < 10 ? `0${mustAfterThisTime.date()}` : mustAfterThisTime.date()}/${mustAfterThisTime.month() + 1 < 10 ? `0${mustAfterThisTime.month() + 1}` : mustAfterThisTime.month() + 1}/${mustAfterThisTime.year()} ${mustAfterThisTime.hour() < 10 ? `0${mustAfterThisTime.hour()}` : mustAfterThisTime.hour()}:${mustAfterThisTime.minute() < 10 ? `0${mustAfterThisTime.minute()}` : mustAfterThisTime.minute()}:${mustAfterThisTime.second() < 10 ? `0${mustAfterThisTime.second()}` : mustAfterThisTime.second()}`
+            `You have to create slot after ${
+              mustAfterThisTime.date() < 10
+                ? `0${mustAfterThisTime.date()}`
+                : mustAfterThisTime.date()
+            }/${
+              mustAfterThisTime.month() + 1 < 10
+                ? `0${mustAfterThisTime.month() + 1}`
+                : mustAfterThisTime.month() + 1
+            }/${mustAfterThisTime.year()} ${
+              mustAfterThisTime.hour() < 10
+                ? `0${mustAfterThisTime.hour()}`
+                : mustAfterThisTime.hour()
+            }:${
+              mustAfterThisTime.minute() < 10
+                ? `0${mustAfterThisTime.minute()}`
+                : mustAfterThisTime.minute()
+            }:${
+              mustAfterThisTime.second() < 10
+                ? `0${mustAfterThisTime.second()}`
+                : mustAfterThisTime.second()
+            }`
           );
         }
       }
@@ -401,6 +447,7 @@ export function CreateSlotForm({
                 style={{ fontWeight: "400" }}
               >
                 <DatePicker
+                  allowClear={false}
                   style={{ width: "320px" }}
                   value={date}
                   format="DD/MM/YYYY"
@@ -424,6 +471,7 @@ export function CreateSlotForm({
                 style={{ fontWeight: "400" }}
               >
                 <TimePicker
+                  allowClear={false}
                   style={{ width: "320px" }}
                   format="HH:mm"
                   value={start}
@@ -447,6 +495,7 @@ export function CreateSlotForm({
                 style={{ fontWeight: "400" }}
               >
                 <TimePicker
+                  allowClear={false}
                   style={{ width: "320px" }}
                   value={end}
                   format="HH:mm"
