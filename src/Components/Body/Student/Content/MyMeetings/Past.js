@@ -201,7 +201,7 @@ export function Past() {
   return (
     <>
       <Title className="sectionTitle" level={3}>
-        UPCOMMING MEETINGS
+        PAST MEETINGS
         {/* Back button */}
         {JSON.stringify(meetingInfo) === "{}" && (
           <Button

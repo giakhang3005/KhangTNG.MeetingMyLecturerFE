@@ -23,6 +23,8 @@ export const useLogOut = () => {
         localStorage.removeItem("sentRequests");
         localStorage.removeItem("upcommingMeeting");
         localStorage.removeItem("pastMeeting");
+        sessionStorage.removeItem("slotBackupData");
+        sessionStorage.removeItem("locationBack");
       }
       if (user.role === "admin") {
         // localStorage.removeItem("Aslots");
