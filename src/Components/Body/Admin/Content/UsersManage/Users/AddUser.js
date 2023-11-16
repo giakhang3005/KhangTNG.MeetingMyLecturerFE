@@ -29,10 +29,9 @@ export function AddUser({ setMenuOpt }) {
       name: editInput[1].value,
       email: editInput[2].value,
       password: editInput[3].value,
-      role: reverseRole(infoText[9].textContent),
-      status: infoText[11].textContent === "Active" ? true : false,
+      role: 0, //reverseRole(infoText[9].textContent)
+      status: true, //infoText[11].textContent === "Active" ? true : false
     };
-    console.log(newUser);
 
     let emailCheck = false,
       stringCheck = false;
@@ -188,7 +187,7 @@ export function AddUser({ setMenuOpt }) {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Select
+                {/* <Select
                   required
                   defaultValue={2}
                   options={[
@@ -205,13 +204,14 @@ export function AddUser({ setMenuOpt }) {
                       value: 2,
                     },
                   ]}
-                ></Select>
+                ></Select> */}
+                Admin
               </Title>
             </Col>
           </Row>
 
           {/* Status */}
-          <Row>
+          {/* <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText" level={5}>
                 Status:
@@ -238,7 +238,7 @@ export function AddUser({ setMenuOpt }) {
                 ></Select>
               </Title>
             </Col>
-          </Row>
+          </Row> */}
 
           {/* Buttons */}
           <Row>
