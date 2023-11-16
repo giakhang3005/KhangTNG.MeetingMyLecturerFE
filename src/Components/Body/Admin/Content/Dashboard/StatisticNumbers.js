@@ -94,7 +94,7 @@ export const StatisticNumber = () => {
       <Col xs={0} md={1}></Col>
       <Col xs={20} md={8}>
           <Doughnut
-          style={Object.assign({width: '100%'})}
+          style={Object.assign({width: '100%'}, {minWidth: '100%', maxWidth: '100%'})}
             data={{
               labels: studentAndLecturer.map((user) => user.label),
               datasets: [
