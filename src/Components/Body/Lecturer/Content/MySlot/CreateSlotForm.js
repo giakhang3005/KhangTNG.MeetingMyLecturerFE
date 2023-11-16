@@ -90,8 +90,13 @@ export function CreateSlotForm({
     } else {
       setDate(newDate);
       //set new date/month/year for start time & end time
-      setStart(
-        newDate.date(newDate.date()).month(newDate.month()).year(newDate.year())
+      setEnd(
+        newDate
+          .date(newDate.date())
+          .month(newDate.month())
+          .year(newDate.year())
+          .hour(start.hour())
+          .minute(start.minute())
       );
       setEnd(
         newDate
