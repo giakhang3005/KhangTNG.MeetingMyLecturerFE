@@ -28,7 +28,7 @@ export const RecentSlotsMonth = () => {
       .then((response) => response.data.reverse())
       .then((data) => {
         setMeetings(data);
-        getFirstLastDateOfData(data)
+        getFirstLastDateOfData(data);
       })
       .finally(() => setLoading(false));
   };
@@ -42,33 +42,92 @@ export const RecentSlotsMonth = () => {
   const [endDate, setEndDate] = useState(null);
 
   const getFirstLastDateOfData = (data) => {
-    const firstDate = data[0].month.slice(0, 10).split('/')
-    const lastDate = data[data.length - 1].month.slice(13, 23).split('/')
-    
-    setStartDate(dayjs().date(firstDate[0]).month(firstDate[1]-1).year(firstDate[2]))
-    setEndDate(dayjs().date(lastDate[0]).month(lastDate[1]-1).year(lastDate[2]))
-  }
+    const firstDate = data[0].month.slice(0, 10).split("/");
+    const lastDate = data[data.length - 1].month.slice(13, 23).split("/");
+
+    setStartDate(
+      dayjs()
+        .date(firstDate[0])
+        .month(firstDate[1] - 1)
+        .year(firstDate[2])
+    );
+    setEndDate(
+      dayjs()
+        .date(lastDate[0])
+        .month(lastDate[1] - 1)
+        .year(lastDate[2])
+    );
+  };
 
   const handleStartDateChange = (newDate) => {
-    
-  }
+    if (newDate >= endDate) {
+      message.error("Start date must be before End date");
+    } else {
+      setStartDate(newDate);
+    }
+  };
 
   const handleEndDateChange = (newDate) => {
-    
-  }
+    if (newDate <= startDate) {
+      message.error("End date must be after Start date");
+    } else {
+      setEndDate(newDate);
+    }
+  };
+
+  const handleSearchDate = () => {
+    const startDateString = `${
+      startDate.date() < 10 ? `0${startDate.date()}` : startDate.date()
+    }/${
+      startDate.month() + 1 < 10
+        ? `0${startDate.month() + 1}`
+        : startDate.month() + 1
+    }/${startDate.year()}`;
+
+    const endDateString = `${
+      endDate.date() < 10 ? `0${endDate.date()}` : endDate.date()
+    }/${
+      endDate.month() + 1 < 10 ? `0${endDate.month() + 1}` : endDate.month() + 1
+    }/${endDate.year()}`;
+
+    setLoading(true);
+    axios
+      .get(
+        `https://meet-production-52c7.up.railway.app/api/dashboard/admin/graph/week?startDay=${startDateString}&endDay=${endDateString}`
+      )
+      .then((response) => response.data.reverse())
+      .then((data) => {
+        setMeetings(data);
+        getFirstLastDateOfData(data);
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div className="Chart">
       <Title level={3}>Statistic Graph</Title>
       <span>
-        <DatePicker disabled={loading} format="DD/MM/YYYY" value={startDate} onChange={(newDate) => handleStartDateChange(newDate)} />
+        <DatePicker
+          allowClear={false}
+          disabled={loading}
+          format="DD/MM/YYYY"
+          value={startDate}
+          onChange={(newDate) => handleStartDateChange(newDate)}
+        />
         <SwapRightOutlined style={{ margin: "0 8px 0 8px" }} />{" "}
-        <DatePicker disabled={loading} format="DD/MM/YYYY" value={endDate} onChange={(newDate) => handleEndDateChange(newDate)} />
+        <DatePicker
+          allowClear={false}
+          disabled={loading}
+          format="DD/MM/YYYY"
+          value={endDate}
+          onChange={(newDate) => handleEndDateChange(newDate)}
+        />
         <Button
           disabled={loading}
           style={{ margin: "0 0 0 8px" }}
           icon={<SearchOutlined />}
           type="primary"
+          onClick={handleSearchDate}
         ></Button>
       </span>
       <Spin spinning={loading} style={{ margin: "60px 0 0 0" }}>
