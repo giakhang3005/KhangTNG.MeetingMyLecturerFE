@@ -51,6 +51,10 @@ export const LecturerCreatedSlot = () => {
   };
 
   useEffect(() => {
+    const whereToBack = sessionStorage.getItem("locationBack");
+    if (whereToBack === "backToCreateSlot") {
+      setCreatedSlotView("create");
+    }
     getData();
   }, []);
 

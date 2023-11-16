@@ -14,8 +14,9 @@ import {
   Radio,
   Tag,
   notification,
+  Popover,
 } from "antd";
-import { FormOutlined } from "@ant-design/icons";
+import { FormOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../Body";
 import axios from "axios";
@@ -30,6 +31,7 @@ export function CreateSlotForm({
   setCreatedSlotView,
   setIsLoading,
   getData,
+  clearBackup,
 }) {
   const { Title } = Typography;
   const { user, setMenuOpt } = useContext(Data);
@@ -43,10 +45,6 @@ export function CreateSlotForm({
       .then((response) => setLinkMeet(response.data.data))
       .catch((error) => console.log(error));
   };
-
-  useEffect(() => {
-    getLinkMeet();
-  }, []);
 
   //push in to select format
   const pushSubjectList = (inputSubjects) => {
@@ -88,7 +86,7 @@ export function CreateSlotForm({
   //handle Date Change
   const handleDateChange = (newDate) => {
     if (newDate < today) {
-      message.error("You can not create slot with date in the past");
+      message.error("You have to create slot at least 6 hours from now");
     } else {
       setDate(newDate);
       //set new date/month/year for start time & end time
@@ -233,7 +231,20 @@ export function CreateSlotForm({
         (passErr = true);
       let tooManySubjErr =
         newSlot.mode === 2 && newSlot.slotSubjectDTOS.length > 1;
-      if (!SubjErr && !locErr && !passErr && !tooManySubjErr) {
+
+      let dateErr = date < today;
+      let startErr = start < today.add(6, "hour");
+      let endErr = end < start.add(15, "minute");
+      console.log(dateErr, startErr, endErr);
+      if (
+        !SubjErr &&
+        !locErr &&
+        !passErr &&
+        !tooManySubjErr &&
+        !dateErr &&
+        !startErr &&
+        !endErr
+      ) {
         setIsLoading(true);
         // console.log(JSON.stringify(newSlot));
         axios
@@ -262,9 +273,102 @@ export function CreateSlotForm({
           );
         tooManySubjErr &&
           message.error("You can only add 1 subject in Assign Student Mode");
+        if (dateErr || startErr || endErr) {
+          message.error("You have to create slot at least 6 hours from now");
+        }
       }
     }
   };
+
+  const changeToAddLocation = () => {
+    const dateString = `${date.date()}/${date.month()}/${date.year()}/${date.hour()}/${date.minute()}/${date.second()}`;
+    const startString = `${start.date()}/${start.month()}/${start.year()}/${start.hour()}/${start.minute()}/${start.second()}`;
+    const endString = `${end.date()}/${end.month()}/${end.year()}/${end.hour()}/${end.minute()}/${end.second()}`;
+    const slotBackupData = {
+      date: dateString,
+      start: startString,
+      end: endString,
+      mode: mode,
+      selectedSubjects: selectedSubjects,
+      locationId: locationId,
+      studentEmail: studentEmail,
+      password: password,
+      hasPassword: hasPassword,
+      mode: mode,
+    };
+    sessionStorage.setItem("locationBack", "backToCreateSlot");
+    console.log(slotBackupData);
+    sessionStorage.setItem("slotBackupData", JSON.stringify(slotBackupData));
+    setMenuOpt("locations");
+  };
+
+  const recoverData = () => {
+    const whereToBack = sessionStorage.getItem("locationBack");
+    if (whereToBack === "backToCreateSlot") {
+      const slotBackupData = JSON.parse(
+        sessionStorage.getItem("slotBackupData")
+      );
+      //parse date
+      const splittedDate = slotBackupData.date.split("/");
+      const convertedDate = dayjs()
+        .date(splittedDate[0])
+        .month(splittedDate[1])
+        .year(splittedDate[2])
+        .hour(splittedDate[3])
+        .minute(splittedDate[4])
+        .second(splittedDate[5]);
+      // parse start
+      const splittedStart = slotBackupData.start.split("/");
+      const convertedStart = dayjs()
+        .date(splittedStart[0])
+        .month(splittedStart[1])
+        .year(splittedStart[2])
+        .hour(splittedStart[3])
+        .minute(splittedStart[4])
+        .second(splittedStart[5]);
+      // // parse end
+      const splittedEnd = slotBackupData.end.split("/");
+      const convertedEnd = dayjs()
+        .date(splittedEnd[0])
+        .month(splittedEnd[1])
+        .year(splittedEnd[2])
+        .hour(splittedEnd[3])
+        .minute(splittedEnd[4])
+        .second(splittedEnd[5]);
+
+      const backupSlot = {
+        date: convertedDate,
+        start: convertedStart,
+        end: convertedEnd,
+        mode: slotBackupData.mode,
+        selectedSubjects: slotBackupData.selectedSubjects,
+        hasPassword: slotBackupData.hasPassword,
+        password: slotBackupData.password,
+        locationId: slotBackupData.locationId,
+        studentEmail: slotBackupData.studentEmail,
+      };
+      setDate(convertedDate);
+      setStart(convertedStart);
+      setEnd(convertedEnd);
+      setMode(backupSlot.mode);
+      setSelectedSubjects(backupSlot.selectedSubjects);
+      setHasPassword(backupSlot.hasPassword);
+      setPassword(backupSlot.password);
+      setLocationId(backupSlot.locationId);
+      setStudentEmail(backupSlot.studentEmail);
+
+      clearBackup();
+      message.success("Recovered successfully");
+      setHaveBackUp(false);
+    }
+  };
+
+  const [haveBackup, setHaveBackUp] = useState(false);
+  useEffect(() => {
+    const whereToBack = sessionStorage.getItem("locationBack");
+    whereToBack === "backToCreateSlot" && setHaveBackUp(true);
+    getLinkMeet();
+  }, []);
   return (
     <>
       {/* Notification */}
@@ -272,6 +376,7 @@ export function CreateSlotForm({
 
       <Row className="requestsInfo">
         <Col xs={1}></Col>
+
         <Col xs={23}>
           {/* Date */}
           <Row className="animateBox">
@@ -357,7 +462,7 @@ export function CreateSlotForm({
               >
                 <Select
                   style={Object.assign({ width: "320px" })}
-                  defaultValue={mode}
+                  value={mode}
                   onChange={(newMode) => handleModeChange(newMode)}
                 >
                   <Select.Option value={0}>Manual Approve</Select.Option>
@@ -386,6 +491,7 @@ export function CreateSlotForm({
                 >
                   <Select
                     showSearch
+                    value={studentEmail}
                     style={Object.assign({ width: "320px" })}
                     options={pushEmails(emails)}
                     onChange={(newEmail) => setStudentEmail(newEmail)}
@@ -434,12 +540,24 @@ export function CreateSlotForm({
                 style={{ fontWeight: "400" }}
               >
                 {type === "offline" ? (
-                  <Select
-                    style={{ minWidth: "320px" }}
-                    className="editInput animateBox"
-                    options={pushLocationList(locationsList)}
-                    onChange={(newLoc) => handleLocationChange(newLoc)}
-                  ></Select>
+                  <>
+                    <Select
+                      style={{ minWidth: "320px" }}
+                      value={locationId}
+                      className="editInput animateBox"
+                      options={pushLocationList(locationsList)}
+                      onChange={(newLoc) => handleLocationChange(newLoc)}
+                    ></Select>
+                    <Popover content="Add new location" placement="right">
+                      <Button
+                        icon={<PlusOutlined />}
+                        style={{ margin: "0 0 0 4px" }}
+                        size="small"
+                        shape="circle"
+                        onClick={changeToAddLocation}
+                      ></Button>
+                    </Popover>
+                  </>
                 ) : (
                   <a href={`https://${linkMeet}`} target="_blank">
                     <Tag
@@ -483,6 +601,7 @@ export function CreateSlotForm({
                     )}
                     mode="multiple"
                     className="editInput"
+                    value={selectedSubjects}
                     options={pushSubjectList(subjects)}
                     onChange={(subjectsList) =>
                       handleSubjectChange(subjectsList)
@@ -515,7 +634,10 @@ export function CreateSlotForm({
                 <span style={Object.assign({ fontSize: "9px" })}>
                   <Checkbox
                     checked={hasPassword}
-                    onChange={() => setHasPassword(!hasPassword)}
+                    onChange={() => {
+                      setHasPassword(!hasPassword);
+                      setPassword("");
+                    }}
                   ></Checkbox>
                 </span>
               </Title>
@@ -568,6 +690,14 @@ export function CreateSlotForm({
               >
                 Create
               </Button>
+
+              {haveBackup && (
+                <Popover content="You have a draft slot, click to Recover">
+                  <Button icon={<RedoOutlined />} onClick={recoverData}>
+                    Recover
+                  </Button>
+                </Popover>
+              )}
             </Col>
           </Row>
         </Col>

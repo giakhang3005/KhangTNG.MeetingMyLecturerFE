@@ -163,13 +163,9 @@ export function LecturerInfo() {
     };
 
     const validEmail = validateEmail(newLecturer.email);
+    const phoneFormat = /^0[3|5|7|8|9]\d\d\d\d\d\d\d\d$/i;
 
-    let phoneErr = false;
-    newLecturer.phone.length > 9 &&
-    newLecturer.phone.length < 12 &&
-    checkOnlyDigits(newLecturer.phone)
-      ? (phoneErr = true)
-      : (phoneErr = false);
+    let phoneErr = newLecturer.phone.match(phoneFormat);
 
     let meetErr = newLecturer.linkMeet.match(meetformat);
 
@@ -185,7 +181,10 @@ export function LecturerInfo() {
         .finally(() => setLoading(false));
     } else {
       //phone error = true -> execute
-      !phoneErr && message.error("Phone number must from 10 to 11 numbers");
+      !phoneErr &&
+        message.error(
+          "Invalid phone number, your phone number must contain 10 digits and start with 03/05/07/08/09"
+        );
       //validEmail = false -> execute
       !meetErr && message.error("You have to enter a valid google meet link");
     }
@@ -279,7 +278,6 @@ export function LecturerInfo() {
                     disabled={loading}
                     className="editInput"
                     value={lecturer?.phone}
-                    maxLength={11}
                     showCount
                     onChange={(e) => handlePhoneChange(e)}
                   ></Input>

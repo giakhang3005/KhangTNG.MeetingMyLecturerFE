@@ -8,21 +8,22 @@ import { AddLocationBtn } from "./AddLocationBtn";
 import { RecoverLocation } from "./RecoverLocation";
 import axios from "axios";
 import { Data } from "../../../../Body";
+import { useSlotLecturer } from "../../../../../../Hooks/Lecturer/useSlotLecturer";
 
 export const LecturerLocation = ({ setMenuOpt }) => {
- const { Title } = Typography;
+  const { Title } = Typography;
 
- const { user } = useContext(Data);
+  const { user } = useContext(Data);
 
   //state checking action of user in LecturerLocation
- const [locationSectionView, setLocationSectionView] = useState("view");
- const [editLocation, setEditLocation] = useState({});
- const [finalIdOfTheList, setFinalIdOfTheList] = useState("");
+  const [locationSectionView, setLocationSectionView] = useState("view");
+  const [editLocation, setEditLocation] = useState({});
+  const [finalIdOfTheList, setFinalIdOfTheList] = useState("");
 
   //! fetching data -> LocationsList
- const [isLoading, setIsLoading] = useState(false);
- const [LocationsList, setLocationsList] = useState([]);
- const getLocations = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [LocationsList, setLocationsList] = useState([]);
+  const getLocations = () => {
     setIsLoading(true);
     axios
       .get(
@@ -35,9 +36,9 @@ export const LecturerLocation = ({ setMenuOpt }) => {
       );
   };
 
- const [deletedLocLoading, SeteletedLocLoading] = useState(false);
- const [deletedLoc, setDeletedLoc] = useState([]);
- const getDeletedLocations = () => {
+  const [deletedLocLoading, SeteletedLocLoading] = useState(false);
+  const [deletedLoc, setDeletedLoc] = useState([]);
+  const getDeletedLocations = () => {
     SeteletedLocLoading(true);
     axios
       .get(
@@ -50,7 +51,7 @@ export const LecturerLocation = ({ setMenuOpt }) => {
       );
   };
 
- const refresh = () => {
+  const refresh = () => {
     getLocations();
     getDeletedLocations();
   };
@@ -60,7 +61,7 @@ export const LecturerLocation = ({ setMenuOpt }) => {
     getDeletedLocations();
   }, []);
 
- const items = [
+  const items = [
     {
       key: 1,
       label: "Active Locations",
@@ -89,6 +90,15 @@ export const LecturerLocation = ({ setMenuOpt }) => {
       ],
     },
   ];
+
+  const handleBack = () => {
+    const whereToBack = sessionStorage.getItem("locationBack");
+    if (whereToBack === "backToCreateSlot") {
+      setMenuOpt("createdSlot");
+    } else {
+      setMenuOpt("lecturerCfg");
+    }
+  };
   return (
     <>
       {/* Adding location */}
@@ -108,11 +118,7 @@ export const LecturerLocation = ({ setMenuOpt }) => {
       ) : (
         // View location -> default
         <>
-          <Button
-            icon={<LeftOutlined />}
-            type="text"
-            onClick={() => setMenuOpt("lecturerCfg")}
-          >
+          <Button icon={<LeftOutlined />} type="text" onClick={handleBack}>
             Back
           </Button>
           <Title className="sectionTitle" level={3}>

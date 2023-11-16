@@ -63,6 +63,11 @@ export const CreatingSlot = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const clearBackup = () => {
+    sessionStorage.removeItem("locationBack");
+    sessionStorage.removeItem("slotBackupData");
+  };
+
   useEffect(() => {
     getSubjects();
     getEmails();
@@ -76,7 +81,10 @@ export const CreatingSlot = (props) => {
           style={Object.assign({ display: "flex" }, { alignItems: "center" })}
         >
           CREATING SLOT{" "}
-          <Popover content="Click to download instructions file" placement="right">
+          <Popover
+            content="Click to download instructions file"
+            placement="right"
+          >
             <a
               href="./[MML] Create slot instruction.docx"
               style={Object.assign(
@@ -103,16 +111,25 @@ export const CreatingSlot = (props) => {
         disabled={isLoading}
         icon={<LeftOutlined />}
         type="text"
-        onClick={() => setCreatedSlotView("")}
+        onClick={() => {
+          setCreatedSlotView("");
+          clearBackup();
+        }}
       >
         Back
       </Button>
 
       {isUploadMode ? (
-        <UploadExcel subjects={subjects} locationsList={locationsList} subjectsLoading={subjectsLoading} getData={getData} />
+        <UploadExcel
+          subjects={subjects}
+          locationsList={locationsList}
+          subjectsLoading={subjectsLoading}
+          getData={getData}
+        />
       ) : (
         <Spin spinning={isLoading}>
           <CreateSlotForm
+          clearBackup={clearBackup}
             isLoading={isLoading}
             subjectsLoading={subjectsLoading}
             subjects={subjects}
