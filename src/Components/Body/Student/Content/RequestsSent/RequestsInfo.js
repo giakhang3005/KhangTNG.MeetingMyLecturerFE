@@ -162,6 +162,18 @@ export function RequestsInfo(props) {
                   style={{ fontWeight: "400" }}
                 >
                   {isSelectedBooking.slotInfo.lecturerName}
+                  {isSelectedBooking.status === 2 && (
+                    <>
+                      <br />
+                      <i style={Object.assign({ fontSize: "13px" })}>
+                        ({isSelectedBooking.contactInfo.lecturerEmail} -{" "}
+                        {isSelectedBooking.contactInfo.lecturerPhone === null
+                          ? "No phone number"
+                          : isSelectedBooking.contactInfo.lecturerPhone}
+                        )
+                      </i>
+                    </>
+                  )}
                 </Title>
               </Col>
             </Row>
@@ -291,9 +303,7 @@ export function RequestsInfo(props) {
                   level={5}
                   style={{ fontWeight: "400" }}
                 >
-                  <Tag color="volcano">
-                    {isSelectedBooking.subject}
-                  </Tag>
+                  <Tag color="volcano">{isSelectedBooking.subject}</Tag>
                 </Title>
               </Col>
             </Row>

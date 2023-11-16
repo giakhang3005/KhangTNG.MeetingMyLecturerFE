@@ -94,9 +94,41 @@ export function Past() {
     {
       key: "5",
       title: "Lecturer",
-      render: (booking) => {
-        return <>{booking.slotInfo.lecturerName}</>;
-      },
+      render: (booking) => (
+        <Popover
+          title="Other Informations"
+          content={
+            <span
+              style={Object.assign(
+                { lineHeight: "30px" },
+                { minWidth: "300px" }
+              )}
+            >
+              {/* Email */}
+              <Row style={{ width: "300px" }}>
+                <Col xs={7}>
+                  <b>Email:</b>
+                </Col>
+                <Col xs={17}> {booking.contactInfo.lecturerEmail} </Col>
+              </Row>
+              {/* Email */}
+              <Row style={{ width: "300px" }}>
+                <Col xs={7}>
+                  <b>Phone:</b>
+                </Col>
+                <Col xs={17}>
+                  {" "}
+                  {booking.contactInfo.lecturerPhone === null
+                    ? "No phone number"
+                    : booking.contactInfo.lecturerPhone}{" "}
+                </Col>
+              </Row>
+            </span>
+          }
+        >
+          <Tag>{booking.slotInfo.lecturerName}</Tag>
+        </Popover>
+      ),
     },
     {
       key: "6",
@@ -112,7 +144,10 @@ export function Past() {
             <Tag color="volcano">{booking.slotInfo.locationName}</Tag>
           </Popover>
         ) : (
-          <a href={`https://${booking.slotInfo.lecturerLinkMeet}`} target="_blank">
+          <a
+            href={`https://${booking.slotInfo.lecturerLinkMeet}`}
+            target="_blank"
+          >
             <Tag
               style={Object.assign(
                 { display: "flex" },
@@ -217,6 +252,14 @@ export function Past() {
                     style={{ fontWeight: "400" }}
                   >
                     {meetingInfo.slotInfo.lecturerName}
+                    <br />
+                    <i style={Object.assign({ fontSize: "13px" })}>
+                      ({meetingInfo.contactInfo.lecturerEmail} -{" "}
+                      {meetingInfo.contactInfo.lecturerPhone === null
+                        ? "No phone number"
+                        : meetingInfo.contactInfo.lecturerPhone}
+                      )
+                    </i>
                   </Title>
                 </Col>
               </Row>
@@ -302,23 +345,23 @@ export function Past() {
                       </Title>
                     ) : (
                       <a
-                      href={`https://${meetingInfo.slotInfo.lecturerLinkMeet}`}
-                      target="_blank"
-                    >
-                      <Tag
-                        style={Object.assign(
-                          { display: "flex" },
-                          { alignItems: "center" },
-                          { width: "106px" },
-                          { justifyContent: "space-between" },
-                          { margin: "11px 0 0 0" }
-                        )}
-                        icon={<GooglemeetLogo />}
-                        color="geekblue"
+                        href={`https://${meetingInfo.slotInfo.lecturerLinkMeet}`}
+                        target="_blank"
                       >
-                        Google Meet
-                      </Tag>
-                    </a>
+                        <Tag
+                          style={Object.assign(
+                            { display: "flex" },
+                            { alignItems: "center" },
+                            { width: "106px" },
+                            { justifyContent: "space-between" },
+                            { margin: "11px 0 0 0" }
+                          )}
+                          icon={<GooglemeetLogo />}
+                          color="geekblue"
+                        >
+                          Google Meet
+                        </Tag>
+                      </a>
                     )}
                   </Title>
                 </Col>
@@ -337,9 +380,7 @@ export function Past() {
                     level={5}
                     style={{ fontWeight: "400" }}
                   >
-                    <Tag color="volcano" >
-                      {meetingInfo.subject}
-                    </Tag>
+                    <Tag color="volcano">{meetingInfo.subject}</Tag>
                   </Title>
                 </Col>
               </Row>

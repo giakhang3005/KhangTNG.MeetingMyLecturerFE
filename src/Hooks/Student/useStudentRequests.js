@@ -1,4 +1,4 @@
-import { Tag, message, Popover } from "antd";
+import { Tag, message, Popover, Col, Row } from "antd";
 import { InfoCircleFilled } from "@ant-design/icons";
 import { useArray } from "../All/useArray";
 import {
@@ -75,9 +75,40 @@ export const useStudentRequests = () => {
       {
         key: "5",
         title: "Lecturer",
-        render: (booking) => {
-          return <>{booking.slotInfo.lecturerName}</>;
-        },
+        render: (booking) => (
+          <Popover
+            title="Other Informations"
+            content={
+              booking.status === 2 ? (
+                <span
+                  style={Object.assign(
+                    { lineHeight: "30px" },
+                    { minWidth: "300px" }
+                  )}
+                >
+                  {/* Email */}
+                  <Row style={{ width: "300px" }}>
+                    <Col xs={7}>
+                      <b>Email:</b>
+                    </Col>
+                    <Col xs={17}> {booking.contactInfo.lecturerEmail} </Col>
+                  </Row>
+                  {/* Email */}
+                  <Row style={{ width: "300px" }}>
+                    <Col xs={7}>
+                      <b>Phone:</b>
+                    </Col>
+                    <Col xs={17}> {booking.contactInfo.lecturerPhone} </Col>
+                  </Row>
+                </span>
+              ) : (
+                "Request have to be accepted to view other informations"
+              )
+            }
+          >
+            <Tag>{booking.slotInfo.lecturerName}</Tag>
+          </Popover>
+        ),
       },
       {
         key: "6",
