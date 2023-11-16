@@ -243,8 +243,6 @@ export function CreateSlotForm({
       const mustAfterThisTime = today;
       let startErr = start < mustAfterThisTime;
       let endErr = end < start.add(15, "minute");
-      console.log(start);
-      console.log(dateErr, startErr, endErr);
 
       if (
         !SubjErr &&
@@ -285,7 +283,7 @@ export function CreateSlotForm({
           message.error("You can only add 1 subject in Assign Student Mode");
         if (dateErr || startErr || endErr) {
           message.error(
-            `You have to create slot after ${mustAfterThisTime.date()}/${mustAfterThisTime.month() + 1}/${mustAfterThisTime.year()} ${mustAfterThisTime.hour()}:${mustAfterThisTime.minute()}:${mustAfterThisTime.second()}`
+            `You have to create slot after ${mustAfterThisTime.date() < 10 ? `0${mustAfterThisTime.date()}` : mustAfterThisTime.date()}/${mustAfterThisTime.month() + 1 < 10 ? `0${mustAfterThisTime.month() + 1}` : mustAfterThisTime.month() + 1}/${mustAfterThisTime.year()} ${mustAfterThisTime.hour() < 10 ? `0${mustAfterThisTime.hour()}` : mustAfterThisTime.hour()}:${mustAfterThisTime.minute() < 10 ? `0${mustAfterThisTime.minute()}` : mustAfterThisTime.minute()}:${mustAfterThisTime.second() < 10 ? `0${mustAfterThisTime.second()}` : mustAfterThisTime.second()}`
           );
         }
       }
