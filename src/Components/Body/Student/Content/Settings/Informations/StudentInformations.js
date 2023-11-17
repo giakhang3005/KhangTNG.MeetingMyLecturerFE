@@ -97,13 +97,10 @@ export function StudentInformations() {
       status: true,
     };
 
+    const phoneFormat = /^0[3|5|7|8|9]\d\d\d\d\d\d\d\d$/i;
+
     const dobErr = dob === null ? true : false;
-    const phoneErr =
-      newStudent.phone?.length < 10 ||
-      newStudent.phone?.length > 11 ||
-      !checkOnlyDigits(newStudent.phone) 
-        ? true
-        : false;
+    let phoneErr = !newStudent.phone.match(phoneFormat);
 
     if (!dobErr && !phoneErr) {
       // console.log(newStudent)
@@ -117,8 +114,11 @@ export function StudentInformations() {
         .catch((err) => console.error(err))
         .finally(() => setLoading(false));
     } else {
-      dobErr && message.error("Date of birth can not be empty");
-      phoneErr && message.error("Phone number must from 10 - 11 numbers");
+      dobErr &&
+        message.error(
+          "Date of birth is required"
+        );
+      phoneErr && message.error("Invalid phone number, your phone number must contain 10 digits and start with 03/05/07/08/09");
     }
   };
   return (

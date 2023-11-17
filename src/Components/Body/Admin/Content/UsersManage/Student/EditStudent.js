@@ -10,29 +10,48 @@ import {
   Spin,
 } from "antd";
 import { FormOutlined, LeftOutlined } from "@ant-design/icons";
+import axios from "axios"
 
 export function EditStudent({ setMenuOpt, studentEdit }) {
   const { Title } = Typography;
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
-    setLoading(true)
-    const UInput = document.querySelectorAll('.editInput')
+    const UInput = document.querySelectorAll(".editInput");
 
     const newStudent = {
       id: studentEdit.id,
       code: studentEdit.code,
       name: studentEdit.name,
-      phone: UInput[2].value,
-      dob: UInput[3].value,
+      phone: UInput[3].value,
+      dob: UInput[2].value,
       address: studentEdit.address,
       email: studentEdit.email,
       curriculum: studentEdit.curriculum,
       status: studentEdit.status,
-    }
+    };
 
-    console.log(newStudent)
-  }
+    const phoneFormat = /^0[3|5|7|8|9]\d\d\d\d\d\d\d\d$/i;
+    let phoneErr = !newStudent.phone.match(phoneFormat);
+
+    if (!phoneErr) {
+      // console.log(newStudent)
+      setLoading(true);
+      axios
+        .put(
+          `https://meet-production-52c7.up.railway.app/api/v1/student`,
+          newStudent
+        )
+        .then((res) => message.success("Updated successfully"))
+        .catch((err) => console.error(err))
+        .finally(() => setLoading(false));
+    } else {
+      phoneErr &&
+        message.error(
+          "Invalid phone number, your phone number must contain 10 digits and start with 03/05/07/08/09"
+        );
+    }
+  };
   return (
     <>
       <Title className="sectionTitle" level={3}>
