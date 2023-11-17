@@ -16,9 +16,7 @@ This Project have 2 responsitories:
 <li>Back End using Spring Boot</li>
 </ul>
 
-If you want to create a booking web app base on this code, to make this project work, you need to deploy the API (Backend Responsitory) & Database to a host server and connect the API with this Front End code. 
-
-<b>In the [Demo](https://meetinglecturers.giakhang3005.com) there will be test data for you to test, test accounts down below.</b>
+If you want to create a booking web app base on this code, to make this project work, you need to deploy the API (Backend Responsitory) & Database to a host server and connect the API with this Front End code. [Backend Repo](https://github.com/CongLam1806/Meet)
 
 <h3>Main Functions:</h3>
 <ul>
