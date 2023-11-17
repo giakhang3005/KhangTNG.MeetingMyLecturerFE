@@ -310,6 +310,7 @@ export function EditLecturers({ setMenuOpt, lecturerEdit }) {
                 )}
               >
                 <Input.TextArea
+                  disabled
                   maxLength={200}
                   showCount
                   className="editInput"

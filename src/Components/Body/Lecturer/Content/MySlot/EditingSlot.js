@@ -229,7 +229,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
       endTime: endString,
       online: type === "online",
       locationId: type === "offline" ? locationId : null,
-      slotSubjectDTOS: returnSubjectsList,
+      // slotSubjectDTOS: returnSubjectsList,
       password: password,
       lecturerId: user.id,
     };
@@ -459,6 +459,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                   style={{ fontWeight: "400" }}
                 >
                   <Select
+                  disabled
                     style={Object.assign(
                       { minWidth: "320px" },
                       { maxWidth: "320px" }
