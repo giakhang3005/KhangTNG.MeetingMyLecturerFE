@@ -100,7 +100,7 @@ export function StudentInformations() {
     const phoneFormat = /^0[3|5|7|8|9]\d\d\d\d\d\d\d\d$/i;
 
     const dobErr = dob === null ? true : false;
-    let phoneErr = !newStudent.phone.match(phoneFormat);
+    let phoneErr = !newStudent.phone?.match(phoneFormat);
 
     if (!dobErr && !phoneErr) {
       // console.log(newStudent)

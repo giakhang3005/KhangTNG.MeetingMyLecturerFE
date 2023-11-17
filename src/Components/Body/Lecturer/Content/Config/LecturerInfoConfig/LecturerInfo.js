@@ -124,7 +124,7 @@ export function LecturerInfo() {
 
   //handle note change
   const handleNoteChange = (e) => {
-    setLecturer({ ...lecturer, note: e.target.value });
+    setLecturer({ ...lecturer, note: e.target.value});
   };
 
   //handle email change
@@ -159,15 +159,15 @@ export function LecturerInfo() {
       phone: lecturer.phone,
       linkMeet: lecturer.linkMeet,
       subjectList: convertSubject(),
-      note: lecturer.note,
+      note: lecturer.note.trim(),
     };
 
     const validEmail = validateEmail(newLecturer.email);
     const phoneFormat = /^0[3|5|7|8|9]\d\d\d\d\d\d\d\d$/i;
 
-    let phoneErr = newLecturer.phone.match(phoneFormat);
+    let phoneErr = newLecturer.phone?.match(phoneFormat);
 
-    let meetErr = newLecturer.linkMeet.match(meetformat);
+    let meetErr = newLecturer.linkMeet?.match(meetformat);
 
     if (phoneErr && meetErr) {
       setLoading(true);
@@ -395,7 +395,7 @@ export function LecturerInfo() {
                     className="editInput"
                     value={lecturer?.note}
                     maxLength={200}
-                    showCount
+                    // showCount
                     onChange={(e) => handleNoteChange(e)}
                   ></Input.TextArea>
                 </Title>
