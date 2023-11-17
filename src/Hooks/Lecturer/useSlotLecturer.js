@@ -72,16 +72,16 @@ export const useSlotLecturer = () => {
               `https://meet-production-52c7.up.railway.app/api/v1/slot?id=${slot.id}`
             )
             .then((res) => {
-              if (res.data !== "BookingExist") {
+              if (res.data.data === "BookingExist") {
+                message.error(
+                  "Please decline all booking requests of this slot to delete"
+                );
+              } else {
                 message.success(
                   `Deleted slot ${slot.meetingDay} (${slot.startTime} - ${slot.endTime})`
                 );
                 message.info("It may take times to refresh the slot view ");
                 getData();
-              } else {
-                message.error(
-                  "Please decline all booking requests of this slot to delete"
-                );
               }
             })
             .catch((err) => console.error(err))
