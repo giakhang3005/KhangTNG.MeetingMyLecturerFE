@@ -235,9 +235,9 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
     };
 
     const locErr = type === "offline" && newSlot.locationId === null;
-    const SubjErr = newSlot.slotSubjectDTOS.length === 0;
+    // const SubjErr = newSlot.slotSubjectDTOS?.length === 0;
 
-    if (!SubjErr && !locErr) {
+    if (!locErr) {
       setUpdateLoading(true);
       // console.log(JSON.stringify(newSlot))
       axios
@@ -254,7 +254,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
         .finally(() => setUpdateLoading(false));
     } else {
       locErr && message.error("Location is required for Offline meeting");
-      SubjErr && message.error("You must select at least 1 subject");
+      // SubjErr && message.error("You must select at least 1 subject");
     }
   };
 

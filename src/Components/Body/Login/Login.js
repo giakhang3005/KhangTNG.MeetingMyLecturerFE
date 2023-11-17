@@ -173,8 +173,6 @@ export const Login = () => {
           userData.id === data.userId &&
           userData.password === data.password
         ) {
-          console.log(userData);
-          console.log(data);
           const finalUser = {
             id: userData.id,
             name: userData.name,
