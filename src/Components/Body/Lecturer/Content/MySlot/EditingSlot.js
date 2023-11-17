@@ -239,7 +239,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
 
     if (!SubjErr && !locErr) {
       setUpdateLoading(true);
-      console.log(newSlot)
+      // console.log(JSON.stringify(newSlot))
       axios
         .put(
           `https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`,

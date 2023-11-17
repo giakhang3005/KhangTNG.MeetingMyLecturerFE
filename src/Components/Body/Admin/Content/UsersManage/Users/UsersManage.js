@@ -320,12 +320,12 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
           >
             {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
-          <Button
+          {/* <Button
           type="primary"
             icon={<UserAddOutlined />}
             disabled={toggleLoading || isLoading}
             onClick={() => setMenuOpt("addUser")}
-          ></Button>
+          ></Button> */}
         </span>
       </Title>
 
