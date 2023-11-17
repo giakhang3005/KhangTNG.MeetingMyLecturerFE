@@ -142,6 +142,7 @@ export function PublicLocations({ setMenuOpt, setLocationEdit }) {
             {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
+          type="primary"
             icon={<PlusOutlined />}
             onClick={() => setMenuOpt("addLocationsManage")}
             disabled={isLoading || otherLoading}

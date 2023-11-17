@@ -122,6 +122,7 @@ export function MajorsManage({ setMenuOpt, setEditMajor }) {
             {hideLoading ? "Checking for updates...": "Refresh"}
           </Button>
           <Button
+          type="primary"
             icon={<PlusOutlined />}
             onClick={() => setMenuOpt("addMajor")}
             disabled={loading}

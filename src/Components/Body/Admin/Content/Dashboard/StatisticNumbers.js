@@ -22,7 +22,7 @@ export const StatisticNumber = () => {
       .catch((error) => console.error(error));
   };
 
-  const studentAndLecturer = [
+  let studentAndLecturer = [
     {
       label: "Lecturers",
       amount: data.totalLecturer,

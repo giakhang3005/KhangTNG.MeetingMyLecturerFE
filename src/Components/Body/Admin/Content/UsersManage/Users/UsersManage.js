@@ -314,7 +314,6 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
         <span>
           <Button
             style={{ margin: "0 5px 0 5px" }}
-            type="primary"
             onClick={() => handleRefetch()}
             disabled={toggleLoading || isLoading}
             loading={hideLoading}
@@ -322,6 +321,7 @@ export const UsersManage = ({ setMenuOpt, setUserEdit }) => {
             {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
+          type="primary"
             icon={<UserAddOutlined />}
             disabled={toggleLoading || isLoading}
             onClick={() => setMenuOpt("addUser")}

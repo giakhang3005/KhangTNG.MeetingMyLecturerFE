@@ -158,6 +158,7 @@ export function Subjects({ setSubjectEdit, setMenuOpt }) {
             {hideLoading ? "Checking for updates..." : "Refresh"}
           </Button>
           <Button
+          type="primary"
             icon={<PlusOutlined />}
             onClick={() => setMenuOpt("addSubjects")}
             disabled={isLoading || otherLoading}

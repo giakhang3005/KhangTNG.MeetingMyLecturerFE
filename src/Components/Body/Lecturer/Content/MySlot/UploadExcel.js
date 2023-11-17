@@ -84,6 +84,7 @@ export function UploadExcel({
 
     //Formatted data
     let Err = false;
+
     const formatedData = uploadedData.map((row) => {
       //push into the date format dd/mm/yyyy
       if (
@@ -98,28 +99,32 @@ export function UploadExcel({
         setUploading(false);
       } else {
         const dateSplit = row.meetingDay?.split("/");
-        const date =
-          dateSplit[0]?.length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
-        const month =
-          dateSplit[1]?.length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
-        const year = dateSplit[2];
+        if (dateSplit === undefined) {
+          return null;
+        } else {
+          const date =
+            dateSplit[0]?.length < 2 ? `0${dateSplit[0]}` : dateSplit[0];
+          const month =
+            dateSplit[1]?.length < 2 ? `0${dateSplit[1]}` : dateSplit[1];
+          const year = dateSplit[2];
 
-        return {
-          meetingDay: `${date}/${month}/${year}`,
-          startTime: row.startTime?.toString(),
-          endTime: row.endTime?.toString(),
-          locationId: row.locationId?.toString(),
-          subjects: row.subjects,
-          mode: row.mode?.toString(),
-          studentEmail:
-            row.studentEmail === null || row.studentEmail === undefined
-              ? ""
-              : row.studentEmail,
-          password:
-            row.password === null || row.password === undefined
-              ? ""
-              : row.password,
-        };
+          return {
+            meetingDay: `${date}/${month}/${year}`,
+            startTime: row.startTime?.toString(),
+            endTime: row.endTime?.toString(),
+            locationId: row.locationId?.toString(),
+            subjects: row.subjects,
+            mode: row.mode?.toString(),
+            studentEmail:
+              row.studentEmail === null || row.studentEmail === undefined
+                ? ""
+                : row.studentEmail,
+            password:
+              row.password === null || row.password === undefined
+                ? ""
+                : row.password,
+          };
+        }
       }
     });
 
