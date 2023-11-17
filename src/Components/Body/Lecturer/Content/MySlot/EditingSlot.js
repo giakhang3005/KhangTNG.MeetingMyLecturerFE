@@ -228,7 +228,7 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
       startTime: startString,
       endTime: endString,
       online: type === "online",
-      locationId: type === "offline" ? locationId : null,
+      locationId: type === "offline" ? locationId : -1,
       slotSubjectDTOS: returnSubjectsList,
       password: password,
       lecturerId: user.id,
