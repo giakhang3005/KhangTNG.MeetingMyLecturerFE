@@ -10,14 +10,19 @@ import {
   Select,
   Spin,
   Typography,
+  notification,
+  Radio,
+  Tag,
+  Checkbox,
 } from "antd";
 import { LeftOutlined, FormOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Data } from "../../../Body";
 import axios from "axios";
+import { GooglemeetLogo } from "../../../../../Hooks/All/SVG";
 
 export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
-  const { user } = useContext(Data);
+  const { user, setMenuOpt } = useContext(Data);
   //Handle Subject
   //! subject from API
   const [subjects, setSubjects] = useState([]);
@@ -97,7 +102,11 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
   const [date, setDate] = useState(slotDate);
   const [start, setStart] = useState(startTimeDayjs);
   const [end, setEnd] = useState(endTimeDayjs);
-  const [locationId, setLocationId] = useState(editingSlot.locationId);
+  const [type, setType] = useState(editingSlot.online ? "online" : "offline");
+  const [locationId, setLocationId] = useState(
+    editingSlot.locationId === 0 ? null : editingSlot.locationId
+  );
+  const [hasPassword, setHasPassword] = useState(editingSlot.password !== null);
   const [password, setPassword] = useState(editingSlot.password);
   const [selectedSubjects, setSelectedSubjects] = useState(
     editingSlot.slotSubjectDTOS.map((subj) => subj.subjectCode)
@@ -164,6 +173,36 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
     setSelectedSubjects(newSubjectList);
   };
 
+  //handle change Type
+  const [api, contextHolder] = notification.useNotification();
+  const btn = (
+    <Button
+      type="primary"
+      size="small"
+      onClick={() => setMenuOpt("lecturerInformations")}
+    >
+      Go to Settings
+    </Button>
+  );
+  const openNotification = () => {
+    api.warning({
+      message: "Can not change type to Online",
+      description: "You haven't add any Google Meet link yet",
+      btn,
+      duration: 5,
+    });
+  };
+  const handleTypeChange = (newType) => {
+    if (
+      newType === "online" &&
+      (editingSlot.linkMeet === null || editingSlot.linkMeet?.length < 25)
+    ) {
+      openNotification();
+    } else {
+      setType(newType);
+    }
+  };
+
   //handle submit update
   const [updateLoading, setUpdateLoading] = useState(false);
   const handleSubmit = () => {
@@ -173,10 +212,10 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
     }/${date.$y}`;
     const startString = `${start.$H < 10 ? `0${start.$H}` : start.$H}:${
       start.$m < 10 ? `0${start.$m}` : start.$m
-    }:00`;
+    }`;
     const endString = `${end.$H < 10 ? `0${end.$H}` : end.$H}:${
       end.$m < 10 ? `0${end.$m}` : end.$m
-    }:00`;
+    }`;
 
     //convert subject to correct syntax
     const returnSubjectsList = selectedSubjects.map((subject) => {
@@ -188,26 +227,40 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
       meetingDay: dateString,
       startTime: startString,
       endTime: endString,
-      locationId: locationId,
+      online: type === "online",
+      locationId: type === "offline" ? locationId : null,
       slotSubjectDTOS: returnSubjectsList,
       password: password,
       lecturerId: user.id,
     };
 
-    setUpdateLoading(true);
-    // console.log(JSON.stringify(newSlot));
-    axios
-      .put(
-        `https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`,
-        newSlot
-      )
-      .then((res) => (message.success("Updated slot successfully"), getData()))
-      .catch((err) => (message.error("Updated fail"), console.error(err)))
-      .finally(() => setUpdateLoading(false));
+    const locErr = type === "offline" && newSlot.locationId === null;
+    const SubjErr = newSlot.slotSubjectDTOS.length === 0;
+
+    if (!SubjErr && !locErr) {
+      setUpdateLoading(true);
+      console.log(newSlot)
+      axios
+        .put(
+          `https://meet-production-52c7.up.railway.app/api/v1/slot/put/${newSlot.id}`,
+          newSlot
+        )
+        .then((res) => {
+          message.success("Updated slot successfully");
+          getData();
+          console.log(res);
+        })
+        .catch((err) => (message.error("Updated fail"), console.error(err)))
+        .finally(() => setUpdateLoading(false));
+    } else {
+      locErr && message.error("Location is required for Offline meeting");
+      SubjErr && message.error("You must select at least 1 subject");
+    }
   };
 
   return (
     <>
+      {contextHolder}
       <Title className="sectionTitle" level={3}>
         EDITING SLOT
         {/* Back button */}
@@ -323,6 +376,31 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
             </Col>
           </Row>
 
+          {/* Type */}
+          <Row className="animateBox">
+            <Col xs={9} md={3}>
+              <Title className="InfoText ID" level={5}>
+                Type:
+              </Title>
+            </Col>
+            <Col xs={15} md={10}>
+              <Title
+                className="InfoText id"
+                level={5}
+                style={{ fontWeight: "400" }}
+              >
+                <Radio.Group
+                  style={Object.assign({ width: "320px" })}
+                  value={type}
+                  onChange={(newType) => handleTypeChange(newType.target.value)}
+                >
+                  <Radio.Button value={"offline"}>Offline</Radio.Button>
+                  <Radio.Button value={"online"}>Online</Radio.Button>
+                </Radio.Group>
+              </Title>
+            </Col>
+          </Row>
+
           {/* Location */}
           <Row>
             <Col xs={9} md={3}>
@@ -336,13 +414,31 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                 level={5}
                 style={{ fontWeight: "400" }}
               >
-                <Select
-                  style={{ minWidth: "320px" }}
-                  className="editInput"
-                  value={locationId}
-                  options={pushLocationList(locationsList)}
-                  onChange={(newLoc) => handleLocationChange(newLoc)}
-                ></Select>
+                {type === "online" ? (
+                  <a href={`https://${editingSlot.linkMeet}`} target="_blank">
+                    <Tag
+                      className="animateBox"
+                      style={Object.assign(
+                        { display: "flex" },
+                        { alignItems: "center" },
+                        { width: "106px" },
+                        { justifyContent: "space-between" }
+                      )}
+                      icon={<GooglemeetLogo />}
+                      color="geekblue"
+                    >
+                      Google Meet
+                    </Tag>
+                  </a>
+                ) : (
+                  <Select
+                    style={{ minWidth: "320px" }}
+                    className="editInput"
+                    value={locationId}
+                    options={pushLocationList(locationsList)}
+                    onChange={(newLoc) => handleLocationChange(newLoc)}
+                  ></Select>
+                )}
               </Title>
             </Col>
           </Row>
@@ -384,9 +480,15 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
           <Row>
             <Col xs={9} md={3}>
               <Title className="InfoText ID" level={5}>
-                Password{" "}
+                Passcode{" "}
                 <span style={Object.assign({ fontSize: "9px" })}>
-                  (Optional)
+                  <Checkbox
+                    checked={hasPassword}
+                    onChange={() => {
+                      setHasPassword(!hasPassword);
+                      setPassword("");
+                    }}
+                  ></Checkbox>
                 </span>
               </Title>
             </Col>
@@ -399,14 +501,25 @@ export const EditingSlot = ({ editingSlot, setCreatedSlotView, getData }) => {
                   { animation: "fade 0.2s ease-out" }
                 )}
               >
-                <Input
-                  className="editInput"
-                  placeholder="Leave it empty if no password"
-                  style={{ width: "320px" }}
-                  showCount
-                  value={password}
-                  onChange={(e) => handlePasswordChange(e)}
-                ></Input>
+                {hasPassword ? (
+                  <Input
+                    className="editInput animateBox"
+                    style={{ width: "320px" }}
+                    showCount
+                    value={password}
+                    onChange={(e) => handlePasswordChange(e)}
+                  ></Input>
+                ) : (
+                  <i
+                    className="animateBox"
+                    style={Object.assign(
+                      { fontSize: "11px" },
+                      { color: "gray" }
+                    )}
+                  >
+                    Tick the checkbox to enable Passcode
+                  </i>
+                )}
               </Title>
             </Col>
           </Row>
