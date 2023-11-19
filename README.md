@@ -72,7 +72,8 @@ If you want to create a booking web app base on this code, to make this project 
 <h5>Slots</h5>
 <img width="1379" alt="Ảnh chụp Màn hình 2023-11-19 lúc 22 39 54" src="https://github.com/giakhang3005/KhangTNG.MeetingMyLecturerFE/assets/45289938/372b95e6-21ec-440c-8659-5c2c7900d167">
 
-<img width="1378" alt="Ảnh chụp Màn hình 2023-11-19 lúc 22 40 15" src="https://github.com/giakhang3005/KhangTNG.MeetingMyLecturerFE/assets/45289938/5527bbfa-d650-4745-a047-d342c11dca83">
+<img width="1429" alt="Ảnh chụp Màn hình 2023-11-20 lúc 01 15 27" src="https://github.com/giakhang3005/KhangTNG.MeetingMyLecturerFE/assets/45289938/93b25985-d339-41ca-a58b-ca7f85ef9022">
+
 
 <img width="1372" alt="Ảnh chụp Màn hình 2023-11-19 lúc 22 40 30" src="https://github.com/giakhang3005/KhangTNG.MeetingMyLecturerFE/assets/45289938/beb4b516-2bf4-4268-a964-7cc41bf08124">
 
